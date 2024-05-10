@@ -1,4 +1,4 @@
-DIAMOND SHOP SYSTEM
+Diamond Valuation System
 
 * Pull project về máy
 git clone https://github.com/NguyenTuan03/Diamond_Shop_System.git
@@ -6,24 +6,28 @@ git clone https://github.com/NguyenTuan03/Diamond_Shop_System.git
 * Tạo nhánh mới, làm task, và đẩy lên nhánh của mình
 Step 1: git branch <branch-name> // Tạo nhánh mới
 Step 2: git checkout -b <branch-name> // Qua nhánh của mình để code
-Step 3: git push origin <branch-name> // Đẩy lên nhánh của mình
+Step 3: git push origin <branch-name> // Code xong có thể đẩy lên nhánh của mình
 
 * Merge vào nhánh main
 Step 1: git checkout main
 Step 2: git merge <branch-name>
 
-* Nếu muốn truy vẫn version trước đó đã code.
+* Nếu muốn quay lại version trước đó đã code.
 git checkout <Id đã commit>
 
 Projects Ideas
 https://docs.google.com/spreadsheets/d/1LRaiOdBpciMyHXF5gGKJlupdvQVtT5ZzRIgxi-Kn65k/edit#gid=0
 
 1. SRS templates
-https://lms-hcmuni.fpt.edu.vn/pluginfile.php/231768/mod_forum/post/131285/Software_Requirment_Specification_Template_2016.docx
+https://docs.google.com/document/d/1-AND_OhYd9_zDTaC8WWDuzWiK4OPZtZ4YmOFIRFcxgA/edit?usp=sharing
 
 2. Figma Prototype
+https://www.figma.com/file/jqk33ktxYXWxb8xmoSJxck/Landing-page?type=design&node-id=0%3A1&mode=design&t=t1x3Iz0NZ7qtOw5j-1
 
-3. DrawSQL DB Schema
+3. Draw.IO
+https://drive.google.com/file/d/1_bWkAalqmsxhNFyRXtQRYdwDi9JMrb18/view?usp=sharing
 
-4. Git Kraken or Git SourceTree
+4. Weekly checklist plan
+https://trello.com/b/iQoY6uOq/week-1
+
 
