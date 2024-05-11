@@ -8,18 +8,18 @@
 		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.swp</groupId>
-	<artifactId>dvs-backend</artifactId>
+	<groupId>com.diamond</groupId>
+	<artifactId>valuation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dvs-backend</name>
-	<description>Backend for Diamond Valuation System</description>
+	<name>shop_diamond</name>
+	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

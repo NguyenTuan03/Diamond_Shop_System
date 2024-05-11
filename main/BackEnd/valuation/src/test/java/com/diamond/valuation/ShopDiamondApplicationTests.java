@@ -1,10 +1,10 @@
-package com.swp.dvsbackend;
+package com.diamond.valuation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DvsBackendApplicationTests {
+class ShopDiamondApplicationTests {
 
 	@Test
 	void contextLoads() {
