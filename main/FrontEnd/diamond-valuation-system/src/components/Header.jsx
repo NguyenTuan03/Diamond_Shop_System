@@ -23,7 +23,7 @@ export default function Header() {
   return (
     <>
       <Flex
-        position={"static"}
+        position={"fixed"}
         top={"0px"}
         left={"0px"}
         width={"100vw"}
@@ -31,6 +31,7 @@ export default function Header() {
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
+        bg={"white"}
         boxShadow="2xl"
       >
         <Text fontSize={"lg"} fontWeight={"bold"} m={"10px "}>

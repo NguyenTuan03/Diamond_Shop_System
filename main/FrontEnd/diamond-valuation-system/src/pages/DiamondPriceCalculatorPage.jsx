@@ -32,7 +32,8 @@ export default function DiamondPriceCalculatorPage() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        m={"100px 0 0 0 "}
+        w={"100vw"}
+        m={"100px 0 0 0"}
       >
         <Text fontSize="3xl" fontWeight="bold">
           Diamond Price Calculator
