@@ -14,11 +14,11 @@ import {
   Box,
   Badge,
 } from "@chakra-ui/react";
-import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { IoDiamond, IoDiamondOutline } from "react-icons/io5";
 
 import { useState } from "react";
 import PopoverInfo from "../../components/PopoverInfo";
+import GridValue from "../../components/GridValue";
 
 export default function Calculate() {
   const [sliderValue, setSliderValue] = useState(1);
@@ -109,41 +109,19 @@ export default function Calculate() {
               Calculator Output
             </Text>
             <FormLabel color={"gray"}>GRADING LAB</FormLabel>
-            <Grid templateColumns={"repeat(6, 1fr)"} gap={2}>
-              {gradingLabLabel.map((lab, index) => (
-                <Button
-                  key={index}
-                  borderRadius={"md"}
-                  boxShadow="xl"
-                  backgroundColor={
-                    gradingLabActiveButtonIndex === index
-                      ? "blue.400"
-                      : "initial"
-                  }
-                  _hover={{ bg: "blue.400" }}
-                  onClick={() => handleClick("gradingLab", index)}
-                >
-                  <Text fontSize={"sm"}>{lab}</Text>
-                </Button>
-              ))}
-            </Grid>
+            <GridValue
+              row={6}
+              data={gradingLabLabel}
+              activeButtonIndex={gradingLabActiveButtonIndex}
+              setActiveButtonIndex={setGradingLabActiveButtonIndex}
+            />
             <FormLabel color={"gray"}>SHAPE</FormLabel>
-            <Grid templateColumns={"repeat(6, 1fr)"} gap={2}>
-              {shapeLabel.map((shape, index) => (
-                <Button
-                  key={index}
-                  borderRadius={"md"}
-                  boxShadow="xl"
-                  backgroundColor={
-                    shapeActiveButtonIndex === index ? "blue.400" : "initial"
-                  }
-                  _hover={{ bg: "blue.400" }}
-                  onClick={() => handleClick("shape", index)}
-                >
-                  <Text fontSize={"sm"}>{shape}</Text>
-                </Button>
-              ))}
-            </Grid>
+            <GridValue
+              row={6}
+              data={shapeLabel}
+              activeButtonIndex={shapeActiveButtonIndex}
+              setActiveButtonIndex={setShapeActiveButtonIndex}
+            />
             <FormLabel color={"gray"}>CARAT</FormLabel>
             <Slider
               aria-label="slider-ex-6"
@@ -170,56 +148,26 @@ export default function Calculate() {
               </SliderThumb>
             </Slider>
             <FormLabel color={"gray"}>COLOR</FormLabel>
-            <Grid templateColumns={"repeat(4, 1fr)"} gap={2}>
-              {colorLabel.map((color, index) => (
-                <Button
-                key={index}
-                  borderRadius={"md"}
-                  boxShadow="xl"
-                  backgroundColor={
-                    colorActiveButtonIndex === index ? "blue.400" : "initial"
-                  }
-                  _hover={{ bg: "blue.400" }}
-                  onClick={() => handleClick("color", index)}
-                >
-                  <Text fontSize={"sm"}>{color}</Text>
-                </Button>
-              ))}
-            </Grid>
+            <GridValue
+              row={4}
+              data={colorLabel}
+              activeButtonIndex={colorActiveButtonIndex}
+              setActiveButtonIndex={setColorActiveButtonIndex}
+            />
             <FormLabel color={"gray"}>CUT</FormLabel>
-            <Grid templateColumns={"repeat(3, 1fr)"} gap={2}>
-              {cutLabel.map((cut, index) => (
-                <Button
-                key={index}
-                  borderRadius={"md"}
-                  boxShadow="xl"
-                  backgroundColor={
-                    cutActiveButtonIndex === index ? "blue.400" : "initial"
-                  }
-                  _hover={{ bg: "blue.400" }}
-                  onClick={() => handleClick("cut", index)}
-                >
-                  <Text fontSize={"sm"}>{cut}</Text>
-                </Button>
-              ))}
-            </Grid>
+            <GridValue
+              row={4}
+              data={cutLabel}
+              activeButtonIndex={cutActiveButtonIndex}
+              setActiveButtonIndex={setCutActiveButtonIndex}
+            />
             <FormLabel color={"gray"}>CLARITY</FormLabel>
-            <Grid templateColumns={"repeat(4, 1fr)"} gap={2}>
-              {clarityLabel.map((clarity, index) => (
-                <Button
-                key={index}
-                  borderRadius={"md"}
-                  boxShadow="xl"
-                  backgroundColor={
-                    clarityActiveButtonIndex === index ? "blue.400" : "initial"
-                  }
-                  _hover={{ bg: "blue.400" }}
-                  onClick={() => handleClick("clarity", index)}
-                >
-                  <Text fontSize={"sm"}>{clarity}</Text>
-                </Button>
-              ))}
-            </Grid>
+            <GridValue
+              row={4}
+              data={clarityLabel}
+              activeButtonIndex={clarityActiveButtonIndex}
+              setActiveButtonIndex={setClarityActiveButtonIndex}
+            />
             <Button
               borderRadius={"md"}
               colorScheme="blue"
