@@ -1,0 +1,3 @@
+d:\visual code\SWP\Diamond_Shop_System\main\DB\diamond_shop\obj\Debug\diamond_shop.sqlproj.AssemblyReference.cache
+d:\visual code\SWP\Diamond_Shop_System\main\DB\diamond_shop\obj\Debug\diamond_shop.dll
+d:\visual code\SWP\Diamond_Shop_System\main\DB\diamond_shop\obj\Debug\diamond_shop.pdb

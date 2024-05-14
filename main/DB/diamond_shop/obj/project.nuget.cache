@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "BmSnA177oqf0Ys0KSYxsiVovTHPHHLlua3cI8zdxTGuvhIjtf0byoYcNjgB8v3ob9lx79zpPg2gkRk2EBSDwcQ==",
+  "success": true,
+  "projectFilePath": "d:\\visual code\\SWP\\Diamond_Shop_System\\main\\DB\\diamond_shop\\diamond_shop.sqlproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\admin\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.0\\microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net46\\1.0.0\\microsoft.netframework.referenceassemblies.net46.1.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
