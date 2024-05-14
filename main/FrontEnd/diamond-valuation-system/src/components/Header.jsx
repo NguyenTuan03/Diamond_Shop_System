@@ -12,11 +12,16 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
-  Link,
+  Menu,
   useDisclosure,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { GoogleLogin } from "@react-oauth/google";
-
+import { GiDiamondTrophy } from "react-icons/gi";
+import { Link } from "react-router-dom";
 export default function Header() {
   const modalSignIn = useDisclosure();
   const modalSignUp = useDisclosure();
@@ -28,36 +33,68 @@ export default function Header() {
         left={"0px"}
         width={"100vw"}
         height="70px"
+        zIndex={1}
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
         bg={"white"}
         boxShadow="2xl"
+        p={5}
       >
-        <Text fontSize={"lg"} fontWeight={"bold"} m={"10px "}>
-          DIAMONDVAL
-        </Text>
+        <Link to={"/"}>
+          <Flex direction={"row"} alignItems={"center"}>
+            <GiDiamondTrophy size={30} />
+            <Text fontSize={"lg"} fontWeight={"bold"} m={"10px "}>
+              DIAMONDVAL
+            </Text>
+          </Flex>
+        </Link>
         <Flex dir="row" gap={20}>
           <Link to={"/"}>
             <Text fontSize={"lg"} fontWeight={"bold"}>
-              SEARCH
+              Search
             </Text>
           </Link>
           <Link to={"/"}>
             <Text fontSize={"lg"} fontWeight={"bold"}>
-              DIAMOND CHECK
+              Diamond Check
+            </Text>
+          </Link>
+          <Link to={"/diamond-valuation"}>
+            <Text fontSize={"lg"} fontWeight={"bold"}>
+              Valuation
             </Text>
           </Link>
           <Link to={"/"}>
             <Text fontSize={"lg"} fontWeight={"bold"}>
-              CALCULATE
+              Price
             </Text>
           </Link>
-          <Link to={"/"}>
-            <Text fontSize={"lg"} fontWeight={"bold"}>
-              PRICE
-            </Text>
-          </Link>
+          <Menu>
+            <MenuButton
+              transition="all 0.2s"
+              borderRadius="md"
+              borderWidth="1px"
+              _focus={{ boxShadow: "outline" }}
+            >
+              <Link to={"/"}>
+                <Flex direction={"row"} gap={2} alignItems={"center"}>
+                  <Text fontSize={"lg"} fontWeight={"bold"}>
+                    Education
+                  </Text>
+                  <ChevronDownIcon />
+                </Flex>
+              </Link>
+            </MenuButton>
+            <MenuList>
+              <MenuItem>Diamond Certification</MenuItem>
+              <MenuItem>Shape</MenuItem>
+              <MenuItem>Carat Weight</MenuItem>
+              <MenuItem>Diamond Color</MenuItem>
+              <MenuItem>Cut Quality</MenuItem>
+              <MenuItem>Diamond Clarity</MenuItem>
+            </MenuList>
+          </Menu>
         </Flex>
         <Button colorScheme="blue" onClick={modalSignIn.onOpen}>
           Sign in
@@ -134,7 +171,12 @@ export default function Header() {
               <Input type="password" />
               <FormLabel>Confirm password</FormLabel>
               <Input type="password" />
-              <Button type="submit" colorScheme="blue" w={"inherit"} m={"10px 0 0 0"}>
+              <Button
+                type="submit"
+                colorScheme="blue"
+                w={"inherit"}
+                m={"10px 0 0 0"}
+              >
                 Sign up
               </Button>
             </FormControl>

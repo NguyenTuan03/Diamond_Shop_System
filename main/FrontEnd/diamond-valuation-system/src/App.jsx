@@ -9,7 +9,7 @@ function App() {
       <Header />
       <Routes>
         <Route
-          path="/diamond-price-calculator"
+          path="/diamond-valuation"
           element={<DiamondPriceCalculatorPage />}
         />
       </Routes>
