@@ -6,11 +6,11 @@ import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
+  
     <ChakraProvider>
       <GoogleOAuthProvider>
         <App />
       </GoogleOAuthProvider>
     </ChakraProvider>
-  </BrowserRouter>
+  
 );
