@@ -22,6 +22,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { GoogleLogin } from "@react-oauth/google";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import routes from "../config/Config";
 export default function Header() {
   const modalSignIn = useDisclosure();
   const modalSignUp = useDisclosure();
@@ -41,7 +42,7 @@ export default function Header() {
         boxShadow="2xl"
         p={5}
       >
-        <Link to={"/"}>
+        <Link to={routes.home}>
           <Flex direction={"row"} alignItems={"center"}>
             <GiDiamondTrophy size={30} />
             <Text fontSize={"lg"} fontWeight={"bold"} m={"10px "}>
@@ -50,22 +51,22 @@ export default function Header() {
           </Flex>
         </Link>
         <Flex dir="row" gap={20}>
-          <Link to={"/"}>
+          <Link to={routes.search}>
             <Text fontSize={"lg"} fontWeight={"bold"}>
               Search
             </Text>
           </Link>
-          <Link to={"/"}>
+          <Link to={routes.diamondCheck}>
             <Text fontSize={"lg"} fontWeight={"bold"}>
               Diamond Check
             </Text>
           </Link>
-          <Link to={"/diamond-valuation"}>
+          <Link to={routes.calculate}>
             <Text fontSize={"lg"} fontWeight={"bold"}>
               Valuation
             </Text>
           </Link>
-          <Link to={"/"}>
+          <Link to={routes.prices}>
             <Text fontSize={"lg"} fontWeight={"bold"}>
               Price
             </Text>
