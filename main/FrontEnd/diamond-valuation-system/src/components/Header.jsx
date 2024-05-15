@@ -19,7 +19,7 @@ import {
   MenuItem,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import {  Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { GoogleLogin } from "@react-oauth/google";
 import { GiDiamondTrophy } from "react-icons/gi";
@@ -90,12 +90,24 @@ export default function Header() {
               </Link>
             </MenuButton>
             <MenuList>
-              <MenuItem>Diamond Certification</MenuItem>
-              <MenuItem>Shape</MenuItem>
-              <MenuItem>Carat Weight</MenuItem>
-              <MenuItem>Diamond Color</MenuItem>
-              <MenuItem>Cut Quality</MenuItem>
-              <MenuItem>Diamond Clarity</MenuItem>
+              <Link to={routes.educationCertificate}>
+                <MenuItem>Diamond Certification</MenuItem>
+              </Link>
+              <Link to={routes.educationShape}>
+                <MenuItem>Shape</MenuItem>
+              </Link>
+              <Link to={routes.educationCarat}>
+                <MenuItem>Carat Weight</MenuItem>
+              </Link>
+              <Link to={routes.educationColor}>
+                <MenuItem>Diamond Color</MenuItem>
+              </Link>
+              <Link to={routes.educationCut}>
+                <MenuItem>Cut Quality</MenuItem>
+              </Link>
+              <Link to={routes.educationClarity}>
+                <MenuItem>Diamond Clarity</MenuItem>
+              </Link>
             </MenuList>
           </Menu>
         </Flex>
