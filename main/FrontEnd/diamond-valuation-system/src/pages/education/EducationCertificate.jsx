@@ -7,7 +7,6 @@ import {
   Text,
   UnorderedList,
   Link,
-  Stack,
   Box,
 } from "@chakra-ui/react";
 import React from "react";
