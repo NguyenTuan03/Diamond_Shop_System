@@ -172,7 +172,7 @@ export default function EducationCarat() {
         </TableContainer>
         <TableContainer m={"20px 0 20px 0"}>
           <Table size={"sm"} colorScheme="blue">
-            <Thead>
+            <Thead bgColor={"blue.400"}>
               <Tr>
                 <Th>Round MM Size</Th>
                 <Th>Round Carat Weight</Th>

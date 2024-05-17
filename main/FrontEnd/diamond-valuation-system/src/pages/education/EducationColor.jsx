@@ -3,14 +3,26 @@ import {
   Divider,
   Flex,
   Image,
+  Link as LinkCharkaUI,
+  ListItem,
   Slider,
   SliderMark,
   SliderThumb,
   SliderTrack,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
   Text,
+  Th,
+  Thead,
+  Tr,
+  UnorderedList,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import EducationTitle from "../../components/EducationTitle";
+import { IoDiamondOutline } from "react-icons/io5";
+import EducationBottomLineRec from "../../components/EducationBottomLineRec";
 
 export default function EducationColor() {
   const type = ["D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N-Z"];
@@ -52,6 +64,45 @@ export default function EducationColor() {
     "https://www.diamonds.pro/wp-content/uploads/2023/08/M.jpg",
     "https://www.diamonds.pro/wp-content/uploads/2023/08/M-1.jpg",
     "https://www.diamonds.pro/wp-content/uploads/2023/08/N-Z.jpg",
+  ];
+
+  const typeTable = [
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N-R",
+    "S-Z",
+  ];
+  const desTable = [
+    "D is the highest color grade, meaning it has nearly no color. Under magnification and to the naked eye, a D color diamond will appear colorless.<br/> D color diamonds are usually set in platinum or white gold, as yellow gold and other jewelry settings detract from the diamond’s uncolored beauty. Diamonds with a D color grade are the most rare and expensive on the market, with a significant price premium over other color grades.",
+    "E color diamonds look almost identical to D color diamonds. Most of the time, the differences in color between a D and E diamond are only visible to an expert gemologist when the two diamonds are viewed under magnification.<br/> Like D color diamonds, E color diamonds are usually set in platinum or white gold to avoid the color of the jewelry detracting from their near flawless color. Although these diamonds are less expensive than D color diamonds, they still command a hefty premium.",
+    "F color diamonds are almost identical to D and E color diamonds, with nearly no visible color. Even under magnification and side by side, a D, E and F diamond will look almost identical to anyone other than an expert gemologist.",
+    "G color diamonds exhibit nearly no color and appear primarily colorless to the naked eye. The G color grade is the highest, best grade in the “Near Colorless” range of the GIA’s scale, which covers diamonds graded G to J.<br/> Although G color diamonds have some tints of color, they’re almost impossible to detect with the naked eye. Like D-F diamonds, these diamonds should be set in platinum or white gold to reduce any effects of color reflection from yellow or rose gold. color diamonds look almost identical to D color diamonds. Most of the time, the differences in color between a D and E diamond are only visible to an expert gemologist when the two diamonds are viewed under magnification. Like D color diamonds, E color diamonds are usually set in platinum or white gold to avoid the color of the jewelry detracting from their near flawless color. Although these diamonds are less expensive than D color diamonds, they still command a hefty premium.",
+    "H color diamonds appear primarily colorless to the naked eye but have a faint yellow hue that’s often visible under magnification in bright lighting, especially when they’re compared to diamonds of a higher color grade.<br/> Like G color diamonds, these can be set in platinum or white gold without any issues. H color diamonds are slightly less expensive than G color diamonds and significantly more affordable than diamonds in the colorless range. This is the minimum color grade we recommend for diamond shapes with a large table, such as the radiant and cushion cuts.",
+    "I color diamonds offer a great combination of near colorless looks and good value for money. These diamonds have a slight yellow tint that’s usually only visible when they’re viewed next to diamonds of a higher color grade.<br/> An I color round brilliant cut diamond can look fantastic in a platinum or white gold setting, as well as alongside metals such as yellow or rose gold. As you’d expect, I color diamonds are less expensive than G or H color diamonds. This is the minimum color grade we recommend for princess cut diamonds.",
+    "J color diamonds look mostly colorless to the naked eye, but usually have a faint yellow tint that’s easy to notice under bright lights and magnification. In diamonds with a large table, the color might also be visible with the naked eye in certain lighting conditions.<br/> From a value for money perspective, J color diamonds can be fantastic choices. We recommend this color for round brilliant cut diamonds set in platinum or white gold (solitaire setting), as the cut of the round diamond is great at concealing color. However, the J color grade is not recommended for diamond shapes with a larger table and fewer facets.",
+    "K color diamonds are classed as “faint tint” on the GIA’s diamond color scale, meaning they have a slight yellow tint that’s visible even to the naked eye.<br/> Diamonds in this price range can be found for significantly less than those in the G to J range. Set in a beautiful yellow gold setting, a K color round brilliant cut diamond can look gorgeous. However, diamonds of this color grade should generally not be set in platinum or white gold.",
+    "L color diamonds have a yellow tint that’s visible to the naked eye in normal lighting conditions. Diamonds with this color grade are much more affordable than those in the G to J range, making them a good value for money option.<br/> Because of the yellow tint, we don’t recommend the L color grade for non-round diamond shapes. We also don’t recommend it for diamonds set in platinum or white gold. However, L color round brilliant cut diamonds can still look great in yellow gold solitaire rings due to the warm, yellow tone of the metal.",
+    "M color diamonds have a definite yellow tint that’s visible to the naked eye. Like K and L diamonds, M color diamonds offer fantastic value for money when compared to near colorless or colorless diamonds.<br/> The M color grade is typically the lowest color grade offered by online diamond vendors. Although M color diamonds can look warm and beautiful in antique yellow gold settings, their color is quite easy to notice even with the naked eye.",
+    "Diamonds in the N to R range have noticeable yellow or brown tinting. These diamonds are available at a much lower price point than faintly tinted or near colorless diamonds. We do not recommend diamonds of an N-R grade.",
+    "Diamonds of an S-Z range have easily noticeable yellow or brown tinting. For this reason, We do not recommend S-Z diamonds.",
+  ];
+  const whatToLookFor = [
+    "Find the sweet spot between value and beauty. In most cases, this comes in the “near colorless” range, from G to J.",
+    "Pair diamonds with a low color grade with a yellow or rose gold setting to make it appear whiter.",
+    "Make sure the color grade comes from a reputable grading laboratory, like the GIA.",
+  ];
+  const whatToAvoid = [
+    "Don’t go too high in color. This can result in overpaying for a grade that looks similar to one several grades lower.",
+    "Avoid choosing a setting with accent diamonds that are significantly higher or lower in color than the center diamond.",
+    "Be careful of high color grades with a high level of fluorescence, as this can give it a hazy appearance.",
   ];
   const [sliderValue, setSliderValue] = useState(50);
 
@@ -102,7 +153,7 @@ export default function EducationColor() {
           difference but come with a significant increase in diamond price.
         </Text>
         <Image src={image[sliderValue]} />
-        <Box p={4} pt={6} m={"20px 0 20px 0"}>
+        <Box p={4} pt={6} m={"20px 0 0 0"}>
           <Slider
             aria-label="slider-ex-6"
             min={0}
@@ -111,12 +162,24 @@ export default function EducationColor() {
             onChange={(val) => setSliderValue(val)}
           >
             {type.map((item, index) => (
-              <SliderMark key={item} value={index}>
+              <SliderMark
+                key={item}
+                value={index}
+                textAlign={"center"}
+                bg={"blue.400"}
+                color={"white"}
+                borderRadius={"20px"}
+                mt="-10"
+                ml="-6"
+                w="12"
+              >
                 {item}
               </SliderMark>
             ))}
             <SliderTrack></SliderTrack>
-            <SliderThumb />
+            <SliderThumb bg={"blue.400"} boxSize={6}>
+              <Box as={IoDiamondOutline} />
+            </SliderThumb>
           </Slider>
         </Box>
         <Box p={4} pt={6} m={"0 0 20px 0"}>
@@ -134,14 +197,621 @@ export default function EducationColor() {
         </Text>
         <Text fontSize={"lg"}>
           Distinctly colored diamonds are prized pieces and are available in
-          colors such as blue, pink and yellow. In white diamonds, however, a
-          yellow tint is generally not seen as desirable.
+          <LinkCharkaUI
+            color={"blue.400"}
+            href="https://www.jckonline.com/editorial-article/colored-diamonds-gray-week-auction/"
+            isExternal
+          >
+            {" "}
+            colors such as blue, pink and yellow
+          </LinkCharkaUI>
+          . In white diamonds, however, a yellow tint is generally not seen as
+          desirable.
         </Text>
         <Text fontSize={"lg"}>
           This is because when slight coloring is present, less natural color of
           the light is reflected back to the eye. The more colorless a diamond
           is, generally the more radiant, valuable, and rare it is as well.
         </Text>
+        <Text fontSize={"lg"}>
+          Colorless diamonds are definitely scarce and rank much higher on the
+          color grading scale than a diamond that has even the softest touch of
+          yellow.
+        </Text>
+        <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          What’s the Best Color For a Diamond?
+        </Text>
+        <Text fontSize={"lg"}>
+          The best diamond color grade is D color. This means the diamond is
+          completely clear with no shade of yellow (or anything else) in it.
+        </Text>
+        <Text fontSize={"lg"}>
+          The best color for a diamond that you will put in your engagement ring
+          is not D. You can put a G, H or I color diamond in a ring and it will
+          look the same while costing a lot less.
+        </Text>
+        <Image
+          src="https://www.diamonds.pro/wp-content/uploads/2022/02/Larger-I-color-diamond.jpg"
+          m={"20px 0 20px 0"}
+        />
+        <Text fontSize={"lg"}>
+          If you choose a yellow or rose gold setting, there’s a good chance
+          that the color of the setting will give the two diamonds an identical
+          appearance anyway, negating the higher color grade.
+        </Text>
+        <Text fontSize={"lg"}>
+          The difference in price between these two diamonds is $1,630 — money
+          that you could spend on a larger carat weight, a beautiful setting or
+          simply save for your wedding and honeymoon.
+        </Text>
+        <Text fontSize={"lg"}>
+          On the whole, the best color for a diamond is the color that best fits
+          your personal tastes and preferences, the shape of the diamond, the
+          metal used for the setting and your budget.
+        </Text>
+        <Text fontSize={"lg"}>
+          Below, we’ve shared our recommendations for diamond color based on the
+          shape of diamond you choose. We’ve also given our expert advice on the
+          color grades that are best suited for each metal, from platinum and
+          white gold to yellow and rose gold.
+        </Text>
+        <Box m={"20px 0 20px 0"} p={4} bg={"blue.100"}>
+          <Text fontSize="lg">
+            <strong>Pro Tip:</strong> When buying a diamond in the IJK range,
+            consider a diamond with medium or strong blue fluorescence. Diamonds
+            with a yellowish tint usually avoid the hazy/cloudy effect seen in
+            colorless diamonds with fluorescence and it tends to brighten up the
+            diamond a bit.
+          </Text>
+        </Box>
+        <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          What’s the Best Color For a Diamond?
+        </Text>
+        <Text fontSize={"lg"}>
+          Diamond color matters, but only to a certain point. The way we
+          approach the 4Cs, we separate cut and carat weight from color and
+          clarity. Cut and carat are positive traits (you want to maximize as
+          much as possible). Color and clarity are negative traits that you want
+          to make sure you don’t notice when looking at a diamond.
+        </Text>
+        <Text fontSize={"lg"}>
+          When it comes to color, there is a line on the diamond color scale
+          where you notice whether the diamond is clear or whether it has a
+          yellowish tint. Your goal should be to make sure you don’t buy a
+          diamond with a yellowish tint so low that you notice it. That line
+          between yellowish and clear varies based on the shape of the diamond
+          and the style setting you are putting the diamond in. We get into that
+          below.
+        </Text>
+        <Text fontSize={"lg"}>
+          Once the diamond looks clear to you, there isn’t much to gain by
+          spending more on higher color. Keep in mind that buying a diamond is a
+          zero-sum game. If you spend more money by going with a higher color
+          grade than necessary, you will have to sacrifice on size, brilliance
+          or clarity. Is it really worth doing that? Take a look at this
+          challenge and decide for yourself.
+        </Text>
+        <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          What’s the Best Color For a Diamond?
+        </Text>
+        <UnorderedList m={"10px 0 20px 50px"} spacing={2} fontSize={"lg"}>
+          <ListItem>
+            The absence of color is generally one of several indicators of good
+            value.
+          </ListItem>
+          <ListItem>
+            The color grade of a diamond should always be determined by a
+            grading professional.
+          </ListItem>
+          <ListItem>
+            The grade and value of diamonds differ between colored and colorless
+            diamonds.
+          </ListItem>
+          <ListItem>
+            Diamond colors are graded from D to Z, with most diamonds used in
+            jewelry falling somewhere into the D to M range.
+          </ListItem>
+          <ListItem>
+            The setting of the ring can play a role in the perception and view
+            of the color.
+          </ListItem>
+        </UnorderedList>
+        <Text fontSize={"lg"}>
+          Before we go further into the specifics of diamond color, let’s cover
+          a few things.
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>First</strong>, you don’t need to be an expert in diamond
+          color to choose a good diamond. While we’ve covered the basics of
+          diamond color below, we’ve also provided our own recommendations,
+          which you can use to limit your search to diamonds of an acceptable
+          color for your preferred shape and setting type.
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>Second</strong>, the difference between one color grade and
+          other grades (for example, a G color diamond and an H color diamond)
+          are very small, so much so that they’re largely impossible to perceive
+          with the naked eye.
+        </Text>
+        <Text fontSize={"lg"}>
+          However, the difference between one color grade and another that’s
+          three or four above or below it (for example, a G color diamond and a
+          K color diamond) are often easy to see when the diamonds are side by
+          side, especially under bright light and with magnification.
+        </Text>
+        <Image
+          src="https://www.diamonds.pro/wp-content/uploads/2022/04/Copy-of-6A7A3634-Edited-1024x683.jpg"
+          m={"20px 0 20px 0"}
+        />
+        <Text fontSize={"lg"}>
+          <strong>Third</strong>, like with everything else related to buying a
+          diamond, there’s no need to choose the best color grade. Unless you
+          have a massive budget, buying a D color diamond is unnecessary when a
+          well-cut G, H or even I color diamond will look just as good once it’s
+          set in a ring and worn on your fiancé-to-be’s finger.
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>Second</strong>, a diamond’s shape and the type of metal you
+          choose for the setting both affect which color grade is best. For
+          example, the round brilliant cut is great at hiding color, while the
+          emerald cut isn’t. This means that you’ll need to pick a color grade
+          that’s appropriate for the diamond’s shape.
+        </Text>
+        <Text fontSize={"lg"}>
+          When it comes to metals, some, such as yellow gold and rose gold, can
+          hide the faint yellow color of a lower-grade diamond better than
+          platinum and white gold.
+        </Text>
+        <Text fontSize={"lg"}>
+          Just like cut quality, clarity and carat weight, color is one slice of
+          the pie to keep in mind when you’re shopping for a diamond. To get the
+          best value when buying a diamond, it’s important to balance color with
+          the three other Cs.
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          Colorless Grades
+        </Text>
+        <Text fontSize={"lg"}>
+          Diamonds graded from D to F in color are regarded as colorless. The
+          difference between each grade is only something a trained professional
+          will be able to tell, with the use of special equipment.
+        </Text>
+        <Text fontSize={"lg"}>
+          Colorless diamonds are the highest quality you get on the diamond
+          color scale, containing the faintest trace of color, impossible to
+          notice with the naked eye.
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          Near Colorless Grades
+        </Text>
+        <Text fontSize={"lg"}>
+          Diamonds with a color grade from G to J are considered “near
+          colorless”. These diamonds’ color may be noticeable if viewed
+          side-by-side with a colorless diamond, but in most cases will appear
+          colorless when viewed on their own.
+        </Text>
+        <Text fontSize={"lg"}>
+          Diamonds in this grade generally provide the best value, as they are
+          cheaper than colorless diamonds but lack any clear tint that’s
+          noticeable to the naked eye.
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          Faintly Colored Grades
+        </Text>
+        <Text fontSize={"lg"}>
+          Diamond color grades from K to M are regarded as having a “faint”
+          color. With these diamonds, it’s easier to notice a yellowish tint
+          with the naked eye.
+        </Text>
+        <Text fontSize={"lg"}>
+          For most tastes, there is a clear drop-off in beauty between a near
+          colorless and faintly colored diamond. However, diamonds in this range
+          can offer superior value if placed in a setting that masks color, like
+          one made from yellow or rose gold.
+        </Text>
+        <Text fontSize={"lg"}>
+          With this out of the way, let’s look at the GIA’s diamond color chart
+          and how it relates to shopping for a diamond.
+        </Text>
+        <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          What is a Diamond Color Chart?
+        </Text>
+        <Text fontSize={"lg"}>
+          With this out of the way, let’s look at the GIA’s diamond color chart
+          and how it relates to shopping for a diamond.
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          The Diamond Color Chart
+        </Text>
+        <Image
+          src="https://www.diamonds.pro/wp-content/uploads/2022/02/Diamond-color-chart.png"
+          m={"20px 0 20px 0"}
+        />
+        <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          What is a Diamond Color Chart?
+        </Text>
+        <Text fontSize={"lg"}>
+          To provide shoppers with an understanding of each diamond’s color
+          level, grading entities like the Gemological Institute Of America
+          (GIA) use a diamond color chart to judge diamonds based on their
+          appearance and give each stone a color grade within a given scale.{" "}
+          <LinkCharkaUI
+            color={"blue.400"}
+            href="https://4cs.gia.edu/en-us/diamond-color/"
+            isExternal
+          >
+            GIA
+          </LinkCharkaUI>{" "}
+          are the worlds leading experts in certification and have taken the art
+          of color grading to a science.
+        </Text>
+        <Text fontSize={"lg"}>
+          When you’re in the market for diamonds, it’s advisable to seek a GIA
+          certificate for every diamond you view due to the varying degrees of
+          color that you may come across.
+        </Text>
+        <Text fontSize={"lg"}>
+          The GIA grades Diamond Color on the following color scale (See here
+          for the GIA’s diamond clarity chart)
+        </Text>
+        <TableContainer m={"20px 0 20px 0"} whiteSpace={"wrap"}>
+          <Table size={"sm"} colorScheme="blue">
+            <Thead bgColor={"blue.400"}>
+              <Tr>
+                <Th>Diamond Color Grade: </Th>
+                <Th>Description: </Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {typeTable.map((item, index) => (
+                <Tr key={item}>
+                  <Td>{item}</Td>
+                  <Td>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: desTable[index] }}
+                    ></div>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+        <Text fontSize={"lg"}>
+          The diamonds typically used in engagement rings tend to be of the near
+          colorless variety, and you will find that they may contain small hints
+          of yellow or brown in the diamond. The type of setting that is used
+          can also change the perception of the diamond’s color as well as the
+          lighting that the diamond is being shown in as described in the chart
+          above. Keep all of these in mind when looking at the color of the
+          diamonds.
+        </Text>
+        <Text fontSize={"lg"}>
+          <LinkCharkaUI
+            color="blue.400"
+            href="https://www.gia.edu/gems-gemology/summer-2022-gemnews-auction-highlights"
+            isExternal
+          >
+            Look at some of the latest rare colorless diamonds sold in auction
+            in 2022.
+          </LinkCharkaUI>
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          The Fancy Colored Diamonds Color Scale
+        </Text>
+        <Text fontSize={"lg"}>
+          Color is graded in a different way for fancy color diamonds. While
+          white diamonds receive a grade of D to Z, based on the yellow or brown
+          tint present, fancy color diamonds are graded on the intensity of its
+          color.
+        </Text>
+        <Text fontSize={"lg"}>
+          Instead of a letter, the grade for fancy color diamonds go from
+          “Faint” to “Fancy Deep.” The color scale is as such:
+        </Text>
+        <UnorderedList m={"10px 0 20px 50px"} spacing={2} fontSize={"lg"}>
+          <ListItem>Faint</ListItem>
+          <ListItem>Very Light</ListItem>
+          <ListItem>Light</ListItem>
+          <ListItem>Fancy Light</ListItem>
+          <ListItem>Fancy</ListItem>
+          <ListItem>Fancy Intense</ListItem>
+          <ListItem>Fancy Vivid, Fancy Deep or Fancy Dark</ListItem>
+        </UnorderedList>
+        <Text fontSize={"lg"}>
+          To use fancy yellow diamonds as an example, a diamond with a “Faint”
+          grade would be slightly more yellow than a Z grade white diamond.
+          While a Fancy Intense or Fancy Vivid yellow diamond has a deep, almost
+          golden hue.
+        </Text>
+        <Text fontSize={"lg"}>
+          Fancy Vivid or Fancy Intense diamonds are often the most sought-after
+          fancy colored diamonds, and thus are usually the most expensive,
+          whereas Faint or Light colors are more common and cheaper. id diamonds
+          have a brighter hue than a Fancy Dark or Fancy Deep.
+        </Text>
+        <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          Diamond Colors, Shapes and Settings
+        </Text>
+        <Text fontSize={"lg"}>
+          When looking at a range of diamonds, it’s important to pay close
+          attention to a diamond’s coloring. In addition to the GIA Color
+          Grading, be sure to review the diamond yourself or have an expert
+          assist you to give you a better idea of its value instead of relying
+          on your untrained eye.
+        </Text>
+        <Text fontSize={"lg"}>
+          When examining the diamonds, look for any noticeable tinting and note
+          its interaction with both white light and colored light reflection.
+        </Text>
+        <Text fontSize={"lg"}>
+          Most importantly, ensure the diamond looks white in relation to its
+          setting. The diamond you’re choosing should stand out as the bright,
+          white focal piece of the jewelry. It is, after all, the most renowned
+          part of the ring.
+        </Text>
+        <Text fontSize={"lg"}>
+          Based on diverse types of settings, here are our recommendations for
+          diamond color based on diamond shape:
+        </Text>
+        <Text fontSize={"lg"} m={"20px 0 0 0"} fontWeight={"bold"}>
+          White Gold / Platinum Solitaire Ring
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>Round:</strong> H-J If you choose a grade higher than H,
+          you’ll be paying for a feature you won’t be able to notice or
+          appreciate with the naked eye.
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>Princess, emerald, asscher:</strong> G-I Grades.
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>All other diamond shapes: </strong>F-H Grades.
+        </Text>
+        <Text fontSize={"lg"} m={"20px 0 0 0"} fontWeight={"bold"}>
+          Yellow Gold Ring
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>Round:</strong> K-M Grades.
+        </Text>
+        <Text fontSize={"lg"}>
+          The yellow color of the gold is absorbed into the diamond’s color, so
+          any grade higher than a K will look slightly yellowish anyway.
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>Princess, emerald, asscher:</strong> J-K Grades.
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>All other diamond shapes: </strong> I-J Grades.
+        </Text>
+        <Text fontSize={"lg"} m={"20px 0 0 0"} fontWeight={"bold"}>
+          Pave/Side-stone or Halo Settings
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>Round, princess, emerald and asscher:</strong> G-I Grades.
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>All other diamond shapes: </strong> F-H Grades.
+        </Text>
+        <Text fontSize={"lg"}>
+          <strong>All diamond shapes for halo: </strong> F-H Grades.
+        </Text>
+        <Text fontSize={"lg"}>
+          Let’s take a closer look by examining the two diamond color charts
+          below. The same nine diamonds are displayed on the right side and the
+          left side of the chart. On the right, the nine diamonds are face down
+          and arranged in order by color. On the left, the order has been
+          randomized.
+        </Text>
+        <Text fontSize={"lg"}>
+          By looking at the pictures on the left, are you able to place them in
+          the correct grading order?
+        </Text>
+        <Image
+          src="https://www.diamonds.pro/wp-content/uploads/2009/06/ColorGrid1-e1451817859850.jpg"
+          m={"20px 0 20px 0"}
+        />
+        <Text fontSize={"lg"} fontWeight={"bold"}>
+          (Answer (on the left side) – First Row: G, L, E. Second Row: F, J, D.
+          Third Row: H, K, I.)
+        </Text>
+        <Text fontSize={"lg"}>
+          As you may have noticed, it’s difficult for the eye to pick up on any
+          one particular element of a diamond.
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          What Your Eye Perceives About the 4 C’s of a Diamond
+        </Text>
+        <Text fontSize={"lg"}>
+          A diamond is an organic whole. Diamonds were formed from carbon
+          hundreds of feet below the earth’s surface, and the carbon that formed
+          the diamonds was also subjected to intense pressure and heat. This
+          pressure and heat subsequently caused crystallization.
+        </Text>
+        <Text fontSize={"lg"}>
+          The <strong>4 C’s</strong> (cut, color, clarity and carat weight)
+          combine to determine the beauty and brilliance of the diamond. For
+          this reason, the naked eye will have a challenging time
+          differentiating between just one aspect such as the color or the
+          clarity of the diamonds (find out which one is more important –
+          diamond color vs clarity).
+        </Text>
+        <Text fontSize={"lg"}>
+          Therefore, instead of focusing on one element such as color, it’s
+          better to judge a diamond’s beauty as a whole.
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          How Different Settings Affect Diamond Color
+        </Text>
+        <Text fontSize={"lg"}>
+          From this example, we can see just how slight the variations are
+          between the color grades of D and J on a round brilliant diamond.
+          Especially for rounds, but also for other shapes, color is a primarily
+          relative characteristic.
+        </Text>
+        <Text fontSize={"lg"}>
+          In other words, an I-colored diamond truly only looks like an I-color
+          when it’s placed next to a higher-colored diamond for comparison. In
+          fact, comparison between two diamonds is how even expert diamond
+          dealers and gemologists grade color. They place the diamond to be
+          graded on a white folded card next to a master diamond to compare and
+          determine the color.
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          Matching Center Diamond Color with Side Stones
+        </Text>
+        <Text fontSize={"lg"}>
+          Even for diamond experts, it’s difficult to assess a diamond’s color
+          simply by looking at the diamond in question. Unless your loved one
+          will be carrying around a set of GIA color samples to constantly
+          compare their ring to, then you should worry little about color.
+        </Text>
+        <Text fontSize={"lg"}>
+          Color grade does become relevant, though, if you’re purchasing an
+          engagement ring with side diamonds, or perhaps a three stone ring. We
+          recommend that side (or accent) diamonds always either match the color
+          grade of the center stone, or are slightly darker to accent the higher
+          color grade of the center stone.
+        </Text>
+        <Text fontSize={"lg"}>
+          If you’re buying a classic solitaire engagement ring setting with no
+          accent diamonds, use your budget in areas other than color to avoid
+          spending on a feature that you won’t derive benefit or beauty from.
+        </Text>
+        <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          FAQs About Diamond Color
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"}>
+          What is the best value color for a diamond?
+        </Text>
+        <Text fontSize={"lg"}>
+          G, H and I color grades give the best value when purchasing a diamond.
+          With these grades, you can get a diamond that appears colorless when
+          set in a ring and observed under normal viewing conditions. Higher
+          grades come with a much higher price, but no noticeable difference in
+          quality.
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"}>
+          What color diamond is most purchased?
+        </Text>
+        <Text fontSize={"lg"}>
+          The most commonly purchased diamonds are those that are
+          near-colorless, often with a faint yellowish tint, falling around the
+          G to J range in color. These are more common than completely colorless
+          diamonds, yet in most cases appear white or clear to the naked eye.
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"}>
+          What color in a diamond gives the most sparkle?
+        </Text>
+        <Text fontSize={"lg"}>
+          Colorless diamonds are the best at reflecting light and giving off the
+          classic fire and brilliance you expect from a diamond. The best color
+          grade for this is D color, but in reality anything from D through to I
+          color should reflect light perfectly fine.
+        </Text>
+        <Text fontSize={"lg"} fontWeight={"bold"}>
+          Which color of diamond is the best?
+        </Text>
+        <Text fontSize={"lg"}>
+          The “best” diamond color grade (for “white” or colorless diamonds) is
+          a D grade. This is the top of the diamond color scale, indicating the
+          diamond is completely colorless, even when viewed under intense
+          magnification.
+        </Text>
+        <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          Need Help Deciding the Right Diamond Color?
+        </Text>
+        <Text fontSize={"lg"}>
+          Searching for the perfect diamond is all about finding the elements
+          that most heavily influence the diamond’s beauty and brilliance.
+        </Text>
+        <Text fontSize={"lg"}>
+          As long as you follow our guidelines below, there is no reason to
+          overpay for color. Take a look at{" "}
+          <LinkCharkaUI
+            color="red.400"
+            href="https://www.bluenile.com/diamond-details/16391861?a_aid=dmnd1357&data1=39085"
+            isExternal
+          >
+            this I color diamond from Blue Nile
+          </LinkCharkaUI>{" "}
+          compared to{" "}
+          <LinkCharkaUI
+            color="red.400"
+            href="https://www.bluenile.com/diamond-details/14207131?a_aid=dmnd1357&data1=39085"
+            isExternal
+          >
+            this G color
+          </LinkCharkaUI>
+          . Once mounted, these diamonds will look identical color-wise. Without
+          sacrificing any visual quality, you’re saving about 45% on the
+          diamond.
+        </Text>
+        <Text fontSize={"lg"}>
+          The trick is to make sure the diamond looks white in relation to the
+          setting. Here is{" "}
+          <LinkCharkaUI
+            color="red.400"
+            href="https://www.bluenile.com/diamond-details/18419393?a_aid=dmnd1357&data1=39085"
+            isExternal
+          >
+            a stunning K color round diamond
+          </LinkCharkaUI>{" "}
+          in{" "}
+          <LinkCharkaUI
+            color="red.400"
+            href="https://www.bluenile.com/engagement-rings/design-your-own-ring/east-west-solitaire-engagement-ring-in-14k-yellow-gold-item-195395?a_aid=dmnd1357&data1=39085"
+            isExternal
+          >
+            a yellow gold solitaire setting from Blue Nile
+          </LinkCharkaUI>
+          . Likewise, here is{" "}
+          <LinkCharkaUI
+            color="red.400"
+            href="https://www.bluenile.com/diamond-details/18654011?a_aid=dmnd1357&data1=39085"
+            isExternal
+          >
+            a beautiful J color diamond from Blue Nile
+          </LinkCharkaUI>{" "}
+          in{" "}
+          <LinkCharkaUI
+            color="red.400"
+            href="https://www.bluenile.com/engagement-rings/design-your-own-ring/petite-split-shank-solitaire-in-14k-rose-gold-item-192983?a_aid=dmnd1357&data1=39085"
+            isExternal
+          >
+            a rose gold solitaire setting
+          </LinkCharkaUI>
+          .
+        </Text>
+        <Text fontSize={"lg"}>
+          Normally a J or K color could have a yellowish tint. However, since
+          it’s contrasted to something darker (the yellow or rose gold) it
+          appears clear and vibrant. On the other hand, here is a similar K
+          color diamond in a halo setting from James Allen. As you can see, the
+          result is underwhelming.
+        </Text>
+        <Text fontSize={"lg"}>
+          In one case, the K graded colored diamond gives you fantastic value
+          (allowing you to get a larger diamond for your budget with no negative
+          impact on the diamond’s appearance). In the other instance, the result
+          is an undesirable ring that will leave you disappointed.
+        </Text>
+        <Text fontSize={"lg"}>
+          In one case, the K graded colored diamond gives you fantastic value
+          (allowing you to get a larger diamond for your budget with no negative
+          impact on the diamond’s appearance). In the other instance, the result
+          is an undesirable ring that will leave you disappointed.
+        </Text>
+        <Text fontSize={"lg"}>
+          Still not sure which color to choose? If you want to make sure you’re
+          navigating the diamond buying minefield properly, feel free to contact
+          us for personal help. Our experts are here to do all of the heavy
+          lifting and bring you only the very best diamonds to choose from.
+        </Text>
+        <EducationBottomLineRec
+          content={""}
+          whatToLookFor={whatToLookFor}
+          whatToAvoid={whatToAvoid}
+        />
       </Flex>
     </Flex>
   );

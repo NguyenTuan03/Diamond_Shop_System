@@ -13,6 +13,7 @@ import { GrClose } from "react-icons/gr";
 import React from "react";
 import EducationTitle from "../../components/EducationTitle";
 import EducationShapeForm from "../../components/EducationShapeForm";
+import EducationBottomLineRec from "../../components/EducationBottomLineRec";
 export default function EducationShape() {
   const title = [
     "1. Round Brilliant Cut Diamonds",
@@ -126,7 +127,14 @@ export default function EducationShape() {
     "3,200",
     "5,180",
   ];
-
+  const whatToLookFor = [
+    "Make sure the diamond shape needs to fit the style of setting you are going for.",
+    " Some shapes are more brilliant than others. The round diamond is the most brilliant.",
+  ];
+  const whatToAvoid = [
+    "If you are not 100% sure of your choice, avoid trendy cuts like marquise or heart shapes.",
+    "Regardless of shape, the diamond needs to be well cut. For more info, read our article on diamond cut.",
+  ];
   return (
     <Flex
       direction="column"
@@ -538,64 +546,13 @@ export default function EducationShape() {
           happy to share our expert advice and even help you search for
           diamonds—bringing you only the very best to choose from.
         </Text>
-        <Box
-          border={"1px solid"}
-          borderColor={"gray"}
-          p={10}
-          m={"20px 0 20px 0"}
-        >
-          <Text fontSize="2xl" fontWeight={"bold"}>
-            Bottom Line Recommendation:
-          </Text>
-          <Text fontSize="lg" m={"20px 0 20px 0"}>
-            From round to cushion cut, the shape of diamond that you choose will
-            have a huge impact on the look of your fiancé-to-be’s ring. It could
-            also have a surprisingly large impact on the engagement ring’s
-            price. In this article we’ll go over the basics of each shape and
-            get you pointed in the right direction for your diamond purchase
-            journey.
-          </Text>
-          <Flex direction={"row"} justifyContent={"space-between"} m={"50px 0 0 0"}>
-            <Flex direction={"column"}>
-              <Text fontSize="lg" fontWeight={"bold"}>
-                WHAT TO LOOK FOR
-              </Text>
-              <Flex direction={"row"} p={4} gap={2}>
-                <FaCheck color="green" size={50} />
-                <Text fontSize={"lg"}>
-                  Make sure the diamond shape needs to fit the style of setting
-                  you are going for.
-                </Text>
-              </Flex>
-              <Flex direction={"row"} p={4} gap={2}>
-                <FaCheck color="green" size={50} />
-                <Text fontSize={"lg"}>
-                  Some shapes are more brilliant than others. The round diamond
-                  is the most brilliant.
-                </Text>
-              </Flex>
-            </Flex>
-            <Flex direction={"column"}>
-              <Text fontSize="lg" fontWeight={"bold"}>
-                WHAT TO AVOID
-              </Text>
-              <Flex direction={"row"} p={4} gap={2}>
-                <GrClose color={"red"} size={50} />
-                <Text fontSize={"lg"}>
-                  If you are not 100% sure of your choice, avoid trendy cuts
-                  like marquise or heart shapes.
-                </Text>
-              </Flex>
-              <Flex direction={"row"} p={4} gap={2}>
-                <GrClose color={"red"} size={50} />
-                <Text fontSize={"lg"}>
-                  Regardless of shape, the diamond needs to be well cut. For
-                  more info, read our article on diamond cut.
-                </Text>
-              </Flex>
-            </Flex>
-          </Flex>
-        </Box>
+        <EducationBottomLineRec
+          content={
+            "From round to cushion cut, the shape of diamond that you choose will have a huge impact on the look of your fiancé-to-be’s ring. It could also have a surprisingly large impact on the engagement ring’s price. In this article we’ll go over the basics of each shape and get you pointed in the right direction for your diamond purchase journey."
+          }
+          whatToLookFor={whatToLookFor}
+          whatToAvoid={whatToAvoid}
+        />
       </Flex>
     </Flex>
   );
