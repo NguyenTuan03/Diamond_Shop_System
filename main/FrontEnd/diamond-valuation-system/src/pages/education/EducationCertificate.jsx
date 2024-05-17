@@ -368,12 +368,11 @@ export default function EducationCertificate() {
           </Link>{" "}
           writes:
         </Text>
-        <Box borderLeft={"2px solid"} borderColor={"blue.400"}>
+        <Box borderLeft={"2px solid"} borderColor={"blue.400"} p={4}>
           <Text
             fontSize={"md"}
             fontStyle={"italic"}
             fontWeight={"light"}
-            m={"0 0 0 10px"}
           >
             “The most reliable diamond certificates (also called diamond
             reports) come from the Gemological Institute of America (GIA) and
