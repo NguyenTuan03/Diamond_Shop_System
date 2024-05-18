@@ -4,6 +4,7 @@ import React from "react";
 export default function GridValue({
   row,
   data,
+  setValue,
   activeButtonIndex,
   setActiveButtonIndex,
 }) {
@@ -20,6 +21,7 @@ export default function GridValue({
               activeButtonIndex === index ? "blue.400" : "initial"
             }
             onClick={() => {
+              setValue(value);
               setActiveButtonIndex(index);
             }}
           >

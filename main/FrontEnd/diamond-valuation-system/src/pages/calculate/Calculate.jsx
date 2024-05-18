@@ -72,19 +72,30 @@ export default function Calculate() {
   const [cutActiveButtonIndex, setCutActiveButtonIndex] = useState(null);
   const [clarityActiveButtonIndex, setClarityActiveButtonIndex] =
     useState(null);
-  const handleClick = (label, index) => {
-    if (label === "gradingLab") {
-      setGradingLabActiveButtonIndex(index);
-    } else if (label === "shape") {
-      setShapeActiveButtonIndex(index);
-    } else if (label === "color") {
-      setColorActiveButtonIndex(index);
-    } else if (label === "cut") {
-      setCutActiveButtonIndex(index);
-    } else if (label === "clarity") {
-      setClarityActiveButtonIndex(index);
+
+  const [gradingLab, setGradingLab] = useState("");
+  const [carat, setCarat] = useState(0.0);
+  const [shape, setShape] = useState("");
+  const [color, setColor] = useState("");
+  const [cut, setCut] = useState("");
+  const [clarity, setClarity] = useState("");
+  async function handleSubmit() {
+    try {
+      const res = await fetch(
+        `http://www.idexonline.com/DPService.asp?SID=4wp7go123jqtkdyd5f2e&cut=${shape}&carat=${carat}&color=${color}&clarity=${clarity}&make=${cut}&cert=${gradingLab}`,
+        { mode: "no-cors" }
+      );
+      if (!res.ok) {
+        throw new Error(`Error fetching data: ${res.status}`);
+      }
+      const data = await res.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error("Error: ", error);
     }
-  };
+  }
+
   return (
     <Flex
       direction="column"
@@ -112,6 +123,7 @@ export default function Calculate() {
             <GridValue
               row={6}
               data={gradingLabLabel}
+              setValue={setGradingLab}
               activeButtonIndex={gradingLabActiveButtonIndex}
               setActiveButtonIndex={setGradingLabActiveButtonIndex}
             />
@@ -119,6 +131,7 @@ export default function Calculate() {
             <GridValue
               row={6}
               data={shapeLabel}
+              setValue={setShape}
               activeButtonIndex={shapeActiveButtonIndex}
               setActiveButtonIndex={setShapeActiveButtonIndex}
             />
@@ -128,7 +141,10 @@ export default function Calculate() {
               min={0.08}
               max={9.99}
               step={0.01}
-              onChange={(val) => setSliderValue(val)}
+              onChange={(val) => {
+                setCarat(val);
+                setSliderValue(val);
+              }}
             >
               <SliderMark
                 value={sliderValue}
@@ -151,6 +167,7 @@ export default function Calculate() {
             <GridValue
               row={4}
               data={colorLabel}
+              setValue={setColor}
               activeButtonIndex={colorActiveButtonIndex}
               setActiveButtonIndex={setColorActiveButtonIndex}
             />
@@ -158,6 +175,7 @@ export default function Calculate() {
             <GridValue
               row={4}
               data={cutLabel}
+              setValue={setCut}
               activeButtonIndex={cutActiveButtonIndex}
               setActiveButtonIndex={setCutActiveButtonIndex}
             />
@@ -165,6 +183,7 @@ export default function Calculate() {
             <GridValue
               row={4}
               data={clarityLabel}
+              setValue={setClarity}
               activeButtonIndex={clarityActiveButtonIndex}
               setActiveButtonIndex={setClarityActiveButtonIndex}
             />
@@ -173,6 +192,7 @@ export default function Calculate() {
               colorScheme="blue"
               w={"inherit"}
               m={"10px 0 0 0"}
+              onClick={handleSubmit}
             >
               SUBMIT
             </Button>
