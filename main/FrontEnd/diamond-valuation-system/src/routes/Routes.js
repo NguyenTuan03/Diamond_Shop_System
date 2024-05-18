@@ -1,6 +1,7 @@
 import routes from "../config/Config.js";
 import Calculate from "../pages/calculate/Calculate.jsx";
 import DiamondCheck from "../pages/check/DiamondCheck.jsx";
+import DiamondCheckDetails from "../pages/check/DiamondCheckDetails.jsx";
 import Detail from "../pages/detail/Detail.jsx";
 import Education from "../pages/education/Education.jsx";
 import EducationCarat from "../pages/education/EducationCarat.jsx";
@@ -29,9 +30,14 @@ const ALlRoutes = [
     component: DiamondCheck,
   },
   {
+    path: routes.diamondCheckDetails,
+    component: DiamondCheckDetails,
+  },
+  {
     path: routes.diamondDetail,
     component: Detail,
   },
+
   {
     path: routes.calculate,
     component: Calculate,

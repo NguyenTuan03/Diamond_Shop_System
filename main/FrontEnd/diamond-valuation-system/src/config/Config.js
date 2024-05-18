@@ -2,6 +2,7 @@ const routes = {
     home: '/',
     search: '/search',
     diamondCheck : '/diamond-check',
+    diamondCheckDetails:"/diamond-check/:certificateId",
     diamondDetail: '/diamond-detail',
     calculate: '/diamond-valuation',
     prices: '/prices',
