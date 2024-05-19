@@ -6,12 +6,15 @@ import {
   OrderedList,
   Text,
   UnorderedList,
-  Link,
+  Link as LinkCharkaUI,
   Box,
 } from "@chakra-ui/react";
 import React from "react";
-import EducationTitle from "../../components/EducationTitle";
-
+import { Link as LinkReactRouterDOM } from "react-router-dom";
+import EducationTitle from "../../components/education/EducationTitle";
+import EducationFAQs from "../../components/education/EducationFAQs";
+import { certificateFAQs } from "../../shared/SharedEducationCertificate";
+import routes from "../../config/Config";
 export default function EducationCertificate() {
   return (
     <Flex
@@ -33,9 +36,13 @@ export default function EducationCertificate() {
           A diamond's certification offers a detailed breakdown of its
           characteristics, including its 4Cs: carat weight, color, clarity, and
           cut quality. Notably, the{" "}
-          <Link color={"blue.400"} href="https://www.gia.edu/" isExternal>
+          <LinkCharkaUI
+            color={"blue.400"}
+            href="https://www.gia.edu/"
+            isExternal
+          >
             Gemological Institute of America (GIA)
-          </Link>
+          </LinkCharkaUI>
           is a leading authority in this field. A diamond's final grading
           significantly impacts its price. Always ensure that the diamond you're
           considering comes with a reputable lab certification, as this
@@ -48,9 +55,23 @@ export default function EducationCertificate() {
           Diamond certificates, or grading reports, are issued by accredited
           gemological laboratories, such as the Gemological Institute of America
           (GIA). The diamond certificates contain information and grades for
-          each of a diamonds characteristics based on the 4Cs - carat weight,
-          color, clarity, and cut quality. The final grading has a major
-          influence on the diamond's price.
+          each of a diamonds characteristics based on the 4Cs -{" "}
+          <LinkReactRouterDOM to={routes.educationCarat}>
+            carat weight
+          </LinkReactRouterDOM>
+          ,{" "}
+          <LinkReactRouterDOM to={routes.educationColor}>
+            color
+          </LinkReactRouterDOM>
+          ,{" "}
+          <LinkReactRouterDOM to={routes.educationColor}>
+            clarity
+          </LinkReactRouterDOM>
+          , and{" "}
+          <LinkReactRouterDOM to={routes.educationColor}>
+            cut quality
+          </LinkReactRouterDOM>
+          . The final grading has a major influence on the diamond's price.
         </Text>
         <Text fontSize={"lg"}>
           Along with each diamond you're considering, you should receive and
@@ -92,13 +113,13 @@ export default function EducationCertificate() {
           “authentic.”
         </Text>
         <Text fontSize={"lg"}>
-          <Link
+          <LinkCharkaUI
             color={"blue.400"}
             href="https://4cs.gia.edu/en-us/why-gia-diamond-grading-report/"
             isExternal
           >
             GIA
-          </Link>
+          </LinkCharkaUI>
           , the world leader in certification puts it this way: “The GIA Diamond
           Grading Report is similar to house deeds or vehicle registrations in
           that it offers information on your purchase, and this information can
@@ -212,13 +233,13 @@ export default function EducationCertificate() {
           subjective scales, more rigorously. Because of GIA’s high reputation,
           proven consistency and history, we recommend only buying diamonds with
           a GIA or AGS certificate. Now,{" "}
-          <Link
+          <LinkCharkaUI
             color={"blue.400"}
             href="https://rapaport.com/news/advertorial-gia-full-disclosure-at-your-fingertips/"
             isExternal
           >
             GIA even certifies lab-grown diamonds.
-          </Link>
+          </LinkCharkaUI>
         </Text>
         <Text fontSize={"lg"}>
           We recommend these diamond sellers who provide GIA certificates with
@@ -226,25 +247,25 @@ export default function EducationCertificate() {
         </Text>
         <UnorderedList fontSize={"lg"} spacing={2} m={"0 0 0 50px"}>
           <ListItem>
-            <Link
+            <LinkCharkaUI
               color={"red.400"}
               href="https://www.briangavindiamonds.com/?a_aid=y"
               isExternal
             >
               Brian Gavin Diamonds
-            </Link>
+            </LinkCharkaUI>
             : 20+ years of experience, dedicated to offering the best cut
             diamonds. They offer a collection called “Brian Gavin Signature”
             Hearts & Arrows, showcasing super ideal cuts
           </ListItem>
           <ListItem>
-            <Link
+            <LinkCharkaUI
               color={"red.400"}
               href="https://www.bluenile.com/?a_aid=dmnd1357%3Fa_aid%3Ddmnd1357&data1=5457"
               isExternal
             >
               Blue Nile
-            </Link>
+            </LinkCharkaUI>
             : 17+ years of experience, offering the largest inventory of
             diamonds. Blue Nile provides excellent diamond quality and an array
             of well-crafted settings.
@@ -262,13 +283,13 @@ export default function EducationCertificate() {
         <Text fontSize={"lg"}>
           Back in those days, the AGS had the monopoly on the “ideal cut” market
           (with top vendors such as{" "}
-          <Link
+          <LinkCharkaUI
             color={"red.400"}
             href="https://www.briangavindiamonds.com/?a_aid=y"
             isExternal
           >
             Brian Gavin Diamonds
-          </Link>
+          </LinkCharkaUI>
           ). A diamond couldn't be called “ideal” unless it has an AGS
           certificate claiming so. Now that the GIA has entered the cut grade
           game, though, their share in this market has dropped significantly.
@@ -277,13 +298,13 @@ export default function EducationCertificate() {
           The AGS generally tries to bill itself as being a bit more fancy and
           refined than the GIA. In reality, there's hardly anything at all to
           distinguish the two laboratories.{" "}
-          <Link
+          <LinkCharkaUI
             color={"blue.400"}
             href="https://www.americangemsociety.org/"
             isExternal
           >
             AGS is still the go-to choice for many retailers
-          </Link>{" "}
+          </LinkCharkaUI>{" "}
           selling perfectly cut round diamonds.
         </Text>
         <Text fontSize={"lg"}>
@@ -312,21 +333,21 @@ export default function EducationCertificate() {
           consumer. All in all, AGS is a very reliable laboratory. We only
           recommend diamonds certified by GIA or AGS and we only work with
           vendors (such as{" "}
-          <Link
+          <LinkCharkaUI
             color={"red.400"}
             href="https://www.briangavindiamonds.com/?a_aid=y"
             isExternal
           >
             Brian Gavin Diamonds
-          </Link>
+          </LinkCharkaUI>
           , and{" "}
-          <Link
+          <LinkCharkaUI
             color={"red.400"}
             href="https://www.bluenile.com/?a_aid=dmnd1357%3Fa_aid%3Ddmnd1357&data1=5457"
             isExternal
           >
             Blue Nile
-          </Link>
+          </LinkCharkaUI>
           ) that emphasize these two labs.
         </Text>
         <Text fontSize={"lg"}>
@@ -359,21 +380,17 @@ export default function EducationCertificate() {
         </Text>
         <Text fontSize={"lg"}>
           Even the{" "}
-          <Link
+          <LinkCharkaUI
             color={"blue.400"}
             href="https://jcrs.com/newsletters/2006/2006_09.htm"
             isExternal
           >
             largest jewelry insurance underwriter
-          </Link>{" "}
+          </LinkCharkaUI>{" "}
           writes:
         </Text>
         <Box borderLeft={"2px solid"} borderColor={"blue.400"} p={4}>
-          <Text
-            fontSize={"md"}
-            fontStyle={"italic"}
-            fontWeight={"light"}
-          >
+          <Text fontSize={"md"} fontStyle={"italic"} fontWeight={"light"}>
             “The most reliable diamond certificates (also called diamond
             reports) come from the Gemological Institute of America (GIA) and
             the American Gem Society (AGS). These are the most respected labs,
@@ -522,66 +539,23 @@ export default function EducationCertificate() {
           reliable, consistent entity, like the GIA, so you know that what you
           are buying matches the actual value of the stone.
         </Text>
-        <Text fontSize="2xl" fontWeight={"bold"} m={"20px 0 0 0"}>
-          FAQs About Diamond Certification
-        </Text>
-        <Text fontSize={"lg"} fontWeight={"bold"}>
-          How important is diamond certification?
-        </Text>
-        <Text fontSize={"lg"}>
-          Diamond certification is essential for any diamond because it verifies
-          and describes what it is you're buying. Without a certificate from a
-          reliable lab, there's no way to know if the diamond you're buying is
-          what the seller claims. A diamond certificate includes details like
-          the cut quality, color grade, carat weight and other characteristics.
-          Having proof for what you're buying is paramount, especially with such
-          a large purchase like a diamond.
-        </Text>
-        <Text fontSize={"lg"} fontWeight={"bold"}>
-          Does my diamond really need a certificate?
-        </Text>
-        <Text fontSize={"lg"}>
-          Yes, your diamond needs a certificate because, without one, there's no
-          way to know what it is you're actually purchasing. A certificate
-          offers proof of aspects like its carat weight, cut quality, color
-          grade, clarity and more. Without a certificate, you won't even know
-          with certainty if the diamond is real or synthetic.
-        </Text>
-        <Text fontSize={"lg"} fontWeight={"bold"}>
-          What is the difference between a certified and non-certified diamond?
-        </Text>
-        <Text fontSize={"lg"}>
-          A certified diamond has been evaluated by a third-party lab and comes
-          with a certificate, whereas a non-certified diamond does not.
-          Certified diamonds can be better trusted because they’ve been verified
-          by a professional gemologist. With a non-certified diamond, it’s hard
-          to know if aspects like the diamond’s color and cut quality are what
-          the seller claims them to be. That’s why we only recommend certified
-          diamonds from the reputable labs of the GIA and AGS.
-        </Text>
-        <Text fontSize={"lg"} fontWeight={"bold"}>
-          What is the difference between a diamond certificate and a diamond
-          grading report?
-        </Text>
-        <Text fontSize={"lg"}>
-          Nothing! Sometimes you will see a grading lab refer to its reports as
-          a certificate and other labs will refer to it as a grading report.
-          Both provide information about a diamond that has been inspected
-          visually by the gemologist.
-        </Text>
+        <EducationFAQs
+          name={"FAQs About Diamond Certification"}
+          content={certificateFAQs}
+        />
         <Text fontSize="2xl" fontWeight={"bold"} m={"20px 0 0 0"}>
           Bottom Line Recommendation
         </Text>
         <Text fontSize={"lg"} fontStyle={"italic"}>
           If you're buying online, use{" "}
-          <Link
+          <LinkCharkaUI
             color={"red.400"}
             href="https://www.bluenile.com/diamond-search?a_aid=dmnd1357&data1=5457"
             isExternal
           >
             Blue Nile's 360° Videos{" "}
-          </Link>{" "}
-          and stick with the GIA or AGS certification—the most consistent lab
+          </LinkCharkaUI>{" "}
+          and stick with the GIA or AGS certification - the most consistent lab
           available. We have witnessed numerous gross mistakes by each major
           gemological lab, and want to ensure you make a safe and smart
           purchase.
@@ -593,13 +567,13 @@ export default function EducationCertificate() {
           We only recommend diamonds certified by GIA or AGS because we know
           their grading is consistent, reliable and trustworthy. We only work
           with vendors (such as{" "}
-          <Link
+          <LinkCharkaUI
             color={"red.400"}
             href="https://www.briangavindiamonds.com/?a_aid=y"
             isExternal
           >
             Brian Gavin Diamonds
-          </Link>{" "}
+          </LinkCharkaUI>{" "}
           ) that emphasize these two labs.
         </Text>
       </Flex>

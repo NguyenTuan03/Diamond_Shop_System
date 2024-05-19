@@ -20,21 +20,19 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import EducationTitle from "../../components/EducationTitle";
+import EducationTitle from "../../components/education/EducationTitle";
 import { IoDiamondOutline } from "react-icons/io5";
-import EducationBottomLineRec from "../../components/EducationBottomLineRec";
+import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
 import {
-  type,
-  title,
-  content,
-  image,
-  typeTable,
-  desTable,
-  whatToLookFor,
-  whatToAvoid,
+  colorSlider,
+  colorTable,
+  colorBottomLineRec,
+  colorBottomLineRecWhatToLookFor,
+  colorBottomLineRecWhatToAvoid,
 } from "../../shared/SharedEducationColor";
+import EducationProTip from "../../components/education/EducationProTip";
 export default function EducationColor() {
-  const [sliderValue, setSliderValue] = useState(50);
+  const [sliderValue, setSliderValue] = useState(6);
 
   return (
     <Flex
@@ -82,7 +80,7 @@ export default function EducationColor() {
           scale to accomplish this. Very high grades offer little visible
           difference but come with a significant increase in diamond price.
         </Text>
-        <Image src={image[sliderValue]} />
+        <Image src={colorSlider[sliderValue].image} />
         <Box p={4} pt={6} m={"20px 0 0 0"}>
           <Slider
             aria-label="slider-ex-6"
@@ -91,10 +89,9 @@ export default function EducationColor() {
             step={1}
             onChange={(val) => setSliderValue(val)}
           >
-            {type.map((item, index) => (
+            {colorSlider.map((item, index) => (
               <SliderMark
-                key={item}
-                value={index}
+                key={index}
                 textAlign={"center"}
                 bg={"blue.400"}
                 color={"white"}
@@ -103,7 +100,7 @@ export default function EducationColor() {
                 ml="-6"
                 w="12"
               >
-                {item}
+                {item.type}
               </SliderMark>
             ))}
             <SliderTrack></SliderTrack>
@@ -114,9 +111,9 @@ export default function EducationColor() {
         </Box>
         <Box p={4} pt={6} m={"0 0 20px 0"}>
           <Text fontSize={"xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
-            {title[sliderValue]}
+            {colorSlider[sliderValue].title}
           </Text>
-          <Text fontSize={"lg"}>{content[sliderValue]}</Text>
+          <Text fontSize={"lg"}>{colorSlider[sliderValue].content}</Text>
         </Box>
         <Text fontSize={"lg"}>
           When you’re looking for diamonds to purchase, the diamond color is one
@@ -185,15 +182,11 @@ export default function EducationColor() {
           color grades that are best suited for each metal, from platinum and
           white gold to yellow and rose gold.
         </Text>
-        <Box m={"20px 0 20px 0"} p={4} bg={"blue.100"}>
-          <Text fontSize="lg">
-            <strong>Pro Tip:</strong> When buying a diamond in the IJK range,
-            consider a diamond with medium or strong blue fluorescence. Diamonds
-            with a yellowish tint usually avoid the hazy/cloudy effect seen in
-            colorless diamonds with fluorescence and it tends to brighten up the
-            diamond a bit.
-          </Text>
-        </Box>
+        <EducationProTip
+          content={
+            "When buying a diamond in the IJK range, consider a diamond with medium or strong blue fluorescence. Diamonds with a yellowish tint usually avoid the hazy/cloudy effect seen in colorless diamonds with fluorescence and it tends to brighten up the diamond a bit."
+          }
+        />
         <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
           What’s the Best Color For a Diamond?
         </Text>
@@ -393,12 +386,12 @@ export default function EducationColor() {
               </Tr>
             </Thead>
             <Tbody>
-              {typeTable.map((item, index) => (
-                <Tr key={item}>
-                  <Td>{item}</Td>
+              {colorTable.map((item, index) => (
+                <Tr key={index}>
+                  <Td fontWeight={"bold"}>{item.type}</Td>
                   <Td>
                     <div
-                      dangerouslySetInnerHTML={{ __html: desTable[index] }}
+                      dangerouslySetInnerHTML={{ __html: item.description }}
                     ></div>
                   </Td>
                 </Tr>
@@ -738,9 +731,9 @@ export default function EducationColor() {
           lifting and bring you only the very best diamonds to choose from.
         </Text>
         <EducationBottomLineRec
-          content={""}
-          whatToLookFor={whatToLookFor}
-          whatToAvoid={whatToAvoid}
+          content={colorBottomLineRec}
+          whatToLookFor={colorBottomLineRecWhatToLookFor}
+          whatToAvoid={colorBottomLineRecWhatToAvoid}
         />
       </Flex>
     </Flex>
