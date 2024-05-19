@@ -25,7 +25,7 @@ import {
   sampleCostPrice,
   whatToLookFor,
   whatToAvoid,
-} from "../../shared/SharedEducationColor";
+} from "../../shared/SharedEducationShape";
 export default function EducationShape() {
   return (
     <Flex

@@ -20,8 +20,8 @@ export default function EducationBottomLineRec({
           <Text fontSize="lg" fontWeight={"bold"}>
             WHAT TO LOOK FOR
           </Text>
-          {whatToLookFor.map((item) => (
-            <Flex direction={"row"} p={4} gap={2}>
+          {whatToLookFor.map((item, index) => (
+            <Flex key={index} direction={"row"} p={4} gap={2}>
               <FaCheck color="green" size={50} />
               <Text fontSize={"lg"}>{item}</Text>
             </Flex>
@@ -31,8 +31,8 @@ export default function EducationBottomLineRec({
           <Text fontSize="lg" fontWeight={"bold"}>
             WHAT TO AVOID
           </Text>
-          {whatToAvoid.map((item) => (
-            <Flex direction={"row"} p={4} gap={2}>
+          {whatToAvoid.map((item, index) => (
+            <Flex key={index} direction={"row"} p={4} gap={2}>
               <GrClose color={"red"} size={50} />
               <Text fontSize={"lg"}>{item}</Text>
             </Flex>
