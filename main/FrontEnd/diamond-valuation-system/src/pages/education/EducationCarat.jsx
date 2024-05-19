@@ -18,16 +18,11 @@ import { Link as LinkRouterDom } from "react-router-dom";
 import React from "react";
 import EducationTitle from "../../components/EducationTitle";
 import routes from "../../config/Config";
-
+import {
+  roundMMSize,
+  roundCaratWeight,
+} from "../../shared/SharedEducationCarat";
 export default function EducationCarat() {
-  const roundMMSize = [
-    4.0, 5.1, 5.8, 6.4, 6.9, 7.3, 7.7, 8.1, 8.5, 8.9, 9.0, 9.3, 9.5, 9.75, 9.9,
-    10.1, 10.43, 10.63, 10.83, 11.01,
-  ];
-  const roundCaratWeight = [
-    0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5,
-    3.75, 4.0, 4.25, 4.5, 4.75, 5.0,
-  ];
   return (
     <Flex
       direction="column"
