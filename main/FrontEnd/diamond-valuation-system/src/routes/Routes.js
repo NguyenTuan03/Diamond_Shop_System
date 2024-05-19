@@ -17,72 +17,72 @@ import Prices from "../pages/prices/Prices.jsx";
 import Search from "../pages/Search/Search.jsx";
 
 const ALlRoutes = [
-  {
-    path: routes.home,
-    component: HomePage,
-  },
-  {
-    path: routes.search,
-    component: Search,
-  },
-  {
-    path: routes.diamondCheck,
-    component: DiamondCheck,
-  },
-  {
-    path: routes.diamondCheckDetails,
-    component: DiamondCheckDetails,
-  },
-  {
-    path: routes.diamondDetail,
-    component: Detail,
-  },
+    {
+        path: routes.home,
+        component: HomePage,
+    },
+    {
+        path: routes.search,
+        component: Search,
+    },
+    {
+        path: routes.diamondCheck,
+        component: DiamondCheck,
+    },
+    {
+        path: routes.diamondCheckDetails,
+        component: DiamondCheckDetails,
+    },
+    {
+        path: routes.diamondDetail,
+        component: Detail,
+    },
 
-  {
-    path: routes.calculate,
-    component: Calculate,
-  },
-  {
-    path: routes.prices,
-    component: Prices,
-  },
-  {
-    path: routes.education,
-    component: Education,
-  },
-  {
-    path: routes.educationCertificate,
-    component: EducationCertificate,
-  },
+    {
+        path: routes.calculate,
+        component: Calculate,
+    },
+    {
+        path: routes.prices,
+        component: Prices,
+    },
+    {
+        path: routes.education,
+        component: Education,
+    },
+    {
+        path: routes.educationCertificate,
+        component: EducationCertificate,
+    },
 
-  {
-    path: routes.educationShape,
-    component: EducationShape,
-  },
-  {
-    path: routes.educationCarat,
-    component: EducationCarat,
-  },
-  {
-    path: routes.educationColor,
-    component: EducationColor,
-  },
-  {
-    path: routes.educationCut,
-    component: EducationCut,
-  },
-  {
-    path: routes.educationClarity,
-    component: EducationClarity,
-  },
-  {
-    path: routes.login,
-    component: Login,
-  },
-  {
-    path: routes.logout,
-    component: Logout,
-  },
+    {
+        path: routes.educationShape,
+        component: EducationShape,
+    },
+    {
+        path: routes.educationCarat,
+        component: EducationCarat,
+    },
+    {
+        path: routes.educationColor,
+        component: EducationColor,
+    },
+    {
+        path: routes.educationCut,
+        component: EducationCut,
+    },
+    {
+        path: routes.educationClarity,
+        component: EducationClarity,
+    },
+    {
+        path: routes.login,
+        component: Login,
+    },
+    {
+        path: routes.logout,
+        component: Logout,
+    },
 ];
 
 export { ALlRoutes };
