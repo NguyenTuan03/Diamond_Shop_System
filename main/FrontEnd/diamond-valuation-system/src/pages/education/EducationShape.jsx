@@ -7,24 +7,16 @@ import {
   Link as LinkCharkaUI,
   Text,
 } from "@chakra-ui/react";
-import { FaCheck } from "react-icons/fa";
-import { GrClose } from "react-icons/gr";
 
 import React from "react";
 import EducationTitle from "../../components/education/EducationTitle";
 import EducationShapeForm from "../../components/education/EducationShapeForm";
 import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
 import {
-  title,
-  image,
-  description,
-  lengthToWidthRatio,
-  proTip,
-  strongTips,
-  sampleCost,
-  sampleCostPrice,
-  whatToLookFor,
-  whatToAvoid,
+  shapeForm,
+  shapeBottomLineRec,
+  shapeBottomLineRecWhatToLookFor,
+  shapeBottomLineRecWhatToAvoid,
 } from "../../shared/SharedEducationShape";
 export default function EducationShape() {
   return (
@@ -161,17 +153,17 @@ export default function EducationShape() {
         <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
           Diamond Shapes: Which is Most Popular ?
         </Text>
-        {title.map((item, index) => (
+        {shapeForm.map((item, index) => (
           <EducationShapeForm
             key={index}
-            title={item}
-            image={image[index]}
-            description={description[index]}
-            lengthToWidthRatio={lengthToWidthRatio[index]}
-            proTip={proTip[index]}
-            strongPoints={strongTips[index]}
-            sampleCost={sampleCost[index]}
-            sampleCostPrice={sampleCostPrice[index]}
+            title={item.title}
+            image={item.image}
+            description={item.description}
+            lengthToWidthRatio={item.lengthToWidthRatio}
+            proTip={item.proTip}
+            strongPoints={item.strongTips}
+            sampleCost={item.sampleCost}
+            sampleCostPrice={item.sampleCostPrice}
           />
         ))}
         <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
@@ -439,11 +431,9 @@ export default function EducationShape() {
           diamonds—bringing you only the very best to choose from.
         </Text>
         <EducationBottomLineRec
-          content={
-            "From round to cushion cut, the shape of diamond that you choose will have a huge impact on the look of your fiancé-to-be’s ring. It could also have a surprisingly large impact on the engagement ring’s price. In this article we’ll go over the basics of each shape and get you pointed in the right direction for your diamond purchase journey."
-          }
-          whatToLookFor={whatToLookFor}
-          whatToAvoid={whatToAvoid}
+          content={shapeBottomLineRec}
+          whatToLookFor={shapeBottomLineRecWhatToLookFor}
+          whatToAvoid={shapeBottomLineRecWhatToAvoid}
         />
       </Flex>
     </Flex>

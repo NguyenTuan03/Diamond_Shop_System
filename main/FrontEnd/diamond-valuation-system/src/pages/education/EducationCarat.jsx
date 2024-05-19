@@ -17,11 +17,9 @@ import {
 import { Link as LinkRouterDom } from "react-router-dom";
 import React from "react";
 import EducationTitle from "../../components/education/EducationTitle";
+import EducationFAQs from "../../components/education/EducationFAQs";
 import routes from "../../config/Config";
-import {
-  roundMMSize,
-  roundCaratWeight,
-} from "../../shared/SharedEducationCarat";
+import { caratTable, caratFAQs } from "../../shared/SharedEducationCarat";
 export default function EducationCarat() {
   return (
     <Flex
@@ -156,10 +154,10 @@ export default function EducationCarat() {
               </Tr>
             </Thead>
             <Tbody>
-              {[...roundMMSize].slice(0, 10).map((mm, index) => (
+              {[...caratTable].slice(0, 10).map((item, index) => (
                 <Tr key={index}>
-                  <Td>{mm}mm diameter</Td>
-                  <Td>{roundCaratWeight[index]} ct</Td>
+                  <Td>{item.size}mm diameter</Td>
+                  <Td>{item.weight} ct</Td>
                 </Tr>
               ))}
             </Tbody>
@@ -174,10 +172,10 @@ export default function EducationCarat() {
               </Tr>
             </Thead>
             <Tbody>
-              {[...roundMMSize].slice(10, 20).map((mm, index) => (
+              {[...caratTable].slice(10, 20).map((item, index) => (
                 <Tr key={index}>
-                  <Td>{mm}mm diameter</Td>
-                  <Td>{roundCaratWeight[index + 10]} ct</Td>
+                  <Td>{item.size}mm diameter</Td>
+                  <Td>{item.weight} ct</Td>
                 </Tr>
               ))}
             </Tbody>
@@ -410,43 +408,11 @@ export default function EducationCarat() {
           translated to actual carat size, applies to diamond sizes for both
           lab-grown and natural diamonds.
         </Text>
-        <Text fontSize="2xl" fontWeight={"bold"}>
-          FAQs About Diamond Carat Weight
-        </Text>
-        <Text fontSize="lg" fontWeight={"bold"}>
-          What is considered a good size diamond?
-        </Text>
-        <Text fontSize="lg">
-          Anything above 0.75ct (5.8mm for a round diamond) can be considered a
-          good size for a diamond. The ideal size really depends on your budget
-          and your taste. Some people don’t like anything above 0.50ct and for
-          some, a 2ct diamond is too small. It’s also important to take into
-          account more than just size – a large, yet low-quality diamond will
-          look worse than a smaller diamond with better grades in other areas.
-        </Text>
-        <Text fontSize="lg" fontWeight={"bold"}>
-          How much is a .25 carat diamond worth?
-        </Text>
-        <Text fontSize="lg">
-          A 0.25ct diamond will be worth around $400-$600, depending on its
-          other characteristics, such as color, clarity, cut quality, and shape.
-        </Text>
-        <Text fontSize="lg" fontWeight={"bold"}>
-          Is a 2 carat diamond considered to be big?
-        </Text>
-        <Text fontSize="lg">
-          A 2 carat diamond is quite a bit above average, and can certainly be
-          considered a big diamond. The average diamond size is in the range of
-          1.00 and 1.2 carats.
-        </Text>
-        <Text fontSize="lg" fontWeight={"bold"}>
-          Is .50 carat diamond too small?
-        </Text>
-        <Text fontSize="lg">
-          A 0.50 carat diamond is below average, but that doesn’t mean it’s too
-          small. A half carat diamond can still look beautiful in an engagement
-          ring, assuming it’s well-cut and has good grades in color and clarity.
-        </Text>
+        <EducationFAQs
+          name={"FAQs About Diamond Carat Weight"}
+          content={caratFAQs}
+        />
+        
         <Text fontSize="2xl" fontWeight={"bold"}>
           Need Help Choosing The Right Diamond Size?
         </Text>

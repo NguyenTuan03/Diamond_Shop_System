@@ -1,4 +1,4 @@
-export const tableCutGrade = [
+export const cutTable = [
   {
     name: "Excellent",
     description:
@@ -25,15 +25,15 @@ export const tableCutGrade = [
       "Poor cut diamonds yield nearly no sparkle, brilliance or fire. Entering light escapes from the sides and bottom of the diamond.",
   },
 ];
-export const bottomLineRecommendationContent =
+export const cutBottomLineRecommendation =
   "To come away with a beautiful, brilliant diamond, cut quality has to be a priority. Read on to learn all you need to know about the perfect diamond cut.";
-export const bottomLineRecommendationWhatToLookFor = [
+export const cutBottomLineRecommendationWhatToLookFor = [
   "For the most brilliance and beauty look for a round diamond",
   "For a Round Brilliant diamond, consider only GIA Excellent cut grades.",
   "For fancy shaped diamonds, it’s essential that you see a high quality image of the diamond before you buy.",
   "Focus on diamonds that display symmetry, even proportions, and have few dark spots.",
 ];
-export const bottomLineRecommendationWhatToAvoid = [
+export const cutBottomLineRecommendationWhatToAvoid = [
   "Don’t sacrifice on diamond cut in order to save money as you might end up with an underwhelming diamond.",
   "Don’t consider buying a diamond that doesn’t carry a certificate from a reputable entity like the GIA.",
   "Stay away from diamonds that are too deep or too shallow. They won't refract the light properly.",

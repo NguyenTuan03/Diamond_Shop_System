@@ -19,10 +19,10 @@ import React from "react";
 import EducationTitle from "../../components/education/EducationTitle";
 import EducationProTip from "../../components/education/EducationProTip";
 import {
-  tableCutGrade,
-  bottomLineRecommendationContent,
-  bottomLineRecommendationWhatToLookFor,
-  bottomLineRecommendationWhatToAvoid,
+  cutTable,
+  cutBottomLineRecommendation,
+  cutBottomLineRecommendationWhatToLookFor,
+  cutBottomLineRecommendationWhatToAvoid,
 } from "../../shared/SharedEducationCut";
 import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
 export default function EducationCut() {
@@ -75,11 +75,11 @@ export default function EducationCut() {
               </Tr>
             </Thead>
             <Tbody>
-              {tableCutGrade.map((cutGrade, index) => {
+              {cutTable.map((item, index) => {
                 return (
                   <Tr key={index}>
-                    <Td fontWeight={"bold"}>{cutGrade.name}</Td>
-                    <Td>{cutGrade.description}</Td>
+                    <Td fontWeight={"bold"}>{item.name}</Td>
+                    <Td>{item.description}</Td>
                   </Tr>
                 );
               })}
@@ -533,9 +533,9 @@ export default function EducationCut() {
           brilliance and fire of the diamond.
         </Text>
         <EducationBottomLineRec
-          content={bottomLineRecommendationContent}
-          whatToLookFor={bottomLineRecommendationWhatToLookFor}
-          whatToAvoid={bottomLineRecommendationWhatToAvoid}
+          content={cutBottomLineRecommendation}
+          whatToLookFor={cutBottomLineRecommendationWhatToLookFor}
+          whatToAvoid={cutBottomLineRecommendationWhatToAvoid}
         />
         <Text fontSize="2xl" fontWeight={"bold"} m={"20px 0 20px  0"}>
           What’s the difference between Diamond Cut and Diamond Shape?
