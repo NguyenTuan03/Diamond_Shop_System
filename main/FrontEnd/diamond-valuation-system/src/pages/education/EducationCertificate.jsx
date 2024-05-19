@@ -10,7 +10,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import React from "react";
-import EducationTitle from "../../components/EducationTitle";
+import EducationTitle from "../../components/education/EducationTitle";
 
 export default function EducationCertificate() {
   return (

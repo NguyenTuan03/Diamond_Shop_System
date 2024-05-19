@@ -20,9 +20,9 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import EducationTitle from "../../components/EducationTitle";
+import EducationTitle from "../../components/education/EducationTitle";
 import { IoDiamondOutline } from "react-icons/io5";
-import EducationBottomLineRec from "../../components/EducationBottomLineRec";
+import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
 import {
   type,
   title,
@@ -33,6 +33,7 @@ import {
   whatToLookFor,
   whatToAvoid,
 } from "../../shared/SharedEducationColor";
+import EducationProTip from "../../components/education/EducationProTip";
 export default function EducationColor() {
   const [sliderValue, setSliderValue] = useState(50);
 
@@ -185,15 +186,11 @@ export default function EducationColor() {
           color grades that are best suited for each metal, from platinum and
           white gold to yellow and rose gold.
         </Text>
-        <Box m={"20px 0 20px 0"} p={4} bg={"blue.100"}>
-          <Text fontSize="lg">
-            <strong>Pro Tip:</strong> When buying a diamond in the IJK range,
-            consider a diamond with medium or strong blue fluorescence. Diamonds
-            with a yellowish tint usually avoid the hazy/cloudy effect seen in
-            colorless diamonds with fluorescence and it tends to brighten up the
-            diamond a bit.
-          </Text>
-        </Box>
+        <EducationProTip
+          content={
+            "When buying a diamond in the IJK range, consider a diamond with medium or strong blue fluorescence. Diamonds with a yellowish tint usually avoid the hazy/cloudy effect seen in colorless diamonds with fluorescence and it tends to brighten up the diamond a bit."
+          }
+        />
         <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
           What’s the Best Color For a Diamond?
         </Text>
@@ -395,7 +392,7 @@ export default function EducationColor() {
             <Tbody>
               {typeTable.map((item, index) => (
                 <Tr key={item}>
-                  <Td>{item}</Td>
+                  <Td fontWeight={"bold"}>{item}</Td>
                   <Td>
                     <div
                       dangerouslySetInnerHTML={{ __html: desTable[index] }}

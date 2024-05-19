@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as LinkRouterDom } from "react-router-dom";
 import React from "react";
-import EducationTitle from "../../components/EducationTitle";
+import EducationTitle from "../../components/education/EducationTitle";
 import routes from "../../config/Config";
 import {
   roundMMSize,

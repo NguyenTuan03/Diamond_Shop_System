@@ -11,9 +11,9 @@ import { FaCheck } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 
 import React from "react";
-import EducationTitle from "../../components/EducationTitle";
-import EducationShapeForm from "../../components/EducationShapeForm";
-import EducationBottomLineRec from "../../components/EducationBottomLineRec";
+import EducationTitle from "../../components/education/EducationTitle";
+import EducationShapeForm from "../../components/education/EducationShapeForm";
+import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
 import {
   title,
   image,
