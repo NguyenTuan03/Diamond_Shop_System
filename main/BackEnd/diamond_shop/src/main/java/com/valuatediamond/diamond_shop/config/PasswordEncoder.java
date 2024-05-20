@@ -13,12 +13,4 @@ public class PasswordEncoder {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(AccountService accountService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(bCryptPasswordEncoder);
-        provider.setUserDetailsService(accountService);
-        return provider;
-    }
 }

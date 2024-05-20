@@ -19,7 +19,7 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Integer>
 
     @Modifying
     @Transactional
-    @Query("UPDATE AccountEntity a SET a.enabled = TRUE WHERE a.email = :email")
+    @Query("UPDATE AccountEntity a SET a.enabled = TRUE, a.locked = FALSE WHERE a.email = :email")
     int updateEnabledByEmail(@Param("email") String email);
     
 }
