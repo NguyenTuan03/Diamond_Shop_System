@@ -18,6 +18,7 @@ import {
   MenuList,
   MenuItem,
   FormErrorMessage,
+  FormHelperText,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -25,6 +26,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import routes from "../config/Config";
+import { validateSignUp } from "../service/ValidateSignUp";
 export default function Header() {
   const modalSignIn = useDisclosure();
   const modalSignUp = useDisclosure();
@@ -222,37 +224,7 @@ export default function Header() {
                 confirmPassword: "",
               }}
               validate={(values) => {
-                const errors = {};
-                if (values.username.length < 6) {
-                  errors.username = "Must be at least 6 characters";
-                }
-                if (values.email) {
-                  if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-                      values.email
-                    )
-                  ) {
-                    errors.email = "Invalid email address";
-                  }
-                }
-                if (values.phoneNumber) {
-                  if (values.phoneNumber.length < 10) {
-                    errors.phoneNumber = "Invalid phone number";
-                  } else if (
-                    !/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/.test(
-                      values.phoneNumber
-                    )
-                  ) {
-                    errors.phoneNumber = "Invalid phone number";
-                  }
-                }
-                if (values.password.length < 8) {
-                  errors.password = "Must be at least 8 characters";
-                }
-                if (values.confirmPassword !== values.password) {
-                  errors.confirmPassword = "Password does not match";
-                }
-                return errors;
+                return validateSignUp(values);
               }}
               onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
@@ -289,7 +261,12 @@ export default function Header() {
                       {errors.username && touched.username && errors.username}
                     </FormErrorMessage>
                   </FormControl>
-                  <FormControl isRequired>
+                  <FormControl
+                    isRequired
+                    isInvalid={
+                      errors.username && touched.username && errors.username
+                    }
+                  >
                     <FormLabel>Full name</FormLabel>
                     <Input
                       name="fullName"
@@ -298,6 +275,9 @@ export default function Header() {
                       onBlur={handleBlur}
                       value={values.fullName}
                     />
+                    <FormErrorMessage>
+                      {errors.fullName && touched.fullName && errors.fullName}
+                    </FormErrorMessage>
                   </FormControl>
                   <FormControl
                     isInvalid={errors.email && touched.email && errors.email}

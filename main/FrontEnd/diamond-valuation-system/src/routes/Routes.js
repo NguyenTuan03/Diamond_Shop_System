@@ -38,10 +38,9 @@ const ALlRoutes = [
     component: Detail,
   },
 
-<<<<<<< Updated upstream
   {
-    path: routes.calculate,
-    component: Calculate,
+    path: routes.diamondValuation,
+    component: DiamondValuation,
   },
   {
     path: routes.prices,
@@ -55,24 +54,6 @@ const ALlRoutes = [
     path: routes.educationCertificate,
     component: EducationCertificate,
   },
-=======
-    {
-        path: routes.diamondValuation,
-        component: DiamondValuation,
-    },
-    {
-        path: routes.prices,
-        component: Prices,
-    },
-    {
-        path: routes.education,
-        component: Education,
-    },
-    {
-        path: routes.educationCertificate,
-        component: EducationCertificate,
-    },
->>>>>>> Stashed changes
 
   {
     path: routes.educationShape,
