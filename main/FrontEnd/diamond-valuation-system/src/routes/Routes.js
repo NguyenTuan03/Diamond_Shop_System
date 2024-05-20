@@ -1,5 +1,5 @@
 import routes from "../config/Config.js";
-import Calculate from "../pages/calculate/Calculate.jsx";
+import DiamondValuation from "../pages/valuation/DiamondValuation.jsx";
 import DiamondCheck from "../pages/check/DiamondCheck.jsx";
 import DiamondCheckDetails from "../pages/check/DiamondCheckDetails.jsx";
 import Detail from "../pages/detail/Detail.jsx";
@@ -38,6 +38,7 @@ const ALlRoutes = [
     component: Detail,
   },
 
+<<<<<<< Updated upstream
   {
     path: routes.calculate,
     component: Calculate,
@@ -54,6 +55,24 @@ const ALlRoutes = [
     path: routes.educationCertificate,
     component: EducationCertificate,
   },
+=======
+    {
+        path: routes.diamondValuation,
+        component: DiamondValuation,
+    },
+    {
+        path: routes.prices,
+        component: Prices,
+    },
+    {
+        path: routes.education,
+        component: Education,
+    },
+    {
+        path: routes.educationCertificate,
+        component: EducationCertificate,
+    },
+>>>>>>> Stashed changes
 
   {
     path: routes.educationShape,

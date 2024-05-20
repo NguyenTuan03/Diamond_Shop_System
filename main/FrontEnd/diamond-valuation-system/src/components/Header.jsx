@@ -63,7 +63,7 @@ export default function Header() {
               Diamond Check
             </Text>
           </Link>
-          <Link to={routes.calculate}>
+          <Link to={routes.diamondValuation}>
             <Text fontSize={"lg"} fontWeight={"bold"}>
               Valuation
             </Text>

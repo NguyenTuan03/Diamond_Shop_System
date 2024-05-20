@@ -31,7 +31,7 @@ export default function DiamondCheck() {
         </Flex>
       </Flex>
       <Image
-        src="https://stonealgo-3.b-cdn.net/static/dist/img/dd_2.webp"
+        src="../images/diamond-check.png"
         w={"350px"}
       />
     </Flex>

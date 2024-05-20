@@ -130,7 +130,7 @@ export default function EducationClarity() {
             {claritySlider.map((item, index) => (
               <SliderMark
                 key={index}
-                value={item}
+                value={index}
                 textAlign={"center"}
                 bg={"blue.400"}
                 color={"white"}
