@@ -4,9 +4,11 @@ Diamond Valuation System
 git clone https://github.com/NguyenTuan03/Diamond_Shop_System.git
 
 * Tạo nhánh mới, làm task, và đẩy lên nhánh của mình
-Step 1: git branch <branch-name> // Tạo nhánh mới
-Step 2: git checkout -b <branch-name> // Qua nhánh của mình để code
-Step 3: git push origin <branch-name> // Code xong có thể đẩy lên nhánh của mình
+Step 1: git branch <branch-name> // Nếu chưa có nhánh thì tạo nhánh mới, nếu có rồi thì chuyển sang step 2
+Step 2: git checkout -b <branch-name> // Qua nhánh của mình để code (trước khi code phải đổi sang nhánh của mình)
+Step 3: git add .
+Step 4: git commit -m "..."
+Step 5: git push origin <branch-name> // Code xong có thể đẩy lên nhánh của mình
 
 * Merge vào nhánh main
 Step 1: git checkout main
