@@ -2,6 +2,9 @@ import React from 'react'
 
 export default function Prices() {
   return (
-    <div>Prices</div>
+    <div>
+      Diamon price
+      Tuan
+    </div>
   )
 }

@@ -28,22 +28,47 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 /*Create account*/
-CREATE TABLE [dbo].[Account](
-	[Id] [int] IDENTITY(1,1),
-	[Name] [varchar](255) NOT NULL,
-	[Address] [nvarchar](255) NOT NULL,
-	[Age] [int] NOT NULL,
-CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+CREATE TABLE [dbo].[Account] (
+    [Id] INT IDENTITY(1,1) PRIMARY KEY,
+	[Firstname] NVARCHAR(255) NOT NULL,
+    [Lastname] NVARCHAR(255) NOT NULL,
+    [Username] NVARCHAR(255),
+    [Email] VARCHAR(255) NOT NULL,
+    [Password] CHAR(64) NOT NULL,
+    [Accountrole] VARCHAR(255) NOT NULL,
+    [Locked] BIT DEFAULT 0,
+    [Enabled] BIT DEFAULT 0
+);
 GO
-
 SET IDENTITY_INSERT [Account] ON;
-INSERT INTO [Account] ([Id],[Name],[Address],[Age])
-VALUES (1,'Tuan','HCM',20)
-SET IDENTITY_INSERT [Account] OFF;
+
+CREATE TABLE [dbo].[Confirmation_token] (
+    [Id] INT IDENTITY(1,1) PRIMARY KEY,
+	[Token] NVARCHAR(255) NOT NULL DEFAULT 0,
+    [Created_at] NVARCHAR(255) NOT NULL DEFAULT 0,
+    [Expired_at] NVARCHAR(255) DEFAULT 0,
+    [Confirmed_at] DATETIME,
+    [Account_id] INT NOT NULL,
+    FOREIGN KEY ([Account_id]) REFERENCES [Account]([Id])
+);
+Go
+
+
+
+/*INSERT INTO [Account] ([Name],[UserName],[Email], [Password], [Role], [Locked],[Enabled])
+VALUES () 
+
+
 Select * from Account
 
-DROP TABLE [Account];
+Drop table Account */
+select * from Account
+select * from Confirmation_token
+Delete Account where Id = 26
+Delete Confirmation_token where Id = 1
+UPDATE Account SET Enabled = 1 WHERE email = 'nguyenanhtuan.1495@gmail.com'
+
+
+
+
+

@@ -4,9 +4,11 @@ Diamond Valuation System
 git clone https://github.com/NguyenTuan03/Diamond_Shop_System.git
 
 * Tạo nhánh mới, làm task, và đẩy lên nhánh của mình
-Step 1: git branch <branch-name> // Tạo nhánh mới
-Step 2: git checkout -b <branch-name> // Qua nhánh của mình để code
-Step 3: git push origin <branch-name> // Code xong có thể đẩy lên nhánh của mình
+Step 1: git branch <branch-name> // Nếu chưa có nhánh thì tạo nhánh mới, nếu có rồi thì chuyển sang step 2
+Step 2: git checkout -b <branch-name> // Qua nhánh của mình để code (trước khi code phải đổi sang nhánh của mình)
+Step 3: git add .
+Step 4: git commit -m "..."
+Step 5: git push origin <branch-name> // Code xong có thể đẩy lên nhánh của mình
 
 * Merge vào nhánh main
 Step 1: git checkout main
@@ -30,5 +32,12 @@ https://drive.google.com/file/d/1_bWkAalqmsxhNFyRXtQRYdwDi9JMrb18/view?usp=shari
 
 4. Weekly checklist plan
 https://trello.com/b/iQoY6uOq/week-1
+https://trello.com/b/pM8O5z9z/week-2
 
 
+###  Cách đúng Github Desktop
+1. Tải về 
+2. Ở trong "https://github.com/NguyenTuan03/Diamond_Shop_System" chọn Code => Open with Github Desktop
+3. Nếu tải rồi thì Github Desktop sẽ tự động hiện lên và mình chọn thư mục để clone về.
+4. Nếu mình chỉnh sửa code thì những đoạn chỉnh sửa đó sẽ hiện lên trong Github Desktop.
+5. Phần còn lại là Summary với description để tóm tắt chi tiết những chỉnh sửa của mình r sau đó push lên nhánh của mình.
