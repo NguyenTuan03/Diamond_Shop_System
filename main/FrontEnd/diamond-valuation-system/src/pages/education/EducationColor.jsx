@@ -92,6 +92,7 @@ export default function EducationColor() {
             {colorSlider.map((item, index) => (
               <SliderMark
                 key={index}
+                value={index}
                 textAlign={"center"}
                 bg={"blue.400"}
                 color={"white"}
@@ -103,6 +104,7 @@ export default function EducationColor() {
                 {item.type}
               </SliderMark>
             ))}
+            
             <SliderTrack></SliderTrack>
             <SliderThumb bg={"blue.400"} boxSize={6}>
               <Box as={IoDiamondOutline} />

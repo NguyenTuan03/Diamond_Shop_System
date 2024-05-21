@@ -6,65 +6,28 @@ import {
   FormLabel,
   Text,
   Button,
-  Grid,
   Slider,
-  SliderMark,
   SliderTrack,
   SliderThumb,
   Box,
   Badge,
+  Tooltip,
 } from "@chakra-ui/react";
 import { IoDiamond, IoDiamondOutline } from "react-icons/io5";
-
+import { Link as LinkReactRouterDOM } from "react-router-dom";
 import { useState } from "react";
 import PopoverInfo from "../../components/PopoverInfo";
 import GridValue from "../../components/GridValue";
-
+import {
+  sliderDiamondValuationGrade,
+  sliderDiamondValuationShape,
+  sliderDiamondValuationColor,
+  sliderDiamondValuationCut,
+  sliderDiamondValuationClarity,
+} from "../../shared/SharedDiamondValuation";
 export default function Calculate() {
-  const [sliderValue, setSliderValue] = useState(1);
-  const gradingLabLabel = [
-    "ASG",
-    "CEGL",
-    "CGI",
-    "CGL",
-    "DCLA",
-    "EGL Asia",
-    "EGL Intl.",
-    "EGL USA",
-    "GCAL",
-    "GIA",
-    "HRD",
-    "IGI",
-  ];
-  const shapeLabel = [
-    "ROUND",
-    "CUSHION",
-    "EMERALD",
-    "OVAL",
-    "PRINCESS",
-    "PEAR",
-    "RADIANT",
-    "MARQUISE",
-    "ASSCHER",
-    "HEART",
-    "TRIANGLE",
-    "BAGUETTE",
-  ];
-  const colorLabel = ["D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"];
-  const cutLabel = ["POOR", "FAIR", "GOOD", "V.GOOD", "EX.", "IDEAL"];
-  const clarityLabel = [
-    "IF",
-    "VVS1",
-    "VVS2",
-    "VS1",
-    "VS2",
-    "SI1",
-    "SI2",
-    "SI3",
-    "I1",
-    "I2",
-    "I3",
-  ];
+  const [sliderValue, setSliderValue] = useState(5);
+  const [sliderShowToolTip, setSliderShowToolTip] = useState(false);
   const [gradingLabActiveButtonIndex, setGradingLabActiveButtonIndex] =
     useState(null);
   const [shapeActiveButtonIndex, setShapeActiveButtonIndex] = useState(null);
@@ -112,30 +75,35 @@ export default function Calculate() {
         diamonds.
       </Text>
       <Divider m={"50px 0 50px 0"} />
-
       <Flex direction="row" gap={2}>
         <Center borderRadius={"md"} boxShadow={"xl"} p={4}>
           <FormControl>
             <Text fontSize={"2xl"} fontWeight={"bold"}>
               Calculator Output
             </Text>
-            <FormLabel color={"gray"}>GRADING LAB</FormLabel>
+            <FormLabel color={"gray"} m={"20px 0 0 0"}>
+              GRADING LAB
+            </FormLabel>
             <GridValue
               row={6}
-              data={gradingLabLabel}
+              data={sliderDiamondValuationGrade}
               setValue={setGradingLab}
               activeButtonIndex={gradingLabActiveButtonIndex}
               setActiveButtonIndex={setGradingLabActiveButtonIndex}
             />
-            <FormLabel color={"gray"}>SHAPE</FormLabel>
+            <FormLabel color={"gray"} m={"20px 0 0 0"}>
+              SHAPE
+            </FormLabel>
             <GridValue
               row={6}
-              data={shapeLabel}
+              data={sliderDiamondValuationShape}
               setValue={setShape}
               activeButtonIndex={shapeActiveButtonIndex}
               setActiveButtonIndex={setShapeActiveButtonIndex}
             />
-            <FormLabel color={"gray"}>CARAT</FormLabel>
+            <FormLabel color={"gray"} m={"20px 0 0 0"}>
+              CARAT
+            </FormLabel>
             <Slider
               aria-label="slider-ex-6"
               min={0.08}
@@ -145,44 +113,49 @@ export default function Calculate() {
                 setCarat(val);
                 setSliderValue(val);
               }}
+              onMouseEnter={() => setSliderShowToolTip(true)}
+              onMouseLeave={() => setSliderShowToolTip(false)}
             >
-              <SliderMark
-                value={sliderValue}
-                textAlign={"center"}
-                bg={"blue.500"}
-                color={"white"}
-                borderRadius={"20px"}
-                mt="-10"
-                ml="-5"
-                w="12"
-              >
-                {sliderValue}
-              </SliderMark>
               <SliderTrack>{/* <SliderFilledTrack /> */}</SliderTrack>
-              <SliderThumb bg={"blue.400"} boxSize={6}>
-                <Box as={IoDiamondOutline} />
-              </SliderThumb>
+              <Tooltip
+                hasArrow
+                bg={"blue.400"}
+                color={"white"}
+                placement="top"
+                isOpen={sliderShowToolTip}
+                label={sliderValue}
+              >
+                <SliderThumb bg={"blue.400"} boxSize={6}>
+                  <Box as={IoDiamondOutline} />
+                </SliderThumb>
+              </Tooltip>
             </Slider>
-            <FormLabel color={"gray"}>COLOR</FormLabel>
+            <FormLabel color={"gray"} m={"20px 0 0 0"}>
+              COLOR
+            </FormLabel>
             <GridValue
               row={4}
-              data={colorLabel}
+              data={sliderDiamondValuationColor}
               setValue={setColor}
               activeButtonIndex={colorActiveButtonIndex}
               setActiveButtonIndex={setColorActiveButtonIndex}
             />
-            <FormLabel color={"gray"}>CUT</FormLabel>
+            <FormLabel color={"gray"} m={"20px 0 0 0"}>
+              CUT
+            </FormLabel>
             <GridValue
               row={4}
-              data={cutLabel}
+              data={sliderDiamondValuationCut}
               setValue={setCut}
               activeButtonIndex={cutActiveButtonIndex}
               setActiveButtonIndex={setCutActiveButtonIndex}
             />
-            <FormLabel color={"gray"}>CLARITY</FormLabel>
+            <FormLabel color={"gray"} m={"20px 0 0 0"}>
+              CLARITY
+            </FormLabel>
             <GridValue
               row={4}
-              data={clarityLabel}
+              data={sliderDiamondValuationClarity}
               setValue={setClarity}
               activeButtonIndex={clarityActiveButtonIndex}
               setActiveButtonIndex={setClarityActiveButtonIndex}
@@ -255,9 +228,11 @@ export default function Calculate() {
             <Text fontSize={"xl"} color={"gray"}>
               Contact with our experts to get a valuation
             </Text>
-            <Button leftIcon={<IoDiamond />} colorScheme="blue">
-              Valuate Diamond
-            </Button>
+            <LinkReactRouterDOM to={"/diamond-service"}>
+              <Button leftIcon={<IoDiamond />} colorScheme="blue">
+                Valuate Diamond
+              </Button>
+            </LinkReactRouterDOM>
           </Flex>
         </Flex>
       </Flex>
