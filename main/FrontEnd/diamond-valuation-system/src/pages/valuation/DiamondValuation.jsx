@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { IoDiamond, IoDiamondOutline } from "react-icons/io5";
-
+import { Link as LinkReactRouterDOM } from "react-router-dom";
 import { useState } from "react";
 import PopoverInfo from "../../components/PopoverInfo";
 import GridValue from "../../components/GridValue";
@@ -228,9 +228,11 @@ export default function Calculate() {
             <Text fontSize={"xl"} color={"gray"}>
               Contact with our experts to get a valuation
             </Text>
-            <Button leftIcon={<IoDiamond />} colorScheme="blue">
-              Valuate Diamond
-            </Button>
+            <LinkReactRouterDOM to={"/diamond-service"}>
+              <Button leftIcon={<IoDiamond />} colorScheme="blue">
+                Valuate Diamond
+              </Button>
+            </LinkReactRouterDOM>
           </Flex>
         </Flex>
       </Flex>

@@ -4,9 +4,9 @@ import "./index.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ChakraProvider>
-    <GoogleOAuthProvider>
+  <GoogleOAuthProvider clientId="1032590037362-orelf982d73f51n2hofdmdmip4u8lvph.apps.googleusercontent.com">
+    <ChakraProvider>
       <App />
-    </GoogleOAuthProvider>
-  </ChakraProvider>
+    </ChakraProvider>
+  </GoogleOAuthProvider>
 );
