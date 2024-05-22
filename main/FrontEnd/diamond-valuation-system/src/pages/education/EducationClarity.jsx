@@ -21,7 +21,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import EducationTitle from "../../components/education/EducationTitle";
+import Title from "../../components/Title";
 import {
   claritySlider,
   clarityTable,
@@ -40,7 +40,7 @@ export default function EducationClarity() {
       w={"100vw"}
       m={"100px 0 0 0"}
     >
-      <EducationTitle
+      <Title
         title={"A Guide To The Diamond Clarity Chart"}
         description={
           "Understanding diamond clarity charts and how to choose the best clarity grade for you."

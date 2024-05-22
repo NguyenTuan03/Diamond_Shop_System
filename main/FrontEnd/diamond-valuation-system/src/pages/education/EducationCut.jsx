@@ -16,7 +16,7 @@ import {
   ListItem,
 } from "@chakra-ui/react";
 import React from "react";
-import EducationTitle from "../../components/education/EducationTitle";
+import Title from "../../components/Title";
 import EducationProTip from "../../components/education/EducationProTip";
 import {
   cutTable,
@@ -34,7 +34,7 @@ export default function EducationCut() {
       w={"100vw"}
       m={"100px 0 0 0"}
     >
-      <EducationTitle
+      <Title
         title={"The Diamond Cuts Guide"}
         description={"Understanding the most important of the diamonds 4 Cs"}
       />
