@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 import React from "react";
-import EducationTitle from "../../components/education/EducationTitle";
+import Title from "../../components/Title";
 import EducationShapeForm from "../../components/education/EducationShapeForm";
 import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
 import {
@@ -27,7 +27,7 @@ export default function EducationShape() {
       w={"100vw"}
       m={"100px 0 0 0"}
     >
-      <EducationTitle
+      <Title
         title={"A Guide to Diamond Shapes"}
         description={
           "All about diamond shapes and which diamond shapes are most popular in 2022"

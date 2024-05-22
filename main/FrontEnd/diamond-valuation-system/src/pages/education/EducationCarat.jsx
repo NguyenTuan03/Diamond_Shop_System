@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as LinkRouterDom } from "react-router-dom";
 import React from "react";
-import EducationTitle from "../../components/education/EducationTitle";
+import Title from "../../components/Title";
 import EducationFAQs from "../../components/education/EducationFAQs";
 import routes from "../../config/Config";
 import { caratTable, caratFAQs } from "../../shared/SharedEducationCarat";
@@ -29,7 +29,7 @@ export default function EducationCarat() {
       w={"100vw"}
       m={"100px 0 0 0"}
     >
-      <EducationTitle
+      <Title
         title={"Understanding Diamond Size Chart"}
         description={
           "Understanding the diamond size chart and which diamond carat size is best for you"

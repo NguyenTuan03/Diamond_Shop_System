@@ -18,11 +18,9 @@ import {
   MenuList,
   MenuItem,
   FormErrorMessage,
-  FormHelperText,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { GoogleLogin } from "@react-oauth/google";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import routes from "../config/Config";
@@ -65,7 +63,7 @@ export default function Header() {
               Diamond Check
             </Text>
           </Link>
-          <Link to={routes.diamondValuation}>
+          <Link to={routes.diamondCalculate}>
             <Text fontSize={"lg"} fontWeight={"bold"}>
               Valuation
             </Text>
@@ -180,7 +178,6 @@ export default function Header() {
                 </Form>
               )}
             </Formik>
-            <GoogleLogin />
           </ModalBody>
           <ModalFooter>
             <Flex

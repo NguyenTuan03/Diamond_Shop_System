@@ -20,7 +20,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import EducationTitle from "../../components/education/EducationTitle";
+import Title from "../../components/Title";
 import { IoDiamondOutline } from "react-icons/io5";
 import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
 import {
@@ -42,7 +42,7 @@ export default function EducationColor() {
       w={"100vw"}
       m={"100px 0 0 0"}
     >
-      <EducationTitle
+      <Title
         title={"The Complete Guide to Diamond Color Scale"}
         description={"Understanding diamond color charts and color scales"}
       />

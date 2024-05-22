@@ -10,7 +10,6 @@ export default function DiamondCheck() {
       w={"100vw"}
       m={"50px 0 0 0"}
       gap={20}
-      boxShadow={"2xl"}
     >
       <Flex direction={"column"}>
         <Text fontSize="6xl" fontWeight={"bold"}>
@@ -32,7 +31,7 @@ export default function DiamondCheck() {
       </Flex>
       <Image
         src="../images/diamond-check.png"
-        w={"350px"}
+        w={"330px"}
       />
     </Flex>
   );

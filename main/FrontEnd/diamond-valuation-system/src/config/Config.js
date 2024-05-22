@@ -1,11 +1,12 @@
 const routes = {
   home: "/",
   search: "/search",
-  diamondValuation: "/diamond-valuation",
+  diamondCalculate: "/diamond-calculate",
   diamondCheck: "/diamond-check",
   diamondCheckDetails: "/diamond-check/:certificateId",
   diamondDetail: "/diamond-detail",
   diamondService: "/diamond-service",
+  diamonValuationRequest: "/diamond-valuation-request",
   prices: "/prices",
   education: "/education",
   educationCertificate: "/education/certificate",

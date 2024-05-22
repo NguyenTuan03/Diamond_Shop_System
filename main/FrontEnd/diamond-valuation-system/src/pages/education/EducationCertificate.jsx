@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Link as LinkReactRouterDOM } from "react-router-dom";
-import EducationTitle from "../../components/education/EducationTitle";
+import Title from "../../components/Title";
 import EducationFAQs from "../../components/education/EducationFAQs";
 import { certificateFAQs } from "../../shared/SharedEducationCertificate";
 import routes from "../../config/Config";
@@ -24,7 +24,7 @@ export default function EducationCertificate() {
       w={"100vw"}
       m={"100px 0 0 0"}
     >
-      <EducationTitle
+      <Title
         title={"A Complete Guide to Diamond Certification"}
         description={
           "Why independent lab certification is so important when buying a diamond"

@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react'
 import React from 'react'
 
-export default function EducationTitle({title, description}) {
+export default function Title({title, description}) {
   return (
     <>
     <Text fontSize="3xl" fontWeight="bold">{title}</Text>
