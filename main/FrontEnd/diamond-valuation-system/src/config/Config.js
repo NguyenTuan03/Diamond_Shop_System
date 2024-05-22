@@ -17,5 +17,6 @@ const routes = {
   educationClarity: "/education/clarity",
   login: "/login",
   logout: "/logout",
+  consultingStaff: "/consulting-staff",
 };
 export default routes;
