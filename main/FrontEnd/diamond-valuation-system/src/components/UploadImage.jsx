@@ -47,8 +47,10 @@ export default function UploadImage() {
           width={"0.1px"}
           height={"0.1px"}
           onChange={(e) => {
-            setSelectedImage(e.target.files[0]);
-            console.log(e.target.files[0]);
+            if (e.target.files.length > 0) {
+              setSelectedImage(e.target.files[0]);
+              console.log(e.target.files[0]);
+            }
           }}
         />
       </FormControl>
