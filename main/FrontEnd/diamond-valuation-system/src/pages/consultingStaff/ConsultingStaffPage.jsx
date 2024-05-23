@@ -21,25 +21,47 @@ import {
   FormLabel,
   Input,
   Center,
+  Td,
+  Tr,
+  Textarea,
+  useToast,
+  InputGroup,
+  InputLeftElement,
+  Select,
 } from "@chakra-ui/react";
 import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
-import { ViewIcon } from "@chakra-ui/icons";
+import { EmailIcon, Search2Icon, ViewIcon } from "@chakra-ui/icons";
 import { Form, Formik } from "formik";
-
+import ConfirmAlert from "../../components/ConfirmAlert";
 export default function ConsultingStaffPage() {
+  const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const toast = useToast();
   const viewValuationRequest = useDisclosure();
   const sendEmailModal = useDisclosure();
+  const viewValuationReceipt = useDisclosure();
+  const confirmCreateReceipt = useDisclosure();
+  const cancelRef = useRef();
   const form = useRef();
   const sendEmail = (e) => {
     e.preventDefault();
     emailjs
-      .sendForm("service_wdhkh8r", "template_lmqu9ve", form.current, {
-        publicKey: "-aLUeyXnXZMWF6yqM",
+      .sendForm(`${serviceID}`, `${templateID}`, form.current, {
+        publicKey: `${publicKey}`,
       })
       .then(
         () => {
           console.log("SUCCESS");
+          toast({
+            title: "Email sent successfully",
+            description: "We have sent an email to the customer",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          form.current.reset();
         },
         (error) => {
           console.log("FAILED", error);
@@ -60,35 +82,54 @@ export default function ConsultingStaffPage() {
         justifyContent="center"
         w={"100vw"}
         m={"100px 0 0 0"}
+        gap={5}
       >
         <Text fontSize="4xl" fontWeight="bold">
           Welcome: Lam Tien Hung
         </Text>
+        <Text fontSize="xl">For Consulting Staff</Text>
+        <Flex direction={"row"} gap={5}>
+          <InputGroup w={"40vw"}>
+            <InputLeftElement pointerEvents={"none"}>
+              <Search2Icon color={"gray.300"} />
+            </InputLeftElement>
+            <Input name="search" type="text" placeholder="Search..." />
+          </InputGroup>
+          <Select w={"10vw"}>
+            <option value={"request"}>Request</option>
+            <option value={"receipt"}>Receipt</option>
+          </Select>
+        </Flex>
+
         <TableContainer m={"20px 0 20px 0"} whiteSpace={"wrap"}>
           <Table size={"sm"} colorScheme="blue">
             <Thead bgColor={"blue.400"}>
-              <Th>No</Th>
-              <Th>Valuation Request</Th>
-              <Th>Created Date</Th>
-              <Th>Status</Th>
-              <Th>View</Th>
+              <Tr>
+                <Th>No</Th>
+                <Th>Valuation Request</Th>
+                <Th>Created Date</Th>
+                <Th>Status</Th>
+                <Th>View</Th>
+              </Tr>
             </Thead>
             <Tbody>
-              <Th>1</Th>
-              <Th>Request 1</Th>
-              <Th>2021-09-20</Th>
-              <Th>Pending</Th>
-              <Th>
-                <IconButton
-                  aria-label="view valuation request"
-                  icon={<ViewIcon />}
-                  bgColor={"transparent"}
-                  onClick={() => {
-                    viewValuationRequest.onOpen();
-                    console.log("View valuation request");
-                  }}
-                />
-              </Th>
+              <Tr>
+                <Td>1</Td>
+                <Td>Request 1</Td>
+                <Td>2021-09-20</Td>
+                <Td>Pending</Td>
+                <Td>
+                  <IconButton
+                    aria-label="view valuation request"
+                    icon={<ViewIcon />}
+                    bgColor={"transparent"}
+                    onClick={() => {
+                      viewValuationRequest.onOpen();
+                      console.log("View valuation request");
+                    }}
+                  />
+                </Td>
+              </Tr>
             </Tbody>
           </Table>
         </TableContainer>
@@ -133,7 +174,7 @@ export default function ConsultingStaffPage() {
                 alt="diamond image"
                 w={"100px"}
               />
-              <Flex direction={"row"} justifyContent={"space-around"}>
+              <Flex direction={"row"} justifyContent={"space-around"} gap={5}>
                 <Button
                   colorScheme="green"
                   onClick={() => {
@@ -143,6 +184,14 @@ export default function ConsultingStaffPage() {
                   }}
                 >
                   Receive Request
+                </Button>
+                <Button
+                  colorScheme="yellow"
+                  onClick={() => {
+                    confirmCreateReceipt.onOpen();
+                  }}
+                >
+                  Make a receipt
                 </Button>
                 <Button
                   colorScheme="red"
@@ -173,7 +222,7 @@ export default function ConsultingStaffPage() {
                 from_name: "Lam Tien Hung",
                 from_email: "hungltse170216@fpt.edu.vn",
                 user_name: "",
-                user_email: "abc@test.com",
+                user_email: "",
                 message: "",
               }}
               onSubmit={(values) => {
@@ -188,6 +237,7 @@ export default function ConsultingStaffPage() {
                       <Input
                         name="user_name"
                         type="text"
+                        placeholder="Customer Name"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.user_name}
@@ -198,6 +248,7 @@ export default function ConsultingStaffPage() {
                       <Input
                         name="user_email"
                         type="email"
+                        placeholder="abc@gmail.com"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.user_email}
@@ -205,9 +256,10 @@ export default function ConsultingStaffPage() {
                     </FormControl>
                     <FormControl isRequired>
                       <FormLabel>Message</FormLabel>
-                      <Input
+
+                      <Textarea
                         name="message"
-                        type="text"
+                        placeholder="Write your message here..."
                         h={"200px"}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -228,6 +280,7 @@ export default function ConsultingStaffPage() {
                       <Button
                         type="submit"
                         colorScheme="green"
+                        leftIcon={<EmailIcon />}
                         isLoading={isSubmitting}
                       >
                         Send Email
@@ -238,9 +291,64 @@ export default function ConsultingStaffPage() {
               )}
             </Formik>
           </ModalBody>
-          <ModalFooter> </ModalFooter>
+          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
+      <Modal
+        isOpen={viewValuationReceipt.isOpen}
+        onClose={viewValuationReceipt.onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Valuation Receipt</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex direction={"column"} gap={3}>
+              <Text>
+                <strong>Receipt ID</strong>: 1561341
+              </Text>
+              <Text>
+                <strong>Receipt Status</strong>: Completed
+              </Text>
+              <Text>
+                <strong>Customer name</strong>: Lam Tien Hung
+              </Text>
+              <Text>
+                <strong>Customer email</strong>: lamtienhung93@gmail.com
+              </Text>
+              <Text>
+                <strong>Diamond ID</strong>: 262537545
+              </Text>
+              <Text>
+                <strong>Valuation Price</strong>: $100
+              </Text>
+              <Text>
+                <strong>Receipt Description</strong>: Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit. Nulla rhoncus, justo nec
+                ultrices varius, nisl orci ultricies purus, nec ultricies metus
+                orci vel nunc. Nulla facil
+              </Text>
+            </Flex>
+          </ModalBody>
+          <ModalFooter>Created Date: 2024/05/23</ModalFooter>
+        </ModalContent>
+      </Modal>
+      <ConfirmAlert
+        isOpen={confirmCreateReceipt.isOpen}
+        onClose={confirmCreateReceipt.onClose}
+        cancelRef={cancelRef}
+        header={"Create Receipt"}
+        body={
+          "Are you sure you want to create a receipt for this valuation request?"
+        }
+        action={"Create"}
+        colorScheme={"yellow"}
+        onClickFunc={() => {
+          viewValuationRequest.onClose();
+          viewValuationReceipt.onOpen();
+          confirmCreateReceipt.onClose();
+        }}
+      />
     </>
   );
 }
