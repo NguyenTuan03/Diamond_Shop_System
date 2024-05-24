@@ -1,7 +1,9 @@
-Diamond Valuation System
+**Diamond Valuation System**
+
+>[!IMPORTANT]
+> Pull the project to your computer, type it in **Terminal**: git clone https://github.com/NguyenTuan03/Diamond_Shop_System.git
 
 * Pull project về máy
-git clone https://github.com/NguyenTuan03/Diamond_Shop_System.git
 
 * Tạo nhánh mới, làm task, và đẩy lên nhánh của mình
 Step 1: git branch <branch-name> // Nếu chưa có nhánh thì tạo nhánh mới, nếu có rồi thì chuyển sang step 2
