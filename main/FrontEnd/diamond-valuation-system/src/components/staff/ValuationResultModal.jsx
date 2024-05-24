@@ -18,7 +18,7 @@ import {
 import { Field, Form, Formik } from "formik";
 import React from "react";
 
-export default function ValuationResultModal({ viewValuationResult }) {
+export default function ValuationResultModal({ viewValuationResult, data }) {
   return (
     <Modal
       isOpen={viewValuationResult.isOpen}
@@ -29,17 +29,29 @@ export default function ValuationResultModal({ viewValuationResult }) {
         <ModalHeader>Valuation Result</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
+        <Text>
+            <strong>Result ID</strong>: {data.id}
+        </Text>
+        <Text>
+            <strong>Created Date</strong>: {data.createdDate}
+        </Text>
+        <Text>
+            <strong>Result Status</strong>: {data.status}
+        </Text>
+        <Text>
+            <strong>Customer Name</strong>: {data.customerName}
+        </Text>
           <Formik
             initialValues={{
-              origin: "",
-              shape: "",
-              carat_weight: 1,
-              color: "",
-              cut: "",
-              clarity: "",
-              polish: "",
-              symmetry: "",
-              fluorescence: "",
+              origin: data.origin,
+              shape: data.shape,
+              carat_weight: data.carat_weight,
+              color: data.color,
+              cut: data.cut,
+              clarity: data.clarity,
+              polish: data.polish,
+              symmetry: data.symmetry,
+              fluorescence: data.fluorescence,
             }}
             onSubmit={(values) => {
               console.log(values);

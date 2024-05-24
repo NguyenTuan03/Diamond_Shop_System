@@ -52,7 +52,7 @@ export default function Home() {
             </Button>
           </Flex>
         </Flex>
-<q></q>
+        <q></q>
         <Box w="60%" position="relative">
           <video
             autoPlay
@@ -61,12 +61,12 @@ export default function Home() {
             style={{ width: "100%", height: "100vh", objectFit: "cover" }}
           >
             <source
-              src="https://stonealgo-3.b-cdn.net/static/dist/next/images/samples/stonealgo_homepage_video.webm#t=0.1"
+              src="../videos/diamond-home-video.webm"
               type="video/mp4"
             />
           </video>
           <Image
-            src="https://stonealgo-3.b-cdn.net/static/dist/img/h.webp"
+            src="../images/diamond-home-img.webp"
             objectFit="cover"
             position="absolute"
             top="50%"
