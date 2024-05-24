@@ -18,6 +18,7 @@ import Logout from "../pages/logout/Logout.jsx";
 import Prices from "../pages/prices/Prices.jsx";
 import Search from "../pages/Search/Search.jsx";
 import ConsultingStaffPage from "../pages/consultingStaff/ConsultingStaffPage.jsx";
+import ValuationStaffPage from "../pages/valuationStaff/ValuationStaffPage.jsx";
 
 const ALlRoutes = [
   {
@@ -94,6 +95,10 @@ const ALlRoutes = [
   {
     path: routes.consultingStaff,
     component: ConsultingStaffPage,
+  },
+  {
+    path: routes.valuationStaff,
+    component: ValuationStaffPage,
   },
 ];
 

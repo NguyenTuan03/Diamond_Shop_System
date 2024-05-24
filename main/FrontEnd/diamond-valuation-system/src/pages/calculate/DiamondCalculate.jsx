@@ -26,34 +26,54 @@ import {
   sliderDiamondValuationClarity,
 } from "../../shared/SharedDiamondValuation";
 export default function Calculate() {
-  const [sliderValue, setSliderValue] = useState(5);
+  const [sliderValue, setSliderValue] = useState();
   const [sliderShowToolTip, setSliderShowToolTip] = useState(false);
   const [gradingLabActiveButtonIndex, setGradingLabActiveButtonIndex] =
-    useState(null);
-  const [shapeActiveButtonIndex, setShapeActiveButtonIndex] = useState(null);
-  const [colorActiveButtonIndex, setColorActiveButtonIndex] = useState(null);
-  const [cutActiveButtonIndex, setCutActiveButtonIndex] = useState(null);
-  const [clarityActiveButtonIndex, setClarityActiveButtonIndex] =
-    useState(null);
+    useState(0);
+  const [shapeActiveButtonIndex, setShapeActiveButtonIndex] = useState(0);
+  const [colorActiveButtonIndex, setColorActiveButtonIndex] = useState(0);
+  const [cutActiveButtonIndex, setCutActiveButtonIndex] = useState(0);
+  const [clarityActiveButtonIndex, setClarityActiveButtonIndex] = useState(0);
 
-  const [gradingLab, setGradingLab] = useState("");
-  const [carat, setCarat] = useState(0.0);
-  const [shape, setShape] = useState("");
-  const [color, setColor] = useState("");
-  const [cut, setCut] = useState("");
-  const [clarity, setClarity] = useState("");
+  const [gradingLab, setGradingLab] = useState("ASG");
+  const [carat, setCarat] = useState();
+  const [shape, setShape] = useState("ROUND");
+  const [color, setColor] = useState("D");
+  const [cut, setCut] = useState("POOR");
+  const [clarity, setClarity] = useState("IF");
+  const [valuationResult, setValuationResult] = useState({
+    avg: "",
+    count: "",
+    link: "",
+    max: "",
+    min: "",
+    price: "",
+  });
   async function handleSubmit() {
     try {
       const res = await fetch(
-        `http://www.idexonline.com/DPService.asp?SID=4wp7go123jqtkdyd5f2e&cut=${shape}&carat=${carat}&color=${color}&clarity=${clarity}&make=${cut}&cert=${gradingLab}`,
-        { mode: "no-cors" }
+        `http://www.idexonline.com/DPService.asp?SID=4wp7go123jqtkdyd5f2e&cut=${shape}&carat=${carat}&color=${color}&clarity=${clarity}&make=${cut}&cert=${gradingLab}`
       );
       if (!res.ok) {
         throw new Error(`Error fetching data: ${res.status}`);
       }
-      const data = await res.json();
-      console.log(data);
-      return data;
+      const data = await res.text();
+      const xmlResult = new DOMParser().parseFromString(data, "text/xml");
+      console.log(xmlResult.querySelector("pr"));
+      const jsonResult = {};
+      for (const child of xmlResult.querySelector("pr").children) {
+        jsonResult[child.tagName.toLowerCase()] = child.textContent;
+      }
+      console.log(jsonResult);
+      if (jsonResult.price === "There is no available data for this query.") {
+        jsonResult.avg = "No result";
+        jsonResult.count = "No result";
+        jsonResult.link = "No result";
+        jsonResult.max = "No result";
+        jsonResult.min = "No result";
+        jsonResult.price = "No result";
+      }
+      setValuationResult(jsonResult);
     } catch (error) {
       console.error("Error: ", error);
     }
@@ -77,27 +97,25 @@ export default function Calculate() {
       <Divider m={"50px 0 50px 0"} />
       <Flex direction="row" gap={2}>
         <Center borderRadius={"md"} boxShadow={"xl"} p={4}>
-          <FormControl>
+          <Flex direction={"column"} gap={5}>
             <Text fontSize={"2xl"} fontWeight={"bold"}>
               Calculator Output
             </Text>
-            <FormLabel color={"gray"} m={"20px 0 0 0"}>
-              GRADING LAB
-            </FormLabel>
             <GridValue
               row={6}
+              name={"GRADING LAB"}
               data={sliderDiamondValuationGrade}
-              setValue={setGradingLab}
+              gridValue={gradingLab}
+              setGridValue={setGradingLab}
               activeButtonIndex={gradingLabActiveButtonIndex}
               setActiveButtonIndex={setGradingLabActiveButtonIndex}
             />
-            <FormLabel color={"gray"} m={"20px 0 0 0"}>
-              SHAPE
-            </FormLabel>
             <GridValue
               row={6}
+              name={"SHAPE"}
               data={sliderDiamondValuationShape}
-              setValue={setShape}
+              gridValue={shape}
+              setGridValue={setShape}
               activeButtonIndex={shapeActiveButtonIndex}
               setActiveButtonIndex={setShapeActiveButtonIndex}
             />
@@ -106,6 +124,7 @@ export default function Calculate() {
             </FormLabel>
             <Slider
               aria-label="slider-ex-6"
+              defaultValue={1}
               min={0.08}
               max={9.99}
               step={0.01}
@@ -130,33 +149,30 @@ export default function Calculate() {
                 </SliderThumb>
               </Tooltip>
             </Slider>
-            <FormLabel color={"gray"} m={"20px 0 0 0"}>
-              COLOR
-            </FormLabel>
             <GridValue
               row={4}
+              name={"COLOR"}
               data={sliderDiamondValuationColor}
-              setValue={setColor}
+              gridValue={color}
+              setGridValue={setColor}
               activeButtonIndex={colorActiveButtonIndex}
               setActiveButtonIndex={setColorActiveButtonIndex}
             />
-            <FormLabel color={"gray"} m={"20px 0 0 0"}>
-              CUT
-            </FormLabel>
             <GridValue
               row={4}
+              name={"CUT"}
               data={sliderDiamondValuationCut}
-              setValue={setCut}
+              gridValue={cut}
+              setGridValue={setCut}
               activeButtonIndex={cutActiveButtonIndex}
               setActiveButtonIndex={setCutActiveButtonIndex}
             />
-            <FormLabel color={"gray"} m={"20px 0 0 0"}>
-              CLARITY
-            </FormLabel>
             <GridValue
               row={4}
+              name={"CLARITY"}
               data={sliderDiamondValuationClarity}
-              setValue={setClarity}
+              gridValue={clarity}
+              setGridValue={setClarity}
               activeButtonIndex={clarityActiveButtonIndex}
               setActiveButtonIndex={setClarityActiveButtonIndex}
             />
@@ -169,7 +185,7 @@ export default function Calculate() {
             >
               SUBMIT
             </Button>
-          </FormControl>
+          </Flex>
         </Center>
         <Flex direction={"column"} p={4} gap={5}>
           <Text fontSize={"2xl"} fontWeight={"bold"}>
@@ -178,7 +194,7 @@ export default function Calculate() {
           <Box borderRadius={"md"} boxShadow={"xl"} p={4}>
             <Flex direction={"column"} alignItems={"center"} gap={5}>
               <PopoverInfo
-                content={"$5,234"}
+                content={"$" + valuationResult.price || "No result"}
                 header={"Real Time Price"}
                 body={"Current Average Price in USD / carat"}
                 contentFontSize={"6xl"}
@@ -186,14 +202,14 @@ export default function Calculate() {
                 headerColor={"black"}
               />
               <Text fontSize={"sm"} color={"gray"}>
-                Round 1.00 Carat G VS2
+                {shape} {carat} ct. {color} {clarity}
               </Text>
               <Badge colorScheme="green" borderRadius={"md"}>
-                ASG Diamond
+                {gradingLab} Diamond
               </Badge>
               <Flex direction={"row"} gap={20}>
                 <PopoverInfo
-                  content={"$5,000"}
+                  content={"$" + valuationResult.min || "No result"}
                   header={"Min"}
                   body={"Average of lowest 10% asking price in USD / carat"}
                   contentFontSize={"sm"}
@@ -201,7 +217,7 @@ export default function Calculate() {
                   headerColor={"gray"}
                 />
                 <PopoverInfo
-                  content={"$5,000"}
+                  content={"$" + valuationResult.avg || "No result"}
                   header={"Average"}
                   body={
                     "Average asking price of the last 3 months in USD / carat"
@@ -211,7 +227,7 @@ export default function Calculate() {
                   headerColor={"gray"}
                 />
                 <PopoverInfo
-                  content={"$5,000"}
+                  content={"$" + valuationResult.max || "No result"}
                   header={"Max"}
                   body={"Average of 10% highest asking price in USD / carat"}
                   contentFontSize={"sm"}
