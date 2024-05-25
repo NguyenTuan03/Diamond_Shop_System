@@ -8,9 +8,9 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 ReactDOM.createRoot(document.getElementById("root")).render(
   
     <ChakraProvider>
-      <GoogleOAuthProvider>
-        <App />
-      </GoogleOAuthProvider>
+      
+        <App /> 
+      
     </ChakraProvider>
   
 );

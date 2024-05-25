@@ -5,7 +5,5 @@ const routes = {
     diamondDetail: '/diamond-detail',
     calculate: '/diamond-valuation',
     prices: '/prices',
-    login: '/login',
-    logout: '/logout'
 }
 export default routes
