@@ -14,11 +14,16 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
+  Text,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 
-export default function ValuationResultModal({ viewValuationResult, data }) {
+export default function ValuationResultModal({
+  viewValuationResult,
+  data,
+  pointerEvents,
+}) {
   return (
     <Modal
       isOpen={viewValuationResult.isOpen}
@@ -29,29 +34,29 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
         <ModalHeader>Valuation Result</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-        <Text>
+          <Text>
             <strong>Result ID</strong>: {data.id}
-        </Text>
-        <Text>
+          </Text>
+          <Text>
             <strong>Created Date</strong>: {data.createdDate}
-        </Text>
-        <Text>
+          </Text>
+          <Text>
             <strong>Result Status</strong>: {data.status}
-        </Text>
-        <Text>
+          </Text>
+          <Text>
             <strong>Customer Name</strong>: {data.customerName}
-        </Text>
+          </Text>
           <Formik
             initialValues={{
-              origin: data.origin,
-              shape: data.shape,
-              carat_weight: data.carat_weight,
-              color: data.color,
-              cut: data.cut,
-              clarity: data.clarity,
-              polish: data.polish,
-              symmetry: data.symmetry,
-              fluorescence: data.fluorescence,
+              origin: data.diamond.origin,
+              shape: data.diamond.shape,
+              carat_weight: data.diamond.carat_weight,
+              color: data.diamond.color,
+              cut: data.diamond.cut,
+              clarity: data.diamond.clarity,
+              polish: data.diamond.polish,
+              symmetry: data.diamond.symmetry,
+              fluorescence: data.diamond.fluorescence,
             }}
             onSubmit={(values) => {
               console.log(values);
@@ -68,6 +73,7 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
                         value={values.origin}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        pointerEvents={pointerEvents || "auto"}
                       >
                         <option value="natural">Natural</option>
                         <option value="lab_grown">Lab Grown</option>
@@ -80,6 +86,7 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
                         value={values.shape}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        pointerEvents={pointerEvents || "auto"}
                       >
                         <option value="round">Round</option>
                         <option value="cushion">Cushion</option>
@@ -101,6 +108,7 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
                         <NumberInput
                           {...field}
                           name="carat_weight"
+                          defaultValue={values.carat_weight}
                           precision={2}
                           step={0.01}
                           min={0.3}
@@ -110,6 +118,7 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
                           }
                           onBlur={handleBlur}
                           value={values.carat_weight}
+                          pointerEvents={pointerEvents || "auto"}
                         >
                           <NumberInputField />
                           <NumberInputStepper>
@@ -129,6 +138,7 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
                         value={values.color}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        pointerEvents={pointerEvents || "auto"}
                       >
                         <option value="d">D</option>
                         <option value="e">E</option>
@@ -147,6 +157,7 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
                         value={values.clarity}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        pointerEvents={pointerEvents || "auto"}
                       >
                         <option value="si1">SI1</option>
                         <option value="si2">SI2</option>
@@ -167,6 +178,7 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
                         value={values.cut}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        pointerEvents={pointerEvents || "auto"}
                       >
                         <option value="fair">Fair</option>
                         <option value="good">Good</option>
@@ -181,6 +193,7 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
                         value={values.symmetry}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        pointerEvents={pointerEvents || "auto"}
                       >
                         <option value="fair">Fair</option>
                         <option value="good">Good</option>
@@ -197,6 +210,7 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
                         value={values.polish}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        pointerEvents={pointerEvents || "auto"}
                       >
                         <option value="fair">Fair</option>
                         <option value="good">Good</option>
@@ -211,6 +225,7 @@ export default function ValuationResultModal({ viewValuationResult, data }) {
                         value={values.fluorescence}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        pointerEvents={pointerEvents || "auto"}
                       >
                         <option value="vtsg">VTSG</option>
                         <option value="stg">STG</option>
