@@ -39,6 +39,23 @@
 >- `git checkout <commit-id>`
 
 >[!TIP]
+>**How to use GitHub Desktop**\
+>\
+>Use GitHub Desktop to commit your code:
+>- ![image](https://github.com/NguyenTuan03/Diamond_Shop_System/assets/89993051/724e0ed8-d784-4e0d-a280-1f1e274dccde)
+>- This is the basic view of GitHub Desktop when you update your code in your own branch
+>- ![image](https://github.com/NguyenTuan03/Diamond_Shop_System/assets/89993051/ea7137db-2bdb-4889-bedb-f491f3f8f567)
+>- You must fill in the **Summary** if you want to commit, **Description** is optional
+>- ![image](https://github.com/NguyenTuan03/Diamond_Shop_System/assets/89993051/898c3b20-2948-4084-90a6-17d8f9d22474)
+>- After fill in **Summary** and **Description** press the **Committ** button
+>- ![image](https://github.com/NguyenTuan03/Diamond_Shop_System/assets/89993051/cb75b68d-cab8-42f0-965b-1d15edd9b63a)
+>- And then press **Push origin** to push the commit to your branch
+
+
+
+
+
+>[!TIP]
 >**How to write a better commit message**\
 >\
 >The Anatomy of a Commit Message:
