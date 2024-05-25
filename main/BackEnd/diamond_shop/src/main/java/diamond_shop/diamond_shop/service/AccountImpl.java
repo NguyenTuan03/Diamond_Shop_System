@@ -2,6 +2,7 @@ package diamond_shop.diamond_shop.service;
 
 import java.util.Optional;
 
+import org.hibernate.annotations.RowId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,10 +11,14 @@ import diamond_shop.diamond_shop.dto.AccountDTO;
 import diamond_shop.diamond_shop.dto.LoginDTO;
 import diamond_shop.diamond_shop.dto.LoginMessageDTO;
 import diamond_shop.diamond_shop.entity.AccountEntity;
+import diamond_shop.diamond_shop.entity.RoleEntity;
 import diamond_shop.diamond_shop.repository.AccountRepository;
+import diamond_shop.diamond_shop.repository.RoleRepository;
 
 @Service
 public class AccountImpl implements AccountService{
+    @Autowired
+    private RoleRepository roleRepository;
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
@@ -21,13 +26,19 @@ public class AccountImpl implements AccountService{
     // private AccountDTO accountDTO;
     @Override
     public String addAccount(AccountDTO a) {
+        
+        RoleEntity role = roleRepository.findById(5)
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+
         AccountEntity account = new AccountEntity(
-            a.getAccountid(),
-            a.getAccountname(), 
-            a.getEmail(), 
-            this.passwordEncoder.encode(a.getPassword()));
+            role,
+            a.getUsername(), 
+            a.getFullname(),
+            a.getPhonenumber(),
+            this.passwordEncoder.encode(a.getPassword())
+        );
         accountRepository.save(account);
-        return account.getUser_Name();
+        return account.getUser_name();
     }
     @Override
     public LoginMessageDTO loginAccount(LoginDTO loginDTO) {

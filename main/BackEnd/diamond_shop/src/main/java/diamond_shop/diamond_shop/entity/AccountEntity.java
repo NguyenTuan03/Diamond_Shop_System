@@ -5,16 +5,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name="[User]")
 public class AccountEntity {
     @SequenceGenerator(
@@ -23,20 +23,24 @@ public class AccountEntity {
         allocationSize = 1
     )
     @Id
+    @GeneratedValue(
+        strategy = GenerationType.IDENTITY
+    )
     @Column(name = "User_Id")
-    private String User_Id;
+    private int User_id;
 
-    @Column(name = "Role_Id")
-    private String Role_Id;
+    @ManyToOne
+    @JoinColumn(name = "Role_id")
+    private RoleEntity Role_id;
 
     @Column(name = "User_Name")
-    private String User_Name;
+    private String User_name;
 
     @Column(name = "Password")
     private String Password;
 
     @Column(name = "Full_Name")
-    private String Full_Name;
+    private String Full_name;
 
     @Column(name = "Email")
     private String Email;
@@ -47,17 +51,11 @@ public class AccountEntity {
     @Column(name = "Address")
     private String Address;
 
-    public AccountEntity(String User_Id, String user_Name, String email, String password) {
-        this.User_Id = User_Id;
-        this.User_Name = user_Name;
-        this.Password = password;
-        this.Email = email;
-    }
-
-    public AccountEntity(String user_Name,String email, String password) {
-        this.User_Name = user_Name;
-        this.Email = email;
+    public AccountEntity(RoleEntity role_Id, String user_Name, String full_Name, String phone, String password) {
+        this.Role_id = role_Id;
+        this.User_name = user_Name;
+        this.Full_name = full_Name;
+        this.Phone = phone;
         this.Password = password;
     }
-    
 }
