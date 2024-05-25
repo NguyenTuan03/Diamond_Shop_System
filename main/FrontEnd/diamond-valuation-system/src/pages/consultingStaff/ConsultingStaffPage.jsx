@@ -1,29 +1,8 @@
 import {
   Flex,
-  Table,
-  TableContainer,
-  Tbody,
   Text,
-  Th,
-  Thead,
-  IconButton,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Image,
-  Button,
-  FormControl,
-  FormLabel,
   Input,
-  Center,
-  Td,
-  Tr,
-  Textarea,
   useToast,
   InputGroup,
   InputLeftElement,
@@ -38,7 +17,6 @@ import ValuationRequestModal from "../../components/staff/ValuationRequestModal"
 import SendEmailModal from "../../components/SendEmailModal";
 import ValuationReceiptModal from "../../components/staff/ValuationReceiptModal";
 import ValuationResultModal from "../../components/staff/ValuationResultModal";
-import ZaloChat from "../../components/zalo/ZaloChat";
 export default function ConsultingStaffPage() {
   const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
   const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
@@ -127,6 +105,29 @@ export default function ConsultingStaffPage() {
     customerName: "Lam Tien Hung",
     customerEmail: "lamtienhung0412@gmail.com",
   };
+  const valuationResultData = {
+    id: 15562,
+    status: "Done",
+    createdDate: "2021-09-20",
+    price: 100,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla rhoncus, justo nec ultrices varius, nisl orci ultricies purus, nec ultricies metus orci vel nunc. Nulla facilisi. Nullam non malesuada elit. Nulla facilisi. Nullam non malesuada elit. Nulla facil",
+    diamondId: 262537545,
+    customerName: "Lam Tien Hung",
+    customerEmail: "lamtienhung93@gmail.com",
+    diamond: {
+      id: 262537545,
+      origin: "natural",
+      shape: "round",
+      carat_weight: 1.5,
+      color: "D",
+      cut: "excellent",
+      clarity: "IF",
+      polish: "excellent",
+      symmetry: "excellent",
+      fluorescence: "none",
+    },
+  };
   return (
     <>
       <Flex
@@ -201,7 +202,11 @@ export default function ConsultingStaffPage() {
         viewValuationReceipt={viewValuationReceipt}
         receipt={valuationReceiptData}
       />
-      <ValuationResultModal viewValuationResult={viewValuationResult} />
+      <ValuationResultModal
+        viewValuationResult={viewValuationResult}
+        data={valuationResultData}
+        pointerEvents={"none"}
+      />
       <SendEmailModal
         sendEmailModal={sendEmailModal}
         sender={emailSender}
