@@ -30,11 +30,11 @@ public class Api {
         String name = accountService.addAccount(accountDTO);
         return name;
     }
-    // @PostMapping(path = "/login")
-    // public ResponseEntity<?> loginEmployee(@RequestBody LoginDTO loginDTO)
-    // {
-    //     LoginMessageDTO loginResponse = accountService.loginAccount(loginDTO);
-    //     return ResponseEntity.ok(loginResponse);
-    // }
+    @PostMapping(path = "/login")
+    public ResponseEntity<?> loginEmployee(@RequestBody LoginDTO loginDTO)
+    {
+        LoginMessageDTO loginResponse = accountService.loginAccount(loginDTO);
+        return ResponseEntity.ok(loginResponse);
+    }
     
 }

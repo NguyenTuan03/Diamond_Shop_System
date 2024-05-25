@@ -2,6 +2,7 @@ package diamond_shop.diamond_shop.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,12 +17,8 @@ public class SecurityConfig {
         .authorizeRequests(authorizeRequests ->
             authorizeRequests
                 .requestMatchers("/api/account/save").permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/account/login").permitAll()
                 .anyRequest().permitAll() // Allow access without authentication to all requests
-        )
-        .formLogin(formLogin ->
-            formLogin
-                .loginPage("/api/account/login") // Login page
-                .permitAll() // Allow access to the login page without authentication
         )
         .logout(logout ->
             logout

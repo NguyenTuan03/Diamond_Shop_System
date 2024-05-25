@@ -40,32 +40,26 @@ public class AccountImpl implements AccountService{
         accountRepository.save(account);
         return account.getUser_name();
     }
+    
     @Override
     public LoginMessageDTO loginAccount(LoginDTO loginDTO) {
-        // TODO Auto-generated method stub
-        return null;
+        AccountEntity acc1 = accountRepository.findByUserName(loginDTO.getUsername());
+        if (acc1 != null) {
+            String password = loginDTO.getPassword();
+            String encodedPassword = acc1.getPassword();
+            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            if (isPwdRight) {
+                Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
+                if (account.isPresent()) {
+                    return new LoginMessageDTO("Login Success", true);
+                } else {
+                    return new LoginMessageDTO("Login Failed", false);
+                }
+            } else {
+                return new LoginMessageDTO("password Not Match", false);
+            }
+        }else {
+            return new LoginMessageDTO("Email not exits", false);
+        }
     }
-    
-    // @Override
-    // public LoginMessageDTO loginAccount(LoginDTO loginDTO) {
-    //     String msg = "";
-    //     AccountEntity acc1 = accountRepository.findByEmail(loginDTO.getEmail());
-    //     if (acc1 != null) {
-    //         String password = loginDTO.getPassword();
-    //         String encodedPassword = acc1.getPassword();
-    //         Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-    //         if (isPwdRight) {
-    //             Optional<AccountEntity> account = accountRepository.findOneByEmailAndPassword(loginDTO.getEmail(), encodedPassword);
-    //             if (account.isPresent()) {
-    //                 return new LoginMessageDTO("Login Success", true);
-    //             } else {
-    //                 return new LoginMessageDTO("Login Failed", false);
-    //             }
-    //         } else {
-    //             return new LoginMessageDTO("password Not Match", false);
-    //         }
-    //     }else {
-    //         return new LoginMessageDTO("Email not exits", false);
-    //     }
-    // }
 }

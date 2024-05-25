@@ -33,13 +33,13 @@ public class AccountEntity {
     @JoinColumn(name = "Role_id")
     private RoleEntity Role_id;
 
-    @Column(name = "User_Name")
+    @Column(name = "User_name")
     private String User_name;
 
     @Column(name = "Password")
     private String Password;
 
-    @Column(name = "Full_Name")
+    @Column(name = "Full_name")
     private String Full_name;
 
     @Column(name = "Email")
