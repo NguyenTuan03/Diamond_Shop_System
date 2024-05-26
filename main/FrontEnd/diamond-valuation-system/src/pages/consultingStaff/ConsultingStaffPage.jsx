@@ -92,7 +92,7 @@ export default function ConsultingStaffPage() {
   };
   const emailSender = {
     name: "Lam Tien Hung A",
-    email: "hungltse170216@fpt.edu.vn",
+    email: "tuannase170164@fpt.edu.vn",
   };
   const valuationReceiptData = {
     id: 15562,

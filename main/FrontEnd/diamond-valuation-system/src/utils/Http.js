@@ -12,4 +12,9 @@ export const post = async (url, data = {}, options = {}) => {
     return res.data;
 }
 
-export default httpRequest
+const httpsIndexOnl = axios.create({
+    baseURL: import.meta.env.VITE_REACT_APP_PRICE_URL
+})
+
+
+export default {httpRequest, httpsIndexOnl}

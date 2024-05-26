@@ -21,85 +21,86 @@ import ConsultingStaffPage from "../pages/consultingStaff/ConsultingStaffPage.js
 import ValuationStaffPage from "../pages/valuationStaff/ValuationStaffPage.jsx";
 
 const ALlRoutes = [
-  {
-    path: routes.home,
-    component: HomePage,
-  },
-  {
-    path: routes.search,
-    component: Search,
-  },
-  {
-    path: routes.diamondCheck,
-    component: DiamondCheck,
-  },
-  {
-    path: routes.diamondCheckDetails,
-    component: DiamondCheckDetails,
-  },
-  {
-    path: routes.diamondDetail,
-    component: Detail,
-  },
+    {
+        path: routes.home,
+        component: HomePage,
+    },
+    {
+        path: routes.search,
+        component: Search,
+    },
+    {
+        path: routes.diamondCheck,
+        component: DiamondCheck,
+    },
+    {
+        path: routes.diamondCheckDetails,
+        component: DiamondCheckDetails,
+    },
+    {
+        path: routes.diamondDetail,
+        component: Detail,
+    },
 
-  {
-    path: routes.diamondCalculate,
-    component: DiamondCalculate,
-  },
-  {
-    path: routes.diamondService,
-    component: DiamondService,
-  },
-  { path: routes.diamonValuationRequest, component: DiamondValuationRequest },
-  {
-    path: routes.prices,
-    component: Prices,
-  },
-  {
-    path: routes.education,
-    component: Education,
-  },
-  {
-    path: routes.educationCertificate,
-    component: EducationCertificate,
-  },
+    {
+        path: routes.diamondCalculate,
+        component: DiamondCalculate,
+    },
+    {
+        path: routes.diamondService,
+        component: DiamondService,
+    },
 
-  {
-    path: routes.educationShape,
-    component: EducationShape,
-  },
-  {
-    path: routes.educationCarat,
-    component: EducationCarat,
-  },
-  {
-    path: routes.educationColor,
-    component: EducationColor,
-  },
-  {
-    path: routes.educationCut,
-    component: EducationCut,
-  },
-  {
-    path: routes.educationClarity,
-    component: EducationClarity,
-  },
-  {
-    path: routes.login,
-    component: Login,
-  },
-  {
-    path: routes.logout,
-    component: Logout,
-  },
-  {
-    path: routes.consultingStaff,
-    component: ConsultingStaffPage,
-  },
-  {
-    path: routes.valuationStaff,
-    component: ValuationStaffPage,
-  },
+    { path: routes.diamonValuationRequest, component: DiamondValuationRequest },
+    {
+        path: routes.prices,
+        component: Prices,
+    },
+    {
+        path: routes.education,
+        component: Education,
+    },
+    {
+        path: routes.educationCertificate,
+        component: EducationCertificate,
+    },
+
+    {
+        path: routes.educationShape,
+        component: EducationShape,
+    },
+    {
+        path: routes.educationCarat,
+        component: EducationCarat,
+    },
+    {
+        path: routes.educationColor,
+        component: EducationColor,
+    },
+    {
+        path: routes.educationCut,
+        component: EducationCut,
+    },
+    {
+        path: routes.educationClarity,
+        component: EducationClarity,
+    },
+    {
+        path: routes.login,
+        component: Login,
+    },
+    {
+        path: routes.logout,
+        component: Logout,
+    },
+    {
+        path: routes.consultingStaff,
+        component: ConsultingStaffPage,
+    },
+    {
+        path: routes.valuationStaff,
+        component: ValuationStaffPage,
+    },
 ];
 
 export { ALlRoutes };
