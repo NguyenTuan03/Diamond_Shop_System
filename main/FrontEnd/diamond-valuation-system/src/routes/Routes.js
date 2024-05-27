@@ -19,6 +19,9 @@ import Prices from "../pages/prices/Prices.jsx";
 import Search from "../pages/Search/Search.jsx";
 import ConsultingStaffPage from "../pages/consultingStaff/ConsultingStaffPage.jsx";
 import ValuationStaffPage from "../pages/valuationStaff/ValuationStaffPage.jsx";
+import { layout } from "@chakra-ui/react";
+import DashBoardLayout from "../layout/DashBoardLayout.jsx";
+import DashBoard from "../pages/dashboard/DashBoard.jsx";
 
 const ALlRoutes = [
     {
@@ -100,6 +103,12 @@ const ALlRoutes = [
     {
         path: routes.valuationStaff,
         component: ValuationStaffPage,
+    },
+    //DashBoard => add layout: DashBoardLayout
+    {
+        path: routes.dashboard,
+        component: DashBoard,
+        layout: DashBoardLayout
     },
 ];
 

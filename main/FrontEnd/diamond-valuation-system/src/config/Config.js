@@ -19,5 +19,6 @@ const routes = {
   logout: "/logout",
   consultingStaff: "/consulting-staff",
   valuationStaff: "/valuation-staff",
+  dashboard: "/dashboard",
 };
 export default routes;
