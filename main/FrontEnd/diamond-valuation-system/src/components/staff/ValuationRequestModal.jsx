@@ -14,6 +14,10 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import ZaloChat from "../zalo/ZaloChat";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+import { AdvancedImage } from "@cloudinary/react";
 
 export default function ValuationRequestModal({
   viewValuationRequest,
@@ -22,6 +26,14 @@ export default function ValuationRequestModal({
   onClickMakeReceiptButton,
   onClickCancelRequestButton,
 }) {
+  const cld = new Cloudinary({
+    cloud: { cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME },
+  });
+  const img = cld
+    .image("concac")
+    .format("auto") // Optimize delivery by resizing and applying auto-format and auto-quality
+    .quality("auto")
+    .resize(auto().gravity(autoGravity()).width(500).height(500)); // Transform the image: auto-crop to square aspect_ratio
   return (
     <Modal
       isOpen={viewValuationRequest.isOpen}
@@ -36,7 +48,9 @@ export default function ValuationRequestModal({
             <Text>
               <strong>Request ID</strong>: {data.id}
             </Text>
-            <Text><strong>Created Date</strong>: {data.createdDate}</Text>
+            <Text>
+              <strong>Created Date</strong>: {data.createdDate}
+            </Text>
             <Text>
               <strong>Request Status</strong>: {data.status}
             </Text>
@@ -53,11 +67,7 @@ export default function ValuationRequestModal({
             <Text>
               <strong>Diamond image</strong>:
             </Text>
-            <Image
-              src={data.customerDiamondImage}
-              alt={"Diamond image"}
-              w={"100px"}
-            />
+            <AdvancedImage cldImg={img} />
             <Flex direction={"row"} justifyContent={"space-around"} gap={5}>
               <Button colorScheme="green" onClick={onClickReceiveRequestButton}>
                 Receive Request
