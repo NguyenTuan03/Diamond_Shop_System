@@ -19,87 +19,127 @@ import Prices from "../pages/prices/Prices.jsx";
 import Search from "../pages/Search/Search.jsx";
 import ConsultingStaffPage from "../pages/consultingStaff/ConsultingStaffPage.jsx";
 import ValuationStaffPage from "../pages/valuationStaff/ValuationStaffPage.jsx";
+import DashBoardLayout from "../layout/DashBoardLayout.jsx";
+import ConsultingDashBoard from "../pages/dashboard/ConsultingDashBoard.jsx";
+import ConsultingAppointment from "../pages/dashboard/ConsultingAppointment.jsx";
+import ConsultingNotifications from "../pages/dashboard/ConsultingNotifications.jsx";
+import ConsultingPrice from "../pages/dashboard/ConsultingPrice.jsx";
+import ConsultingSearch from './../pages/dashboard/ConsultingSearch';
+import ConsultingRequest from "../pages/dashboard/ConsultingRequest.jsx";
+
 
 const ALlRoutes = [
-  {
-    path: routes.home,
-    component: HomePage,
-  },
-  {
-    path: routes.search,
-    component: Search,
-  },
-  {
-    path: routes.diamondCheck,
-    component: DiamondCheck,
-  },
-  {
-    path: routes.diamondCheckDetails,
-    component: DiamondCheckDetails,
-  },
-  {
-    path: routes.diamondDetail,
-    component: Detail,
-  },
+    {
+        path: routes.home,
+        component: HomePage,
+    },
+    {
+        path: routes.search,
+        component: Search,
+    },
+    {
+        path: routes.diamondCheck,
+        component: DiamondCheck,
+    },
+    {
+        path: routes.diamondCheckDetails,
+        component: DiamondCheckDetails,
+    },
+    {
+        path: routes.diamondDetail,
+        component: Detail,
+    },
 
-  {
-    path: routes.diamondCalculate,
-    component: DiamondCalculate,
-  },
-  {
-    path: routes.diamondService,
-    component: DiamondService,
-  },
-  { path: routes.diamonValuationRequest, component: DiamondValuationRequest },
-  {
-    path: routes.prices,
-    component: Prices,
-  },
-  {
-    path: routes.education,
-    component: Education,
-  },
-  {
-    path: routes.educationCertificate,
-    component: EducationCertificate,
-  },
+    {
+        path: routes.diamondCalculate,
+        component: DiamondCalculate,
+    },
+    {
+        path: routes.diamondService,
+        component: DiamondService,
+    },
 
-  {
-    path: routes.educationShape,
-    component: EducationShape,
-  },
-  {
-    path: routes.educationCarat,
-    component: EducationCarat,
-  },
-  {
-    path: routes.educationColor,
-    component: EducationColor,
-  },
-  {
-    path: routes.educationCut,
-    component: EducationCut,
-  },
-  {
-    path: routes.educationClarity,
-    component: EducationClarity,
-  },
-  {
-    path: routes.login,
-    component: Login,
-  },
-  {
-    path: routes.logout,
-    component: Logout,
-  },
-  {
-    path: routes.consultingStaff,
-    component: ConsultingStaffPage,
-  },
-  {
-    path: routes.valuationStaff,
-    component: ValuationStaffPage,
-  },
+    { path: routes.diamonValuationRequest, component: DiamondValuationRequest },
+    {
+        path: routes.prices,
+        component: Prices,
+    },
+    {
+        path: routes.education,
+        component: Education,
+    },
+    {
+        path: routes.educationCertificate,
+        component: EducationCertificate,
+    },
+
+    {
+        path: routes.educationShape,
+        component: EducationShape,
+    },
+    {
+        path: routes.educationCarat,
+        component: EducationCarat,
+    },
+    {
+        path: routes.educationColor,
+        component: EducationColor,
+    },
+    {
+        path: routes.educationCut,
+        component: EducationCut,
+    },
+    {
+        path: routes.educationClarity,
+        component: EducationClarity,
+    },
+    {
+        path: routes.login,
+        component: Login,
+    },
+    {
+        path: routes.logout,
+        component: Logout,
+    },
+    {
+        path: routes.consultingStaff,
+        component: ConsultingStaffPage,
+    },
+    {
+        path: routes.valuationStaff,
+        component: ValuationStaffPage,
+    },
+    //DashBoard => add layout: DashBoardLayout
+    {
+        path: routes.consulting_dashboard,
+        component: ConsultingDashBoard,
+        layout: DashBoardLayout,
+    },
+    {
+        path: routes.consulting_dasboardNotification,
+        component: ConsultingNotifications,
+        layout: DashBoardLayout,
+    },
+    {
+        path: routes.consulting_dashboardPrices,
+        component: ConsultingPrice,
+        layout: DashBoardLayout,
+    },
+    {
+        path: routes.consulting_dashboardAppoint,
+        component: ConsultingAppointment,
+        layout: DashBoardLayout,
+    },
+    {
+        path: routes.consulting_dashboardSearch,
+        component: ConsultingSearch,
+        layout: DashBoardLayout,
+    },
+    {
+        path: routes.consulting_dashboardRequest,
+        component: ConsultingRequest,
+        layout: DashBoardLayout,
+    },
 ];
 
 export { ALlRoutes };
