@@ -19,6 +19,15 @@ const routes = {
   logout: "/logout",
   consultingStaff: "/consulting-staff",
   valuationStaff: "/valuation-staff",
-  dashboard: "/dashboard",
+  // DashBoard của ConsultingStaff
+  consulting_dashboard: "/consulting-staff-dashboard",
+  consulting_dasboardNotification: "/consulting-staff-dashboard/notifications",
+  consulting_dashboardPrices: "/consulting-staff-dashboard/prices",
+  consulting_dashboardAppoint: "/consulting-staff-dashboard/appointments",
+  consulting_dashboardSearch: "/consulting-staff-dashboard/search",
+  consulting_dashboardRequest: "/consulting-staff-dashboard/request",
+  //Dashboard của Customer
+
+
 };
 export default routes;
