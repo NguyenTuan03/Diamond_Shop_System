@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class AccountDTO {
-    private String accountid;
+    private int accountid;
     private String username;
     private String fullname;
     private String phonenumber;

@@ -2,7 +2,6 @@ package diamond_shop.diamond_shop.service;
 
 import java.util.Optional;
 
-import org.hibernate.annotations.RowId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ public class AccountImpl implements AccountService{
     private AccountRepository accountRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    // private AccountDTO accountDTO;
     @Override
     public String addAccount(AccountDTO a) {
         
@@ -38,11 +36,12 @@ public class AccountImpl implements AccountService{
             this.passwordEncoder.encode(a.getPassword())
         );
         accountRepository.save(account);
-        return account.getUser_name();
+        return account.getUsername();
     }
     
     @Override
     public LoginMessageDTO loginAccount(LoginDTO loginDTO) {
+        AccountDTO acc2 = new AccountDTO();
         AccountEntity acc1 = accountRepository.findByUserName(loginDTO.getUsername());
         if (acc1 != null) {
             String password = loginDTO.getPassword();
@@ -51,7 +50,11 @@ public class AccountImpl implements AccountService{
             if (isPwdRight) {
                 Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
                 if (account.isPresent()) {
-                    return new LoginMessageDTO("Login Success", true);
+                    acc2.setAccountid(acc1.getId());
+                    acc2.setFullname(acc1.getFullname());
+                    acc2.setUsername(acc1.getUsername());
+                    acc2.setPhonenumber(acc1.getPhone_number());
+                    return new LoginMessageDTO("Login Success", true, acc2);
                 } else {
                     return new LoginMessageDTO("Login Failed", false);
                 }

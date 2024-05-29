@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 import diamond_shop.diamond_shop.dto.AccountDTO;
 import diamond_shop.diamond_shop.dto.LoginDTO;
 import diamond_shop.diamond_shop.dto.LoginMessageDTO;
+import diamond_shop.diamond_shop.dto.ValuationRequestDTO;
 import diamond_shop.diamond_shop.service.AccountService;
+import diamond_shop.diamond_shop.service.ValuationRequestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,8 @@ public class Api {
 
     @Autowired
     private AccountService accountService;
-
+    @Autowired
+    private ValuationRequestService valuationRequestService;
     @PostMapping(path = "/save")
     public String saveEmployee(@RequestBody AccountDTO accountDTO)
     {
@@ -35,6 +38,12 @@ public class Api {
     {
         LoginMessageDTO loginResponse = accountService.loginAccount(loginDTO);
         return ResponseEntity.ok(loginResponse);
+    }
+
+    @PostMapping(path = "/valuation-request")
+    public String postMethodName(@RequestBody ValuationRequestDTO valuationRequestDTO) {
+        valuationRequestService.makeRequest(valuationRequestDTO);
+        return "Request Successfully!!";
     }
     
 }

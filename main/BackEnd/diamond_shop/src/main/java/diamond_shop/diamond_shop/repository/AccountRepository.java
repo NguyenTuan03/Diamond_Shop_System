@@ -12,9 +12,9 @@ import diamond_shop.diamond_shop.entity.AccountEntity;
 @Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, Integer>{
 
-    @Query("SELECT a FROM AccountEntity a WHERE a.User_name = :userName")
+    @Query("SELECT a FROM AccountEntity a WHERE a.Username = :userName")
     AccountEntity findByUserName(@Param("userName") String userName);
 
-    @Query("SELECT a FROM AccountEntity a WHERE a.User_name = :userName AND a.Password = :password")
+    @Query("SELECT a FROM AccountEntity a WHERE a.Username = :userName AND a.Password = :password")
     Optional<AccountEntity> findOneByUserNameAndPassword(@Param("userName") String userName, @Param("password") String password);
 }

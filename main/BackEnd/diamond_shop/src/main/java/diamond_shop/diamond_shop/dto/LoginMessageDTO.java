@@ -10,6 +10,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginMessageDTO {
-    String message;
-    Boolean status;
+    private String message;
+    private Boolean status;
+    private AccountDTO account;
+    public LoginMessageDTO(String message, Boolean status) {
+        this.message = message;
+        this.status = status;
+    }
+    
 }
