@@ -37,7 +37,7 @@ export default function Calculate() {
   const [cutActiveButtonIndex, setCutActiveButtonIndex] = useState(0);
   const [clarityActiveButtonIndex, setClarityActiveButtonIndex] = useState(0);
 
-  const [gradingLab, setGradingLab] = useState("ASG");
+  const [gradingLab, setGradingLab] = useState("AGS");
   const [carat, setCarat] = useState(1);
   const [shape, setShape] = useState("ROUND");
   const [color, setColor] = useState("D");
