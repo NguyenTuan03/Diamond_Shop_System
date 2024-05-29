@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -17,8 +18,8 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api/account/save").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/api/account/login").permitAll()
-//                                .requestMatchers(HttpMethod.POST, "/api/diamond/diamond-calculate").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/diamond/diamond-calculate").permitAll()
                                 .anyRequest().permitAll() // Allow access without authentication to all requests
                 )
                 .logout(logout ->
@@ -30,6 +31,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
