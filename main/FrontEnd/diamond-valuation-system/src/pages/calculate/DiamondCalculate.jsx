@@ -25,6 +25,8 @@ import {
   sliderDiamondValuationCut,
   sliderDiamondValuationClarity,
 } from "../../shared/SharedDiamondValuation";
+import axios from "axios";
+
 export default function Calculate() {
   const [sliderValue, setSliderValue] = useState();
   const [sliderShowToolTip, setSliderShowToolTip] = useState(false);
@@ -36,7 +38,7 @@ export default function Calculate() {
   const [clarityActiveButtonIndex, setClarityActiveButtonIndex] = useState(0);
 
   const [gradingLab, setGradingLab] = useState("ASG");
-  const [carat, setCarat] = useState();
+  const [carat, setCarat] = useState(1);
   const [shape, setShape] = useState("ROUND");
   const [color, setColor] = useState("D");
   const [cut, setCut] = useState("POOR");
@@ -51,29 +53,37 @@ export default function Calculate() {
   });
   async function handleSubmit() {
     try {
-      const res = await fetch(
-        `http://www.idexonline.com/DPService.asp?SID=4wp7go123jqtkdyd5f2e&cut=${shape}&carat=${carat}&color=${color}&clarity=${clarity}&make=${cut}&cert=${gradingLab}`
-      );
-      if (!res.ok) {
-        throw new Error(`Error fetching data: ${res.status}`);
-      }
-      const data = await res.text();
-      const xmlResult = new DOMParser().parseFromString(data, "text/xml");
-      console.log(xmlResult.querySelector("pr"));
-      const jsonResult = {};
-      for (const child of xmlResult.querySelector("pr").children) {
-        jsonResult[child.tagName.toLowerCase()] = child.textContent;
-      }
-      console.log(jsonResult);
-      if (jsonResult.price === "There is no available data for this query.") {
-        jsonResult.avg = "No result";
-        jsonResult.count = "No result";
-        jsonResult.link = "No result";
-        jsonResult.max = "No result";
-        jsonResult.min = "No result";
-        jsonResult.price = "No result";
-      }
-      setValuationResult(jsonResult);
+      await axios
+        .post("http://localhost:8081/api/diamond/diamond-calculate", {
+          gradingLab: gradingLab,
+          carat: carat,
+          shape: shape,
+          color: color,
+          clarity: clarity,
+          cut: cut,
+        })
+        .then(function (response) {
+          console.log(response.data.body);
+          const test = new DOMParser().parseFromString(
+            response.data.body,
+            "text/xml"
+          );
+          const jsonResult = {};
+          for (const child of test.querySelector("pr").children) {
+            jsonResult[child.tagName.toLowerCase()] = child.textContent;
+          }
+          if (
+            jsonResult.price === "There is no available data for this query."
+          ) {
+            jsonResult.avg = "No result";
+            jsonResult.count = "No result";
+            jsonResult.link = "No result";
+            jsonResult.max = "No result";
+            jsonResult.min = "No result";
+            jsonResult.price = "No result";
+          }
+          setValuationResult(jsonResult);
+        });
     } catch (error) {
       console.error("Error: ", error);
     }
