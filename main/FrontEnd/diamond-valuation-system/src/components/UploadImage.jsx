@@ -13,7 +13,29 @@ import React, { useState } from "react";
 export default function UploadImage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const toast = useToast();
+  async function uploadImage(formData) {
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${
+        import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+      }/image/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+  }
   const handleSubmitImage = () => {
+    const formData = new FormData();
+    formData.append("file", selectedImage);
+    formData.append(
+      "upload_preset",
+      import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+    );
+    formData.append("public_id", "concac");
+    uploadImage(formData);
+
     toast({
       title: "Image submitted",
       description: "Your diamond image has been submitted successfully",

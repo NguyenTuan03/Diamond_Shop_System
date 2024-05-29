@@ -68,7 +68,7 @@ export default function Header() {
               borderWidth="1px"
               _focus={{ boxShadow: "outline" }}
             >
-              <Link to={"/"}>
+              <Link to={"/"} style={{border:"0px"}}>
                 <Flex direction={"row"} gap={2} alignItems={"center"}>
                   <Text fontSize={"lg"} fontWeight={"bold"}>
                     Education
@@ -103,7 +103,7 @@ export default function Header() {
           Sign in
         </Button>
       </Flex>
-      <Login signIn={modalSignIn} signUp={modalSignUp}/>
+      <Login signIn={modalSignIn} signUp={modalSignUp} />
     </>
   );
 }
