@@ -1,33 +1,44 @@
-import { Flex, Text, Button } from "@chakra-ui/react";
+import {
+  Flex,
+  Text,
+  Button,
+  UnorderedList,
+  ListItem,
+  Card,
+  CardHeader,
+  Heading,
+  CardBody,
+  CardFooter,
+} from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
 import routes from "../config/Config";
 
-export default function ServiceCard({ type, price, time, color }) {
+export default function ServiceCard({ type, price, time, attributes, color }) {
   return (
-    <Flex
-      direction={"column"}
-      alignItems={"center"}
-      border={"2px solid"}
-      borderColor={`${color}.400`}
-      w={"300px"}
-      height={"500px"}
-    >
-      <div style={{ display: "flex", alignItems: "center", height: "100px" }}>
-        <Text fontSize={"xl"}>DiamondVal</Text>
-      </div>
-      <Text fontSize={"2xl"} fontWeight={"bold"} color={`${color}.400`}>
-        {type}
-      </Text>
+    <Card align={"center"} border={"2px solid"} w={"20vw"}>
+      <CardHeader>
+        <Heading size={"md"} color={`${color}.400`}>
+          {type}
+        </Heading>
+      </CardHeader>
       <Text fontSize={"6xl"}>${price}</Text>
-      <div style={{ display: "flex", alignItems: "center", height: "200px" }}>
-        <Text fontSize={"lg"} m={"0 10px 0 10px"}>
-          <strong>{type}</strong> valuate from {time} days
-        </Text>
-      </div>
-      <Link to={routes.diamonValuationRequest}>
-        <Button colorScheme={color}>Valuate Now</Button>
-      </Link>
-    </Flex>
+      <Text fontSize={"lg"}>Valuation time: {time}</Text>
+      <CardBody>
+        <Text fontSize={"lg"}>We will valuate:</Text>
+        <UnorderedList>
+          {attributes.map((item, index) => (
+            <ListItem key={index}>{item}</ListItem>
+          ))}
+        </UnorderedList>
+      </CardBody>
+      <CardFooter>
+        <Link to={routes.diamondValuationRequest}>
+          <Button colorScheme={color} size={"lg"}>
+            Choose
+          </Button>
+        </Link>
+      </CardFooter>
+    </Card>
   );
 }
