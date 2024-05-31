@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { IoDiamond, IoDiamondOutline } from "react-icons/io5";
 import { Link as LinkReactRouterDOM } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PopoverInfo from "../../components/PopoverInfo";
 import GridValue from "../../components/GridValue";
 import {
@@ -51,10 +51,11 @@ export default function Calculate() {
     min: "",
     price: "",
   });
+  const [serviceResult, setServiceResult] = useState([]);
   async function handleSubmit() {
     try {
       await axios
-        .post("http://localhost:8081/api/diamond/diamond-calculate", {
+        .post("http://localhost:8081/api/diamond/calculate", {
           gradingLab: gradingLab,
           carat: carat,
           shape: shape,
@@ -88,7 +89,21 @@ export default function Calculate() {
       console.error("Error: ", error);
     }
   }
-
+  function handleValuationService() {
+    try {
+      axios
+        .get("http://localhost:8081/api/diamond/service")
+        .then(function (response) {
+          setServiceResult(response.data);
+          console.log(serviceResult);
+        });
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  }
+  useEffect(() => {
+    handleValuationService();
+  }, []);
   return (
     <Flex
       direction="column"
@@ -254,8 +269,15 @@ export default function Calculate() {
             <Text fontSize={"xl"} color={"gray"}>
               Contact with our experts to get a valuation
             </Text>
-            <LinkReactRouterDOM to={"/diamond-service"}>
-              <Button leftIcon={<IoDiamond />} colorScheme="blue">
+            <LinkReactRouterDOM
+              to={"/diamond-service"}
+              state={serviceResult}
+            >
+              <Button
+                leftIcon={<IoDiamond />}
+                colorScheme="blue"
+                onClick={handleValuationService}
+              >
                 Valuate Diamond
               </Button>
             </LinkReactRouterDOM>
