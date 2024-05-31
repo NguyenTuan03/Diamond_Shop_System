@@ -1,15 +1,24 @@
 package com.diamond_shop.diamond_shop.service;
 
+import com.diamond_shop.diamond_shop.entity.ServiceEntity;
+import com.diamond_shop.diamond_shop.repository.AccountRepository;
+import com.diamond_shop.diamond_shop.repository.ServiceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class DiamondImpl implements DiamondService {
 
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private ServiceRepository serviceRepository;
 
     @Override
     public ResponseEntity<String> fetchDiamondCalculate(String gradingLab, String carat, String shape, String color, String clarity, String cut) {
@@ -26,6 +35,13 @@ public class DiamondImpl implements DiamondService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(finalUrl, String.class);
         return response;
+    }
+
+    @Override
+    public List<ServiceEntity> getAllServices() {
+        List<ServiceEntity> services = serviceRepository.getAllServices();
+        System.out.println(services);
+        return services;
     }
 
     private String builderQueryString(Map<String, String> params) {
