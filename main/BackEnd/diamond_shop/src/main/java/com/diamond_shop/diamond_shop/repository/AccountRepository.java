@@ -6,10 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, Integer> {
+
+    @Query(value = "SELECT a FROM AccountEntity a")
+    List<AccountEntity> getAllAccounts();
 
     @Query("SELECT a FROM AccountEntity a WHERE a.Username = :userName")
     AccountEntity findByUserName(@Param("userName") String userName);
@@ -19,4 +23,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Integer>
 
     @Query("SELECT a FROM AccountEntity  a WHERE a.Id=:id")
     AccountEntity findByUserId(@Param("id") int id);
+
+    void deleteById(int id);
 }
