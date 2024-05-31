@@ -1,4 +1,4 @@
-import {Divider, Flex } from "@chakra-ui/react";
+import { Button, Divider, Flex, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import Title from "../../components/Title";
 import ServiceCard from "../../components/ServiceCard";

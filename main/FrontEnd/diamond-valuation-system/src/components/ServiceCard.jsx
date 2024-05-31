@@ -9,7 +9,6 @@ import {
   Heading,
   CardBody,
   CardFooter,
-  Center,
 } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -17,35 +16,29 @@ import routes from "../config/Config";
 
 export default function ServiceCard({ type, price, time, attributes, color }) {
   return (
-    <Card border={"1px solid"} w={"20vw"}>
-      <CardHeader align="center">
+    <Card align={"center"} border={"2px solid"} w={"20vw"}>
+      <CardHeader>
         <Heading size={"md"} color={`${color}.400`}>
           {type}
         </Heading>
       </CardHeader>
-      <Flex direction={"column"} align={"center"}>
-        <Text fontSize={"5xl"}>${price}</Text>
-        <Text fontSize={"lg"}>
-          Valuation time: <strong>{time}</strong>
-        </Text>
-      </Flex>
-      <CardBody align={"start"}>
+      <Text fontSize={"6xl"}>${price}</Text>
+      <Text fontSize={"lg"}>Valuation time: {time}</Text>
+      <CardBody>
         <Text fontSize={"lg"}>We will valuate:</Text>
-        <UnorderedList fontSize={"sm"}>
+        <UnorderedList>
           {attributes.map((item, index) => (
             <ListItem key={index}>{item}</ListItem>
           ))}
         </UnorderedList>
       </CardBody>
-      <Center>
-        <CardFooter>
-          <Link to={routes.diamondValuationRequest}>
-            <Button colorScheme={color} size={"lg"}>
-              Choose
-            </Button>
-          </Link>
-        </CardFooter>
-      </Center>
+      <CardFooter>
+        <Link to={routes.diamondValuationRequest}>
+          <Button colorScheme={color} size={"lg"}>
+            Choose
+          </Button>
+        </Link>
+      </CardFooter>
     </Card>
   );
 }
