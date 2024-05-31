@@ -19,6 +19,10 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/api/account/save").permitAll()
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+                                .requestMatchers("/api/admin/get").permitAll()
+>>>>>>> Stashed changes
                                 .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
 =======
                                 .requestMatchers(HttpMethod.POST,"/api/account/login").permitAll()

@@ -28,6 +28,6 @@ const routes = {
   consulting_dashboardRequest: "/consulting-staff-dashboard/request",
   //Dashboard của Customer
 
-
+  admin: "/admin",
 };
 export default routes;
