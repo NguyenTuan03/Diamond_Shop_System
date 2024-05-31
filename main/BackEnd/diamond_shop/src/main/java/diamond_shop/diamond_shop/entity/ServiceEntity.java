@@ -1,7 +1,5 @@
 package diamond_shop.diamond_shop.entity;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,10 +13,10 @@ import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
-@Getter
-@Setter
 @NoArgsConstructor
-@Table(name="Services")
+@Setter
+@Getter
+@Table(name = "Services")
 public class ServiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

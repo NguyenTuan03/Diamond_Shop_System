@@ -17,5 +17,4 @@ public class LoginMessageDTO {
         this.message = message;
         this.status = status;
     }
-    
 }

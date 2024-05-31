@@ -13,7 +13,6 @@ import diamond_shop.diamond_shop.entity.AccountEntity;
 import diamond_shop.diamond_shop.entity.RoleEntity;
 import diamond_shop.diamond_shop.repository.AccountRepository;
 import diamond_shop.diamond_shop.repository.RoleRepository;
-
 @Service
 public class AccountImpl implements AccountService{
     @Autowired
@@ -24,10 +23,8 @@ public class AccountImpl implements AccountService{
     private PasswordEncoder passwordEncoder;
     @Override
     public String addAccount(AccountDTO a) {
-        
         RoleEntity role = roleRepository.findById(5)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
-
         AccountEntity account = new AccountEntity(
             role,
             a.getUsername(), 

@@ -18,7 +18,7 @@ public class SecurityConfig {
             authorizeRequests
                 .requestMatchers("/api/account/save").permitAll()
                 .requestMatchers(HttpMethod.POST,"/api/account/login").permitAll()
-                .anyRequest().permitAll() // Allow access without authentication to all requests
+                .anyRequest().permitAll() 
         )
         .logout(logout ->
             logout

@@ -16,7 +16,7 @@ import diamond_shop.diamond_shop.repository.ValuationRequestRepository;
 public class ValuationRequestImpl implements ValuationRequestService{
     @Autowired
     private ValuationRequestRepository valuationRequestRepository;
-    @Autowired 
+    @Autowired
     private AccountRepository accountRepository;
     @Autowired
     private ServiceRepository serviceRepository;
@@ -42,5 +42,4 @@ public class ValuationRequestImpl implements ValuationRequestService{
             
         return "User not found";
     }
-
-}
+}   
