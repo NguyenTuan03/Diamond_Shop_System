@@ -59,7 +59,7 @@ const ALlRoutes = [
         component: DiamondService,
     },
 
-    { path: routes.diamonValuationRequest, component: DiamondValuationRequest },
+    { path: routes.diamondValuationRequest, component: DiamondValuationRequest },
     {
         path: routes.prices,
         component: Prices,

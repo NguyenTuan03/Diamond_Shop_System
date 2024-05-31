@@ -23,7 +23,7 @@ export default function DiamondCheck() {
           more
         </Text>
         <Flex direction={"row"}>
-          <Input placeholder="Enter Certificate ID" size={"lg"} />
+          <Input placeholder="Enter Valuate ID" size={"lg"} />
           <Button colorScheme="blue" size="lg" m={"0 0 0 20px"}>
             Run free check
           </Button>
