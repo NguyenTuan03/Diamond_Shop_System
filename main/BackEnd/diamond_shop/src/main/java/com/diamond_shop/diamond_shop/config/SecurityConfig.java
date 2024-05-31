@@ -18,16 +18,9 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api/account/save").permitAll()
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
                                 .requestMatchers("/api/admin/get").permitAll()
->>>>>>> Stashed changes
                                 .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
-=======
-                                .requestMatchers(HttpMethod.POST,"/api/account/login").permitAll()
->>>>>>> Stashed changes
-                                .requestMatchers(HttpMethod.POST, "/api/diamond/diamond-calculate").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/diamond/calculate").permitAll()
                                 .anyRequest().permitAll() // Allow access without authentication to all requests
                 )
                 .logout(logout ->

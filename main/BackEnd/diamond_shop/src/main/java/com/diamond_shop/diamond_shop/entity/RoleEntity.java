@@ -1,6 +1,8 @@
 package com.diamond_shop.diamond_shop.entity;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,15 +20,16 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "[Role]")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Table(name = "[Roles]")
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Role_id")
-    private int Role_id;
+    @Column(name = "Id")
+    private int Id;
 
-    @Column(name = "Name_role")
-    private String Name_role;
+    @Column(name = "Name")
+    private String Name;
 
     @OneToMany(mappedBy = "Role_id", cascade = CascadeType.ALL)
     private List<AccountEntity> users;

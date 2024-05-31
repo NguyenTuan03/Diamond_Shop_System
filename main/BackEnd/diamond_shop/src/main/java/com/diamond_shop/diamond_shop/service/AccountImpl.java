@@ -38,7 +38,7 @@ public class AccountImpl implements AccountService{
             this.passwordEncoder.encode(a.getPassword())
         );
         accountRepository.save(account);
-        return account.getUser_name();
+        return account.getUsername();
     }
     
     @Override
