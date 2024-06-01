@@ -18,10 +18,10 @@ import lombok.Setter;
 
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@Table(name = "[Roles]")
+@Table(name = "Roles")
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,6 @@ public class RoleEntity {
     @Column(name = "Name")
     private String Name;
 
-    @OneToMany(mappedBy = "Role_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "Id", cascade = CascadeType.ALL)
     private List<AccountEntity> users;
 }
