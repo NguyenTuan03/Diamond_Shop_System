@@ -7,28 +7,10 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-    Button,
-    Flex,
-    FormControl,
-    FormLabel,
-    Input,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Text,
-    Menu,
-    useDisclosure,
-    MenuButton,
-    MenuList,
-    MenuItem,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { GiDiamondTrophy } from "react-icons/gi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import routes from "../config/Config";
 import Login from "../pages/login/Login";
 export default function Header() {
@@ -86,7 +68,7 @@ export default function Header() {
               borderWidth="1px"
               _focus={{ boxShadow: "outline" }}
             >
-              <Link to={"/"} style={{border:"0px"}}>
+              <Link to={"/"} style={{ border: "0px" }}>
                 <Flex direction={"row"} gap={2} alignItems={"center"}>
                   <Text fontSize={"lg"} fontWeight={"bold"}>
                     Education
