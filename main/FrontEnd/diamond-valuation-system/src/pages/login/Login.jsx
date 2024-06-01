@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     Button,
     Flex,
@@ -18,15 +18,17 @@ import {
 import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import { login } from "../../service/Login";
-import { Bounce, toast } from "react-toastify";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SignUp from "../signUp/SignUp";
+import { UserContext } from "../../components/GlobalContext/AuthContext";
 export default function Login({ signIn, signUp }) {
+    const auth = useContext(UserContext);
     const [isLogin, setIsLogin] = useState(false);
     async function fetchApi(username, password) {
         console.log(username, password);
         const result = await login(username, password);
-        if (result.errCode) {
+        if (!result.data.status) {
             toast.error("Login failed. Try again later", {
                 position: "top-right",
                 autoClose: 2000,
@@ -41,22 +43,26 @@ export default function Login({ signIn, signUp }) {
         } else {
             setIsLogin(true);
             toast.success("Login Successful", {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              transition: Bounce,
-          });
-            console.log(result);
-            localStorage.setItem("user", JSON.stringify(result.data));
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+            auth.setUser(result.data.accountDTO);
+            localStorage.setItem(
+                "user",
+                JSON.stringify(result.data.accountDTO)
+            );
         }
     }
     return (
         <>
+            <ToastContainer />
             {!isLogin && (
                 <Modal isOpen={signIn.isOpen} onClose={signIn.onClose}>
                     <ModalOverlay />

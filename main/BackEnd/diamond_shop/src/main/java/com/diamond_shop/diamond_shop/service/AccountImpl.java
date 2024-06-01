@@ -55,6 +55,7 @@ public class AccountImpl implements AccountService {
 
     @Override
     public LoginMessageDTO loginAccount(LoginDTO loginDTO) {
+        AccountDTO acc2 = new AccountDTO();
         AccountEntity acc1 = accountRepository.findByUserName(loginDTO.getUsername());
         if (acc1 != null) {
             String password = loginDTO.getPassword();
@@ -63,14 +64,18 @@ public class AccountImpl implements AccountService {
             if (isPwdRight) {
                 Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
                 if (account.isPresent()) {
-                    return new LoginMessageDTO("Login Success", true);
+                    acc2.setId(acc1.getId());
+                    acc2.setFullname(acc1.getFullname());
+                    acc2.setUsername(acc1.getUsername());
+                    acc2.setPhonenumber(acc1.getPhone_number());
+                    return new LoginMessageDTO("Login Success", true, acc2);
                 } else {
                     return new LoginMessageDTO("Login Failed", false);
                 }
             } else {
                 return new LoginMessageDTO("password Not Match", false);
             }
-        } else {
+        }else {
             return new LoginMessageDTO("Email not exits", false);
         }
     }

@@ -4,6 +4,7 @@ import "./index.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import AuthContext from "./components/GlobalContext/AuthContext.jsx";
 
+
 ReactDOM.createRoot(document.getElementById("root")).render(
     <ChakraProvider>
         <AuthContext>
