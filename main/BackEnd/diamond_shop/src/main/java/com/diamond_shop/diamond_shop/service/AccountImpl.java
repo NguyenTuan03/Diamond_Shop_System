@@ -1,12 +1,5 @@
 package com.diamond_shop.diamond_shop.service;
 
-import java.util.Optional;
-
-import org.hibernate.annotations.RowId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
@@ -14,33 +7,52 @@ import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.RoleEntity;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class AccountImpl implements AccountService{
+public class AccountImpl implements AccountService {
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Override
+    public List<AccountEntity> getAllAccounts() {
+        List<AccountEntity> accounts = accountRepository.getAllAccounts();
+        System.out.println(accounts);
+        return accounts;
+    }
+
     // private AccountDTO accountDTO;
     @Override
     public String addAccount(AccountDTO a) {
-        
+
         RoleEntity role = roleRepository.findById(5)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
         AccountEntity account = new AccountEntity(
-            role,
-            a.getUsername(), 
-            a.getFullname(),
-            a.getPhonenumber(),
-            this.passwordEncoder.encode(a.getPassword())
+                role,
+                a.getUsername(),
+                a.getFullname(),
+                a.getPhonenumber(),
+                this.passwordEncoder.encode(a.getPassword())
         );
         accountRepository.save(account);
-        return account.getUser_name();
+        return account.getUsername();
     }
-    
+
+    @Override
+    public void deleteAccount(int id) {
+        accountRepository.deleteById(id);
+    }
+
     @Override
     public LoginMessageDTO loginAccount(LoginDTO loginDTO) {
         AccountEntity acc1 = accountRepository.findByUserName(loginDTO.getUsername());
@@ -58,7 +70,7 @@ public class AccountImpl implements AccountService{
             } else {
                 return new LoginMessageDTO("password Not Match", false);
             }
-        }else {
+        } else {
             return new LoginMessageDTO("Email not exits", false);
         }
     }

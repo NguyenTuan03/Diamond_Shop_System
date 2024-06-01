@@ -5,15 +5,35 @@ import {
   FormLabel,
   Image,
   Input,
-  Text,
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function UploadImage() {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
   const toast = useToast();
-  const handleSubmitImage = () => {
+  async function handleSubmitImages() {
+    for (const image of selectedImages) {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append(
+        "upload_preset",
+        import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+      );
+      formData.append("public_id", uuidv4());
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${
+          import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+        }/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const data = await res.json();
+      console.log(data.public_id);
+    }
     toast({
       title: "Image submitted",
       description: "Your diamond image has been submitted successfully",
@@ -21,7 +41,7 @@ export default function UploadImage() {
       duration: 3000,
       isClosable: true,
     });
-  };
+  }
   return (
     <>
       <FormControl w={"auto"} isRequired>
@@ -34,11 +54,11 @@ export default function UploadImage() {
           m={"10px"}
           p={3}
         >
-          Upload your diamond image
+          Upload your diamond images
         </FormLabel>
         <Input
           type="file"
-          name="diamondImage"
+          name="diamondImages"
           borderRadius={"10px"}
           overflow={"hidden"}
           opacity={0}
@@ -47,24 +67,49 @@ export default function UploadImage() {
           width={"0.1px"}
           height={"0.1px"}
           onChange={(e) => {
-            if (e.target.files.length > 0) {
-              setSelectedImage(e.target.files[0]);
-              console.log(e.target.files[0]);
+            for (const image of selectedImages) {
+              const check = image.name === Array.from(e.target.files)[0].name;
+              if (check) {
+                toast({
+                  title: "Image already uploaded",
+                  description: "This image has already been uploaded",
+                  status: "error",
+                  duration: 3000,
+                  isClosable: true,
+                });
+                return;
+              }
             }
+            selectedImages.push(...Array.from(e.target.files));
+            setSelectedImages([...selectedImages]);
           }}
         />
       </FormControl>
-      {selectedImage && (
+      {selectedImages.length > 0 && (
         <Flex direction={"column"} alignItems={"center"} gap={2}>
-          <Image
-            src={URL.createObjectURL(selectedImage)}
-            alt="not found"
-            w={"500px"}
-          />
-          <Button colorScheme={"red"} onClick={() => setSelectedImage(null)}>
-            Remove Image
-          </Button>
-          <Button colorScheme="green" onClick={handleSubmitImage}>
+          <Flex direction={"row"} gap={5}>
+            {selectedImages.map((image, index) => (
+              <Flex direction={"column"} gap={2} key={index}>
+                <Image
+                  src={URL.createObjectURL(image)}
+                  alt="not found"
+                  w={"250px"}
+                  h={"250px"}
+                />
+                <Button
+                  colorScheme="red"
+                  onClick={() =>
+                    setSelectedImages((prev) =>
+                      prev.filter((img) => img !== selectedImages[index])
+                    )
+                  }
+                >
+                  Remove
+                </Button>
+              </Flex>
+            ))}
+          </Flex>
+          <Button colorScheme="green" onClick={handleSubmitImages}>
             Submit
           </Button>
         </Flex>

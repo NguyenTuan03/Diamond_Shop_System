@@ -1,61 +1,75 @@
 package com.diamond_shop.diamond_shop.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
-@Table(name="[User]")
+@Table(name = "Users")
 public class AccountEntity {
     @SequenceGenerator(
-        name = "User_sequence",
-        sequenceName = "User",
+        name = "Users_sequence",
+        sequenceName = "Users",
         allocationSize = 1
     )
     @Id
     @GeneratedValue(
         strategy = GenerationType.IDENTITY
     )
-    @Column(name = "User_Id")
-    private int User_id;
+    @Column(name = "Id")
+    private int Id;
 
     @ManyToOne
     @JoinColumn(name = "Role_id")
     private RoleEntity Role_id;
 
-    @Column(name = "User_name")
-    private String User_name;
+    @Column(name = "Username")
+    private String Username;
 
     @Column(name = "Password")
     private String Password;
 
-    @Column(name = "Full_name")
-    private String Full_name;
+    @Column(name = "Fullname")
+    private String Fullname;
 
     @Column(name = "Email")
     private String Email;
 
-    @Column(name = "Phone")
-    private String Phone;
+    @Column(name = "Phone_number")
+    private String Phone_number;
 
     @Column(name = "Address")
     private String Address;
 
-    public AccountEntity(RoleEntity role_Id, String user_Name, String full_Name, String phone, String password) {
-        this.Role_id = role_Id;
-        this.User_name = user_Name;
-        this.Full_name = full_Name;
-        this.Phone = phone;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<ValuationRequestEntity> valuationRequestEntity;
+
+    @OneToMany(mappedBy = "staffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ProcessRequestEntity> processRequestEntity = new HashSet<>();
+    
+    public AccountEntity(RoleEntity role_id, String username, String fullname, String phone_number,String password) {
+          this.Role_id = role_id;
+        this.Username = username;
+        this.Fullname = fullname;
+        this.Phone_number = phone_number;
+        this.Password = password;
+    }
+
+    public AccountEntity(int id, String username, String fullname, String phone_number, String password) {
+        this.Id = id;
+        this.Username = username;
+        this.Fullname = fullname;
+        this.Phone_number = phone_number;
         this.Password = password;
     }
 }

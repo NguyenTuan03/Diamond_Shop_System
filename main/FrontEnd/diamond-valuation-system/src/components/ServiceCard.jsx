@@ -1,33 +1,51 @@
-import { Flex, Text, Button } from "@chakra-ui/react";
+import {
+  Flex,
+  Text,
+  Button,
+  UnorderedList,
+  ListItem,
+  Card,
+  CardHeader,
+  Heading,
+  CardBody,
+  CardFooter,
+  Center,
+} from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
 import routes from "../config/Config";
 
-export default function ServiceCard({ type, price, time, color }) {
+export default function ServiceCard({ type, price, time, attributes, color }) {
   return (
-    <Flex
-      direction={"column"}
-      alignItems={"center"}
-      border={"2px solid"}
-      borderColor={`${color}.400`}
-      w={"300px"}
-      height={"500px"}
-    >
-      <div style={{ display: "flex", alignItems: "center", height: "100px" }}>
-        <Text fontSize={"xl"}>DiamondVal</Text>
-      </div>
-      <Text fontSize={"2xl"} fontWeight={"bold"} color={`${color}.400`}>
-        {type}
-      </Text>
-      <Text fontSize={"6xl"}>${price}</Text>
-      <div style={{ display: "flex", alignItems: "center", height: "200px" }}>
-        <Text fontSize={"lg"} m={"0 10px 0 10px"}>
-          <strong>{type}</strong> valuate from {time} days
+    <Card border={"1px solid"} w={"20vw"}>
+      <CardHeader align="center">
+        <Heading size={"md"} color={`${color}.400`}>
+          {type}
+        </Heading>
+      </CardHeader>
+      <Flex direction={"column"} align={"center"}>
+        <Text fontSize={"5xl"}>${price}</Text>
+        <Text fontSize={"lg"}>
+          Valuation time: <strong>{time}</strong>
         </Text>
-      </div>
-      <Link to={routes.diamonValuationRequest}>
-        <Button colorScheme={color}>Valuate Now</Button>
-      </Link>
-    </Flex>
+      </Flex>
+      <CardBody align={"start"}>
+        <Text fontSize={"lg"}>We will valuate:</Text>
+        <UnorderedList fontSize={"sm"}>
+          {attributes.map((item, index) => (
+            <ListItem key={index}>{item}</ListItem>
+          ))}
+        </UnorderedList>
+      </CardBody>
+      <Center>
+        <CardFooter>
+          <Link to={routes.diamondValuationRequest}>
+            <Button colorScheme={color} size={"lg"}>
+              Choose
+            </Button>
+          </Link>
+        </CardFooter>
+      </Center>
+    </Card>
   );
 }

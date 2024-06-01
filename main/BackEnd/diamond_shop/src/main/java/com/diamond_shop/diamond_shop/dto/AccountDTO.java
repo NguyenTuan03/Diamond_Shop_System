@@ -8,12 +8,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class AccountDTO {
-    private String accountid;
+    private String id;
     private String username;
     private String fullname;
     private String phonenumber;
     private String password;
-    public AccountDTO() {
-    }
     
 }
