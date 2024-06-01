@@ -25,5 +25,4 @@ public class AdminController {
         System.out.println(Integer.parseInt(account.getId()));
         accountService.deleteAccount(Integer.parseInt(account.getId()));
     }
-    
 }
