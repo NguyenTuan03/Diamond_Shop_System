@@ -13,25 +13,48 @@ import {
     ModalHeader,
     ModalOverlay,
     Text,
-    FormErrorMessage,
+    Toast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import { login } from "../../service/Login";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import SignUp from "../signUp/SignUp";
 export default function Login({ signIn, signUp }) {
     const [isLogin, setIsLogin] = useState(false);
     async function fetchApi(username, password) {
-        try {
-            console.log(username, password);
-            const result = await login(username, password);
-            console.log(result);
+        console.log(username, password);
+        const result = await login(username, password);
+        if (result.errCode) {
+            toast.error("Login failed. Try again later", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        } else {
             setIsLogin(true);
-        } catch (error) {
-            console.error("Login failed:", error);
+            toast.success("Login Successful", {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+          });
+            console.log(result);
+            localStorage.setItem("user", JSON.stringify(result.data));
         }
     }
-
     return (
         <>
             {!isLogin && (
@@ -130,7 +153,7 @@ export default function Login({ signIn, signUp }) {
                     </ModalContent>
                 </Modal>
             )}
-            <SignUp signUp={signUp}/>
+            <SignUp signUp={signUp} />
         </>
     );
 }
