@@ -1,6 +1,8 @@
 package com.diamond_shop.diamond_shop.repository;
 
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
+import com.diamond_shop.diamond_shop.entity.RoleEntity;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +27,7 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Integer>
     AccountEntity findByUserId(@Param("id") int id);
 
     void deleteById(int id);
+
+    @Query("SELECT a FROM AccountEntity a WHERE a.Role_id = :Role_id")
+    List<AccountEntity> findAllByRoleId(@Param("Role_id") RoleEntity Role_id);
 }
