@@ -1,6 +1,5 @@
 package diamond_shop.diamond_shop.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;

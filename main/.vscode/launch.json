@@ -8,6 +8,26 @@
             "type": "java",
             "name": "DiamondShopApplication",
             "request": "launch",
+            "mainClass": "diamond_shop.diamond_shop.main.DiamondShopApplication",
+            "projectName": "diamond_shop"
+        },
+        {
+            "type": "java",
+            "name": "DiamondShopApplication",
+            "request": "launch",
+            "mainClass": "diamond_shop.diamond_shop.DiamondShopApplication"
+        },
+        {
+            "type": "java",
+            "name": "DiamondShopApplication",
+            "request": "launch",
+            "mainClass": "com.diamond_shop.diamond_shop.DiamondShopApplication",
+            "projectName": "diamond_shop"
+        },
+        {
+            "type": "java",
+            "name": "DiamondShopApplication",
+            "request": "launch",
             "mainClass": "diamond_shop.diamond_shop.DiamondShopApplication",
             "projectName": "diamond_shop"
         },
