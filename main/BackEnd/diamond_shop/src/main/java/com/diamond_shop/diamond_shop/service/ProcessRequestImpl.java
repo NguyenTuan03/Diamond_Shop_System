@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
@@ -13,7 +14,7 @@ import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
 import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
-
+@Service
 public class ProcessRequestImpl implements ProcessRequestService{
     @Autowired
     private ProcessRequestRepository processRequestRepository;
