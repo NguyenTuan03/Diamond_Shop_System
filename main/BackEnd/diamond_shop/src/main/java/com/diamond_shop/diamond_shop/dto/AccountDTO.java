@@ -11,9 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AccountDTO {
     private int id;
+    private int roleid;
     private String username;
     private String fullname;
+    private String email;
     private String phonenumber;
     private String password;
+    private String address;
     
 }
