@@ -1,6 +1,9 @@
 import axios from "axios";
 const httpRequest = axios.create({
     baseURL: import.meta.env.VITE_REACT_APP_BASE_URL,
+    headers: {
+        'Content-Type': 'application/json',
+      },
     // timeout:1000,
 });
 export const get = async (url, options = {}) => {
