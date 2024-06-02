@@ -11,6 +11,8 @@ import java.util.List;
 public interface AccountService  {
     List<AccountEntity> getAllAccounts();
     String addAccount(AccountDTO accountDTO);
+    void updateAccount(int id, int role, String fullname, String email, String phonenumber, String address);
+
     void deleteAccount(int id);
     LoginMessageDTO loginAccount(LoginDTO loginDTO);
 }

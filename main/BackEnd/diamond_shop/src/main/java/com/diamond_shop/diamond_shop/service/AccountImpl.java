@@ -49,6 +49,11 @@ public class AccountImpl implements AccountService {
     }
 
     @Override
+    public void updateAccount(int id, int role, String fullname, String email, String phonenumber, String address) {
+        accountRepository.updateAccountInfoById(id, role, fullname, email, phonenumber, address);
+    }
+
+    @Override
     public void deleteAccount(int id) {
         accountRepository.deleteById(id);
     }

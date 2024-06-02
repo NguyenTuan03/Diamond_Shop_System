@@ -8,10 +8,17 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class AccountDTO {
+<<<<<<< Updated upstream
     private String id;
+=======
+    private int id;
+    private int roleid;
+>>>>>>> Stashed changes
     private String username;
     private String fullname;
+    private String email;
     private String phonenumber;
     private String password;
+    private String address;
     
 }
