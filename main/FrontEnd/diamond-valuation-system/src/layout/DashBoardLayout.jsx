@@ -1,6 +1,6 @@
 import React from "react";
 import SideBar from "./sidebar/SideBar";
-import DashBoard from "../pages/dashboard/ConsultingDashBoard";
+import DashBoard from "../pages/dashboard/consulting/ConsultingDashBoard";
 import { Box, Flex } from "@chakra-ui/react";
 import SideBarAdmin from "./sidebar/SideBarAdmin";
 import SideBarManager from "./sidebar/SideBarManager";
@@ -10,7 +10,7 @@ import SideBarValuationStaff from "./sidebar/SideBarValuationStaff";
 
 export default function DashBoardLayout({ children }) {
     let users = {
-        role: 3, // Test dashboard role
+        role: 5, // Test dashboard role
     };
     return (
         <Flex width={"100%"} height={"100vh"} bg={"rgb(243 244 246)"}>
@@ -21,7 +21,7 @@ export default function DashBoardLayout({ children }) {
                 {users.role === 4 && <SideBarValuationStaff />}
                 {users.role === 5 && <SideBar />}
             </Box>
-            <Box flex="1" bg="#fff" pl={5}>
+            <Box flex="1" bg="#fff" px={5} pt={5} mt={5}>
                 {children}
             </Box>
         </Flex>

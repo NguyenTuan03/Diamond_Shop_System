@@ -20,10 +20,15 @@ public class AdminController {
         return accountService.getAllAccounts();
     }
 
+    @PostMapping(path = "/update")
+    public void updateAccount(@RequestBody AccountDTO account) {
+        System.out.println(account);
+        accountService.updateAccount(account.getId(), account.getRoleid(), account.getFullname(), account.getEmail(), account.getPhonenumber(), account.getAddress());
+    }
+
     @PostMapping(path = "/delete")
     public void deleteAccount(@RequestBody AccountDTO account) {
-        System.out.println(Integer.parseInt(account.getId()));
-        accountService.deleteAccount(Integer.parseInt(account.getId()));
+        System.out.println(account.getId());
+        accountService.deleteAccount(account.getId());
     }
-    
 }

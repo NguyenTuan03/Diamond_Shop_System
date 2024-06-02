@@ -90,9 +90,7 @@ export default function AdminPage() {
       await axios
         .post("http://localhost:8081/api/admin/delete", { id: id })
         .then(function (response) {
-          const updatedAccounts = accounts.filter(
-            (account) => account.id !== id
-          );
+          const updatedAccounts=accounts.filter((account)=>account.id!==id);
           setAccounts(updatedAccounts);
         });
     } catch (err) {
@@ -183,8 +181,20 @@ export default function AdminPage() {
                         icon={<MdDeleteOutline size={25} color="red" />}
                         bgColor={"transparent"}
                         onClick={() => {
-                          setDeleteId(account.id);
-                          confirmDeleteUser.onOpen();
+                          console.log(account.id);
+                          deleteAccount(account.id);
+                        }}
+                      />
+                      <ConfirmAlert
+                        isOpen={confirmDeleteUser.isOpen}
+                        onClose={confirmDeleteUser.onClose}
+                        cancelRef={cancelRef}
+                        header={"Delete User"}
+                        body={"Are you sure you want to delete this user?"}
+                        action={"Delete"}
+                        colorScheme={"red"}
+                        onClickFunc={() => {
+                          confirmDeleteUser.onClose();
                         }}
                       />
                     </Center>

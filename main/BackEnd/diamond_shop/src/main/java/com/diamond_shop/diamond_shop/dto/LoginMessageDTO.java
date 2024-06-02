@@ -12,4 +12,10 @@ import lombok.Setter;
 public class LoginMessageDTO {
     String message;
     Boolean status;
+    private AccountDTO accountDTO;
+    public LoginMessageDTO(String message, Boolean status) {
+        this.message = message;
+        this.status = status;
+    }
+    
 }
