@@ -18,8 +18,8 @@ public class ServiceStatisticEntity {
     @Column(name = "Name")
     private String Name;
 
-    @OneToOne(mappedBy = "Service_statistic_id", cascade = CascadeType.ALL)
-    private ServiceEntity Service_id;
+    // @OneToOne(mappedBy = "Id", cascade = CascadeType.ALL)
+    // private ServiceEntity Service_id;
 
 
 }

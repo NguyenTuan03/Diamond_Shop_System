@@ -31,10 +31,10 @@ public class ServiceEntity {
     private ServiceStatisticEntity Service_statistic_id;
 
     public ServiceEntity(int id, String name, String price, String time, ServiceStatisticEntity statistic_id) {
-        Id = id;
-        Name = name;
-        Price = price;
-        Time = time;
-        Service_statistic_id = statistic_id;
+        this.Id = id;
+        this.Name = name;
+        this.Price = price;
+        this.Time = time;
+        this.Service_statistic_id = statistic_id;
     }
 }

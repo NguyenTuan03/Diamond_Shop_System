@@ -20,9 +20,9 @@ public class AdminController {
         return accountService.getAllAccounts();
     }
 
-    @PostMapping(path = "/delete")
-    public void deleteAccount(@RequestBody AccountDTO account) {
-        System.out.println(Integer.parseInt(account.getId()));
-        accountService.deleteAccount(Integer.parseInt(account.getId()));
-    }
+    // @PostMapping(path = "/delete")
+    // public void deleteAccount(@RequestBody AccountDTO account) {
+    //     System.out.println(Integer.parseInt(account.getId()));
+    //     accountService.deleteAccount(Integer.parseInt(account.getId()));
+    // }
 }
