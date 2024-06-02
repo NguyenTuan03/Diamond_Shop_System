@@ -22,13 +22,19 @@ import {
   ModalCloseButton,
   ModalBody,
   Center,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Button,
+  Select,
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
 import { GrUpdate } from "react-icons/gr";
 import { MdDeleteOutline, MdCreate } from "react-icons/md";
 import ConfirmAlert from "../../components/ConfirmAlert";
 import axios from "axios";
-
+import { Form, Formik } from "formik";
+import { validateSignUp } from "../../utils/ValidateSignUp";
 export default function AdminPage() {
   const createUser = useDisclosure();
   const updateUser = useDisclosure();
@@ -37,6 +43,8 @@ export default function AdminPage() {
 
   const [accounts, setAccounts] = useState([]);
   const [deleteId, setDeleteId] = useState(null);
+  const [updateAcc, setUpdateAcc] = useState({});
+
   const fetchAccounts = async () => {
     try {
       const res = await axios
@@ -46,6 +54,32 @@ export default function AdminPage() {
           // setAccounts(...accounts);
           setAccounts(response.data);
           console.log(response.data);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const updateAccount = async (
+    id,
+    roleid,
+    fullname,
+    email,
+    phonenumber,
+    address
+  ) => {
+    console.log(id, roleid, fullname, email, phonenumber, address);
+    try {
+      await axios
+        .post("http://localhost:8081/api/admin/update", {
+          id: id,
+          roleid: roleid,
+          fullname: fullname,
+          email: email,
+          phonenumber: phonenumber,
+          address: address,
+        })
+        .then(function (response) {
+          fetchAccounts();
         });
     } catch (err) {
       console.log(err);
@@ -135,7 +169,10 @@ export default function AdminPage() {
                         aria-label="update user"
                         icon={<GrUpdate />}
                         bgColor={"transparent"}
-                        onClick={updateUser.onOpen}
+                        onClick={() => {
+                          setUpdateAcc(account);
+                          updateUser.onOpen();
+                        }}
                       />
                     </Center>
                   </Td>
@@ -171,7 +208,141 @@ export default function AdminPage() {
         <ModalContent>
           <ModalHeader>Update user</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>ssd</ModalBody>
+          <ModalBody>
+            <Formik
+              initialValues={{
+                role: updateAcc.role_id?.id || "",
+                fullName: updateAcc.fullname,
+                email: updateAcc.email,
+                phoneNumber: updateAcc?.phone_number || "",
+                address: updateAcc.address,
+              }}
+              validate={(values) => {
+                return validateSignUp(values, "updateAdmin");
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                console.log(values);
+                updateAccount(
+                  updateAcc.id,
+                  values.role,
+                  values.fullName,
+                  values.email,
+                  values.phoneNumber,
+                  values.address
+                )
+                  .then(() => {
+                    updateUser.onClose();
+                    setSubmitting(false);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+              }) => (
+                <Form onSubmit={handleSubmit}>
+                  <FormControl>
+                    <FormLabel>Role</FormLabel>
+                    <Select
+                      name="role"
+                      placeholder="Select a role"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.role}
+                    >
+                      <option value="1">Admin</option>
+                      <option value="2">Manager</option>
+                      <option value="3">Consulting Staff</option>
+                      <option value="4">Valuation Staff</option>
+                      <option value="5">Customer</option>
+                      <option value="6">Guest</option>
+                    </Select>
+                  </FormControl>
+                  <FormControl
+                    isRequired
+                    isInvalid={
+                      errors.fullName && touched.fullName && errors.fullName
+                    }
+                  >
+                    <FormLabel>Full name</FormLabel>
+                    <Input
+                      name="fullName"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.fullName}
+                    />
+                    <FormErrorMessage>
+                      {errors.fullName && touched.fullName && errors.fullName}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isInvalid={errors.email && touched.email && errors.email}
+                  >
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      name="email"
+                      type="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                    />
+                    <FormErrorMessage>
+                      {errors.email && touched.email && errors.email}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isInvalid={
+                      errors.phoneNumber &&
+                      touched.phoneNumber &&
+                      errors.phoneNumber
+                    }
+                  >
+                    <FormLabel>Phone number</FormLabel>
+                    <Input
+                      name="phoneNumber"
+                      type="tel"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.phoneNumber}
+                    />
+                    <FormErrorMessage>
+                      {errors.phoneNumber &&
+                        touched.phoneNumber &&
+                        errors.phoneNumber}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Address</FormLabel>
+                    <Input
+                      name="address"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.address}
+                    />
+                  </FormControl>
+                  <Button
+                    type="submit"
+                    colorScheme="blue"
+                    w={"inherit"}
+                    m={"10px 0 0 0"}
+                    disabled={isSubmitting}
+                  >
+                    Update
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          </ModalBody>
         </ModalContent>
       </Modal>
       <ConfirmAlert
@@ -183,8 +354,8 @@ export default function AdminPage() {
         action={"Delete"}
         colorScheme={"red"}
         onClickFunc={() => {
-          deleteAccount(deleteId);
           confirmDeleteUser.onClose();
+          deleteAccount(deleteId);
         }}
       />
     </>
