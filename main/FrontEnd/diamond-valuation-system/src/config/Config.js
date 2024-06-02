@@ -19,15 +19,21 @@ const routes = {
   logout: "/logout",
   consultingStaff: "/consulting-staff",
   valuationStaff: "/valuation-staff",
-  // DashBoard của ConsultingStaff
+  // ConsultingStaff's DashBoard
   consulting_dashboard: "/consulting-staff-dashboard",
   consulting_dasboardNotification: "/consulting-staff-dashboard/notifications",
   consulting_dashboardPrices: "/consulting-staff-dashboard/prices",
   consulting_dashboardAppoint: "/consulting-staff-dashboard/appointments",
   consulting_dashboardSearch: "/consulting-staff-dashboard/search",
   consulting_dashboardRequest: "/consulting-staff-dashboard/request",
-  //Dashboard của Customer
-
+  // Customer's Dashboard
+  dashboard: "/dashboard",
+  dasboardNotification: "/dashboard/notifications",
+  dashboardPrices: "/dashboard/prices",
+  dashboardAppoint: "/dashboard/appointments",
+  dashboardSearch: "/dashboard/search",
+  dashboardRequest: "/dashboard/request",
+  // Admin's Dashboard
   admin: "/admin",
 };
 export default routes;

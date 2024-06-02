@@ -23,13 +23,50 @@ import "react-toastify/dist/ReactToastify.css";
 import SignUp from "../signUp/SignUp";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 export default function Login({ signIn, signUp }) {
+    const [isLoading, setIsLoading] = useState(false);
     const auth = useContext(UserContext);
     const [isLogin, setIsLogin] = useState(false);
     async function fetchApi(username, password) {
-        console.log(username, password);
-        const result = await login(username, password);
-        if (!result.data.status) {
-            toast.error("Login failed. Try again later", {
+        setIsLoading(true);
+        try {
+            console.log(username, password);
+            const result = await login(username, password);
+            if (!result.data.status) {
+                toast.error("Login failed. Try again later", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            } else {
+                setTimeout(() => {
+                    window.location.reload();
+                }, [200]);
+                setIsLogin(true);
+                toast.success("Login Successful", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(result.data.accountDTO)
+                );
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("An error occurred. Please try again later.", {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -40,24 +77,8 @@ export default function Login({ signIn, signUp }) {
                 theme: "light",
                 transition: Bounce,
             });
-        } else {
-            setIsLogin(true);
-            toast.success("Login Successful", {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
-            auth.setUser(result.data.accountDTO);
-            localStorage.setItem(
-                "user",
-                JSON.stringify(result.data.accountDTO)
-            );
+        } finally {
+            setIsLoading(false);
         }
     }
     return (
@@ -122,6 +143,7 @@ export default function Login({ signIn, signUp }) {
                                                 Forgot password
                                             </Text>
                                             <Button
+                                                isLoading={isLoading}
                                                 type="submit"
                                                 colorScheme="blue"
                                                 disabled={isSubmitting}

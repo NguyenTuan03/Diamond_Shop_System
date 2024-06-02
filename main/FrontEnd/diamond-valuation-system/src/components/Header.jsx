@@ -17,13 +17,32 @@ import routes from "../config/Config";
 import Login from "../pages/login/Login";
 import { useContext } from "react";
 import { UserContext } from "./GlobalContext/AuthContext";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 export default function Header() {
     const modalSignIn = useDisclosure();
     const modalSignUp = useDisclosure();
     const auth = useContext(UserContext);
     const nav = useNavigate();
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        setTimeout(() => {
+            window.location.reload();
+        }, [200]);
+        toast.success("Logout Successful", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+        });
+    }
     return (
         <>
+            <ToastContainer />
             <Flex
                 position={"fixed"}
                 top={"0px"}
@@ -42,7 +61,7 @@ export default function Header() {
                     <Flex direction={"row"} alignItems={"center"}>
                         <GiDiamondTrophy size={30} />
                         <Text fontSize={"lg"} fontWeight={"bold"} m={"10px "}>
-                            DIAMONDVAL
+                            DIAMONDVALUATION
                         </Text>
                     </Flex>
                 </Link>
@@ -109,8 +128,8 @@ export default function Header() {
                         </MenuList>
                     </Menu>
                 </Flex>
-                {console.log(auth.user)}
-                {!auth.user ? (
+                {console.log(auth.userAuth)}
+                {!auth.userAuth ? (
                     <Button colorScheme="blue" onClick={modalSignIn.onOpen}>
                         Sign in
                     </Button>
@@ -118,13 +137,13 @@ export default function Header() {
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             <Avatar
-                                name={auth.user.fullname}
+                                name={auth.userAuth.fullname}
                                 src="https://bit.ly/broken-link"
                             />
                         </MenuButton>
                         <MenuList>
-                            <MenuItem onClick={() => nav('/consulting-staff-dashboard')}>Dash board</MenuItem>
-                            <MenuItem onClick={() => auth.setUser()}>Log out</MenuItem>
+                            <MenuItem onClick={() => nav('/dashboard')}>Dash board</MenuItem>
+                            <MenuItem onClick={handleLogout}>Log out</MenuItem>
                         </MenuList>
                     </Menu>
                 )}
