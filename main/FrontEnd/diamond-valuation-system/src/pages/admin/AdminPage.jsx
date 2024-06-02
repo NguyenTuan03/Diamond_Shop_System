@@ -44,7 +44,7 @@ export default function AdminPage() {
   const [accounts, setAccounts] = useState([]);
   const [deleteId, setDeleteId] = useState(null);
   const [updateAcc, setUpdateAcc] = useState({});
-
+  
   const fetchAccounts = async () => {
     try {
       const res = await axios
