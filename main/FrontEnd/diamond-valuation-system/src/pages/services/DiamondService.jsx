@@ -1,18 +1,34 @@
-import {Divider, Flex } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Divider, Flex } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import ServiceCard from "../../components/ServiceCard";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 export default function DiamondService() {
-  const services = useLocation();
-  console.log(services.state);
-  useEffect(() => {}, []);
+  // const services = useLocation();
+  // console.log(services.state);
+  const [serviceResponse, setServiceResponse] = useState([]);
+  useEffect(() => {
+    fetchServices();
+  }, []);
   const serviceColors = ["blue", "red", "yellow"];
   const serviceStatisticNames = [];
+  function fetchServices() {
+    try {
+      axios
+        .get("http://localhost:8081/api/diamond/service")
+        .then(function (response) {
+          setServiceResponse(response.data);
+          console.log(response.data);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }
   try {
-    for (let i = 0; i < services.state.length; i++) {
-      serviceStatisticNames.push(services.state[i].service_statistic_id.name);
+    for (let i = 0; i < serviceResponse.length; i++) {
+      serviceStatisticNames.push(serviceResponse[i].service_statistic_id.name);
       serviceStatisticNames[i] = serviceStatisticNames[i]
         .split(",")
         .map((item) => item.trim());
@@ -26,7 +42,7 @@ export default function DiamondService() {
       direction={"column"}
       alignItems={"center"}
       justifyContent={"center"}
-      w={"100vw"}
+      w={"99vw"}
       m={"50px 0 0 0"}
     >
       <Title
@@ -37,7 +53,7 @@ export default function DiamondService() {
       />
       <Divider m={"20px 0 20px 0"} />
       <Flex direction={"row"} gap={20}>
-        {services.state.map((item, index) => {
+        {serviceResponse.map((item, index) => {
           return (
             <ServiceCard
               key={index}

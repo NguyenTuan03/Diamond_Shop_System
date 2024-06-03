@@ -31,6 +31,6 @@ public class RoleEntity {
     @Column(name = "Name")
     private String Name;
 
-    @OneToMany(mappedBy = "Id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<AccountEntity> users;
 }

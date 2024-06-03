@@ -11,13 +11,17 @@ import {
   Card,
   CardHeader,
   CardBody,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 export default function Home() {
+  const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("black", "white");
+  const grayColor = useColorModeValue("gray.100", "gray.700");
   return (
-    <div>
-      <Flex direction="row" bg="white" p={"10px 0"} alignItems="center">
-        <Flex direction="column" w="40%" p={20} fontWeight="bold">
+    <>
+      <Flex direction="row" bg={bgColor} p={"10px 0"} alignItems="center">
+        <Flex direction="column" bg={bgColor} w="40%" p={20} fontWeight="bold">
           <Text fontSize="5xl" color="#4682B4">
             Compare Top-Rated Jewelers & Save
           </Text>
@@ -60,10 +64,7 @@ export default function Home() {
             muted
             style={{ width: "100%", height: "100vh", objectFit: "cover" }}
           >
-            <source
-              src="../videos/diamond-home-video.webm"
-              type="video/mp4"
-            />
+            <source src="../videos/diamond-home-video.webm" type="video/mp4" />
           </video>
           <Image
             src="../images/diamond-home-img.webp"
@@ -78,13 +79,12 @@ export default function Home() {
           />
         </Box>
       </Flex>
-
       <Grid
         templateColumns="repeat(6, 1fr)"
         gap={6}
         p={10}
         textAlign="center"
-        bg="gray.100"
+        bg={grayColor}
         fontWeight="bold"
       >
         <GridItem>
@@ -126,7 +126,7 @@ export default function Home() {
       </Grid>
 
       {/* Diamond Shapes Section */}
-      <Container
+      {/* <Container
         maxW="7xl"
         mt={10}
         centerContent
@@ -193,9 +193,8 @@ export default function Home() {
             </GridItem>
           ))}
         </Grid>
-      </Container>
-      <div>
-        <Flex direction="row">
+      </Container> */}
+        {/* <Flex direction="row" bg={bgColor}>
           <Flex direction={"column"}>
             <Text>How StoneAlgo helps you buy better</Text>
             <Grid
@@ -250,7 +249,7 @@ export default function Home() {
               </GridItem>
             </Grid>
           </Flex>
-          <Flex direction="column">
+          {/* <Flex direction="column">
             <Card>
               <CardHeader>Check Prices</CardHeader>
               <CardBody>
@@ -262,8 +261,7 @@ export default function Home() {
               <Button>Check Prices</Button>
             </Card>
           </Flex>
-        </Flex>
-      </div>
-    </div>
+        </Flex> */}
+    </>
   );
 }

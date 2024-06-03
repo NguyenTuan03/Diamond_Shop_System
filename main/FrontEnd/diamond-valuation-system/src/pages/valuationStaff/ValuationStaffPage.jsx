@@ -33,7 +33,7 @@ export default function ValuationStaffPage() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        w={"100vw"}
+        w={"99vw"}
         m={"100px 0 0 0"}
         gap={5}
       >
