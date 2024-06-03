@@ -14,6 +14,7 @@ import {
   Center,
   UnorderedList,
   ListItem,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import Title from "../../components/Title";
@@ -26,13 +27,16 @@ import {
 } from "../../shared/SharedEducationCut";
 import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
 export default function EducationCut() {
+  const bgColor = useColorModeValue("white", "black");
+
   return (
     <Flex
       direction="column"
       alignItems="center"
       justifyContent="center"
-      w={"100vw"}
-      m={"100px 0 0 0"}
+      w={"99vw"}
+      p={10}
+      bg={bgColor}
     >
       <Title
         title={"The Diamond Cuts Guide"}

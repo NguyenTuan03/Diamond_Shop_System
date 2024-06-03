@@ -11,9 +11,7 @@ import React, { useState } from "react";
 import Title from "../../components/Title";
 import UploadImage from "../../components/UploadImage";
 import SendEmailModal from "../../components/SendEmailModal";
-import { Form, Formik } from "formik";
-import { Link } from "react-router-dom";
-import { validateSignUp } from "../../utils/ValidateSignUp";
+import { Formik } from "formik";
 export default function DiamondValuationRequest() {
   const [input, setInput] = useState("");
   const handleInputChange = (e) => setInput(e.target.value);
@@ -23,7 +21,7 @@ export default function DiamondValuationRequest() {
         direction={"column"}
         alignItems={"center"}
         justifyContent={"center"}
-        w={"100vw"}
+        w={"99vw"}
         m={"50px 0 0 0"}
       >
         <Title

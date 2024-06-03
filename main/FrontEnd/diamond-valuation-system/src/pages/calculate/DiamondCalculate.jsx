@@ -2,7 +2,6 @@ import {
   Center,
   Divider,
   Flex,
-  FormControl,
   FormLabel,
   Text,
   Button,
@@ -13,6 +12,7 @@ import {
   Badge,
   Tooltip,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { IoDiamond, IoDiamondOutline } from "react-icons/io5";
 import { Link as LinkReactRouterDOM } from "react-router-dom";
@@ -30,6 +30,8 @@ import axios from "axios";
 import ScrollToTop from "react-scroll-to-top";
 
 export default function Calculate() {
+  const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("black", "white");
   const toast = useToast();
   const [sliderValue, setSliderValue] = useState();
   const [sliderShowToolTip, setSliderShowToolTip] = useState(false);
@@ -55,7 +57,6 @@ export default function Calculate() {
     min: "0",
     price: "0",
   });
-  const [serviceResult, setServiceResult] = useState([]);
   async function handleSubmit() {
     try {
       if (
@@ -123,33 +124,27 @@ export default function Calculate() {
           setValuationResult(jsonResult);
         });
     } catch (error) {
+      toast({
+        title: "Diamond Valuation",
+        description: "An error occurred",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       console.error("Error: ", error);
     }
   }
-  function handleValuationService() {
-    try {
-      axios
-        .get("http://localhost:8081/api/diamond/service")
-        .then(function (response) {
-          setServiceResult(response.data);
-          console.log(serviceResult);
-        });
-    } catch (error) {
-      console.error("Error: ", error);
-    }
-  }
-  useEffect(() => {
-    handleValuationService();
-  }, []);
+  useEffect(() => {}, []);
   return (
     <>
-      <ScrollToTop smooth />
+      <ScrollToTop smooth color="blue"/>
       <Flex
         direction="column"
         alignItems="center"
         justifyContent="center"
-        w={"100vw"}
-        m={"100px 0 0 0"}
+        w={"99vw"}
+        bg={bgColor}
+        p={10}
       >
         <Text fontSize="3xl" fontWeight="bold">
           Diamond Price Valuation
@@ -311,12 +306,8 @@ export default function Calculate() {
               <Text fontSize={"xl"} color={"gray"}>
                 Contact with our experts to get a valuation
               </Text>
-              <LinkReactRouterDOM to={"/diamond-service"} state={serviceResult}>
-                <Button
-                  leftIcon={<IoDiamond />}
-                  colorScheme="blue"
-                  onClick={handleValuationService}
-                >
+              <LinkReactRouterDOM to={"/diamond-service"}>
+                <Button leftIcon={<IoDiamond />} colorScheme="blue">
                   Valuate Diamond
                 </Button>
               </LinkReactRouterDOM>

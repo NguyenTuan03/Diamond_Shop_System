@@ -8,6 +8,7 @@ import {
   UnorderedList,
   Link as LinkCharkaUI,
   Box,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import { Link as LinkReactRouterDOM } from "react-router-dom";
@@ -16,13 +17,15 @@ import EducationFAQs from "../../components/education/EducationFAQs";
 import { certificateFAQs } from "../../shared/SharedEducationCertificate";
 import routes from "../../config/Config";
 export default function EducationCertificate() {
+  const bgColor = useColorModeValue("white", "black");
   return (
     <Flex
       direction="column"
       alignItems="center"
       justifyContent="center"
-      w={"100vw"}
-      m={"100px 0 0 0"}
+      w={"99vw"}
+      p={10}
+      bg={bgColor}
     >
       <Title
         title={"A Complete Guide to Diamond Certification"}
