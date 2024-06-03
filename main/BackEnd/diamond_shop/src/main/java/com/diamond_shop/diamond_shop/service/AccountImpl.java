@@ -8,6 +8,9 @@ import com.diamond_shop.diamond_shop.entity.RoleEntity;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +29,13 @@ public class AccountImpl implements AccountService {
     @Override
     public List<AccountEntity> getAllAccounts() {
         List<AccountEntity> accounts = accountRepository.getAllAccounts();
-        System.out.println(accounts);
+        return accounts;
+    }
+
+    public Page<AccountEntity> getAllAccountsById(int pageId) {
+        int pageSize = 5;
+        int pageNumber = --pageId;
+        Page<AccountEntity> accounts = accountRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("role")));
         return accounts;
     }
 
@@ -40,12 +49,30 @@ public class AccountImpl implements AccountService {
         AccountEntity account = new AccountEntity(
                 role,
                 a.getUsername(),
+                a.getPassword(),
                 a.getFullname(),
                 a.getPhonenumber(),
                 this.passwordEncoder.encode(a.getPassword())
         );
         accountRepository.save(account);
         return account.getUsername();
+    }
+
+    @Override
+    public void createAccount(AccountDTO accountDTO) {
+        RoleEntity role = roleRepository.findById(accountDTO.getRoleid()).orElseThrow(() -> new RuntimeException("Role not found"));
+        System.out.println(role);
+        AccountEntity account = new AccountEntity(
+                role,
+                accountDTO.getUsername(),
+                accountDTO.getPassword(),
+                accountDTO.getFullname(),
+                accountDTO.getEmail(),
+                accountDTO.getPhonenumber(),
+                accountDTO.getAddress()
+        );
+        System.out.println(account);
+        accountRepository.save(account);
     }
 
     @Override
@@ -80,7 +107,7 @@ public class AccountImpl implements AccountService {
             } else {
                 return new LoginMessageDTO("password Not Match", false);
             }
-        }else {
+        } else {
             return new LoginMessageDTO("Email not exits", false);
         }
     }

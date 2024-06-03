@@ -4,9 +4,8 @@ import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -16,8 +15,14 @@ public class AdminController {
     private AccountService accountService;
 
     @GetMapping(path = "/get")
-    public List<AccountEntity> getAllAccounts() {
-        return accountService.getAllAccounts();
+    public Page<AccountEntity> getAllAccounts(@RequestParam("page") int page) {
+        return accountService.getAllAccountsById(page);
+    }
+
+    @PostMapping(path = "/create")
+    public void createAccount(@RequestBody AccountDTO account) {
+        System.out.println(account);
+        accountService.createAccount(account);
     }
 
     @PostMapping(path = "/update")
