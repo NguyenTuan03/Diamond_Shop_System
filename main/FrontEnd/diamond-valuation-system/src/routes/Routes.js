@@ -17,6 +17,7 @@ import Logout from "../pages/logout/Logout.jsx";
 import Prices from "../pages/prices/Prices.jsx";
 import Search from "../pages/Search/Search.jsx";
 import ConsultingStaffPage from "../pages/consultingStaff/ConsultingStaffPage.jsx";
+import Error from "../pages/error/Error.jsx";
 import ValuationStaffPage from "../pages/valuationStaff/ValuationStaffPage.jsx";
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
 import ConsultingDashBoard from "../pages/dashboard/consulting/ConsultingDashBoard.jsx";
@@ -67,6 +68,43 @@ const ALlRoutes = [
         path: routes.diamondService,
         component: DiamondService,
     },
+
+  {
+    path: routes.educationShape,
+    component: EducationShape,
+  },
+  {
+    path: routes.educationCarat,
+    component: EducationCarat,
+  },
+  {
+    path: routes.educationColor,
+    component: EducationColor,
+  },
+  {
+    path: routes.educationCut,
+    component: EducationCut,
+  },
+  {
+    path: routes.educationClarity,
+    component: EducationClarity,
+  },
+  {
+    path: routes.login,
+    component: Login,
+  },
+  {
+    path: routes.logout,
+    component: Logout,
+  },
+  {
+    path: routes.consultingStaff,
+    component: ConsultingStaffPage,
+  },
+  {
+    path: routes.error,
+    component: Error,
+  },
 
     {
         path: routes.diamondValuationRequest,

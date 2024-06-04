@@ -49,7 +49,6 @@ public class AccountImpl implements AccountService {
         AccountEntity account = new AccountEntity(
                 role,
                 a.getUsername(),
-                a.getPassword(),
                 a.getFullname(),
                 a.getPhonenumber(),
                 this.passwordEncoder.encode(a.getPassword())
