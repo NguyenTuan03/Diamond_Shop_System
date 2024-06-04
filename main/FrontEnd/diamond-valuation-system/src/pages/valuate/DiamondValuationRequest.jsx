@@ -1,11 +1,10 @@
 import {
   Divider,
-  FormLabel,
-  Input,
   Flex,
   FormControl,
   Center,
   Textarea,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Title from "../../components/Title";
@@ -13,6 +12,8 @@ import UploadImage from "../../components/UploadImage";
 import SendEmailModal from "../../components/SendEmailModal";
 import { Formik } from "formik";
 export default function DiamondValuationRequest() {
+  const bgColor = useColorModeValue("white", "black");
+
   const [input, setInput] = useState("");
   const handleInputChange = (e) => setInput(e.target.value);
   return (
@@ -22,7 +23,8 @@ export default function DiamondValuationRequest() {
         alignItems={"center"}
         justifyContent={"center"}
         w={"99vw"}
-        m={"50px 0 0 0"}
+        h={"100vh"}
+        bg={bgColor}
       >
         <Title
           title={"Diamond Valuation Request"}

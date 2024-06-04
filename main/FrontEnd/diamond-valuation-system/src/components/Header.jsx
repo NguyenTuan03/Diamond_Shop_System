@@ -66,7 +66,7 @@ export default function Header() {
           <Flex direction={"row"} alignItems={"center"}>
             <GiDiamondTrophy size={30} />
             <Text fontSize={"lg"} fontWeight={"bold"} m={"10px "}>
-              DIAMONDVALUATION
+              DIAMONDVAL
             </Text>
           </Flex>
         </Link>
