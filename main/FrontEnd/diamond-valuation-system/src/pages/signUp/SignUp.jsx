@@ -20,13 +20,57 @@ import { Link } from "react-router-dom";
 import { login } from "../../service/Login";
 import { validateSignUp } from "../../utils/ValidateSignUp";
 import { register } from './../../service/SignUp';
+import { Bounce, toast } from "react-toastify";
 export default function SignUp({ signUp }) {
     async function signUpApi(username, fullName, phone, password) {
         try {
             const result = await register(username, fullName, phone, password);
             console.log(result);
+            if (!result.data) {
+                toast.error("SignUp failed. Please try again!", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            } else {
+                setTimeout(() => {
+                    window.location.reload();
+                }, [200]);
+                toast.success("Login Successful", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(result.data.accountDTO)
+                );
+            }
         } catch (error) {
             console.error("Login failed:", error);
+            toast.error("An error occurred. Please try again later.", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         }
     }
     return (
