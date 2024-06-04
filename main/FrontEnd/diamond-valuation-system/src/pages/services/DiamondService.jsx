@@ -57,6 +57,7 @@ export default function DiamondService() {
           return (
             <ServiceCard
               key={index}
+              id={item.id}
               type={item.name.toUpperCase()}
               price={item.price}
               time={item.time}

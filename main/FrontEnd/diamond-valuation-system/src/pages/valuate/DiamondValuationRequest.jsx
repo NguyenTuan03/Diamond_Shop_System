@@ -13,9 +13,10 @@ import Title from "../../components/Title";
 import UploadImage from "../../components/UploadImage";
 import SendEmailModal from "../../components/SendEmailModal";
 import { Formik } from "formik";
+import { useParams } from "react-router-dom";
 export default function DiamondValuationRequest() {
-    const [input, setInput] = useState("");
-    const handleInputChange = (e) => setInput(e.target.value);
+    const [input, setInput] = useState("");    
+    const serviceId = useParams();    
     return (
         <>
             <Flex
@@ -34,7 +35,7 @@ export default function DiamondValuationRequest() {
                 <Divider m={"20px 0 20px 0"} />
                 <FormControl w={"400px"}>
                     <FormLabel>Address</FormLabel>
-                    <Input type="email" placeholder="Please write your address" />
+                    <Input type="text" placeholder="Please write your address" />
                 </FormControl>
                 <Center mt={5} mb={5}>
                     <FormControl>
@@ -42,11 +43,12 @@ export default function DiamondValuationRequest() {
                             h={"200px"}
                             w={"500px"}
                             placeholder="Please write your request description here..."
+                            onChange={e => setInput(e.target.value)}
                         />
                     </FormControl>
                 </Center>
                 <Formik>
-                    <UploadImage />
+                    <UploadImage service={+serviceId} description={input} />
                 </Formik>
             </Flex>
         </>
