@@ -1,132 +1,144 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
-  Image,
-  Flex,
-  Text,
-  Button,
-  Grid,
-  GridItem,
-  Container,
-  Box,
-  Card,
-  CardHeader,
-  CardBody,
-  useColorModeValue,
+    Image,
+    Flex,
+    Text,
+    Button,
+    Grid,
+    GridItem,
+    Container,
+    Box,
+    Card,
+    CardHeader,
+    CardBody,
+    useColorModeValue,
 } from "@chakra-ui/react";
 
 export default function Home() {
-  const bgColor = useColorModeValue("white", "black");
-  const fontColor = useColorModeValue("black", "white");
-  const grayColor = useColorModeValue("gray.100", "gray.700");
-  return (
-    <>
-      <Flex direction="row" bg={bgColor} p={"10px 0"} alignItems="center">
-        <Flex direction="column" bg={bgColor} w="40%" p={20} fontWeight="bold">
-          <Text fontSize="5xl" color="#4682B4">
-            Compare Top-Rated Jewelers & Save
-          </Text>
-          <Text fontSize="lg" mt={4} color="#4682B4">
-            Navigate the diamond market effortlessly.
-          </Text>
-          <Flex mt={6}>
-            <Button
-              backgroundColor=" #7B68EE"
-              color="white"
-              colorScheme="blue"
-              variant="solid"
-              mr={4}
-              _hover={{ bg: "#6A5ACD" }}
-              height="60px"
-              fontSize="lg"
-              width="50%"
-              borderRadius="15px"
+    const bgColor = useColorModeValue("white", "black");
+    const fontColor = useColorModeValue("black", "white");
+    const grayColor = useColorModeValue("gray.100", "gray.700");
+    return (
+        <>
+            <Flex direction="row" bg={bgColor} p={"10px 0"} alignItems="center">
+                <Flex
+                    direction="column"
+                    bg={bgColor}
+                    w="40%"
+                    p={20}
+                    fontWeight="bold"
+                >
+                    <Text fontSize="5xl" color="#4682B4">
+                        Compare Top-Rated Jewelers & Save
+                    </Text>
+                    <Text fontSize="lg" mt={4} color="#4682B4">
+                        Navigate the diamond market effortlessly.
+                    </Text>
+                    <Flex mt={6}>
+                        <Button
+                            backgroundColor=" #7B68EE"
+                            color="white"
+                            colorScheme="blue"
+                            variant="solid"
+                            mr={4}
+                            _hover={{ bg: "#6A5ACD" }}
+                            height="60px"
+                            fontSize="lg"
+                            width="50%"
+                            borderRadius="15px"
+                        >
+                            Search all diamonds
+                        </Button>
+                        <Button
+                            color="#7B68EE"
+                            colorScheme="gray"
+                            variant="outline"
+                            height="60px"
+                            fontSize="lg"
+                            width="50%"
+                            borderRadius="15px"
+                        >
+                            Check your diamonds
+                        </Button>
+                    </Flex>
+                </Flex>
+                <q></q>
+                <Box w="60%" position="relative">
+                    <video
+                        autoPlay
+                        loop
+                        muted
+                        style={{
+                            width: "100%",
+                            height: "100vh",
+                            objectFit: "cover",
+                        }}
+                    >
+                        <source
+                            src="../videos/diamond-home-video.webm"
+                            type="video/mp4"
+                        />
+                    </video>
+                    <Image
+                        src="../images/diamond-home-img.webp"
+                        objectFit="cover"
+                        position="absolute"
+                        top="50%"
+                        left="8%"
+                        transform="translate(-30%, -50%)"
+                        width={{ base: "150px", md: "200px", lg: "350px" }}
+                        borderRadius="md"
+                        boxShadow="2xl"
+                    />
+                </Box>
+            </Flex>
+            <Grid
+                templateColumns="repeat(6, 1fr)"
+                gap={6}
+                p={10}
+                textAlign="center"
+                bg={grayColor}
+                fontWeight="bold"
             >
-              Search all diamonds
-            </Button>
-            <Button
-              color="#7B68EE"
-              colorScheme="gray"
-              variant="outline"
-              height="60px"
-              fontSize="lg"
-              width="50%"
-              borderRadius="15px"
-            >
-              Check your diamonds
-            </Button>
-          </Flex>
-        </Flex>
-        <q></q>
-        <Box w="60%" position="relative">
-          <video
-            autoPlay
-            loop
-            muted
-            style={{ width: "100%", height: "100vh", objectFit: "cover" }}
-          >
-            <source src="../videos/diamond-home-video.webm" type="video/mp4" />
-          </video>
-          <Image
-            src="../images/diamond-home-img.webp"
-            objectFit="cover"
-            position="absolute"
-            top="50%"
-            left="8%"
-            transform="translate(-30%, -50%)"
-            width={{ base: "150px", md: "200px", lg: "350px" }}
-            borderRadius="md"
-            boxShadow="2xl"
-          />
-        </Box>
-      </Flex>
-      <Grid
-        templateColumns="repeat(6, 1fr)"
-        gap={6}
-        p={10}
-        textAlign="center"
-        bg={grayColor}
-        fontWeight="bold"
-      >
-        <GridItem>
-          <Text fontSize="3xl" fontWeight="bold" color="blue.400">
-            2M+
-          </Text>
-          <Text color="gray.600">Diamond Inventory</Text>
-        </GridItem>
-        <GridItem>
-          <Text fontSize="3xl" fontWeight="bold" color="blue.400">
-            1M+
-          </Text>
-          <Text color="gray.600">Happy Shoppers</Text>
-        </GridItem>
-        <GridItem>
-          <Text fontSize="3xl" fontWeight="bold" color="blue.400">
-            4.9★
-          </Text>
-          <Text color="gray.600">Trust Pilot Rating</Text>
-        </GridItem>
-        <GridItem>
-          <Text fontSize="3xl" fontWeight="bold" color="blue.400">
-            10+
-          </Text>
-          <Text color="gray.600">Top-Rated Jewelers</Text>
-        </GridItem>
-        <GridItem>
-          <Text fontSize="3xl" fontWeight="bold" color="blue.400">
-            750M+
-          </Text>
-          <Text color="gray.600">Historical Diamond Prices</Text>
-        </GridItem>
-        <GridItem>
-          <Text fontSize="3xl" fontWeight="bold" color="blue.400">
-            5M+
-          </Text>
-          <Text color="gray.600">Diamond Checks</Text>
-        </GridItem>
-      </Grid>
-
-      {/* Diamond Shapes Section */}
-      {/* <Container
+                <GridItem>
+                    <Text fontSize="3xl" fontWeight="bold" color="blue.400">
+                        2M+
+                    </Text>
+                    <Text color="gray.600">Diamond Inventory</Text>
+                </GridItem>
+                <GridItem>
+                    <Text fontSize="3xl" fontWeight="bold" color="blue.400">
+                        1M+
+                    </Text>
+                    <Text color="gray.600">Happy Shoppers</Text>
+                </GridItem>
+                <GridItem>
+                    <Text fontSize="3xl" fontWeight="bold" color="blue.400">
+                        4.9★
+                    </Text>
+                    <Text color="gray.600">Trust Pilot Rating</Text>
+                </GridItem>
+                <GridItem>
+                    <Text fontSize="3xl" fontWeight="bold" color="blue.400">
+                        10+
+                    </Text>
+                    <Text color="gray.600">Top-Rated Jewelers</Text>
+                </GridItem>
+                <GridItem>
+                    <Text fontSize="3xl" fontWeight="bold" color="blue.400">
+                        750M+
+                    </Text>
+                    <Text color="gray.600">Historical Diamond Prices</Text>
+                </GridItem>
+                <GridItem>
+                    <Text fontSize="3xl" fontWeight="bold" color="blue.400">
+                        5M+
+                    </Text>
+                    <Text color="gray.600">Diamond Checks</Text>
+                </GridItem>
+            </Grid>
+            {/* Diamond Shapes Section */}
+            {/* <Container
         maxW="7xl"
         mt={10}
         centerContent
@@ -194,7 +206,7 @@ export default function Home() {
           ))}
         </Grid>
       </Container> */}
-        {/* <Flex direction="row" bg={bgColor}>
+            {/* <Flex direction="row" bg={bgColor}>
           <Flex direction={"column"}>
             <Text>How StoneAlgo helps you buy better</Text>
             <Grid
@@ -262,6 +274,6 @@ export default function Home() {
             </Card>
           </Flex>
         </Flex> */}
-    </>
-  );
+        </>
+    );
 }
