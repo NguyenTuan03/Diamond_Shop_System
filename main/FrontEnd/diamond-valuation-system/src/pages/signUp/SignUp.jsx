@@ -92,7 +92,7 @@ export default function SignUp({ signUp }) {
                 <FormControl
                   isRequired
                   isInvalid={
-                    errors.username && touched.username && errors.username
+                    errors.fullName && touched.fullName && errors.fullName
                   }
                 >
                   <FormLabel>Full name</FormLabel>

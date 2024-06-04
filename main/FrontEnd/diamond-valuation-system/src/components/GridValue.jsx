@@ -43,7 +43,7 @@ export default function GridValue({
               backgroundColor={
                 activeButtonIndex === index ? "blue.400" : "initial"
               }
-              onClick={()=>handleClick(value, index)}
+              onClick={() => handleClick(value, index)}
             >
               <Text fontSize={"sm"}>{value}</Text>
             </Button>

@@ -1,13 +1,12 @@
-import { Divider, Flex } from "@chakra-ui/react";
+import { Divider, Flex, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import ServiceCard from "../../components/ServiceCard";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 export default function DiamondService() {
-  // const services = useLocation();
-  // console.log(services.state);
+  const bgColor = useColorModeValue("white", "black");
+
   const [serviceResponse, setServiceResponse] = useState([]);
   useEffect(() => {
     fetchServices();
@@ -43,7 +42,8 @@ export default function DiamondService() {
       alignItems={"center"}
       justifyContent={"center"}
       w={"99vw"}
-      m={"50px 0 0 0"}
+      p={10}
+      bg={bgColor}
     >
       <Title
         title={"Choose a valuation service"}

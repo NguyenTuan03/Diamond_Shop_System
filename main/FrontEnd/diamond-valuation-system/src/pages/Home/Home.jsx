@@ -6,13 +6,13 @@ import {
   Button,
   Grid,
   GridItem,
-  Container,
   Box,
-  Card,
-  CardHeader,
-  CardBody,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { Search2Icon } from "@chakra-ui/icons";
+import { IoDiamond } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import routes from "../../config/Config";
 
 export default function Home() {
   const bgColor = useColorModeValue("white", "black");
@@ -29,34 +29,35 @@ export default function Home() {
             Navigate the diamond market effortlessly.
           </Text>
           <Flex mt={6}>
-            <Button
-              backgroundColor=" #7B68EE"
-              color="white"
-              colorScheme="blue"
-              variant="solid"
-              mr={4}
-              _hover={{ bg: "#6A5ACD" }}
-              height="60px"
-              fontSize="lg"
-              width="50%"
-              borderRadius="15px"
-            >
-              Search all diamonds
-            </Button>
-            <Button
-              color="#7B68EE"
-              colorScheme="gray"
-              variant="outline"
-              height="60px"
-              fontSize="lg"
-              width="50%"
-              borderRadius="15px"
-            >
-              Check your diamonds
-            </Button>
+            <Link to={routes.search}>
+              <Button
+                backgroundColor=" #7B68EE"
+                colorScheme="purple"
+                variant="solid"
+                mr={4}
+                height="60px"
+                fontSize="lg"
+                borderRadius="15px"
+                leftIcon={<Search2Icon />}
+              >
+                Search all diamonds
+              </Button>
+            </Link>
+            <Link to={routes.diamondService}>
+              <Button
+                color="#7B68EE"
+                colorScheme="gray"
+                variant="outline"
+                height="60px"
+                fontSize="lg"
+                borderRadius="15px"
+                leftIcon={<IoDiamond />}
+              >
+                Check your diamonds
+              </Button>
+            </Link>
           </Flex>
         </Flex>
-        <q></q>
         <Box w="60%" position="relative">
           <video
             autoPlay
@@ -194,7 +195,7 @@ export default function Home() {
           ))}
         </Grid>
       </Container> */}
-        {/* <Flex direction="row" bg={bgColor}>
+      {/* <Flex direction="row" bg={bgColor}>
           <Flex direction={"column"}>
             <Text>How StoneAlgo helps you buy better</Text>
             <Grid
