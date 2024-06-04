@@ -6,6 +6,7 @@ import {
   Image,
   Link as LinkCharkaUI,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import React from "react";
@@ -19,13 +20,16 @@ import {
   shapeBottomLineRecWhatToAvoid,
 } from "../../shared/SharedEducationShape";
 export default function EducationShape() {
+  const bgColor = useColorModeValue("white", "black");
+
   return (
     <Flex
       direction="column"
       alignItems="center"
       justifyContent="center"
-      w={"100vw"}
-      m={"100px 0 0 0"}
+      w={"99vw"}
+      p={10}
+      bg={bgColor}
     >
       <Title
         title={"A Guide to Diamond Shapes"}

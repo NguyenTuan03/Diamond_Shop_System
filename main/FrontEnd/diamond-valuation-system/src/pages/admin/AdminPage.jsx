@@ -27,6 +27,8 @@ import {
   FormErrorMessage,
   Button,
   Select,
+  useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
 import { GrUpdate } from "react-icons/gr";
@@ -36,6 +38,10 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import { validateSignUp } from "../../utils/ValidateSignUp";
 export default function AdminPage() {
+  const bgColor = useColorModeValue("white", "black");
+
+  const toast = useToast();
+
   const createUser = useDisclosure();
   const updateUser = useDisclosure();
   const confirmDeleteUser = useDisclosure();
@@ -44,18 +50,86 @@ export default function AdminPage() {
   const [accounts, setAccounts] = useState([]);
   const [deleteId, setDeleteId] = useState(null);
   const [updateAcc, setUpdateAcc] = useState({});
-  
-  const fetchAccounts = async () => {
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(null);
+  const pageIndicator = [];
+  for (let i = 1; i <= totalPage; i++) {
+    pageIndicator.push(
+      <Button
+        key={i}
+        colorScheme="teal"
+        variant="outline"
+        onClick={() => {
+          setCurrentPage(i);
+          console.log("current:" + currentPage);
+        }}
+      >
+        {i}
+      </Button>
+    );
+  }
+  useEffect(() => {
+    fetchAccounts(currentPage);
+  }, [currentPage]);
+
+  const fetchAccounts = async (pageId) => {
     try {
       const res = await axios
-        .get("http://localhost:8081/api/admin/get")
+        .get(`http://localhost:8081/api/admin/get?page=${pageId}`)
         .then(function (response) {
-          // accounts.push(...response.data);
-          // setAccounts(...accounts);
-          setAccounts(response.data);
-          console.log(response.data);
+          setAccounts(response.data.content);
+          setTotalPage(response.data.totalPages);
         });
     } catch (err) {
+      console.log(err);
+      toast({
+        title: "User fetch failed.",
+        description: "Failed to fetch user.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+  const createAccount = async (
+    roleid,
+    username,
+    password,
+    fullname,
+    email,
+    phonenumber,
+    address
+  ) => {
+    try {
+      await axios
+        .post("http://localhost:8081/api/admin/create", {
+          roleid: roleid,
+          username: username,
+          password: password,
+          fullname: fullname,
+          email: email,
+          phonenumber: phonenumber,
+          address: address,
+        })
+        .then(function (response) {
+          toast({
+            title: "User created.",
+            description: "User has been created successfully.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          fetchAccounts(currentPage);
+        });
+    } catch (err) {
+      toast({
+        title: "User creation failed.",
+        description: "Failed to create user.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       console.log(err);
     }
   };
@@ -67,7 +141,6 @@ export default function AdminPage() {
     phonenumber,
     address
   ) => {
-    console.log(id, roleid, fullname, email, phonenumber, address);
     try {
       await axios
         .post("http://localhost:8081/api/admin/update", {
@@ -79,9 +152,23 @@ export default function AdminPage() {
           address: address,
         })
         .then(function (response) {
-          fetchAccounts();
+          toast({
+            title: "User updated.",
+            description: "User has been updated successfully.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          fetchAccounts(currentPage);
         });
     } catch (err) {
+      toast({
+        title: "User update failed.",
+        description: "Failed to update user.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       console.log(err);
     }
   };
@@ -90,25 +177,37 @@ export default function AdminPage() {
       await axios
         .post("http://localhost:8081/api/admin/delete", { id: id })
         .then(function (response) {
-          const updatedAccounts=accounts.filter((account)=>account.id!==id);
-          setAccounts(updatedAccounts);
+          fetchAccounts(currentPage);
+          toast({
+            title: "User deleted.",
+            description: "User has been deleted successfully.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
         });
     } catch (err) {
+      toast({
+        title: "User deletion failed.",
+        description: "Failed to delete user.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       console.log(err);
     }
   };
-  useEffect(() => {
-    fetchAccounts();
-  }, []);
+
   return (
     <>
       <Flex
         direction={"column"}
         alignItems={"center"}
         justifyContent={"center"}
-        w={"100vw"}
-        m={"100px 0 0 0"}
-        gap={5}
+        w={"99vw"}
+        h={"92vh"}
+        gap={10}
+        bg={bgColor}
       >
         <Text fontSize="4xl" fontWeight="bold">
           Welcome: ADMIN
@@ -154,9 +253,9 @@ export default function AdminPage() {
               {accounts.map((account, index) => (
                 <Tr key={index}>
                   <Td>{index + 1}</Td>
-                  <Td>{account.role_id.name}</Td>
+                  <Td>{account.role.name}</Td>
                   <Td>{account.username}</Td>
-                  <Td>{account.password}</Td>
+                  <Td>***</Td>
                   <Td>{account.fullname}</Td>
                   <Td>{account.email}</Td>
                   <Td>{account.phone_number}</Td>
@@ -181,8 +280,8 @@ export default function AdminPage() {
                         icon={<MdDeleteOutline size={25} color="red" />}
                         bgColor={"transparent"}
                         onClick={() => {
-                          console.log(account.id);
-                          deleteAccount(account.id);
+                          setDeleteId(account.id);
+                          confirmDeleteUser.onOpen();
                         }}
                       />
                       <ConfirmAlert
@@ -194,6 +293,7 @@ export default function AdminPage() {
                         action={"Delete"}
                         colorScheme={"red"}
                         onClickFunc={() => {
+                          deleteAccount(deleteId);
                           confirmDeleteUser.onClose();
                         }}
                       />
@@ -204,13 +304,198 @@ export default function AdminPage() {
             </Tbody>
           </Table>
         </TableContainer>
+        <Flex direction={"row"} gap={5}>
+          <Flex
+            position={"fixed"}
+            bottom={"80px"}
+            left={"45%"}
+            direction={"row"}
+            gap={2}
+          >
+            {pageIndicator}
+          </Flex>
+        </Flex>
       </Flex>
       <Modal isOpen={createUser.isOpen} onClose={createUser.onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create new user</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>ssd</ModalBody>
+          <ModalBody>
+            <Formik
+              initialValues={{
+                role: "",
+                username: "",
+                password: "",
+                fullName: "",
+                email: "",
+                phoneNumber: "",
+                address: "",
+              }}
+              validate={(values) => {
+                return validateSignUp(values, "createAdmin");
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                createAccount(
+                  values.role,
+                  values.username,
+                  values.password,
+                  values.fullName,
+                  values.email,
+                  values.phoneNumber,
+                  values.address
+                )
+                  .then(() => {
+                    setSubmitting(false);
+                    createUser.onClose();
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+              }) => (
+                <Form onSubmit={handleSubmit}>
+                  <FormControl>
+                    <FormLabel>Role</FormLabel>
+                    <Select
+                      name="role"
+                      placeholder="Select a role"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.role}
+                    >
+                      <option value="1">Admin</option>
+                      <option value="2">Manager</option>
+                      <option value="3">Consulting Staff</option>
+                      <option value="4">Valuation Staff</option>
+                      <option value="5">Customer</option>
+                      <option value="6">Guest</option>
+                    </Select>
+                  </FormControl>
+                  <FormControl
+                    isRequired
+                    isInvalid={
+                      errors.username && touched.username && errors.username
+                    }
+                  >
+                    <FormLabel>Username</FormLabel>
+                    <Input
+                      name="username"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.username}
+                    />
+                    <FormErrorMessage>
+                      {errors.username && touched.username && errors.username}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isRequired
+                    isInvalid={
+                      errors.password && touched.password && errors.password
+                    }
+                  >
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                      name="password"
+                      type="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                    />
+                    <FormErrorMessage>
+                      {errors.password && touched.password && errors.password}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isRequired
+                    isInvalid={
+                      errors.username && touched.username && errors.username
+                    }
+                  >
+                    <FormLabel>Full name</FormLabel>
+                    <Input
+                      name="fullName"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.fullName}
+                    />
+                    <FormErrorMessage>
+                      {errors.fullName && touched.fullName && errors.fullName}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isInvalid={errors.email && touched.email && errors.email}
+                  >
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      name="email"
+                      type="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                    />
+                    <FormErrorMessage>
+                      {errors.email && touched.email && errors.email}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isInvalid={
+                      errors.phoneNumber &&
+                      touched.phoneNumber &&
+                      errors.phoneNumber
+                    }
+                  >
+                    <FormLabel>Phone number</FormLabel>
+                    <Input
+                      name="phoneNumber"
+                      type="tel"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.phoneNumber}
+                    />
+                    <FormErrorMessage>
+                      {errors.phoneNumber &&
+                        touched.phoneNumber &&
+                        errors.phoneNumber}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Address</FormLabel>
+                    <Input
+                      name="address"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.address}
+                    />
+                  </FormControl>
+                  <Center>
+                    <Button
+                      type="submit"
+                      colorScheme="blue"
+                      w={"inherit"}
+                      m={"10px 0 0 0"}
+                      disabled={isSubmitting}
+                    >
+                      Create
+                    </Button>
+                  </Center>
+                </Form>
+              )}
+            </Formik>
+          </ModalBody>
         </ModalContent>
       </Modal>
       <Modal isOpen={updateUser.isOpen} onClose={updateUser.onClose}>
@@ -221,7 +506,7 @@ export default function AdminPage() {
           <ModalBody>
             <Formik
               initialValues={{
-                role: updateAcc.role_id?.id || "",
+                role: updateAcc.role?.id || "",
                 fullName: updateAcc.fullname,
                 email: updateAcc.email,
                 phoneNumber: updateAcc?.phone_number || "",
@@ -231,7 +516,6 @@ export default function AdminPage() {
                 return validateSignUp(values, "updateAdmin");
               }}
               onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
                 updateAccount(
                   updateAcc.id,
                   values.role,
@@ -340,15 +624,17 @@ export default function AdminPage() {
                       value={values.address}
                     />
                   </FormControl>
-                  <Button
-                    type="submit"
-                    colorScheme="blue"
-                    w={"inherit"}
-                    m={"10px 0 0 0"}
-                    disabled={isSubmitting}
-                  >
-                    Update
-                  </Button>
+                  <Center>
+                    <Button
+                      type="submit"
+                      colorScheme="blue"
+                      w={"inherit"}
+                      m={"10px 0 0 0"}
+                      disabled={isSubmitting}
+                    >
+                      Update
+                    </Button>
+                  </Center>
                 </Form>
               )}
             </Formik>

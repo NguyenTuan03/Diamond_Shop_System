@@ -5,7 +5,6 @@ import DiamondCheckDetails from "../pages/check/DiamondCheckDetails.jsx";
 import Detail from "../pages/detail/Detail.jsx";
 import DiamondService from "../pages/services/DiamondService.jsx";
 import DiamondValuationRequest from "../pages/valuate/DiamondValuationRequest.jsx";
-import Education from "../pages/education/Education.jsx";
 import EducationCarat from "../pages/education/EducationCarat.jsx";
 import EducationCertificate from "../pages/education/EducationCertificate.jsx";
 import EducationClarity from "../pages/education/EducationClarity.jsx";
@@ -76,10 +75,6 @@ const ALlRoutes = [
     {
         path: routes.prices,
         component: Prices,
-    },
-    {
-        path: routes.education,
-        component: Education,
     },
     {
         path: routes.educationCertificate,

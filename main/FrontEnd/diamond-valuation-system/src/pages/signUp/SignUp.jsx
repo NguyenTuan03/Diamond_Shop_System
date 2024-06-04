@@ -1,19 +1,19 @@
 import React from "react";
 import {
-    Button,
-    Flex,
-    FormControl,
-    FormLabel,
-    Input,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Text,
-    FormErrorMessage,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";

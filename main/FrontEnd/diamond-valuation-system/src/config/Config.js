@@ -8,7 +8,6 @@ const routes = {
   diamondService: "/diamond-service",
   diamondValuationRequest: "/diamond-valuation-request",
   prices: "/prices",
-  education: "/education",
   educationCertificate: "/education/certificate",
   educationShape: "/education/shape",
   educationCarat: "/education/carat",

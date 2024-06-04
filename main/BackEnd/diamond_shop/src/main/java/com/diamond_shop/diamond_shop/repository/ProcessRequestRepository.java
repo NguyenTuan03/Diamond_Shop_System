@@ -11,6 +11,6 @@ import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 
 @Repository
 public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEntity, Integer>{
-    @Query("SELECT p FROM ProcessRequestEntity p WHERE p.staffId.Id = :staffId AND p.valuationRequestId.id = :valuationRequestId")
+    @Query("SELECT p FROM ProcessRequestEntity p WHERE p.staffId.id = :staffId AND p.valuationRequestId.id = :valuationRequestId")
     Optional<ProcessRequestEntity> findByStaffIdAndValuationRequestId(@Param("staffId") int staffId, @Param("valuationRequestId") int valuationRequestId);
 }
