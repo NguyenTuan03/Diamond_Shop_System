@@ -1,25 +1,25 @@
 import React from "react";
 import {
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  FormErrorMessage,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Text,
+    FormErrorMessage,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import { login } from "../../service/Login";
 import { validateSignUp } from "../../utils/ValidateSignUp";
-import { register } from './../../service/SignUp';
+import { register } from "./../../service/SignUp";
 import { Bounce, toast } from "react-toastify";
 export default function SignUp({ signUp }) {
     async function signUpApi(username, fullName, phone, password) {

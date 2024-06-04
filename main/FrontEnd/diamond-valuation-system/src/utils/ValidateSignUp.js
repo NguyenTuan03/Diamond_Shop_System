@@ -2,8 +2,12 @@ export const validateSignUp = (values, type) => {
   const errors = {};
   if (type !== "updateAdmin") {
     if (values.username) {
-      if (values.username.length < 6) {
-        errors.username = "Must be at least 6 characters";
+      if (values.username.length < 4) {
+        errors.username = "Must be at least 4 characters";
+      } else if (values.username.length > 20) {
+        errors.username = "Must be at most 20 characters";
+      } else if (!/^(?!\s)[a-zA-Z0-9 ]*$/.test(values.username)) {
+        errors.username = "Invalid username";
       }
     }
     if (values.password) {
@@ -22,8 +26,10 @@ export const validateSignUp = (values, type) => {
       }
     }
   }
-  if (values.fullName.length < 1) {
-    errors.fullName = "Full name is required";
+  if (values.fullName) {
+    if (!/^(?!\s)[a-zA-Z\s]*$/.test(values.fullName)) {
+      errors.fullName = "Invalid full name";
+    }
   }
   if (values.email) {
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {

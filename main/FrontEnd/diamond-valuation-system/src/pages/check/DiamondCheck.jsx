@@ -10,7 +10,6 @@ import React from "react";
 
 export default function DiamondCheck() {
   const bgColor = useColorModeValue("white", "black");
-  const fontColor = useColorModeValue("black", "white");
   return (
     <Flex
       direction={"row"}

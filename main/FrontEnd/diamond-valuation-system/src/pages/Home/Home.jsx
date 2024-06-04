@@ -6,6 +6,14 @@ import {
     Button,
     Grid,
     GridItem,
+    Box,
+    useColorModeValue,
+    Image,
+    Flex,
+    Text,
+    Button,
+    Grid,
+    GridItem,
     Container,
     Box,
     Card,
@@ -13,6 +21,10 @@ import {
     CardBody,
     useColorModeValue,
 } from "@chakra-ui/react";
+import { Search2Icon } from "@chakra-ui/icons";
+import { IoDiamond } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import routes from "../../config/Config";
 
 export default function Home() {
     const bgColor = useColorModeValue("white", "black");

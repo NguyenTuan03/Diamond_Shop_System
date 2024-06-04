@@ -49,10 +49,10 @@ CREATE TABLE Request_images(
 );
 CREATE TABLE Process_requests(
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
-    Staff_id BIGINT NOT NULL,
+    Consulting_staff_id BIGINT NOT NULL,
     Valuation_request_id BIGINT NOT NULL,
     Name NVARCHAR(255) NOT NULL,
-	FOREIGN KEY (Staff_id) REFERENCES Users(Id),
+	FOREIGN KEY (Consulting_staff_id) REFERENCES Users(Id),
 	FOREIGN KEY (Valuation_request_id) REFERENCES Valuation_requests(Id)
 );
 CREATE TABLE Valuation_results(
@@ -98,7 +98,6 @@ CREATE TABLE Commitment_letters(
 	FOREIGN KEY (Valuation_result_id) REFERENCES Valuation_results(Id)
 );
 
-
 CREATE TABLE Payments(
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
     Customer_id BIGINT NOT NULL,
@@ -114,3 +113,20 @@ CREATE TABLE Valuation_receipts(
     Created_date DATETIME NOT NULL,
 	FOREIGN KEY (Valuation_request_id) REFERENCES Valuation_requests(Id)
 );
+
+CREATE TABLE Process_results(
+	Id BIGINT PRIMARY KEY IDENTITY(1,1),
+	Valuation_staff_id BIGINT NOT NULL,
+	Valuation_result_id BIGINT NOT NULL,
+	Process_request_id BIGINT NOT NULL,
+	Name NVARCHAR(255) NOT NULL,
+	FOREIGN KEY (Valuation_staff_id) REFERENCES Users(Id),
+	FOREIGN KEY (Valuation_result_id) REFERENCES Valuation_results(Id),
+	FOREIGN KEY (Process_request_id) REFERENCES Process_requests(Id),
+)
+
+CREATE TABLE Valuated_diamond_images(
+	Id BIGINT PRIMARY KEY,
+	Valuated_diamond_id BIGINT NOT NULL
+	FOREIGN KEY (Valuated_diamond_id) REFERENCES Valuated_diamonds(Id),
+)
