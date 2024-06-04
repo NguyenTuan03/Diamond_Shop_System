@@ -18,5 +18,6 @@ const routes = {
   login: "/login",
   logout: "/logout",
   consultingStaff: "/consulting-staff",
+  error: "/error",
 };
 export default routes;

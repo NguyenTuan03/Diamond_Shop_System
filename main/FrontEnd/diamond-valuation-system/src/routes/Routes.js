@@ -18,7 +18,7 @@ import Logout from "../pages/logout/Logout.jsx";
 import Prices from "../pages/prices/Prices.jsx";
 import Search from "../pages/Search/Search.jsx";
 import ConsultingStaffPage from "../pages/consultingStaff/ConsultingStaffPage.jsx";
-
+import Error from "../pages/error/Error.jsx";
 const ALlRoutes = [
   {
     path: routes.home,
@@ -94,6 +94,10 @@ const ALlRoutes = [
   {
     path: routes.consultingStaff,
     component: ConsultingStaffPage,
+  },
+  {
+    path: routes.error,
+    component: Error,
   },
 ];
 
