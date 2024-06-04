@@ -48,7 +48,7 @@ export default function DiamondValuationRequest() {
                     </FormControl>
                 </Center>
                 <Formik>
-                    <UploadImage service={+serviceId} description={input} />
+                    <UploadImage service={+serviceId.id} description={input} />
                 </Formik>
             </Flex>
         </>

@@ -14,64 +14,72 @@ import { makeRequest } from "../service/MakeRequest";
 export default function UploadImage({description, service}) {
   const [selectedImages, setSelectedImages] = useState([]);
   const toast = useToast();
-  async function handleSubmitImages() {
-//     for (const image of selectedImages) {
-//       const formData = new FormData();
-//       formData.append("file", image);
-//       formData.append(
-//         "upload_preset",
-//         import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-//       );
-//       formData.append(" public_id", uuidv4());
-//       const res = await fetch(
-//         `https://api.cloudinary.com/v1_1/${
-//           import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
-//         }/import { makeRequest } from './../service/MakeRequest';
-// image/upload`,
-//         {
-//           method: "POST",
-//           body: formData,
-//         }
-//       );
-//       const data = await res.json();
-//       console.log(data.public_id);
-//     }
-// toast({
-//   title: "Sending successful !",
-//   position: "top-right",
-//   description: "Your diamond image has been submitted successfully",
-//   status: "success",
-//   duration: 3000,
-//   isClosable: true,
-// });
-    const makeRequestApi = async () => {
-      const user = localStorage.getItem("user");
-      const result = await makeRequest(user.username, service, "", description)
-      console.log("Result", result);
-      if (result.status === 200) {
-        toast({
-          title: `${result.data}`,
-          position: "top-right",
-          description: "Your diamond image has been submitted successfully",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
+  const handleSubmitImages = async () => {
+    try {
+      for (const image of selectedImages) {
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append(
+          "upload_preset",
+          import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+        );
+        formData.append("public_id", uuidv4());
+        const res = await fetch(
+          `https://api.cloudinary.com/v1_1/${
+            import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+          }/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const data = await res.json();
+        console.log(data.public_id);
       }
-      else {
-        toast({
-          title: 'Error sending request',
-          position: "top-right",
-          description: "Your diamond image has been submitted successfully",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
+  
+      toast({
+        title: "Sending successful!",
+        position: "top-right",
+        description: "Your diamond image has been submitted successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+  
+      const makeRequestApi = async () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user || !user.username) {
+          throw new Error("User information is missing");
+        }
+  
+        const result = await makeRequest(user.username, service, "", description);
+        if (result.status === 200) {
+          toast({
+            title: "Request successful",
+            position: "top-right",
+            description: "Your diamond image has been submitted successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          throw new Error(result.data || "Error sending request");
+        }
+      };
+  
+      await makeRequestApi();
+  
+    } catch (error) {
+      toast({
+        title: "Error",
+        position: "top-right",
+        description: error.message || "Something went wrong",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
-    makeRequestApi();
-
-  }
+  };
   return (
     <>
       <FormControl w={"auto"} isRequired>
