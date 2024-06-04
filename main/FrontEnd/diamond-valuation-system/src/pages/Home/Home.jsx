@@ -7,19 +7,7 @@ import {
     Grid,
     GridItem,
     Box,
-    useColorModeValue,
-    Image,
-    Flex,
-    Text,
-    Button,
-    Grid,
-    GridItem,
-    Container,
-    Box,
-    Card,
-    CardHeader,
-    CardBody,
-    useColorModeValue,
+    useColorModeValue,       
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { IoDiamond } from "react-icons/io5";
