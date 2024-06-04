@@ -1,14 +1,24 @@
-import { Button, Flex, Image, Input, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Image,
+  Input,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React from "react";
 
 export default function DiamondCheck() {
+  const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("black", "white");
   return (
     <Flex
       direction={"row"}
       alignItems="center"
       justifyContent="center"
-      w={"100vw"}
-      m={"50px 0 0 0"}
+      bg={bgColor}
+      w={"99vw"}
+      h={"92vh"}
       gap={20}
     >
       <Flex direction={"column"}>
@@ -23,16 +33,13 @@ export default function DiamondCheck() {
           more
         </Text>
         <Flex direction={"row"}>
-          <Input placeholder="Enter Certificate ID" size={"lg"} />
+          <Input placeholder="Enter Valuate ID" size={"lg"} />
           <Button colorScheme="blue" size="lg" m={"0 0 0 20px"}>
             Run free check
           </Button>
         </Flex>
       </Flex>
-      <Image
-        src="../images/diamond-check.png"
-        w={"330px"}
-      />
+      <Image src="../images/diamond-check.png" w={"300px"} />
     </Flex>
   );
 }

@@ -6,18 +6,23 @@ import {
   ListItem,
   Text,
   UnorderedList,
+  useColorModeValue,
+
 } from "@chakra-ui/react";
 import React from "react";
 
 export default function DiamondCheckDetails() {
+  const bgColor = useColorModeValue("white", "black");
+
   return (
     <Flex
       direction={"row"}
       alignItems="center"
       justifyContent="center"
-      w={"100vw"}
-      m={"100px 0 0 0"}
+      w={"99vw"}
+      h={"100vh"}
       gap={20}
+      bg={bgColor}
     >
       <Image
         src="https://stonealgo.b-cdn.net/img/img_53d827c57a7a0d79f823a43c226fca6b.jpg?width=900&height=900"

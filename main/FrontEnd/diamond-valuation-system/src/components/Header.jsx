@@ -1,35 +1,53 @@
 import {
   Button,
   Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Text,
   Menu,
   useDisclosure,
   MenuButton,
   MenuList,
   MenuItem,
-  FormErrorMessage,
+  Avatar,
+  IconButton,
+  useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { Form, Formik } from "formik";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { GiDiamondTrophy } from "react-icons/gi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import routes from "../config/Config";
-import { validateSignUp } from "../service/ValidateSignUp";
+import Login from "../pages/login/Login";
+import { useContext } from "react";
+import { UserContext } from "./GlobalContext/AuthContext";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 export default function Header() {
+  const { colorMode, toggleColorMode } = useColorMode();
+  const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("black", "white");
   const modalSignIn = useDisclosure();
   const modalSignUp = useDisclosure();
+  const auth = useContext(UserContext);
+  const nav = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setTimeout(() => {
+      window.location.reload();
+    }, [200]);
+    toast.success("Logout Successful", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
   return (
     <>
+      <ToastContainer />
       <Flex
         position={"fixed"}
         top={"0px"}
@@ -40,21 +58,21 @@ export default function Header() {
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
-        bg={"white"}
-        boxShadow="2xl"
+        bg={bgColor}
+        style={{ boxShadow:`0px 0px 15px 0px gray`, backdropFilter: "blur(20px)"}}
         p={5}
       >
         <Link to={routes.home}>
           <Flex direction={"row"} alignItems={"center"}>
             <GiDiamondTrophy size={30} />
             <Text fontSize={"lg"} fontWeight={"bold"} m={"10px "}>
-              DIAMONDVAL
+              DIAMONDVALUATION
             </Text>
           </Flex>
         </Link>
         <Flex dir="row" gap={20}>
           <Link to={routes.search}>
-            <Text fontSize={"lg"} fontWeight={"bold"}>
+            <Text fontSize={"lg"} fontWeight={"bold"} color={fontColor}>
               Search
             </Text>
           </Link>
@@ -80,7 +98,7 @@ export default function Header() {
               borderWidth="1px"
               _focus={{ boxShadow: "outline" }}
             >
-              <Link to={"/"}>
+              <Link to={"/"} style={{ border: "0px" }}>
                 <Flex direction={"row"} gap={2} alignItems={"center"}>
                   <Text fontSize={"lg"} fontWeight={"bold"}>
                     Education
@@ -111,272 +129,31 @@ export default function Header() {
             </MenuList>
           </Menu>
         </Flex>
-        <Button colorScheme="blue" onClick={modalSignIn.onOpen}>
-          Sign in
-        </Button>
+        {console.log(auth.userAuth)}
+        <IconButton
+          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          onClick={toggleColorMode}
+        />
+        {!auth.userAuth ? (
+          <Button colorScheme="blue" onClick={modalSignIn.onOpen}>
+            Sign in
+          </Button>
+        ) : (
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              <Avatar
+                name={auth.userAuth.fullname}
+                src="https://bit.ly/broken-link"
+              />
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => nav("/dashboard")}>Dash board</MenuItem>
+              <MenuItem onClick={handleLogout}>Log out</MenuItem>
+            </MenuList>
+          </Menu>
+        )}
       </Flex>
-      <Modal isOpen={modalSignIn.isOpen} onClose={modalSignIn.onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Text fontSize={"ls"}>Sign in to DiamondVal</Text>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Formik
-              initialValues={{ username: "", password: "" }}
-              onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
-                  setSubmitting(false);
-                }, 400);
-              }}
-            >
-              {({
-                values,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-              }) => (
-                <Form onSubmit={handleSubmit}>
-                  <FormControl isRequired>
-                    <FormLabel>Username</FormLabel>
-                    <Input
-                      name="username"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.username}
-                    />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Password</FormLabel>
-                    <Input
-                      name="password"
-                      type="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password}
-                    />
-                  </FormControl>
-                  <Flex
-                    direction={"row"}
-                    alignItems={"center"}
-                    justifyContent={"space-between"}
-                    m={"10px"}
-                  >
-                    <Text fontSize={"sm"}>Forgot password</Text>
-                    <Button
-                      type="submit"
-                      colorScheme="blue"
-                      disabled={isSubmitting}
-                    >
-                      Sign in
-                    </Button>
-                  </Flex>
-                </Form>
-              )}
-            </Formik>
-          </ModalBody>
-          <ModalFooter>
-            <Flex
-              direction={"row"}
-              alignItems={"center"}
-              justifyContent={"center"}
-              gap={2}
-            >
-              <Text fontSize={"sm"}>Don't have an account? </Text>
-              <Link>
-                <Text
-                  fontSize={"sm"}
-                  onClick={() => {
-                    modalSignUp.onOpen();
-                    modalSignIn.onClose();
-                  }}
-                >
-                  Sign up
-                </Text>
-              </Link>
-            </Flex>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-      <Modal isOpen={modalSignUp.isOpen} onClose={modalSignUp.onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Text fontSize={"ls"}>Sign up to DiamondVal</Text>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Formik
-              initialValues={{
-                username: "",
-                fullName: "",
-                email: "",
-                phoneNumber: "",
-                address: "",
-                password: "",
-                confirmPassword: "",
-              }}
-              validate={(values) => {
-                return validateSignUp(values);
-              }}
-              onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
-                  setSubmitting(false);
-                }, 400);
-              }}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-              }) => (
-                <Form onSubmit={handleSubmit}>
-                  <FormControl
-                    isRequired
-                    isInvalid={
-                      errors.username && touched.username && errors.username
-                    }
-                  >
-                    <FormLabel>Username</FormLabel>
-                    <Input
-                      name="username"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.username}
-                    />
-                    <FormErrorMessage>
-                      {errors.username && touched.username && errors.username}
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl
-                    isRequired
-                    isInvalid={
-                      errors.username && touched.username && errors.username
-                    }
-                  >
-                    <FormLabel>Full name</FormLabel>
-                    <Input
-                      name="fullName"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.fullName}
-                    />
-                    <FormErrorMessage>
-                      {errors.fullName && touched.fullName && errors.fullName}
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl
-                    isInvalid={errors.email && touched.email && errors.email}
-                  >
-                    <FormLabel>Email</FormLabel>
-                    <Input
-                      name="email"
-                      type="email"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email}
-                    />
-                    <FormErrorMessage>
-                      {errors.email && touched.email && errors.email}
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl
-                    isInvalid={
-                      errors.phoneNumber &&
-                      touched.phoneNumber &&
-                      errors.phoneNumber
-                    }
-                  >
-                    <FormLabel>Phone number</FormLabel>
-                    <Input
-                      name="phoneNumber"
-                      type="tel"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.phoneNumber}
-                    />
-                    <FormErrorMessage>
-                      {errors.phoneNumber &&
-                        touched.phoneNumber &&
-                        errors.phoneNumber}
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Address</FormLabel>
-                    <Input
-                      name="address"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.address}
-                    />
-                  </FormControl>
-                  <FormControl
-                    isRequired
-                    isInvalid={
-                      errors.password && touched.password && errors.password
-                    }
-                  >
-                    <FormLabel>Password</FormLabel>
-                    <Input
-                      name="password"
-                      type="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password}
-                    />
-                    <FormErrorMessage>
-                      {errors.password && touched.password && errors.password}
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl
-                    isRequired
-                    isInvalid={
-                      errors.confirmPassword &&
-                      touched.confirmPassword &&
-                      errors.confirmPassword
-                    }
-                  >
-                    <FormLabel>Confirm password</FormLabel>
-                    <Input
-                      name="confirmPassword"
-                      type="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.confirmPassword}
-                    />
-                    <FormErrorMessage>
-                      {errors.confirmPassword &&
-                        touched.confirmPassword &&
-                        errors.confirmPassword}
-                    </FormErrorMessage>
-                  </FormControl>
-                  <Button
-                    type="submit"
-                    colorScheme="blue"
-                    w={"inherit"}
-                    m={"10px 0 0 0"}
-                    disabled={isSubmitting}
-                  >
-                    Sign up
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <Login signIn={modalSignIn} signUp={modalSignUp} />
     </>
   );
 }

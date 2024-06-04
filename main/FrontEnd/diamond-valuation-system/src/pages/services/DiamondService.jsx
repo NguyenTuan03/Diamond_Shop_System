@@ -1,15 +1,48 @@
-import { Button, Divider, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+import { Divider, Flex } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import ServiceCard from "../../components/ServiceCard";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 export default function DiamondService() {
+  // const services = useLocation();
+  // console.log(services.state);
+  const [serviceResponse, setServiceResponse] = useState([]);
+  useEffect(() => {
+    fetchServices();
+  }, []);
+  const serviceColors = ["blue", "red", "yellow"];
+  const serviceStatisticNames = [];
+  function fetchServices() {
+    try {
+      axios
+        .get("http://localhost:8081/api/diamond/service")
+        .then(function (response) {
+          setServiceResponse(response.data);
+          console.log(response.data);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  try {
+    for (let i = 0; i < serviceResponse.length; i++) {
+      serviceStatisticNames.push(serviceResponse[i].service_statistic_id.name);
+      serviceStatisticNames[i] = serviceStatisticNames[i]
+        .split(",")
+        .map((item) => item.trim());
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  console.log(serviceStatisticNames);
   return (
     <Flex
       direction={"column"}
       alignItems={"center"}
       justifyContent={"center"}
-      w={"100vw"}
+      w={"99vw"}
       m={"50px 0 0 0"}
     >
       <Title
@@ -20,19 +53,18 @@ export default function DiamondService() {
       />
       <Divider m={"20px 0 20px 0"} />
       <Flex direction={"row"} gap={20}>
-        <ServiceCard
-          type={"STANDARD"}
-          price={100}
-          time={"15 - 20"}
-          color={"blue"}
-        />
-        <ServiceCard type={"PRO"} price={200} time={"10 - 13"} color={"red"} />
-        <ServiceCard
-          type={"PREMIUM"}
-          price={300}
-          time={"5 - 7"}
-          color={"yellow"}
-        />
+        {serviceResponse.map((item, index) => {
+          return (
+            <ServiceCard
+              key={index}
+              type={item.name.toUpperCase()}
+              price={item.price}
+              time={item.time}
+              attributes={serviceStatisticNames[index]}
+              color={serviceColors[index]}
+            />
+          );
+        })}
       </Flex>
     </Flex>
   );

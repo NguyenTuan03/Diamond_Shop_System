@@ -1,12 +1,16 @@
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { ChakraProvider } from "@chakra-ui/react";
-import GlobalStyle from "./components/globalStyle/GlobalStyle.jsx";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import AuthContext from "./components/GlobalContext/AuthContext.jsx";
+import theme from "./themes/theme.js";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ChakraProvider>
-    <App />
-  </ChakraProvider>
-
+    <ChakraProvider>
+        <AuthContext>
+            <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
+            <App />
+        </AuthContext>
+    </ChakraProvider>
 );

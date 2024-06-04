@@ -11,8 +11,8 @@ import {
   Td,
   TableContainer,
   Text,
-  Link,
   Center,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Link as LinkRouterDom } from "react-router-dom";
 import React from "react";
@@ -21,13 +21,16 @@ import EducationFAQs from "../../components/education/EducationFAQs";
 import routes from "../../config/Config";
 import { caratTable, caratFAQs } from "../../shared/SharedEducationCarat";
 export default function EducationCarat() {
+  const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("black", "white");
   return (
     <Flex
       direction="column"
       alignItems="center"
       justifyContent="center"
-      w={"100vw"}
-      m={"100px 0 0 0"}
+      w={"99vw"}
+      bg={bgColor}
+      p={10}
     >
       <Title
         title={"Understanding Diamond Size Chart"}
@@ -412,7 +415,7 @@ export default function EducationCarat() {
           name={"FAQs About Diamond Carat Weight"}
           content={caratFAQs}
         />
-        
+
         <Text fontSize="2xl" fontWeight={"bold"}>
           Need Help Choosing The Right Diamond Size?
         </Text>

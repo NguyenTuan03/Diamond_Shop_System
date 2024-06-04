@@ -1,5 +1,5 @@
 export const sliderDiamondValuationGrade = [
-  "ASG",
+  "AGS",
   "CEGL",
   "CGI",
   "CGL",
@@ -43,8 +43,8 @@ export const sliderDiamondValuationCut = [
   "POOR",
   "FAIR",
   "GOOD",
-  "V.GOOD",
-  "EX.",
+  "VERY GOOD",
+  "EXCELLENT",
   "IDEAL",
 ];
 export const sliderDiamondValuationClarity = [

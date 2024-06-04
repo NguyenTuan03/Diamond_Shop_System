@@ -18,6 +18,7 @@ import {
   Thead,
   Tr,
   UnorderedList,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Title from "../../components/Title";
@@ -33,14 +34,16 @@ import {
 import EducationProTip from "../../components/education/EducationProTip";
 export default function EducationColor() {
   const [sliderValue, setSliderValue] = useState(6);
+  const bgColor = useColorModeValue("white", "black");
 
   return (
     <Flex
       direction="column"
       alignItems="center"
       justifyContent="center"
-      w={"100vw"}
-      m={"100px 0 0 0"}
+      w={"99vw"}
+      p={10}
+      bg={bgColor}
     >
       <Title
         title={"The Complete Guide to Diamond Color Scale"}
@@ -104,7 +107,7 @@ export default function EducationColor() {
                 {item.type}
               </SliderMark>
             ))}
-            
+
             <SliderTrack></SliderTrack>
             <SliderThumb bg={"blue.400"} boxSize={6}>
               <Box as={IoDiamondOutline} />
