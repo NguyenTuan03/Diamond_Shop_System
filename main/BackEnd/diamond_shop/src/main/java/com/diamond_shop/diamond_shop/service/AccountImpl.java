@@ -41,13 +41,18 @@ public class AccountImpl implements AccountService {
     @Override
     public String addAccount(AccountDTO a) {
         boolean isUsernameExist = accountRepository.findByUserName(a.getUsername()) != null;
-        boolean isPhoneNumberExist = accountRepository.findByPhoneNumber(a.getPhonenumber()) != null;
+
+        String updatePhoneNumber = "";
+        if (a.getPhonenumber().length() == 9 && !a.getPhonenumber().startsWith("0")) {
+            updatePhoneNumber = "0" + a.getPhonenumber();
+        }
+        boolean isPhoneNumberExist = accountRepository.findByPhoneNumber(updatePhoneNumber) != null;
         if (isUsernameExist) return "Username already exist";
         else if (isPhoneNumberExist) return "Phone number already exist";
 
         RoleEntity role = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
         String encodedPassword = passwordEncoder.encode(a.getPassword());
-        AccountEntity account = new AccountEntity(role, a.getUsername(), encodedPassword, a.getFullname(), a.getPhonenumber());
+        AccountEntity account = new AccountEntity(role, a.getUsername(), encodedPassword, a.getFullname(), updatePhoneNumber);
         accountRepository.save(account);
         return account.getUsername();
     }

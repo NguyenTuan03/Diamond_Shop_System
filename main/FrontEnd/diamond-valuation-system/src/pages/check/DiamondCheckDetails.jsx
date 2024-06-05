@@ -2,15 +2,14 @@ import {
   Badge,
   Button,
   Flex,
-  Image,
   ListItem,
   Text,
   UnorderedList,
   useColorModeValue,
-
 } from "@chakra-ui/react";
 import React from "react";
-
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 export default function DiamondCheckDetails() {
   const bgColor = useColorModeValue("white", "black");
 
@@ -20,14 +19,15 @@ export default function DiamondCheckDetails() {
       alignItems="center"
       justifyContent="center"
       w={"99vw"}
-      h={"100vh"}
+      h={"92vh"}
       gap={20}
       bg={bgColor}
     >
-      <Image
+      <LazyLoadImage
+        style={{ borderRadius: "20px" }}
+        width={"500px"}
         src="https://stonealgo.b-cdn.net/img/img_53d827c57a7a0d79f823a43c226fca6b.jpg?width=900&height=900"
-        w={"40%"}
-        borderRadius={"20px"}
+        effect="blur"
       />
 
       <Flex direction={"column"} gap={5}>

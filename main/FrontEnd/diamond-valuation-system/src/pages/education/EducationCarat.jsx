@@ -16,13 +16,14 @@ import {
 } from "@chakra-ui/react";
 import { Link as LinkRouterDom } from "react-router-dom";
 import React from "react";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import Title from "../../components/Title";
 import EducationFAQs from "../../components/education/EducationFAQs";
 import routes from "../../config/Config";
 import { caratTable, caratFAQs } from "../../shared/SharedEducationCarat";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 export default function EducationCarat() {
   const bgColor = useColorModeValue("white", "black");
-  const fontColor = useColorModeValue("black", "white");
   return (
     <Flex
       direction="column"
@@ -132,7 +133,10 @@ export default function EducationCarat() {
           </LinkCharkaUI>{" "}
           has an Ideal cut with an easily noticeably larger diameter of 6.5mm.
         </Text>
-        <Image src="https://www.diamonds.pro/wp-content/uploads/2022/04/cuts-blue.png" />
+        <LazyLoadImage
+          src="https://www.diamonds.pro/wp-content/uploads/2022/04/cuts-blue.png"
+          effect="blur"
+        />
         <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
           Diamond Size Chart: MM to Carat Weight
         </Text>
@@ -188,7 +192,10 @@ export default function EducationCarat() {
           To imagine the diamond sizes even better, take a look at this simple
           image comparison to a US quarter:
         </Text>
-        <Image src="https://www.diamonds.pro/wp-content/uploads/2019/11/diamonds_all_cuts-02_round_cut.jpg" />
+        <LazyLoadImage
+          src="https://www.diamonds.pro/wp-content/uploads/2019/11/diamonds_all_cuts-02_round_cut.jpg"
+          effect="blur"
+        />
         <Text fontSize="md" fontStyle={"italic"}>
           *This graphic shows mm to carat for various carat weights of a round
           diamond.
@@ -197,7 +204,10 @@ export default function EducationCarat() {
           See below the average measurements of the basic carat weights of each
           shape:
         </Text>
-        <Image src="https://www.diamonds.pro/wp-content/uploads/2023/07/Diamond-Carat-Size-Chart-Frame.png" />
+        <LazyLoadImage
+          src="https://www.diamonds.pro/wp-content/uploads/2023/07/Diamond-Carat-Size-Chart-Frame.png"
+          effect="blur"
+        />
         <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
           What is a Diamond Carat Size?
         </Text>
@@ -290,7 +300,10 @@ export default function EducationCarat() {
           at them with a magnifying glass (or microscope or loupe), but the
           typical person can’t see the inclusion with their naked eye.
         </Text>
-        <Image src="https://www.diamonds.pro/wp-content/uploads/2022/03/eye-clean-static.jpg" />
+        <LazyLoadImage
+          src="https://www.diamonds.pro/wp-content/uploads/2022/03/eye-clean-static.jpg"
+          effect="blur"
+        />
         <Text fontSize="lg">
           We have recently developed Ringo, a patented artificial intelligence
           model, that can examine videos of diamonds and determine if they are
@@ -322,23 +335,23 @@ export default function EducationCarat() {
           weight – 1.20ct.
         </Text>
         <Flex direction="column" alignItems={"center"} gap={3}>
-          <Image
-            boxSize={"400"}
+          <LazyLoadImage
             src="https://www.diamonds.pro/wp-content/uploads/2021/05/Deep-cut.png"
+            effect="blur"
           />
           <Text fontSize="md">Deep Cut</Text>
         </Flex>
         <Flex direction="column" alignItems={"center"} gap={3}>
-          <Image
-            boxSize={"400"}
-            src="https://www.diamonds.pro/wp-content/uploads/2021/05/Shallow-cut.png"
+          <LazyLoadImage
+            src="https://www.diamonds.pro/wp-content/uploads/2021/05/Deep-cut.png"
+            effect="blur"
           />
           <Text fontSize="md">Shallow Cut</Text>
         </Flex>
         <Flex direction="column" alignItems={"center"} gap={3}>
-          <Image
-            boxSize={"400"}
+          <LazyLoadImage
             src="https://www.diamonds.pro/wp-content/uploads/2021/05/Ideal-cut.png"
+            effect="blur"
           />
           <Text fontSize="md">Ideal Cut</Text>
         </Flex>
@@ -356,7 +369,10 @@ export default function EducationCarat() {
           should look. The proportions are perfect and the diamond will be very
           brilliant.
         </Text>
-        <Image src="https://www.diamonds.pro/wp-content/uploads/2022/03/cuts.jpg" />
+        <LazyLoadImage
+          src="https://www.diamonds.pro/wp-content/uploads/2022/03/cuts.jpg"
+          effect="blur"
+        />
         <Center>
           <Text fontSize="md">Diamonds cuts and light refraction</Text>
         </Center>
@@ -376,7 +392,11 @@ export default function EducationCarat() {
           carat is double the weight, the face of the half carat diamond is only
           21% smaller.
         </Text>
-        <Image src="https://www.diamonds.pro/wp-content/uploads/2019/12/0.5ct-round.jpg" />
+        <Image />
+        <LazyLoadImage
+          src="https://www.diamonds.pro/wp-content/uploads/2019/12/0.5ct-round.jpg"
+          effect="blur"
+        />
         <Text fontSize="lg">
           And how much does it weight? It weighs exactly half of a one carat
           diamond. Half carat diamonds are also referred to as ½ carat diamonds,
@@ -415,7 +435,6 @@ export default function EducationCarat() {
           name={"FAQs About Diamond Carat Weight"}
           content={caratFAQs}
         />
-
         <Text fontSize="2xl" fontWeight={"bold"}>
           Need Help Choosing The Right Diamond Size?
         </Text>

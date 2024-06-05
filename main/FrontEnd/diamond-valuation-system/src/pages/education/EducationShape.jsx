@@ -8,8 +8,9 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-
 import React from "react";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import Title from "../../components/Title";
 import EducationShapeForm from "../../components/education/EducationShapeForm";
 import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
@@ -89,7 +90,10 @@ export default function EducationShape() {
             </LinkCharkaUI>
           </Text>
         </Box>
-        <Image src="https://www.diamonds.pro/wp-content/uploads/2022/04/6A7A7777-Edited-2-1024x683.jpg" />
+        <LazyLoadImage
+          src="https://www.diamonds.pro/wp-content/uploads/2022/04/6A7A7777-Edited-2-1024x683.jpg"
+          effect="blur"
+        />
         <Text fontSize="lg">
           Knowing the basic information about diamond shapes will help you
           select the perfect diamond for yourself, a loved one or your
@@ -144,7 +148,10 @@ export default function EducationShape() {
           desired taste and style. With these notes in mind, you can select a
           diamond that will be cherished and admired for years to come.
         </Text>
-        <Image src="https://www.diamonds.pro/wp-content/uploads/2022/04/shapes-1024x992.png" />
+        <LazyLoadImage
+          src="https://www.diamonds.pro/wp-content/uploads/2022/04/shapes-1024x992.png"
+          effect="blur"
+        />
         <Text fontSize="lg">
           <strong>Note:</strong> Length to width ratio is measured by dividing
           the length of the diamond by the width. For example, if a diamond has
@@ -233,7 +240,11 @@ export default function EducationShape() {
           straight facets of these diamond shapes make imperfections very
           visible, so you should look for at least VS1 or VS2 in clarity here.
         </Text>
-        <Image src="https://www.diamonds.pro/wp-content/uploads/2022/05/shapes-blue-1-1024x489.png" />
+        <Image />
+        <LazyLoadImage
+          src="https://www.diamonds.pro/wp-content/uploads/2022/05/shapes-blue-1-1024x489.png"
+          effect="blur"
+        />
         <Center>
           <Text fontSize={"md"}>Diamond Shape Chart</Text>
         </Center>

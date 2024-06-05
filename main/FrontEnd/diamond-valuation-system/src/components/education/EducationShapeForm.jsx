@@ -1,4 +1,6 @@
 import { Box, Center, Image, Text } from "@chakra-ui/react";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 export default function EducationShapeForm({
   title,
   image,
@@ -15,7 +17,7 @@ export default function EducationShapeForm({
         {title}
       </Text>
       <Center m={"20px 0 0 0"}>
-        <Image boxSize={"300px"} src={image} />
+        <LazyLoadImage src={image} effect="blur" />
       </Center>
       <Text fontSize="lg">{description}</Text>
       <Text fontSize="lg">

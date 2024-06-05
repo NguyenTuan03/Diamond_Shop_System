@@ -11,6 +11,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link as LinkReactRouterDOM } from "react-router-dom";
 import Title from "../../components/Title";
 import EducationFAQs from "../../components/education/EducationFAQs";
@@ -195,7 +197,10 @@ export default function EducationCertificate() {
           <ListItem>GIA (Gemological Institute of America)</ListItem>
           <ListItem>AGS (American Gem Society)</ListItem>
         </OrderedList>
-        <Image src="https://www.diamonds.pro/wp-content/uploads/2023/02/diamond-certification.png" />
+        <LazyLoadImage
+          src="https://www.diamonds.pro/wp-content/uploads/2023/02/diamond-certification.png"
+          effect="blur"
+        />
         <Text fontSize="xl" fontWeight={"bold"}>
           1. GIA Certification
         </Text>

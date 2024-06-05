@@ -149,6 +149,7 @@ export default function SignUp({ signUp }) {
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
+                  isRequired
                   isInvalid={
                     errors.phoneNumber &&
                     touched.phoneNumber &&
@@ -157,7 +158,7 @@ export default function SignUp({ signUp }) {
                 >
                   <FormLabel>Phone number</FormLabel>
                   <InputGroup>
-                  <InputLeftAddon>+84</InputLeftAddon>
+                    <InputLeftAddon>+84</InputLeftAddon>
                     <Input
                       name="phoneNumber"
                       type="tel"

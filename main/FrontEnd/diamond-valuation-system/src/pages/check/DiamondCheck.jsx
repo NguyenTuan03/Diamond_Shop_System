@@ -7,7 +7,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
-
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 export default function DiamondCheck() {
   const bgColor = useColorModeValue("white", "black");
   return (
@@ -17,7 +18,7 @@ export default function DiamondCheck() {
       justifyContent="center"
       bg={bgColor}
       w={"99vw"}
-      h={"92vh"}
+      h={"91vh"}
       gap={20}
     >
       <Flex direction={"column"}>
@@ -38,7 +39,7 @@ export default function DiamondCheck() {
           </Button>
         </Flex>
       </Flex>
-      <Image src="../images/diamond-check.png" w={"300px"} />
+      <LazyLoadImage width={"300px"} src="../images/diamond-check.png" effect="blur" />
     </Flex>
   );
 }

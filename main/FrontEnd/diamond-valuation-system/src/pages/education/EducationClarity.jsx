@@ -22,6 +22,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import Title from "../../components/Title";
 import {
   claritySlider,
@@ -288,9 +290,9 @@ export default function EducationClarity() {
           higher the relief, the darker the color may seem which can affect
           diamond grading.
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2023/03/6A7A6601-2-1024x683.jpg"
-          m={"20px 0 0 0"}
+          effect="blur"
         />
         <Center>
           <Text fontSize={"sm"} color={"gray"}>
