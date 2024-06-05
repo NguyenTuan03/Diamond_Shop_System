@@ -161,7 +161,7 @@ export default function Calculate() {
           <Center borderRadius={"md"} boxShadow={"xl"} p={4}>
             <Flex direction={"column"} gap={5}>
               <Text fontSize={"2xl"} fontWeight={"bold"}>
-                Calculator Output
+                Calculator Input
               </Text>
               <GridValue
                 row={6}
@@ -261,7 +261,6 @@ export default function Calculate() {
                   body={"Current Average Price in USD / carat"}
                   contentFontSize={"6xl"}
                   headerFontSize={"xl"}
-                  headerColor={"black"}
                 />
                 <Text fontSize={"sm"} color={"gray"}>
                   {shape} {carat} ct. {color} {clarity}
@@ -276,7 +275,6 @@ export default function Calculate() {
                     body={"Average of lowest 10% asking price in USD / carat"}
                     contentFontSize={"sm"}
                     headerFontSize={"sm"}
-                    headerColor={"gray"}
                   />
                   <PopoverInfo
                     content={"$" + valuationResult.avg || "No result"}
@@ -286,7 +284,6 @@ export default function Calculate() {
                     }
                     contentFontSize={"sm"}
                     headerFontSize={"sm"}
-                    headerColor={"gray"}
                   />
                   <PopoverInfo
                     content={"$" + valuationResult.max || "No result"}
@@ -294,7 +291,6 @@ export default function Calculate() {
                     body={"Average of 10% highest asking price in USD / carat"}
                     contentFontSize={"sm"}
                     headerFontSize={"sm"}
-                    headerColor={"gray"}
                   />
                 </Flex>
               </Flex>

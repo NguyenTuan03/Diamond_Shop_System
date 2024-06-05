@@ -29,6 +29,8 @@ import {
   Select,
   useToast,
   useColorModeValue,
+  InputLeftAddon,
+  FormHelperText,
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
 import { GrUpdate } from "react-icons/gr";
@@ -446,6 +448,7 @@ export default function AdminPage() {
                       onBlur={handleBlur}
                       value={values.email}
                     />
+                    <FormHelperText>abc@def.xyz</FormHelperText>
                     <FormErrorMessage>
                       {errors.email && touched.email && errors.email}
                     </FormErrorMessage>
@@ -458,13 +461,17 @@ export default function AdminPage() {
                     }
                   >
                     <FormLabel>Phone number</FormLabel>
-                    <Input
-                      name="phoneNumber"
-                      type="tel"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.phoneNumber}
-                    />
+                    <InputGroup>
+                      <InputLeftAddon>+84</InputLeftAddon>
+                      <Input
+                        name="phoneNumber"
+                        type="tel"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.phoneNumber}
+                      />
+                    </InputGroup>
+                    <FormHelperText>Ex: 0832428279</FormHelperText>
                     <FormErrorMessage>
                       {errors.phoneNumber &&
                         touched.phoneNumber &&
@@ -589,6 +596,7 @@ export default function AdminPage() {
                       onBlur={handleBlur}
                       value={values.email}
                     />
+                    <FormHelperText>abc@def.xyz</FormHelperText>
                     <FormErrorMessage>
                       {errors.email && touched.email && errors.email}
                     </FormErrorMessage>
@@ -601,13 +609,17 @@ export default function AdminPage() {
                     }
                   >
                     <FormLabel>Phone number</FormLabel>
-                    <Input
-                      name="phoneNumber"
-                      type="tel"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.phoneNumber}
-                    />
+                    <InputGroup>
+                      <InputLeftAddon>+84</InputLeftAddon>
+                      <Input
+                        name="phoneNumber"
+                        type="tel"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.phoneNumber}
+                      />
+                    </InputGroup>
+                    <FormHelperText>Ex: 0832428279</FormHelperText>
                     <FormErrorMessage>
                       {errors.phoneNumber &&
                         touched.phoneNumber &&
