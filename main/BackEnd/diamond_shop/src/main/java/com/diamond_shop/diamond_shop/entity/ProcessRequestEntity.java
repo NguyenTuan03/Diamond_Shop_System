@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ public class ProcessRequestEntity {
     @JoinColumn(name = "Valuation_request_id")
     private ValuationRequestEntity valuationRequestId;
 
+    @NotBlank(message = "Process Request name is mandatory")
     @Column(name = "Name")
     private String name;
 
