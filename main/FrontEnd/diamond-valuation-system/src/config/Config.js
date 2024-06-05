@@ -17,6 +17,7 @@ const routes = {
   login: "/login",
   logout: "/logout",
   consultingStaff: "/consulting-staff",
+  error: "/error",
   valuationStaff: "/valuation-staff",
   // ConsultingStaff's DashBoard
   consulting_dashboard: "/consulting-staff-dashboard",
