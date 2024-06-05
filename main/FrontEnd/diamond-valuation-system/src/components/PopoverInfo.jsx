@@ -16,14 +16,13 @@ export default function PopoverInfo({
   body,
   contentFontSize,
   headerFontSize,
-  headerColor,
 }) {
   return (
     <Popover>
       <PopoverTrigger>
         <Flex direction={"column"} alignItems={"center"}>
           <Flex direction={"row"} gap={2}>
-            <Text fontSize={headerFontSize} color={headerColor}>
+            <Text fontSize={headerFontSize}>
               {header}
             </Text>
             <InfoOutlineIcon boxSize={3} />

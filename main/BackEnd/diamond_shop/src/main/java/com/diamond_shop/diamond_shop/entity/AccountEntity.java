@@ -2,7 +2,6 @@ package com.diamond_shop.diamond_shop.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,15 +33,14 @@ public class AccountEntity {
     @JoinColumn(name = "Role_id")
     private RoleEntity role;
 
-    @NotBlank(message = "Username is mandatory")
+    @Pattern(regexp = "(?!\\s)[a-zA-Z0-9]+$", message = "Invalid username")
     @Column(name = "Username")
     private String username;
 
-    @NotBlank(message = "Password is mandatory")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{8,}$", message = "Invalid password")
     @Column(name = "Password")
     private String password;
 
-    @NotBlank(message = "Full name is mandatory")
     @Pattern(regexp = "(?!\\s)[a-zA-Z\\s]+$", message = "Invalid full name")
     @Column(name = "Fullname")
     private String fullname;
@@ -51,7 +49,7 @@ public class AccountEntity {
     @Column(name = "Email")
     private String email;
 
-    @Pattern(regexp = "(84|0)(3|5|7|8|9)+([0-9]{8})\\b", message = "Invalid phone number")
+    @Pattern(regexp = "^([3|5|7|8|9]+([0-9]{8})\\b)", message = "Invalid phone number")
     @Column(name = "Phone_number")
     private String phone_number;
 
@@ -64,12 +62,12 @@ public class AccountEntity {
     @OneToMany(mappedBy = "staffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessRequestEntity> processRequestEntity = new HashSet<>();
 
-    public AccountEntity(RoleEntity role_id, String username, String fullname, String phone_number, String password) {
+    public AccountEntity(RoleEntity role_id, String username, String password, String fullname, String phone_number) {
         this.role = role_id;
         this.username = username;
+        this.password = password;
         this.fullname = fullname;
         this.phone_number = phone_number;
-        this.password = password;
     }
 
     public AccountEntity(int id, String username, String fullname, String phone_number, String password) {
@@ -78,9 +76,6 @@ public class AccountEntity {
         this.fullname = fullname;
         this.phone_number = phone_number;
         this.password = password;
-    }
-
-    public AccountEntity(RoleEntity role, String username, String password, String fullname, String phonenumber, String encode) {
     }
 
     public AccountEntity(RoleEntity role, String username, String password, String fullname, String email, String phonenumber, String address) {

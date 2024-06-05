@@ -28,31 +28,26 @@ public class AccountImpl implements AccountService {
 
     @Override
     public List<AccountEntity> getAllAccounts() {
-        List<AccountEntity> accounts = accountRepository.getAllAccounts();
-        return accounts;
+        return accountRepository.getAllAccounts();
     }
 
     public Page<AccountEntity> getAllAccountsById(int pageId) {
         int pageSize = 5;
         int pageNumber = --pageId;
-        Page<AccountEntity> accounts = accountRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("role")));
-        return accounts;
+        return accountRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("role")));
     }
 
     // private AccountDTO accountDTO;
     @Override
     public String addAccount(AccountDTO a) {
+        boolean isUsernameExist = accountRepository.findByUserName(a.getUsername()) != null;
+        boolean isPhoneNumberExist = accountRepository.findByPhoneNumber(a.getPhonenumber()) != null;
+        if (isUsernameExist) return "Username already exist";
+        else if (isPhoneNumberExist) return "Phone number already exist";
 
-        RoleEntity role = roleRepository.findById(5)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-
-        AccountEntity account = new AccountEntity(
-                role,
-                a.getUsername(),
-                a.getFullname(),
-                a.getPhonenumber(),
-                this.passwordEncoder.encode(a.getPassword())
-        );
+        RoleEntity role = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
+        String encodedPassword = passwordEncoder.encode(a.getPassword());
+        AccountEntity account = new AccountEntity(role, a.getUsername(), encodedPassword, a.getFullname(), a.getPhonenumber());
         accountRepository.save(account);
         return account.getUsername();
     }
@@ -61,15 +56,7 @@ public class AccountImpl implements AccountService {
     public void createAccount(AccountDTO accountDTO) {
         RoleEntity role = roleRepository.findById(accountDTO.getRoleid()).orElseThrow(() -> new RuntimeException("Role not found"));
         System.out.println(role);
-        AccountEntity account = new AccountEntity(
-                role,
-                accountDTO.getUsername(),
-                accountDTO.getPassword(),
-                accountDTO.getFullname(),
-                accountDTO.getEmail(),
-                accountDTO.getPhonenumber(),
-                accountDTO.getAddress()
-        );
+        AccountEntity account = new AccountEntity(role, accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getFullname(), accountDTO.getEmail(), accountDTO.getPhonenumber(), accountDTO.getAddress());
         System.out.println(account);
         accountRepository.save(account);
     }

@@ -1,5 +1,6 @@
 package com.diamond_shop.diamond_shop.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @CrossOrigin
 @RequestMapping("api/account")
-public class Api {
+public class    Api {
 
     @Autowired
     private AccountService accountService;
@@ -35,6 +36,7 @@ public class Api {
     public String saveEmployee(@RequestBody AccountDTO accountDTO)
     {
         String name = accountService.addAccount(accountDTO);
+        System.out.println(name);
         return name;
     }
     @PostMapping(path = "/login")
