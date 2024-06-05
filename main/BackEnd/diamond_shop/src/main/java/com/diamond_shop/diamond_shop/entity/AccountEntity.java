@@ -49,7 +49,7 @@ public class AccountEntity {
     @Column(name = "Email")
     private String email;
 
-    @Pattern(regexp = "^([3|5|7|8|9]+([0-9]{8})\\b)", message = "Invalid phone number")
+    @Pattern(regexp = "^0?([3|5|7|8|9]+([0-9]{8})\\b)", message = "Invalid phone number")
     @Column(name = "Phone_number")
     private String phone_number;
 
