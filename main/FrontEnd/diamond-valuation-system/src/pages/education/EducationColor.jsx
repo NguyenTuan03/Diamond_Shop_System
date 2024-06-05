@@ -21,6 +21,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import Title from "../../components/Title";
 import { IoDiamondOutline } from "react-icons/io5";
 import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
@@ -83,7 +85,7 @@ export default function EducationColor() {
           scale to accomplish this. Very high grades offer little visible
           difference but come with a significant increase in diamond price.
         </Text>
-        <Image src={colorSlider[sliderValue].image} />
+        <LazyLoadImage src={colorSlider[sliderValue].image} effect="blur" />
         <Box p={4} pt={6} m={"20px 0 0 0"}>
           <Slider
             aria-label="slider-ex-6"
@@ -162,9 +164,9 @@ export default function EducationColor() {
           is not D. You can put a G, H or I color diamond in a ring and it will
           look the same while costing a lot less.
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2022/02/Larger-I-color-diamond.jpg"
-          m={"20px 0 20px 0"}
+          effect="blur"
         />
         <Text fontSize={"lg"}>
           If you choose a yellow or rose gold setting, there’s a good chance
@@ -261,17 +263,17 @@ export default function EducationColor() {
           are very small, so much so that they’re largely impossible to perceive
           with the naked eye.
         </Text>
-        <Text fontSize={"lg"}>
+        <Text fontSize={"lg"} m={"0 0 20px 0"}>
           However, the difference between one color grade and another that’s
           three or four above or below it (for example, a G color diamond and a
           K color diamond) are often easy to see when the diamonds are side by
           side, especially under bright light and with magnification.
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2022/04/Copy-of-6A7A3634-Edited-1024x683.jpg"
-          m={"20px 0 20px 0"}
+          effect="blur"
         />
-        <Text fontSize={"lg"}>
+        <Text fontSize={"lg"} m={"20px 0 0 0"}>
           <strong>Third</strong>, like with everything else related to buying a
           diamond, there’s no need to choose the best color grade. Unless you
           have a massive budget, buying a D color diamond is unnecessary when a
@@ -348,12 +350,12 @@ export default function EducationColor() {
           With this out of the way, let’s look at the GIA’s diamond color chart
           and how it relates to shopping for a diamond.
         </Text>
-        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 0 0"}>
+        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 20px 0"}>
           The Diamond Color Chart
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2022/02/Diamond-color-chart.png"
-          m={"20px 0 20px 0"}
+          effect="blur"
         />
         <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
           What is a Diamond Color Chart?
@@ -530,15 +532,15 @@ export default function EducationColor() {
           and arranged in order by color. On the left, the order has been
           randomized.
         </Text>
-        <Text fontSize={"lg"}>
+        <Text fontSize={"lg"} m={"0 0 20px 0"}>
           By looking at the pictures on the left, are you able to place them in
           the correct grading order?
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2009/06/ColorGrid1-e1451817859850.jpg"
-          m={"20px 0 20px 0"}
+          effect="blur"
         />
-        <Text fontSize={"lg"} fontWeight={"bold"}>
+        <Text fontSize={"lg"} fontWeight={"bold"} m={"20px 0 0 0"}>
           (Answer (on the left side) – First Row: G, L, E. Second Row: F, J, D.
           Third Row: H, K, I.)
         </Text>

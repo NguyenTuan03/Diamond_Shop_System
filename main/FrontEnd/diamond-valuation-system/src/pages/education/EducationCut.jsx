@@ -17,6 +17,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import Title from "../../components/Title";
 import EducationProTip from "../../components/education/EducationProTip";
 import {
@@ -160,15 +162,15 @@ export default function EducationCut() {
           beautiful appearance, a low cut grade is likely to result in a diamond
           that doesn’t dazzle like it is supposed to.
         </Text>
-        <Text fontSize="lg">
+        <Text fontSize="lg" m={"0 0 20px 0"}>
           We recommend you restrict your search to only Excellent or Ideal cut
           grades, as there is no hiding a below-average cut. Even if your budget
           forces you to sacrifice in other areas, a well-cut diamond should
           still have the potential to stand out.
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2022/06/6A7A7039-scaled.jpg"
-          m={"20px 0 0 0"}
+          effect="blur"
         />
         <Center>
           <Text fontSize={"sm"}>
@@ -252,15 +254,15 @@ export default function EducationCut() {
         <Text fontSize="lg" fontWeight={"bold"}>
           Diamond Cut Proportions
         </Text>
-        <Text fontSize="lg">
+        <Text fontSize="lg" m={"0 0 20px 0"}>
           To further understand the factors impacting diamond cut quality, let’s
           examine a diamond’s proportions, primarily its table, width and depth.
           These elements are universally measured and are excellent indicators
           of a diamond’s cut quality.
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2022/04/cuts-blue.png"
-          m={"20px 0 0 0"}
+          effect="blur"
         />
         <Text fontSize="lg">
           Diamond cut proportions directly affect a diamond’s ability to reflect
@@ -274,15 +276,15 @@ export default function EducationCut() {
         <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
           Diamond Cut Proportions
         </Text>
-        <Text fontSize="lg" m={"0 0 20px 0"}>
+        <Text fontSize="lg" m={"0 0 40px 0"}>
           To further understand the factors impacting diamond cut quality, let’s
           examine a diamond’s proportions, primarily its table, width and depth.
           These elements are universally measured and are excellent indicators
           of a diamond’s cut quality.
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2022/02/table.jpg"
-          m={"20px 0 0 0"}
+          effect="blur"
         />
         <Text fontSize="lg">
           If the table percentage is too large, the light won’t reflect off of
@@ -303,14 +305,14 @@ export default function EducationCut() {
         <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
           Diamond Width
         </Text>
-        <Text fontSize="lg">
+        <Text fontSize="lg" m={"0 0 20px 0"}>
           A diamond’s width is determined by measuring from one end of its
           girdle (the diameter at its widest point) to the other end of the
           girdle.
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2022/02/width-1.png"
-          m={"20px 0 0 0"}
+          effect="blur"
         />
         <Text fontSize="lg">
           The width is most important when it comes to determining length to
@@ -330,13 +332,13 @@ export default function EducationCut() {
           of the table. Depth is measured in millimeters and percentages. By
           dividing the depth by the width, the depth % is achieved.
         </Text>
-        <Text fontSize="lg">
+        <Text fontSize="lg" m={"0 0 20px 0"}>
           As an example, if a diamond is 4mm in depth and 4.5 mm in width, the
           depth percentage is 88.8%.
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2022/02/depth.jpg"
-          m={"20px 0 0 0"}
+          effect="blur"
         />
         <Text fontSize="lg">
           In most cases, a lower depth % of two equal carat diamonds will appear
@@ -409,15 +411,15 @@ export default function EducationCut() {
           well-cut diamond as opposed to a larger carat that is poorly cut to
           get the most sparkly diamond.
         </Text>
-        <Text fontSize="lg">
+        <Text fontSize="lg" m={"0 0 20px 0"}>
           If you’re unsure of an ideal cut for your diamond, speak to an expert
           to walk you through the process.
         </Text>
-        <Image
+        <LazyLoadImage
           src="https://www.diamonds.pro/wp-content/uploads/2022/04/Basic-princess-cut-image.png"
-          m={"20px 0 20px 0"}
+          effect="blur"
         />
-        <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
+        <Text fontSize="lg" fontWeight={"bold"} m={"40px 0 0 0"}>
           Symmetrical facets
         </Text>
         <Text fontSize="lg">
