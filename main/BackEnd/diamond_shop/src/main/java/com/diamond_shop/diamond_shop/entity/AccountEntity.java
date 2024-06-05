@@ -1,6 +1,9 @@
 package com.diamond_shop.diamond_shop.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,18 +34,24 @@ public class AccountEntity {
     @JoinColumn(name = "Role_id")
     private RoleEntity role;
 
+    @NotBlank(message = "Username is mandatory")
     @Column(name = "Username")
     private String username;
 
+    @NotBlank(message = "Password is mandatory")
     @Column(name = "Password")
     private String password;
 
+    @NotBlank(message = "Full name is mandatory")
+    @Pattern(regexp = "(?!\\s)[a-zA-Z\\s]+$", message = "Invalid full name")
     @Column(name = "Fullname")
     private String fullname;
 
+    @Email(message = "Invalid email", regexp = "([a-zA-Z0-9]+)([\\_\\.\\-{1}])?([a-zA-Z0-9]+)\\@([a-zA-Z0-9]+)([\\.])([a-zA-Z\\.]+)")
     @Column(name = "Email")
     private String email;
 
+    @Pattern(regexp = "(84|0)(3|5|7|8|9)+([0-9]{8})\\b", message = "Invalid phone number")
     @Column(name = "Phone_number")
     private String phone_number;
 

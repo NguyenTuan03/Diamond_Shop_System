@@ -32,16 +32,18 @@ export const validateSignUp = (values, type) => {
     }
   }
   if (values.email) {
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    if (
+      !/([a-zA-Z0-9]+)([\_\.\-{1}])?([a-zA-Z0-9]+)\@([a-zA-Z0-9]+)([\.])([a-zA-Z\.]+)/.test(
+        values.email
+      )
+    ) {
       errors.email = "Invalid email address";
     }
   }
   if (values.phoneNumber) {
     if (values.phoneNumber.length !== 10) {
       errors.phoneNumber = "Invalid phone number";
-    } else if (
-      !/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/.test(values.phoneNumber)
-    ) {
+    } else if (!/(84|0)(3|5|7|8|9)+([0-9]{8})\b/.test(values.phoneNumber)) {
       errors.phoneNumber = "Invalid phone number";
     }
   }

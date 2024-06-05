@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class RoleEntity {
     @Column(name = "Id")
     private int Id;
 
+    @NotBlank(message = "Role name is mandatory")
     @Column(name = "Name")
     private String Name;
 
