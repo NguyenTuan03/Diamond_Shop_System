@@ -16,11 +16,14 @@ public interface AccountService {
 
     String addAccount(AccountDTO accountDTO);
 
-    void createAccount(AccountDTO accountDTO);
+    String createAccount(AccountDTO accountDTO);
 
-    void updateAccount(int id, int role, String fullname, String email, String phonenumber, String address);
+    String updateAccount(AccountDTO accountDTO);
 
     void deleteAccount(int id);
 
     LoginMessageDTO loginAccount(LoginDTO loginDTO);
+
+    String updatePhoneNumber(String phoneNumber);
+    String checkDuplicateAccount(String type, int id, String username, String email, String phoneNumber);
 }

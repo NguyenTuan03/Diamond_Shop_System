@@ -20,15 +20,14 @@ public class AdminController {
     }
 
     @PostMapping(path = "/create")
-    public void createAccount(@RequestBody AccountDTO account) {
-        System.out.println(account);
-        accountService.createAccount(account);
+    public String createAccount(@RequestBody AccountDTO account) {
+        return accountService.createAccount(account);
     }
 
     @PostMapping(path = "/update")
-    public void updateAccount(@RequestBody AccountDTO account) {
+    public String updateAccount(@RequestBody AccountDTO account) {
         System.out.println(account);
-        accountService.updateAccount(account.getId(), account.getRoleid(), account.getFullname(), account.getEmail(), account.getPhonenumber(), account.getAddress());
+        return accountService.updateAccount(account);
     }
 
     @PostMapping(path = "/delete")
