@@ -1,7 +1,6 @@
 import { EmailIcon } from "@chakra-ui/icons";
 import {
   Button,
-  Center,
   Flex,
   FormControl,
   FormLabel,
@@ -13,92 +12,106 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 
-export default function SendEmailModal({
-  sendEmailModal,
-  sender,
-  emailFormRef,
-  sendEmailFunc,
-}) {
+export default function SendEmailModal({ sendEmailModal, message }) {
+  const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const emailForm = useRef();
+  const sendEmail = (e) => {
+    try {
+      e.preventDefault();
+      emailjs
+        .sendForm(`${serviceID}`, `${templateID}`, emailForm.current, {
+          publicKey: `${publicKey}`,
+        })
+        .then(() => {
+          console.log("SUCCESS");
+          toast({
+            title: "Email sent successfully",
+            description: "Please check your email to see your valuation result",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+        });
+    } catch (error) {
+      console.log("FAILED", error);
+      toast({
+        title: "Failed to send email",
+        description: "Please try again later",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      console.log(isLoading);
+    }
+  };
   return (
     <Modal isOpen={sendEmailModal.isOpen} onClose={sendEmailModal.onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Send email to customer</ModalHeader>
+        <ModalHeader>Please type in your email</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Formik
             initialValues={{
-              from_name: sender.name,
-              from_email: sender.email,
-              user_name: "",
+              from_name: "Lam Tien Hung",
+              from_email: "lamtienhung0412@gmail.com",
+              user_name: "ABCXYZ",
               user_email: "",
-              message: "",
+              message: { message },
             }}
             onSubmit={(values) => {
               console.log(values);
             }}
           >
             {({ values, handleChange, handleBlur, isSubmitting }) => (
-              <Form ref={emailFormRef} onSubmit={sendEmailFunc}>
+              <Form ref={emailForm} onSubmit={sendEmail}>
                 <Flex direction={"column"} gap={5}>
                   <FormControl isRequired>
-                    <FormLabel>Customer Name</FormLabel>
-                    <Input
-                      name="user_name"
-                      type="text"
-                      placeholder="Customer Name"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.user_name}
-                    />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Customer Email</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <Input
                       name="user_email"
                       type="email"
-                      placeholder="abc@gmail.com"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.user_email}
                     />
                   </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Message</FormLabel>
-                    <Textarea
-                      name="message"
-                      placeholder="Write your message here..."
-                      h={"200px"}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.message}
-                    />
-                  </FormControl>
                   <Input
                     type="hidden"
-                    name="from_name"
-                    value={values.from_name}
+                    name="user_name"
+                    value={values.user_name}
                   />
                   <Input
                     type="hidden"
                     name="from_email"
                     value={values.from_email}
                   />
-                  <Center>
-                    <Button
-                      type="submit"
-                      colorScheme="green"
-                      leftIcon={<EmailIcon />}
-                      isLoading={isSubmitting}
-                    >
-                      Send Email
-                    </Button>
-                  </Center>
+                  <Input
+                    type="hidden"
+                    name="from_name"
+                    value={values.from_name}
+                  />
+                  <Input type="hidden" name="message" value={message} />
+                  <Button
+                    type="submit"
+                    isLoading={isLoading}
+                    leftIcon={<EmailIcon />}
+                    colorScheme="blue"
+                    disabled={isSubmitting}
+                  >
+                    Send Email
+                  </Button>
                 </Flex>
               </Form>
             )}
