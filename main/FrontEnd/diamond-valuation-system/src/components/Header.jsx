@@ -23,7 +23,6 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor = useColorModeValue("white", "black");
-  const fontColor = useColorModeValue("black", "white");
   const modalSignIn = useDisclosure();
   const modalSignUp = useDisclosure();
   const auth = useContext(UserContext);
@@ -45,6 +44,13 @@ export default function Header() {
       transition: Bounce,
     });
   };
+  const changeColorMode = () => {
+    toggleColorMode();
+    // document.querySelector("._container_tczam_16").style.backgroundColor =
+    //   colorMode === "light" ? "black" : "white";
+    // document.querySelector("._wrapper_tczam_7").style.backgroundColor =
+    //   colorMode === "light" ? "black" : "white";
+  };
   return (
     <>
       <ToastContainer />
@@ -59,7 +65,10 @@ export default function Header() {
         alignItems={"center"}
         justifyContent={"space-between"}
         bg={bgColor}
-        style={{ boxShadow:`0px 0px 15px 0px gray`, backdropFilter: "blur(20px)"}}
+        style={{
+          boxShadow: `0px 0px 15px 0px gray`,
+          backdropFilter: "blur(20px)",
+        }}
         p={5}
       >
         <Link to={routes.home}>
@@ -72,7 +81,7 @@ export default function Header() {
         </Link>
         <Flex dir="row" gap={20}>
           <Link to={routes.search}>
-            <Text fontSize={"lg"} fontWeight={"bold"} color={fontColor}>
+            <Text fontSize={"lg"} fontWeight={"bold"}>
               Search
             </Text>
           </Link>
@@ -98,7 +107,7 @@ export default function Header() {
               borderWidth="1px"
               _focus={{ boxShadow: "outline" }}
             >
-              <Link to={"/"} style={{ border: "0px" }}>
+              <Link to={"/"}>
                 <Flex direction={"row"} gap={2} alignItems={"center"}>
                   <Text fontSize={"lg"} fontWeight={"bold"}>
                     Education
@@ -132,7 +141,7 @@ export default function Header() {
         {console.log(auth.userAuth)}
         <IconButton
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-          onClick={toggleColorMode}
+          onClick={changeColorMode}
         />
         {!auth.userAuth ? (
           <Button colorScheme="blue" onClick={modalSignIn.onOpen}>

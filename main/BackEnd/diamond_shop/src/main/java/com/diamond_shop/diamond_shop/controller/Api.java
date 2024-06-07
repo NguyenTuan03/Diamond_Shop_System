@@ -35,9 +35,7 @@ public class    Api {
     @PostMapping(path = "/save")
     public String saveEmployee(@RequestBody AccountDTO accountDTO)
     {
-        String name = accountService.addAccount(accountDTO);
-        System.out.println(name);
-        return name;
+        return accountService.addAccount(accountDTO);
     }
     @PostMapping(path = "/login")
     public ResponseEntity<?> loginEmployee(@RequestBody LoginDTO loginDTO)

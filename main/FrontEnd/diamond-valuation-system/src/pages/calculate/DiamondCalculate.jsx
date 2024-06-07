@@ -13,6 +13,10 @@ import {
   Tooltip,
   useToast,
   useColorModeValue,
+  useDisclosure,
+  Container,
+  useBreakpointValue,
+  Grid,
 } from "@chakra-ui/react";
 import { IoDiamond, IoDiamondOutline } from "react-icons/io5";
 import { Link as LinkReactRouterDOM } from "react-router-dom";
@@ -28,11 +32,15 @@ import {
 } from "../../shared/SharedDiamondValuation";
 import axios from "axios";
 import ScrollToTop from "react-scroll-to-top";
+import SendEmailModal from "../../components/SendEmailModal";
 
 export default function Calculate() {
   const bgColor = useColorModeValue("white", "black");
-  const fontColor = useColorModeValue("black", "white");
   const toast = useToast();
+
+  const sendEmailModal = useDisclosure();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [sliderValue, setSliderValue] = useState();
   const [sliderShowToolTip, setSliderShowToolTip] = useState(false);
   const [gradingLabActiveButtonIndex, setGradingLabActiveButtonIndex] =
@@ -75,6 +83,7 @@ export default function Calculate() {
         });
         return;
       }
+      setIsLoading(true);
       await axios
         .post("http://localhost:8081/api/diamond/calculate", {
           gradingLab: gradingLab,
@@ -107,7 +116,7 @@ export default function Calculate() {
             toast({
               title: "Diamond Valuation",
               description: "There is no available data for this query.",
-              status: "error",
+              status: "warning",
               duration: 3000,
               isClosable: true,
             });
@@ -132,19 +141,21 @@ export default function Calculate() {
         isClosable: true,
       });
       console.error("Error: ", error);
+    } finally {
+      setIsLoading(false);
     }
   }
   useEffect(() => {}, []);
+
   return (
     <>
-      <ScrollToTop smooth color="blue"/>
+      <ScrollToTop smooth />
       <Flex
         direction="column"
         alignItems="center"
         justifyContent="center"
-        w={"99vw"}
         bg={bgColor}
-        p={10}
+        p={20}
       >
         <Text fontSize="3xl" fontWeight="bold">
           Diamond Price Valuation
@@ -155,7 +166,14 @@ export default function Calculate() {
         </Text>
         <Divider m={"50px 0 50px 0"} />
         {isResult && (
-          <Button colorScheme="teal">Receive your valuation result</Button>
+          <Button
+            colorScheme="teal"
+            onClick={() => {
+              sendEmailModal.onOpen();
+            }}
+          >
+            Receive your valuation result
+          </Button>
         )}
         <Flex direction="row" gap={2}>
           <Center borderRadius={"md"} boxShadow={"xl"} p={4}>
@@ -243,6 +261,7 @@ export default function Calculate() {
                 colorScheme="blue"
                 w={"inherit"}
                 m={"10px 0 0 0"}
+                isLoading={isLoading}
                 onClick={handleSubmit}
               >
                 SUBMIT
@@ -311,6 +330,22 @@ export default function Calculate() {
           </Flex>
         </Flex>
       </Flex>
+
+      <SendEmailModal
+        sendEmailModal={sendEmailModal}
+        message={`Diamond Attribute: \n
+        Grading Lab: ${gradingLab} \n
+        Carat: ${carat} \n
+        Shape: ${shape} \n
+        Color: ${color} \n
+        Cut: ${cut} \n
+        Clarity: ${clarity} \n
+        Diamond Price:\n
+        Real Time Price: ${valuationResult.price}$ \n
+        Min: ${valuationResult.min}$ \n
+        Avg: ${valuationResult.avg}$ \n
+        Max: ${valuationResult.max}$ \n`}
+      />
     </>
   );
 }

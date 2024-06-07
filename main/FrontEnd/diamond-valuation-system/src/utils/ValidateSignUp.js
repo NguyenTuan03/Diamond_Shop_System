@@ -40,9 +40,16 @@ export const validateSignUp = (values, type) => {
       errors.email = "Invalid email address";
     }
   }
+  
   if (values.phoneNumber) {
+    if (values.phoneNumber.length > 10) {
+      errors.phoneNumber = "Invalid phone number";
+    }
+    if(!values.phoneNumber.startsWith("0")&&values.phoneNumber.length>9){
+      errors.phoneNumber = "Invalid phone number";
+    }
     if (!/^0?([3|5|7|8|9]+([0-9]{8})\b)/.test(values.phoneNumber)) {
-      errors.phoneNumber = "Invalid format phone number";
+      errors.phoneNumber = "Invalid phone number";
     }
   }
   return errors;

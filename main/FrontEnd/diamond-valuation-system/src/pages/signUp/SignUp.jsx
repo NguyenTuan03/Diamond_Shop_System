@@ -68,6 +68,14 @@ export default function SignUp({ signUp }) {
         });
       }
     } catch (error) {
+      toast({
+        title: "Sign up failed.",
+        description: "Please try again.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      
+      })
       console.error("Login failed:", error);
     }
   }

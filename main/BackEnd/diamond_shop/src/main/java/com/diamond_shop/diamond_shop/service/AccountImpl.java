@@ -39,36 +39,95 @@ public class AccountImpl implements AccountService {
 
     // private AccountDTO accountDTO;
     @Override
-    public String addAccount(AccountDTO a) {
-        boolean isUsernameExist = accountRepository.findByUserName(a.getUsername()) != null;
+    public String addAccount(AccountDTO accountDTO) {
+        String updatePhoneNumber = updatePhoneNumber(accountDTO.getPhonenumber());
 
-        String updatePhoneNumber = "";
-        if (a.getPhonenumber().length() == 9 && !a.getPhonenumber().startsWith("0")) {
-            updatePhoneNumber = "0" + a.getPhonenumber();
-        }
-        boolean isPhoneNumberExist = accountRepository.findByPhoneNumber(updatePhoneNumber) != null;
-        if (isUsernameExist) return "Username already exist";
-        else if (isPhoneNumberExist) return "Phone number already exist";
+        String errorMessage = checkDuplicateAccount("add", accountDTO.getId(), accountDTO.getUsername(), "", updatePhoneNumber);
+        if (!errorMessage.isEmpty())
+            return errorMessage;
 
         RoleEntity role = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
-        String encodedPassword = passwordEncoder.encode(a.getPassword());
-        AccountEntity account = new AccountEntity(role, a.getUsername(), encodedPassword, a.getFullname(), updatePhoneNumber);
+        String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
+        AccountEntity account = new AccountEntity(role, accountDTO.getUsername(), encodedPassword, accountDTO.getFullname(), updatePhoneNumber);
         accountRepository.save(account);
         return account.getUsername();
     }
 
     @Override
-    public void createAccount(AccountDTO accountDTO) {
+    public String createAccount(AccountDTO accountDTO) {
+        String updatePhoneNumber = updatePhoneNumber(accountDTO.getPhonenumber());
+
+        String errorMessage = checkDuplicateAccount("create", accountDTO.getId(), accountDTO.getUsername(), accountDTO.getEmail(), updatePhoneNumber);
+        if (!errorMessage.isEmpty())
+            return errorMessage;
+
         RoleEntity role = roleRepository.findById(accountDTO.getRoleid()).orElseThrow(() -> new RuntimeException("Role not found"));
-        System.out.println(role);
-        AccountEntity account = new AccountEntity(role, accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getFullname(), accountDTO.getEmail(), accountDTO.getPhonenumber(), accountDTO.getAddress());
-        System.out.println(account);
+        String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
+        AccountEntity account = new AccountEntity(role, accountDTO.getUsername(), encodedPassword, accountDTO.getFullname(), accountDTO.getEmail(), updatePhoneNumber, accountDTO.getAddress());
         accountRepository.save(account);
+        return account.getUsername();
     }
 
     @Override
-    public void updateAccount(int id, int role, String fullname, String email, String phonenumber, String address) {
-        accountRepository.updateAccountInfoById(id, role, fullname, email, phonenumber, address);
+    public String checkDuplicateAccount(String type, int id, String username, String email, String phoneNumber) {
+        String errorMessage = "";
+        boolean isUsernameExist = false, isEmailExist = false, isPhoneNumberExist = false;
+        switch (type) {
+            case "add":
+                isUsernameExist = accountRepository.findByUserName(username) != null;
+                if (isUsernameExist) errorMessage += "Username, ";
+                isPhoneNumberExist = accountRepository.findByPhoneNumber(phoneNumber) != null;
+                if (isPhoneNumberExist) errorMessage += "Phone number ";
+                if (isUsernameExist || isPhoneNumberExist) errorMessage += "already exist";
+                else return errorMessage;
+            case "create":
+                isUsernameExist = accountRepository.findByUserName(username) != null;
+                if (isUsernameExist) errorMessage += "Username, ";
+                isEmailExist = accountRepository.findByEmail(email) != null;
+                if (isEmailExist) errorMessage += "Email, ";
+                isPhoneNumberExist = accountRepository.findByPhoneNumber(phoneNumber) != null;
+                if (isPhoneNumberExist) errorMessage += "Phone number ";
+                if (isUsernameExist || isEmailExist || isPhoneNumberExist) return errorMessage + "already exist.";
+                else return errorMessage;
+            case "update":
+                AccountEntity checkAccount = accountRepository.findByUserName(username);
+                if (checkAccount != null) {
+                    if (checkAccount.getId() != id) {
+                        errorMessage += "Username, ";
+                        isUsernameExist = true;
+                    }
+                }
+                checkAccount = accountRepository.findByEmail(email);
+                if (checkAccount != null) {
+                    if (checkAccount.getId() != id) {
+                        errorMessage += "Email, ";
+                        isEmailExist = true;
+                    }
+                }
+                checkAccount = accountRepository.findByPhoneNumber(phoneNumber);
+                if (checkAccount != null) {
+                    if (checkAccount.getId() != id) {
+                        errorMessage += "PhoneNumber ";
+                        isPhoneNumberExist = true;
+                    }
+                }
+                if (isUsernameExist || isEmailExist || isPhoneNumberExist) return errorMessage + "already exist.";
+                else return errorMessage;
+            default:
+                return errorMessage;
+        }
+    }
+
+    @Override
+    public String updateAccount(AccountDTO accountDTO) {
+        String updatePhoneNumber = updatePhoneNumber(accountDTO.getPhonenumber());
+
+        String errorMessage = checkDuplicateAccount("update", accountDTO.getId(), accountDTO.getUsername(), accountDTO.getEmail(), updatePhoneNumber);
+        if (!errorMessage.isEmpty()) {
+            return errorMessage;
+        }
+        accountRepository.updateAccountInfoById(accountDTO.getId(), accountDTO.getRoleid(), accountDTO.getFullname(), accountDTO.getEmail(), updatePhoneNumber, accountDTO.getAddress());
+        return "";
     }
 
     @Override
@@ -101,5 +160,13 @@ public class AccountImpl implements AccountService {
         } else {
             return new LoginMessageDTO("Email not exits", false);
         }
+    }
+
+    @Override
+    public String updatePhoneNumber(String phoneNumber) {
+        if (phoneNumber.length() == 9 && !phoneNumber.startsWith("0")) {
+            phoneNumber = "0" + phoneNumber;
+        }
+        return phoneNumber;
     }
 }

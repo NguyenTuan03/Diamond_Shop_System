@@ -104,26 +104,33 @@ export default function AdminPage() {
     address
   ) => {
     try {
-      await axios
-        .post("http://localhost:8081/api/admin/create", {
-          roleid: roleid,
-          username: username,
-          password: password,
-          fullname: fullname,
-          email: email,
-          phonenumber: phonenumber,
-          address: address,
-        })
-        .then(function (response) {
-          toast({
-            title: "User created.",
-            description: "User has been created successfully.",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-          });
-          fetchAccounts(currentPage);
+      const res = await axios.post("http://localhost:8081/api/admin/create", {
+        roleid: roleid,
+        username: username,
+        password: password,
+        fullname: fullname,
+        email: email,
+        phonenumber: phonenumber,
+        address: address,
+      });
+      if (res.data.includes("exist")) {
+        toast({
+          title: "User creation failed.",
+          description: res.data,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
         });
+      } else {
+        toast({
+          title: "User created.",
+          description: "User has been created successfully.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        fetchAccounts(currentPage);
+      }
     } catch (err) {
       toast({
         title: "User creation failed.",
@@ -144,25 +151,32 @@ export default function AdminPage() {
     address
   ) => {
     try {
-      await axios
-        .post("http://localhost:8081/api/admin/update", {
-          id: id,
-          roleid: roleid,
-          fullname: fullname,
-          email: email,
-          phonenumber: phonenumber,
-          address: address,
-        })
-        .then(function (response) {
-          toast({
-            title: "User updated.",
-            description: "User has been updated successfully.",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-          });
-          fetchAccounts(currentPage);
+      const res = await axios.post("http://localhost:8081/api/admin/update", {
+        id: id,
+        roleid: roleid,
+        fullname: fullname,
+        email: email,
+        phonenumber: phonenumber,
+        address: address,
+      });
+      if (res.data.includes("exist")) {
+        toast({
+          title: "User update failed.",
+          description: res.data,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
         });
+      } else {
+        toast({
+          title: "User updated.",
+          description: "User has been updated successfully.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        fetchAccounts(currentPage);
+      }
     } catch (err) {
       toast({
         title: "User update failed.",
@@ -307,15 +321,7 @@ export default function AdminPage() {
           </Table>
         </TableContainer>
         <Flex direction={"row"} gap={5}>
-          <Flex
-            position={"fixed"}
-            bottom={"80px"}
-            left={"45%"}
-            direction={"row"}
-            gap={2}
-          >
-            {pageIndicator}
-          </Flex>
+          {pageIndicator}
         </Flex>
       </Flex>
       <Modal isOpen={createUser.isOpen} onClose={createUser.onClose}>
