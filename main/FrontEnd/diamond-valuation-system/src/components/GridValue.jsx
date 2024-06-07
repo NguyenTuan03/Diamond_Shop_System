@@ -5,6 +5,7 @@ import {
   FormLabel,
   Grid,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -27,6 +28,11 @@ export default function GridValue({
       setActiveButtonIndex(index);
     }
   };
+  // const responsiveCols = useBreakpointValue({
+  //   base: 2,
+  //   md: Math.min(row, 2),
+  //   lg: row,
+  // });
   return (
     <FormControl isRequired isInvalid={isError}>
       <FormLabel color={"gray"} m={"20px 0 0 0"}>
@@ -38,7 +44,10 @@ export default function GridValue({
             <Button
               key={index}
               borderRadius={"md"}
-              boxShadow="xl"
+              style={{
+                boxShadow: `0px 0px 2px 0px gray`,
+                backdropFilter: "blur(10px)",
+              }}
               _hover={{ bg: "blue.400" }}
               backgroundColor={
                 activeButtonIndex === index ? "blue.400" : "initial"

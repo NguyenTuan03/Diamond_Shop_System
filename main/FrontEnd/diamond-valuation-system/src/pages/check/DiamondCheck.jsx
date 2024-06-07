@@ -18,8 +18,9 @@ export default function DiamondCheck() {
       justifyContent="center"
       bg={bgColor}
       w={"99vw"}
-      h={"91vh"}
+      h={"100vh"}
       gap={20}
+      // overflow={"hidden"}
     >
       <Flex direction={"column"}>
         <Text fontSize="6xl" fontWeight={"bold"}>
@@ -39,7 +40,11 @@ export default function DiamondCheck() {
           </Button>
         </Flex>
       </Flex>
-      <LazyLoadImage width={"300px"} src="../images/diamond-check.png" effect="blur" />
+      <LazyLoadImage
+        width={"300px"}
+        src="../images/diamond-check.png"
+        effect="blur"
+      />
     </Flex>
   );
 }
