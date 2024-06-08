@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Router>
-        <div className="App">
+        <div className="App" style={{overflow:"hidden"}}>
           <Routes>
             {ALlRoutes.map((item, index) => {
               let Layout = MainLayout;

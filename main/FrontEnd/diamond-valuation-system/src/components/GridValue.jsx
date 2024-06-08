@@ -28,21 +28,22 @@ export default function GridValue({
       setActiveButtonIndex(index);
     }
   };
-  // const responsiveCols = useBreakpointValue({
-  //   base: 2,
-  //   md: Math.min(row, 2),
-  //   lg: row,
-  // });
+  const responsiveCols = useBreakpointValue({
+    base: 2,
+    md: 3,
+    lg: row,
+  });
   return (
     <FormControl isRequired isInvalid={isError}>
       <FormLabel color={"gray"} m={"20px 0 0 0"}>
         {name}
       </FormLabel>
-      <Grid templateColumns={`repeat(${row}, 1fr)`} gap={2}>
+      <Grid templateColumns={`repeat(${responsiveCols}, 1fr)`} gap={2}>
         {data.map((value, index) => {
           return (
             <Button
               key={index}
+              size={{ base: "sm", md: "md", lg: "md"}}
               borderRadius={"md"}
               style={{
                 boxShadow: `0px 0px 2px 0px gray`,
@@ -54,7 +55,7 @@ export default function GridValue({
               }
               onClick={() => handleClick(value, index)}
             >
-              <Text fontSize={"sm"}>{value}</Text>
+              <Text fontSize={{ base: "xs", md: "sm", lg: "sm" }}>{value}</Text>
             </Button>
           );
         })}
