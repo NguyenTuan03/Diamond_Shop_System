@@ -15,6 +15,7 @@ import {
   UnorderedList,
   ListItem,
   useColorModeValue,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import React from "react";
 import "react-lazy-load-image-component/src/effects/blur.css";
@@ -31,7 +32,7 @@ import EducationBottomLineRec from "../../components/education/EducationBottomLi
 import ScrollToTop from "react-scroll-to-top";
 export default function EducationCut() {
   const bgColor = useColorModeValue("white", "black");
-
+  const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   return (
     <>
       <ScrollToTop smooth />
@@ -39,23 +40,27 @@ export default function EducationCut() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        w={"99vw"}
-        p={10}
+        paddingTop={10}
         bg={bgColor}
       >
         <Title
           title={"The Diamond Cuts Guide"}
           description={"Understanding the most important of the diamonds 4 Cs"}
+          width={"80%"}
         />
         <Divider m={"20px 0 20px 0"} />
-        <Flex direction={"column"} w={"50vw"} gap={3}>
-          <Text fontSize="lg">
+        <Flex
+          direction={"column"}
+          w={{ base: "80vw", md: "70vw", lg: "60vw" }}
+          gap={3}
+        >
+          <Text fontSize={normalText}>
             Cut is one of the diamond’s four primary quality markers, known as
             the 4Cs. It relates to the diamond’s proportions and technical
             details, influencing its brilliance. A superior cut offers enhanced
             fire and sparkle.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Diamond cuts are graded from ‘Excellent’ (or ‘Ideal’) at the top to
             ‘Poor’ at the bottom. Typically, trustworthy online sellers avoid
             diamonds below ‘Good’ cut quality. Among the 4Cs, cut stands out as
@@ -67,10 +72,14 @@ export default function EducationCut() {
               "You will often see diamond cut and diamond shape used interchangeably, but they are two very distinct meanings. Diamond cut refers to the quality whereas diamond shape refers to the pattern/arrangement of the diamond. If you are interested in different diamond shapes, read our article on diamond shape."
             }
           />
-          <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text
+            fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+            fontWeight={"bold"}
+            m={"20px 0 0 0"}
+          >
             Diamond Cut Grade Chart
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             A professional gemologist at the GIA reviews each diamond under
             magnification to determine the Cut grade. Here are the GIA cut
             grades for round diamonds:
@@ -95,7 +104,7 @@ export default function EducationCut() {
               </Tbody>
             </Table>
           </TableContainer>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             The AGS cut grade chart also includes an Ideal grade. Cut quality is
             graded by the AGS as Ideal, Excellent, Very Good, Good, Fair or
             Poor. When looking at AGS diamonds, we recommend only considering
@@ -105,10 +114,14 @@ export default function EducationCut() {
             src="https://www.diamonds.pro/wp-content/uploads/2022/02/cut-grades.jpg"
             m={"20px 0 20px 0"}
           />
-          <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text
+            fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+            fontWeight={"bold"}
+            m={"20px 0 0 0"}
+          >
             What are GIA Cut Grades?
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             In August 2005 the GIA announced the introduction of a new “cut
             grade” to its grading reports. According to{" "}
             <LinkCharkaUI
@@ -124,7 +137,7 @@ export default function EducationCut() {
             computer modeling and ray tracing of more than 38.5 million
             proportion sets.”
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             GIA diamond cutting grades for a round brilliant cut diamond will
             range from Excellent to Poor. Diamond cut grade is based on a number
             of factors including symmetry, polish, brilliance and fire. For the
@@ -132,41 +145,45 @@ export default function EducationCut() {
             diamonds with an Excellent cut. Ensure the symmetry and polish of
             the diamond are either Excellent or Very Good.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             The reality is that 55% of all round cut diamonds receive an
             excellent cut grade from the GIA. About 25-30% of these “excellent”
             cut diamonds are not recommended. Our consultants review thousands
             of Excellent cut diamonds and find bad specs (depth, table, and
             angles).
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             That’s why it’s important to look at the cut grade of a diamond on
             the GIA certificate, but to also review the diamond closely yourself
             or ask an expert. You don’t want to end up paying for an Excellent
             cut diamond that’s only mediocre.
           </Text>
-          <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text
+            fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+            fontWeight={"bold"}
+            m={"20px 0 0 0"}
+          >
             How to Choose the Best Diamond Cuts
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             With most of the 4 C’s of diamonds (the others being clarity, color
             and carat weight), there’s a sweet spot where beauty and value meet
             up.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             To use diamond clarity as an example, there is a point (generally
             around VS1-VS2) where any increase in grade is not going to offer a
             noticeable increase in beauty. To the naked eye, a VS1 or VS2
             diamond will likely appear clean and flawless.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Diamond cut, however, is different. It’s the one grade you don’t
             want to compromise on. While middling grades in clarity or color can
             be concealed, and low-carat diamonds can still have a radiant and
             beautiful appearance, a low cut grade is likely to result in a
             diamond that doesn’t dazzle like it is supposed to.
           </Text>
-          <Text fontSize="lg" m={"0 0 20px 0"}>
+          <Text fontSize={normalText} m={"0 0 20px 0"}>
             We recommend you restrict your search to only Excellent or Ideal cut
             grades, as there is no hiding a below-average cut. Even if your
             budget forces you to sacrifice in other areas, a well-cut diamond
@@ -182,14 +199,18 @@ export default function EducationCut() {
               rings by Abe Mor
             </Text>
           </Center>
-          <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text
+            fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+            fontWeight={"bold"}
+            m={"20px 0 0 0"}
+          >
             How to Choose the Best Diamond Cuts
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             As with all areas in which diamonds are graded, the price can rise
             and fall a lot depending on your choice of cut grade.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Their prices are based on the precision and quality of the
             cut—primarily its proportions and symmetry. For example,{" "}
             <LinkCharkaUI
@@ -204,64 +225,72 @@ export default function EducationCut() {
             paying a higher price for the diamond, even compared to a typical
             excellent cut diamond.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             If the diamond’s facets (the glossy flat surfaces of a diamond) are
             proportional, for instance, they refract and reflect light back to
             the eye in tremendous fashion. Diamonds that aren’t as precisely cut
             have facets and pavilions that do not refract and reflect light as
             spectacularly.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             The amount of light return and brilliance found in an exceptionally
             cut diamond is worth the extra price. Without brilliance and fire, a
             diamond is less than radiant—no matter the carat weight or table
             size.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             In other words, a diamond’s cut is the quality that most
             significantly impacts its beauty. That’s why the cost of diamonds
             with higher cut grades are worth every penny—and it’s better to
             spend more on cut than on diamond color or clarity.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             If you’re working within a budget, we recommend forgoing a GIA grade
             in color and clarity to ensure you’re selecting an ideal cut
             diamond. And which one is more important you ask? You can find out
             in our guide to diamond color vs clarity.
           </Text>
-          <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text
+            fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+            fontWeight={"bold"}
+            m={"20px 0 0 0"}
+          >
             How to Choose the Best Diamond Cuts
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             If you’re working within a budget, we recommend forgoing a GIA grade
             in color and clarity to ensure you’re selecting an ideal cut
             diamond. And which one is more important you ask? You can find out
             in our guide to diamond color vs clarity.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Here are the main factors that affect the price of a diamond:
           </Text>
           <UnorderedList m={"10px 0 20px 50px"} spacing={2} fontSize={"lg"}>
-            <ListItem>Proportions (table, width, depth)</ListItem>
-            <ListItem>
+            <ListItem fontSize={normalText}>
+              Proportions (table, width, depth)
+            </ListItem>
+            <ListItem fontSize={normalText}>
               Symmetrical diamond’s facets (the mirrors, windows and steps of a
               diamond)
             </ListItem>
-            <ListItem>
+            <ListItem fontSize={normalText}>
               Brilliance (brightness of white light reflection)
             </ListItem>
-            <ListItem>Fire (dispersion of colored light)</ListItem>
-            <ListItem>
+            <ListItem fontSize={normalText}>
+              Fire (dispersion of colored light)
+            </ListItem>
+            <ListItem fontSize={normalText}>
               Scintillation (the flashes of sparkle when light moves)
             </ListItem>
-            <ListItem>
+            <ListItem fontSize={normalText}>
               Finishing details (permanent treatment and polishing)
             </ListItem>
           </UnorderedList>
-          <Text fontSize="lg" fontWeight={"bold"}>
+          <Text fontSize={normalText} fontWeight={"bold"}>
             Diamond Cut Proportions
           </Text>
-          <Text fontSize="lg" m={"0 0 20px 0"}>
+          <Text fontSize={normalText} m={"0 0 20px 0"}>
             To further understand the factors impacting diamond cut quality,
             let’s examine a diamond’s proportions, primarily its table, width
             and depth. These elements are universally measured and are excellent
@@ -271,7 +300,7 @@ export default function EducationCut() {
             src="https://www.diamonds.pro/wp-content/uploads/2022/04/cuts-blue.png"
             effect="blur"
           />
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Diamond cut proportions directly affect a diamond’s ability to
             reflect light and provide brilliance. Proportions are based on the
             ratios between size, angle and shape of each diamond facet. Various
@@ -280,10 +309,10 @@ export default function EducationCut() {
             (as well as its GIA grading). Don’t forget that different diamond
             shapes have different proportions.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text fontSize={normalText} fontWeight={"bold"} m={"20px 0 0 0"}>
             Diamond Cut Proportions
           </Text>
-          <Text fontSize="lg" m={"0 0 40px 0"}>
+          <Text fontSize={normalText} m={"0 0 40px 0"}>
             To further understand the factors impacting diamond cut quality,
             let’s examine a diamond’s proportions, primarily its table, width
             and depth. These elements are universally measured and are excellent
@@ -293,26 +322,26 @@ export default function EducationCut() {
             src="https://www.diamonds.pro/wp-content/uploads/2022/02/table.jpg"
             effect="blur"
           />
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             If the table percentage is too large, the light won’t reflect off of
             the diamond’s crown angles and facets. Vibrant reflections of color
             won’t be seen as the light will escape from the top of the diamond
             instead of reaching the eye.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             If the table percentage is too low, the light will remain trapped
             inside the diamond and be emitted through other parts of the diamond
             instead of to the eye.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             The ideal table % depends heavily on the diamond shape. If you’re
             unsure of an excellent table % for your diamond, please contact us
             and we will walk you through the options and factors.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text fontSize={normalText} fontWeight={"bold"} m={"20px 0 0 0"}>
             Diamond Width
           </Text>
-          <Text fontSize="lg" m={"0 0 20px 0"}>
+          <Text fontSize={normalText} m={"0 0 20px 0"}>
             A diamond’s width is determined by measuring from one end of its
             girdle (the diameter at its widest point) to the other end of the
             girdle.
@@ -321,25 +350,25 @@ export default function EducationCut() {
             src="https://www.diamonds.pro/wp-content/uploads/2022/02/width-1.png"
             effect="blur"
           />
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             The width is most important when it comes to determining length to
             width ratio, which signifies how proportionate the diamond is along
             with its intended shape (i.e. square vs. rectangular).
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Length to width ratio is measured by dividing the length of the
             diamond by the width. For example, if a diamond has a length of 5mm
             and a width of 3mm, the length to width ratio is 1.67.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text fontSize={normalText} fontWeight={"bold"} m={"20px 0 0 0"}>
             Diamond Depth
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Depth % refers to the height of the diamond, from the culet to the
             top of the table. Depth is measured in millimeters and percentages.
             By dividing the depth by the width, the depth % is achieved.
           </Text>
-          <Text fontSize="lg" m={"0 0 20px 0"}>
+          <Text fontSize={normalText} m={"0 0 20px 0"}>
             As an example, if a diamond is 4mm in depth and 4.5 mm in width, the
             depth percentage is 88.8%.
           </Text>
@@ -347,51 +376,51 @@ export default function EducationCut() {
             src="https://www.diamonds.pro/wp-content/uploads/2022/02/depth.jpg"
             effect="blur"
           />
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             In most cases, a lower depth % of two equal carat diamonds will
             appear larger due to the increased width. On the other hand, a depth
             % that is too low can create a darker appearance as it will not
             reflect light as powerfully.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text fontSize={normalText} fontWeight={"bold"} m={"20px 0 0 0"}>
             Shallow Diamond Cut
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             When a diamond is cut too shallow, light hits the pavilion at a low
             angle. The light travels through the diamond and exits through the
             sides, instead of reflecting through the table and to your eyes.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             While shallow cut diamonds may seem largely based on their table
             size (they are also called spready diamonds), the escape of light at
             the bottom significantly reduces the diamond’s brilliance, sparkle
             and fire.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text fontSize={normalText} fontWeight={"bold"} m={"20px 0 0 0"}>
             Deep Diamond Cut
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             When a diamond is cut too deep, light hits the pavilion at a sharper
             angle, causing it to immediately reflect to another pavilion. The
             light is forced to retract and pass through the bottom of the
             diamond. As this happens, light is dulled and the diamond becomes
             less vibrant and radiant.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             A deeply cut diamond also tends to look smaller than those of an
             ideal cut.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text fontSize={normalText} fontWeight={"bold"} m={"20px 0 0 0"}>
             What is the best Diamond Cut?
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Simply put, a well-cut diamond maximizes the light that strikes each
             pavilion. Instead of escaping through other parts of the diamond,
             light reflects back through the crown and table. For our readers
             that are focused on cut, they have had the most success with James
             Allen’s True Hearts and Blue Nile’s Astor Cut diamonds.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             When it comes to determining the highest grade possible,{" "}
             <LinkCharkaUI
               color={"blue.400"}
@@ -412,13 +441,13 @@ export default function EducationCut() {
             facet angles, allowing the brilliance and fire to pass through the
             table for all to see.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             For these reasons, excellent cuts are more valuable and more
             luminous. When buyers have a budget, we often advise choosing a
             smaller, well-cut diamond as opposed to a larger carat that is
             poorly cut to get the most sparkly diamond.
           </Text>
-          <Text fontSize="lg" m={"0 0 20px 0"}>
+          <Text fontSize={normalText} m={"0 0 20px 0"}>
             If you’re unsure of an ideal cut for your diamond, speak to an
             expert to walk you through the process.
           </Text>
@@ -426,26 +455,26 @@ export default function EducationCut() {
             src="https://www.diamonds.pro/wp-content/uploads/2022/04/Basic-princess-cut-image.png"
             effect="blur"
           />
-          <Text fontSize="lg" fontWeight={"bold"} m={"40px 0 0 0"}>
+          <Text fontSize={normalText} fontWeight={"bold"} m={"40px 0 0 0"}>
             Symmetrical facets
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             The facets of a diamond are the tiny mirrors that reflect light back
             to your eyes. Facets surround the diamond’s table. There are facets
             above the girdle and below the girdle. The pavilion (the part of the
             diamond below the girdle that reaches to the culet) is also made up
             of facets. Round brilliant cut diamonds have 58 facets in total.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             The size, placement and symmetry of the facets impact how well the
             diamond refracts and reflects light. A diamond with unproportioned
             facets, too many facets or fewer facets, can cause a less than ideal
             diamond.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text fontSize={normalText} fontWeight={"bold"} m={"20px 0 0 0"}>
             Brilliance
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             A diamond’s brilliance is the brightness of the white light
             reflection. When looking at a diamond face-up under light, it should
             reflect an abundance of white light. A diamond that’s not
@@ -455,7 +484,7 @@ export default function EducationCut() {
           <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
             Fire
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             A diamond’s fire is the amount of colored light that reflects off of
             the table and facets. Well-cut diamonds not only have brilliance but
             fire too. When looking at the diamond face-up under light—especially
@@ -463,10 +492,10 @@ export default function EducationCut() {
             If the diamond doesn’t exhibit colored light reflection, the diamond
             has a low amount of fire.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text fontSize={normalText} fontWeight={"bold"} m={"20px 0 0 0"}>
             Scintillation
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Scintillation of a diamond refers to the flashes of sparkle when
             light moves on the diamond’s table and facets. The scattering of
             light resembles a sparkle and is caused by the light and dark areas
@@ -474,10 +503,10 @@ export default function EducationCut() {
             scintillation is more desirable. A diamond without much
             scintillation can appear dull.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"} m={"20px 0 0 0"}>
+          <Text fontSize={normalText} fontWeight={"bold"} m={"20px 0 0 0"}>
             Finishing details
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             The finishing details are the craftsmanship of the diamond and
             include its permanent treatment and polishing. The polish of a
             diamond refers to the condition and quality of the facet surfaces. A
@@ -488,59 +517,63 @@ export default function EducationCut() {
           <Text fontSize="2xl" fontWeight={"bold"} m={"20px 0 20px  0"}>
             Factors for Determining Diamond Cut Quality
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Because diamond cut is an enormous element in determining the beauty
             and brilliance of any diamond, there are some complexities. Many
             factors play a role in how a diamond’s cut quality is determined.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             The main factors impacting diamond cut quality are:
           </Text>
           <UnorderedList m={"10px 0 20px 50px"} spacing={2} fontSize={"lg"}>
-            <ListItem>
+            <ListItem fontSize={normalText}>
               <strong>Proportions</strong>: the ratios and sizes of the
               diamond’s depth, width and table
             </ListItem>
-            <ListItem>
+            <ListItem fontSize={normalText}>
               <strong>Symmetry</strong>: precision of the facets, mirrors,
               windows and steps
             </ListItem>
-            <ListItem>
+            <ListItem fontSize={normalText}>
               <strong>Polish</strong>: the shine and glow of the diamond surface
             </ListItem>
           </UnorderedList>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             When you’re looking to see how well-cut diamonds are, take note of
             how their facets and angles reflect light. Specifically, note how
             bright and sparkly the light return is when placed under a normal
             lamp.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             You’ll want to gauge diamonds’ fire (the rainbow light of
             reflection) and brilliance (colorless light and sparkle of the
             diamond). Be sure to also watch for any dark spots within the piece.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             When a diamond is poorly cut (even if it has a high color or clarity
             grade), light will not reflect as well back to your eyes, making it
             a duller, more lifeless diamond.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Be sure to review the GIA cut grade on a diamond’s report, which
             will include ratings of Poor, Good, Very Good or Excellent.
           </Text>
-          <Text fontSize="2xl" fontWeight={"bold"} m={"20px 0 20px  0"}>
+          <Text
+            fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+            fontWeight={"bold"}
+            m={"20px 0 20px  0"}
+          >
             What’s the difference between Diamond Cut and Diamond Shape?
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             The terms diamond cut and diamond shapes have distinct meanings.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Diamond shape describes the outline or figure of the diamond. For
             example, pear, oval and round brilliant refer to the shape
             appearance of the diamond.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Cut refers to the facets, symmetry, dimensions and reflective
             qualities of the diamond. Pear-shaped diamonds, for instance, may be
             cut shallow or deep, dull or brilliant. The heart shape remains,
@@ -552,47 +585,55 @@ export default function EducationCut() {
             whatToLookFor={cutBottomLineRecommendationWhatToLookFor}
             whatToAvoid={cutBottomLineRecommendationWhatToAvoid}
           />
-          <Text fontSize="2xl" fontWeight={"bold"} m={"20px 0 20px  0"}>
+          <Text
+            fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+            fontWeight={"bold"}
+            m={"20px 0 20px  0"}
+          >
             What’s the difference between Diamond Cut and Diamond Shape?
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"}>
+          <Text fontSize={normalText} fontWeight={"bold"}>
             Is an Ideal cut diamond better then Excellent?
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             For round brilliant diamonds the GIA assigns a rating of Excellent
             as it’s highest cut grade and AGS uses the term Ideal. Most online
             retailers have adopted the use Ideal when referring to a diamond
             that meet either the highest level GIA or AGS standard.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"}>
+          <Text fontSize={normalText} fontWeight={"bold"}>
             What cut is best for diamonds?
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             For round brilliant diamonds the Ideal cut is considered the highest
             rating. Only 3% of diamonds are given the GIA Ideal rating. So
             called Super Ideal diamonds are cut to a higher standard than either
             GIA or AGS highest cut ratings.
           </Text>
-          <Text fontSize="lg" fontWeight={"bold"}>
+          <Text fontSize={normalText} fontWeight={"bold"}>
             Is diamond clarity more important then cut?
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             A diamond’s cut is ultimately more important than its clarity or
             color, particularly when it comes to brilliance. Before looking at
             color or clarity, limit your search to excellent or ideal cut
             diamonds only.
           </Text>
-          <Text fontSize="2xl" fontWeight={"bold"} m={"20px 0 20px  0"}>
+          <Text
+            fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+            fontWeight={"bold"}
+            m={"20px 0 20px  0"}
+          >
             More Questions on Buying the Right Diamond Cuts? Contact Us
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             When it comes to selecting an ideal diamond for engagement rings, we
             recommend a quality diamond cut over anything else. For GIA
             certified diamonds, we recommend choosing an Excellent cut grade.
             When we search for a diamond, we filter more heavily on cut. You can
             see our parameters by looking at a James Allen diamond search.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             For round brilliant cut diamonds, don’t give any credence to an
             online vendor’s cut grade.{" "}
             <LinkCharkaUI
@@ -604,18 +645,18 @@ export default function EducationCut() {
             </LinkCharkaUI>
             .
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             In addition to reviewing a GIA or other grading report, be sure to
             look at the diamond yourself or have an expert assist you. Most
             importantly, ensure the diamond is appealing to you and your
             personal style and desires.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             Our primary focus is making sure your diamond search is easy, simple
             and accurate. We want you to find the highest quality diamond while
             staying within your budget.
           </Text>
-          <Text fontSize="lg">
+          <Text fontSize={normalText}>
             If you’d like assistance with finding and selecting a diamond, we’ll
             be happy to filter through the cuts and make recommendations for
             you.

@@ -31,9 +31,24 @@ public class AccountImpl implements AccountService {
         return accountRepository.getAllAccounts();
     }
 
-    public Page<AccountEntity> getAllAccountsById(int pageId) {
+    @Override
+    public Page<AccountEntity> getAllAccountsById(String search, int pageId, String filter) {
         int pageSize = 5;
         int pageNumber = --pageId;
+        if (search.isEmpty() && filter.isEmpty())
+            return accountRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("role")));
+        else if (!search.isEmpty() && filter.isEmpty())
+            return accountRepository.searchNonFilter(PageRequest.of(pageNumber, pageSize, Sort.by("role")), search);
+        else {
+            switch (filter) {
+                case "fullname":
+                    return accountRepository.searchFullName(PageRequest.of(pageNumber, pageSize, Sort.by(filter)), search);
+                case "email":
+                    return accountRepository.searchEmail(PageRequest.of(pageNumber, pageSize, Sort.by(filter)), search);
+                case "phone_number":
+                    return accountRepository.searchPhoneNumber(PageRequest.of(pageNumber, pageSize, Sort.by(filter)), search);
+            }
+        }
         return accountRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("role")));
     }
 
@@ -43,8 +58,7 @@ public class AccountImpl implements AccountService {
         String updatePhoneNumber = updatePhoneNumber(accountDTO.getPhonenumber());
 
         String errorMessage = checkDuplicateAccount("add", accountDTO.getId(), accountDTO.getUsername(), "", updatePhoneNumber);
-        if (!errorMessage.isEmpty())
-            return errorMessage;
+        if (!errorMessage.isEmpty()) return errorMessage;
 
         RoleEntity role = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
@@ -58,8 +72,7 @@ public class AccountImpl implements AccountService {
         String updatePhoneNumber = updatePhoneNumber(accountDTO.getPhonenumber());
 
         String errorMessage = checkDuplicateAccount("create", accountDTO.getId(), accountDTO.getUsername(), accountDTO.getEmail(), updatePhoneNumber);
-        if (!errorMessage.isEmpty())
-            return errorMessage;
+        if (!errorMessage.isEmpty()) return errorMessage;
 
         RoleEntity role = roleRepository.findById(accountDTO.getRoleid()).orElseThrow(() -> new RuntimeException("Role not found"));
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());

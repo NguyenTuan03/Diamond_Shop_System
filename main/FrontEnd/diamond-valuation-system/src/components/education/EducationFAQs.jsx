@@ -4,15 +4,24 @@ import React from "react";
 export default function EducationFAQs({ name, content }) {
   return (
     <>
-      <Text fontSize={"2xl"} fontWeight={"bold"} m={"20px 0 0 0"}>
+      <Text
+        fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+        fontWeight={"bold"}
+        m={"20px 0 0 0"}
+      >
         {name}
       </Text>
       {content.map((item, index) => (
         <div key={index}>
-          <Text fontSize={"xl"} fontWeight={"bold"}>
+          <Text
+            fontSize={{ base: "md", md: "lg", lg: "xl" }}
+            fontWeight={"bold"}
+          >
             {item.question}
           </Text>
-          <Text fontSize={"lg"}>{item.answer}</Text>
+          <Text fontSize={{ base: "sm", md: "md", lg: "lg" }}>
+            {item.answer}
+          </Text>
         </div>
       ))}
     </>
