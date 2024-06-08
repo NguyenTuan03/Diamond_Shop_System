@@ -15,8 +15,8 @@ public class AdminController {
     private AccountService accountService;
 
     @GetMapping(path = "/get")
-    public Page<AccountEntity> getAllAccounts(@RequestParam("page") int page) {
-        return accountService.getAllAccountsById(page);
+    public Page<AccountEntity> getAllAccounts(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter) {
+        return accountService.getAllAccountsById(search, page, filter);
     }
 
     @PostMapping(path = "/create")
