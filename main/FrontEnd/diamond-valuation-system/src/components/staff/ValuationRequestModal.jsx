@@ -30,7 +30,7 @@ export default function ValuationRequestModal({
     cloud: { cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME },
   });
   const img = cld
-    .image("concac")
+    .image("sample")
     .format("auto") // Optimize delivery by resizing and applying auto-format and auto-quality
     .quality("auto")
     .resize(auto().gravity(autoGravity()).width(500).height(500)); // Transform the image: auto-crop to square aspect_ratio

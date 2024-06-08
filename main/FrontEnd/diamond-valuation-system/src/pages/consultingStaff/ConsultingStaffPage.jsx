@@ -207,12 +207,12 @@ export default function ConsultingStaffPage() {
         data={valuationResultData}
         pointerEvents={"none"}
       />
-      <SendEmailModal
+      {/* <SendEmailModal
         sendEmailModal={sendEmailModal}
         sender={emailSender}
         emailFormRef={form}
         sendEmailFunc={sendEmail}
-      />
+      /> */}
       <ConfirmAlert
         isOpen={confirmCreateReceipt.isOpen}
         onClose={confirmCreateReceipt.onClose}
