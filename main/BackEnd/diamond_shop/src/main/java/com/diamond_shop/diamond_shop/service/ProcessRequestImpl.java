@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.diamond_shop.diamond_shop.dto.UpdateRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.entity.RoleEntity;
@@ -41,11 +42,11 @@ public class ProcessRequestImpl implements ProcessRequestService{
             for (ValuationRequestEntity valuationRequest : valuationRequestEntity) {
                 AccountEntity staffMember = accountEntity.get(i % accountEntity.size());
                 Optional<ProcessRequestEntity> existingRequest = processRequestRepository.findByStaffIdAndValuationRequestId(staffMember.getId(), valuationRequest.getId());
-                if (existingRequest.isEmpty()) {
+                if (existingRequest.isPresent()) {
                     ProcessRequestEntity processRequestEntity = new ProcessRequestEntity(
                         staffMember,
                         valuationRequest,
-                        "False"
+                        "Not resolved yet"
                     );
                     processRequestRepository.save(processRequestEntity);
                 }
@@ -55,4 +56,13 @@ public class ProcessRequestImpl implements ProcessRequestService{
         }
         return "No request available!";
     }
+    @Override
+    public int updateRequest(UpdateRequestDTO updateRequestDTO) {
+        ProcessRequestEntity process =  processRequestRepository.findByStaffAndRole(updateRequestDTO.getId(), updateRequestDTO.getRoleId());
+        process.setName("Done");
+        processRequestRepository.save(process);
+        return process.getValuationRequestId().getId();
+    }
+    
+    
 }

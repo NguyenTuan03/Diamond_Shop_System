@@ -96,6 +96,7 @@ public class AccountImpl implements AccountService {
                 Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
                 if (account.isPresent()) {
                     acc2.setId(acc1.getId());
+                    acc2.setRoleid(acc1.getRole().getId());
                     acc2.setFullname(acc1.getFullname());
                     acc2.setUsername(acc1.getUsername());
                     acc2.setPhonenumber(acc1.getPhone_number());

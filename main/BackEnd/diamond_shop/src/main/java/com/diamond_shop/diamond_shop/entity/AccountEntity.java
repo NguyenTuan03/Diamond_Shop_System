@@ -9,11 +9,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @Table(name = "Users")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class AccountEntity {
     @SequenceGenerator(
             name = "Users_sequence",
@@ -51,9 +57,12 @@ public class AccountEntity {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<ValuationRequestEntity> valuationRequestEntity;
-
+    
     @OneToMany(mappedBy = "staffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessRequestEntity> processRequestEntity = new HashSet<>();
+
+    @OneToMany(mappedBy = "valuationStaffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ProcessResultEntity> processResultEntity = new HashSet<>();
 
     public AccountEntity(RoleEntity role_id, String username, String fullname, String phone_number, String password) {
         this.role = role_id;

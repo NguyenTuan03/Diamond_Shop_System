@@ -1,6 +1,7 @@
 package com.diamond_shop.diamond_shop.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,4 +44,9 @@ public class ValuationRequestImpl implements ValuationRequestService {
             
         return "User not found";
     }
+    @Override
+    public List<ValuationRequestDTO> viewRequest() {
+        return valuationRequestRepository.findAllList();
+    }
+    
 }   

@@ -4,6 +4,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,17 +31,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "Valuation_requests")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ValuationRequestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private int id;
-
-    @ManyToOne
-    @JoinColumn(name = "Customer_id")
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Customer_id")    
     private AccountEntity customer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Service_id")
     private ServiceEntity serviceId;
 
@@ -48,6 +55,9 @@ public class ValuationRequestEntity {
     @OneToMany(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessRequestEntity> processRequestEntity = new HashSet<>();
 
+    @OneToOne(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ValuationResultEntity valuationResult;
+    
     public ValuationRequestEntity(int id, AccountEntity customer, ServiceEntity serviceId, Date createdDate,
             String description) {
         this.id = id;
