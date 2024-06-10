@@ -19,6 +19,7 @@ const routes = {
   consultingStaff: "/consulting-staff",
   error: "/error",
   valuationStaff: "/valuation-staff",
+  aboutUs: "/about",
   // ConsultingStaff's DashBoard
   consulting_dashboard: "/consulting-staff-dashboard",
   consulting_dasboardNotification: "/consulting-staff-dashboard/notifications",

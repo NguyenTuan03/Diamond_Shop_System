@@ -28,7 +28,7 @@ export default function SideBarConsultingStaff() {
                             src="https://bit.ly/dan-abramov"
                         />
                     </WrapItem>
-                    <Text color={"#000"}>Nguyen ANh TUan</Text>
+                    <Text color={"#000"}>Nguyen Anh Tuan</Text>
                 </Flex>
                 <VStack
                     py={5}
@@ -50,18 +50,24 @@ export default function SideBarConsultingStaff() {
                         <Text ml={3}>Notifications</Text>
                     </Flex>
                   </Link>
+                  <Link to={routes.consulting_dashboardPrices}>
                     <Flex pl={2} _hover={{background:'rgb(55 65 81)', color:'#fff'}} cursor="pointer" borderRadius={3} alignItems={"center"} h="40px" color={"#000"}>
                         <CiBellOn />
                         <Text ml={3}>Price Alerts</Text>
                     </Flex>
+                    </Link>
+                    <Link to={routes.consulting_dashboardAppoint}>
                     <Flex pl={2} _hover={{background:'rgb(55 65 81)', color:'#fff'}} cursor="pointer" borderRadius={3} alignItems={"center"} h="40px" color={"#000"}>
                         <CiCalendar />
                         <Text ml={3}>Appointments</Text>
                     </Flex>
+                    </Link>
+                    <Link to={routes.consulting_dashboardSearch}>
                     <Flex pl={2} _hover={{background:'rgb(55 65 81)', color:'#fff'}} cursor="pointer" borderRadius={3} alignItems={"center"} h="40px" color={"#000"}>
                         <IoMdSearch />
-                        <Text ml={3}>Recent searches</Text>
+                        <Text ml={3}>Searches</Text>
                     </Flex>
+                    </Link>
                 </VStack>
                 <Box borderTop={"2px solid #000"}>
                   <VStack

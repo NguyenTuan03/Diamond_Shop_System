@@ -2,7 +2,6 @@ import routes from "../config/Config.js";
 import DiamondCalculate from "../pages/calculate/DiamondCalculate.jsx";
 import DiamondCheck from "../pages/check/DiamondCheck.jsx";
 import DiamondCheckDetails from "../pages/check/DiamondCheckDetails.jsx";
-import Detail from "../pages/detail/Detail.jsx";
 import DiamondService from "../pages/services/DiamondService.jsx";
 import DiamondValuationRequest from "../pages/valuate/DiamondValuationRequest.jsx";
 import EducationCarat from "../pages/education/EducationCarat.jsx";
@@ -33,6 +32,7 @@ import DashBoardPrices from './../pages/dashboard/DashBoardPrices';
 import DashBoardAppoint from './../pages/dashboard/DashBoardAppoint';
 import DashBoardSearch from './../pages/dashboard/DashBoardSearch';
 import DashBoardRequest from './../pages/dashboard/DashBoardRequest';
+import AboutUs from "../pages/aboutUs/AboutUs.jsx";
 
 const ALlRoutes = [
     {
@@ -55,10 +55,10 @@ const ALlRoutes = [
         path: routes.diamondCheckDetails,
         component: DiamondCheckDetails,
     },
-    {
-        path: routes.diamondDetail,
-        component: Detail,
-    },
+    // {
+    //     path: routes.diamondDetail,
+    //     component: Detail,
+    // },
 
     {
         path: routes.diamondCalculate,
@@ -105,6 +105,10 @@ const ALlRoutes = [
     path: routes.error,
     component: Error,
   },
+  {
+    path: routes.aboutUs,
+    component: AboutUs,
+},
 
     {
         path: routes.diamondValuationRequest,
