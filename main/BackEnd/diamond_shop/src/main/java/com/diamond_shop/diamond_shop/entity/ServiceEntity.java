@@ -31,7 +31,7 @@ public class ServiceEntity {
     private String Time;
 
     @OneToOne
-    @JoinColumn(name = "Service_statistic_id")
+    @JoinColumn(name = "Statistic_id")
     private ServiceStatisticEntity Service_statistic_id;
 
     public ServiceEntity(int id, String name, String price, String time, ServiceStatisticEntity statistic_id) {
