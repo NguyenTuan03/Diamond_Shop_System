@@ -6,7 +6,7 @@ export const validateSignUp = (values, type) => {
         errors.username = "Must be at least 4 characters";
       } else if (values.username.length > 20) {
         errors.username = "Must be at most 20 characters";
-      } else if (!/^(?!\s)[a-zA-Z0-9 ]*$/.test(values.username)) {
+      } else if (!/^(?!\s)[a-zA-Z0-9]*$/.test(values.username)) {
         errors.username = "Invalid username";
       }
     }
@@ -32,16 +32,23 @@ export const validateSignUp = (values, type) => {
     }
   }
   if (values.email) {
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    if (
+      !/([a-zA-Z0-9]+)([\_\.\-{1}])?([a-zA-Z0-9]+)\@([a-zA-Z0-9]+)([\.])([a-zA-Z\.]+)/.test(
+        values.email
+      )
+    ) {
       errors.email = "Invalid email address";
     }
   }
+  
   if (values.phoneNumber) {
-    if (values.phoneNumber.length !== 10) {
+    if (values.phoneNumber.length > 10) {
       errors.phoneNumber = "Invalid phone number";
-    } else if (
-      !/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/.test(values.phoneNumber)
-    ) {
+    }
+    if(!values.phoneNumber.startsWith("0")&&values.phoneNumber.length>9){
+      errors.phoneNumber = "Invalid phone number";
+    }
+    if (!/^0?([3|5|7|8|9]+([0-9]{8})\b)/.test(values.phoneNumber)) {
       errors.phoneNumber = "Invalid phone number";
     }
   }

@@ -126,7 +126,7 @@ CREATE TABLE Process_results(
 )
 
 CREATE TABLE Valuated_diamond_images(
-	Id BIGINT PRIMARY KEY,
+	Id NVARCHAR(50) PRIMARY KEY,
 	Valuated_diamond_id BIGINT NOT NULL
 	FOREIGN KEY (Valuated_diamond_id) REFERENCES Valuated_diamonds(Id),
 )
