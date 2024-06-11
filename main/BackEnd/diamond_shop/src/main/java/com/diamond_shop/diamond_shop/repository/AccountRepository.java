@@ -23,11 +23,32 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Integer>
 
     Page<AccountEntity> findAll(Pageable pageable);
 
+    @Query(value = "SELECT a FROM AccountEntity a WHERE a.fullname LIKE lower(concat(:search,'%')) OR a.email LIKE lower(concat(:search,'%')) OR a.phone_number LIKE lower(concat(:search,'%'))")
+    Page<AccountEntity> searchNonFilter(Pageable pageable, String search);
+
+    @Query(value = "SELECT a FROM AccountEntity a WHERE a.fullname LIKE lower(concat(:search,'%'))")
+    Page<AccountEntity> searchFullName(Pageable pageable, String search);
+
+    @Query(value = "SELECT a FROM AccountEntity a WHERE a.email LIKE lower(concat(:search,'%'))")
+    Page<AccountEntity> searchEmail(Pageable pageable, String search);
+
+    @Query(value = "SELECT a FROM AccountEntity a WHERE a.phone_number LIKE lower(concat(:search,'%'))")
+    Page<AccountEntity> searchPhoneNumber(Pageable pageable, String search);
+
     @Query("SELECT a FROM AccountEntity a WHERE a.username = :userName")
     AccountEntity findByUserName(@Param("userName") String userName);
 
+    @Query("SELECT a FROM AccountEntity a WHERE a.phone_number=:phone_number")
+    AccountEntity findByPhoneNumber(@Param("phone_number") String phone_number);
+
+    @Query("SELECT a FROM AccountEntity a WHERE a.email=:email")
+    AccountEntity findByEmail(@Param("email") String email);
+
     @Query("SELECT a FROM AccountEntity a WHERE a.username = :userName AND a.password = :password")
     Optional<AccountEntity> findOneByUserNameAndPassword(@Param("userName") String userName, @Param("password") String password);
+
+    @Query("SELECT a FROM AccountEntity a WHERE a.username=:username")
+    List<AccountEntity> findByUsername(@Param("username") String username);
 
     @Modifying
     @Transactional

@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,12 +18,15 @@ public class ServiceEntity {
     @Column(name = "Id")
     private int Id;
 
+    @NotBlank(message = "Service name is mandatory")
     @Column(name = "Name")
     private String Name;
 
+    @NotBlank(message = "Service price is mandatory")
     @Column(name = "Price")
     private String Price;
 
+    @NotBlank(message = "Service valuation time is mandatory")
     @Column(name = "Time")
     private String Time;
 
