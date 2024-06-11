@@ -7,6 +7,7 @@ import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
 import com.diamond_shop.diamond_shop.dto.UpdateRequestDTO;
 import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
+import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.repository.ValuationResultRepository;
@@ -74,10 +75,10 @@ public class Api {
         return "Update and assign to valuation staff successful!";
     }
     @PostMapping(path = "/valuate-diamond")
-    public String postMethodName(@RequestBody String entity) {
+    public String postMethodName(@RequestBody ValuationResultDTO valuationResultDTO) {
         //Valuation staff
+        return valuationResultService.valuateDiamond(valuationResultDTO);
         
-        return entity;
     }
     
 }

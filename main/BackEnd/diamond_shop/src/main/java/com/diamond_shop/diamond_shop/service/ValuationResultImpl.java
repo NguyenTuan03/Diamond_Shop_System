@@ -18,8 +18,25 @@ public class ValuationResultImpl implements ValuationResultService {
     @Autowired
     ValuationRequestRepository valuationRequestRepository;
     @Override
-    public void valuateDiamond(ValuationResultDTO valuationResultDTO) {
-        
+    public String valuateDiamond(ValuationResultDTO valuationResultDTO) {
+        ValuationResultEntity valuationResultEntity = new ValuationResultEntity(
+            valuationResultDTO.getValuationRequestId(),
+            valuationResultDTO.getCreatedDate(),
+            valuationResultDTO.getSealing_time(),
+            valuationResultDTO.getOrigin(),
+            valuationResultDTO.getShape(),
+            valuationResultDTO.getCarat_weight(),
+            valuationResultDTO.getColor(),
+            valuationResultDTO.getCut(),
+            valuationResultDTO.getClarity(),
+            valuationResultDTO.getMeasurements(),
+            valuationResultDTO.getPolish(),
+            valuationResultDTO.getSymmetry(),
+            valuationResultDTO.getFluorescence(),
+            valuationResultDTO.getProportions()
+        );
+        valuationResultRepository.save(valuationResultEntity);
+        return "Valuate successful!";
     }
 
     @Override
