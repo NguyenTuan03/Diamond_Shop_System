@@ -10,24 +10,19 @@ import {
   PopoverBody,
 } from "@chakra-ui/react";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
-export default function PopoverInfo({
-  content,
-  header,
-  body,
-  contentFontSize,
-  headerFontSize,
-}) {
+export default function PopoverInfo({ content, header, body }) {
   return (
     <Popover>
       <PopoverTrigger>
         <Flex direction={"column"} alignItems={"center"}>
           <Flex direction={"row"} gap={2}>
-            <Text fontSize={headerFontSize}>
-              {header}
-            </Text>
+            <Text fontSize={{ base: "sm", md: "md", lg: "md" }}>{header}</Text>
             <InfoOutlineIcon boxSize={3} />
           </Flex>
-          <Text fontSize={contentFontSize} fontWeight={"bold"}>
+          <Text
+            fontSize={{ base: "sm", md: "md", lg: "md" }}
+            fontWeight={"bold"}
+          >
             {content}
           </Text>
         </Flex>

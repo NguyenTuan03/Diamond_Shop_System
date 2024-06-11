@@ -15,20 +15,19 @@ public class AdminController {
     private AccountService accountService;
 
     @GetMapping(path = "/get")
-    public Page<AccountEntity> getAllAccounts(@RequestParam("page") int page) {
-        return accountService.getAllAccountsById(page);
+    public Page<AccountEntity> getAllAccounts(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter) {
+        return accountService.getAllAccountsById(search, page, filter);
     }
 
     @PostMapping(path = "/create")
-    public void createAccount(@RequestBody AccountDTO account) {
-        System.out.println(account);
-        accountService.createAccount(account);
+    public String createAccount(@RequestBody AccountDTO account) {
+        return accountService.createAccount(account);
     }
 
     @PostMapping(path = "/update")
-    public void updateAccount(@RequestBody AccountDTO account) {
+    public String updateAccount(@RequestBody AccountDTO account) {
         System.out.println(account);
-        accountService.updateAccount(account.getId(), account.getRoleid(), account.getFullname(), account.getEmail(), account.getPhonenumber(), account.getAddress());
+        return accountService.updateAccount(account);
     }
 
     @PostMapping(path = "/delete")
