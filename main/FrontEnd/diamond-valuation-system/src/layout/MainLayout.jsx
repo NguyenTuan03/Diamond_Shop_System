@@ -6,10 +6,10 @@ import Footer from "../components/Footer";
 let cx = classnames.bind(styles);
 export default function MainLayout({ children }) {
   return (
-    <div className={cx("wrapper")}>
+    <>
       <Header />
-      <div className={cx("container")}>{children}</div>
+      {children}
       <Footer/>
-    </div>
+    </>
   );
 }

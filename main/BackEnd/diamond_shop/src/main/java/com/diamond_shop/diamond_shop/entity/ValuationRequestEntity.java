@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,7 @@ public class ValuationRequestEntity {
     @JoinColumn(name = "Service_id")
     private ServiceEntity serviceId;
 
+    @NotBlank(message = "Created date is mandatory")
     @Column(name = "Created_date")
     private Date createdDate;
 

@@ -11,6 +11,7 @@
 > **List of project document, database, prototype,...**
 > - [Project Idea](https://docs.google.com/spreadsheets/d/1LRaiOdBpciMyHXF5gGKJlupdvQVtT5ZzRIgxi-Kn65k/edit#gid=0)
 > - [SRS Template](https://docs.google.com/document/d/12AUL1aJ3ATM5l3I09eTm-cD1GqVroTxQAkFMPD_MalU/edit#heading=h.gjdgxs)
+> - [Draw SQL](https://drawsql.app/teams/swp391-6/diagrams/diamond-valuation-system)
 > - [Figma Prototype](https://www.figma.com/design/P2hVcvydyJ4b7MRJo3lVPx/Serenity-Jewelry-Landing-Page-(Community)?node-id=0-1&t=uc7QJNoGuJHnrPDV-0)
 > - [Draw IO](https://drive.google.com/file/d/1_bWkAalqmsxhNFyRXtQRYdwDi9JMrb18/view?usp=sharing)
 > - [Kick Off slides](https://lms-hcmuni.fpt.edu.vn/pluginfile.php/231768/mod_forum/post/131366/24.0508.Essential%20Project%20Kickoff%20Guide.pdf)
