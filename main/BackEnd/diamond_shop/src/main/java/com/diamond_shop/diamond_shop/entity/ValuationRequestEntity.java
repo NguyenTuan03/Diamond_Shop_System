@@ -40,7 +40,7 @@ public class ValuationRequestEntity {
     private int id;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "Customer_id")    
+    @JoinColumn(name = "Customer_id")
     private AccountEntity customer;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -59,9 +59,16 @@ public class ValuationRequestEntity {
 
     @OneToOne(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuationResultEntity valuationResult;
-    
+
+    public ValuationRequestEntity(AccountEntity customer, ServiceEntity serviceId, Date createdDate, String description) {
+        this.customer = customer;
+        this.serviceId = serviceId;
+        this.createdDate = createdDate;
+        this.description = description;
+    }
+
     public ValuationRequestEntity(int id, AccountEntity customer, ServiceEntity serviceId, Date createdDate,
-            String description) {
+                                  String description) {
         this.id = id;
         this.customer = customer;
         this.serviceId = serviceId;

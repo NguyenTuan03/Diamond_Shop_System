@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateRequestDTO {
-    private int id;
-    private int roleId;
+    private String type;
+    private int consultingStaffId;
+    private int valuationRequestId;
 }

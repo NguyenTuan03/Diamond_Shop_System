@@ -111,8 +111,8 @@ export default function EducationColor() {
                   key={index}
                   value={index}
                   textAlign={"center"}
-                  bg={"blue.400"}
-                  color={"white"}
+                  bg={"none"}
+                  color={"gray.600"}
                   borderRadius={"20px"}
                   mt="-10"
                   ml="-6"
