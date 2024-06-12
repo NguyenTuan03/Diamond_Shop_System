@@ -9,6 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 public class ValuationRequestDTO {
     private int requestId;
     private String username;
@@ -21,5 +22,4 @@ public class ValuationRequestDTO {
         this.createdDate = createdDate;
         this.description = description;
     }
-    
 }

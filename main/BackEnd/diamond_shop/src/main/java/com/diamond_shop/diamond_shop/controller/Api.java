@@ -8,6 +8,7 @@ import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
 import com.diamond_shop.diamond_shop.dto.UpdateRequestDTO;
 import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
+import com.diamond_shop.diamond_shop.dto.ViewRequestDTO;
 import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
@@ -63,9 +64,9 @@ public class    Api {
         processRequestService.processRequest();
         return "Request Successfully!!";
     }
-    @GetMapping(path = "/customer-request")
-    public List<ValuationRequestDTO> viewCustomerRequest() {
-        return valuationRequestService.viewRequest();
+    @PostMapping(path = "/customer-request")
+    public String viewCustomerRequest(@RequestBody ViewRequestDTO viewRequestDTO) {
+        return valuationRequestService.viewRequest(viewRequestDTO);
     }
     @PostMapping(path = "/update-status-request")
     public String postMethodName(@RequestBody UpdateRequestDTO updateRequestDTO) {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
+import com.diamond_shop.diamond_shop.dto.ViewRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.ServiceEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
@@ -45,8 +46,8 @@ public class ValuationRequestImpl implements ValuationRequestService {
         return "User not found";
     }
     @Override
-    public List<ValuationRequestDTO> viewRequest() {
-        return valuationRequestRepository.findAllList();
+    public String viewRequest(ViewRequestDTO viewRequestDTO) {
+        return "ok";
     }
     
 }   
