@@ -15,9 +15,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import routes from "../config/Config";
 
-export default function ServiceCard({ type, price, time, attributes, color }) {
+export default function ServiceCard({
+  serviceId,
+  type,
+  price,
+  time,
+  attributes,
+  color,
+}) {
   return (
-    <Card border={"1px solid"} w={"20vw"}>
+    <Card border={"1px solid"} w={{ base: "70vw", md: "40vw", lg: "20vw" }}>
       <CardHeader align="center">
         <Heading size={"md"} color={`${color}.400`}>
           {type}
@@ -39,7 +46,10 @@ export default function ServiceCard({ type, price, time, attributes, color }) {
       </CardBody>
       <Center>
         <CardFooter>
-          <Link to={routes.diamondValuationRequest}>
+          <Link
+            to={routes.diamondValuationRequest}
+            state={{ serviceId: serviceId }}
+          >
             <Button colorScheme={color} size={"lg"}>
               Choose
             </Button>
