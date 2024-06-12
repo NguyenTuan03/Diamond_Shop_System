@@ -1,23 +1,11 @@
 package com.diamond_shop.diamond_shop.controller;
 
-import com.diamond_shop.diamond_shop.dto.AccountDTO;
-import com.diamond_shop.diamond_shop.dto.LoginDTO;
-import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
-import com.diamond_shop.diamond_shop.dto.UpdateRequestDTO;
-import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
-import com.diamond_shop.diamond_shop.dto.ViewRequestDTO;
-import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
-import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
-import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
-import com.diamond_shop.diamond_shop.repository.ValuationResultRepository;
+import com.diamond_shop.diamond_shop.dto.*;
+import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.service.AccountService;
 import com.diamond_shop.diamond_shop.service.ProcessRequestService;
 import com.diamond_shop.diamond_shop.service.ProcessResultService;
-import com.diamond_shop.diamond_shop.service.ValuationRequestService;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +18,6 @@ public class Api {
 
     @Autowired
     private AccountService accountService;
-    @Autowired
-    private ValuationRequestService valuationRequestService;
     @Autowired
     private ProcessRequestService processRequestService;
     @Autowired
@@ -49,16 +35,7 @@ public class Api {
         LoginMessageDTO loginResponse = accountService.loginAccount(loginDTO);
         return ResponseEntity.ok(loginResponse);
     }
-    @PostMapping(path = "/valuation-request")
-    public String createValuationRequest(@RequestBody ValuationRequestDTO valuationRequestDTO) {
-        valuationRequestService.makeRequest(valuationRequestDTO);
-        processRequestService.processRequest();
-        return "Request Successfully!!";
-    }
-    @PostMapping(path = "/customer-request")
-    public String viewCustomerRequest(@RequestBody ViewRequestDTO viewRequestDTO) {
-        return valuationRequestService.viewRequest(viewRequestDTO);
-    }
+
     @PostMapping(path = "/update-status-request")
     public String postMethodName(@RequestBody UpdateRequestDTO updateRequestDTO) {
         if (updateRequestDTO.getType().equals("Receive")) {
