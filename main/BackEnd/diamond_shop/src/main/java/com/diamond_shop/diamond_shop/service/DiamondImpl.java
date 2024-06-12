@@ -1,6 +1,6 @@
 package com.diamond_shop.diamond_shop.service;
 
-import com.diamond_shop.diamond_shop.entity.ServiceEntity;
+import com.diamond_shop.diamond_shop.pojo.ServiceResultPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +38,8 @@ public class DiamondImpl implements DiamondService {
     }
 
     @Override
-    public List<ServiceEntity> getAllServices() {
-        List<ServiceEntity> services = serviceRepository.getAllServices();
+    public List<ServiceResultPojo> getAllServices() {
+        List<ServiceResultPojo> services = serviceRepository.searchAllServices();
         System.out.println(services);
         return services;
     }
