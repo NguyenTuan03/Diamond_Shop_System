@@ -40,7 +40,7 @@ export default function ValuationStaffPage() {
         <Text fontSize="4xl" fontWeight="bold">
           Welcome: Lam Tien Hung
         </Text>
-        <Text fontSize="xl">For Consulting Staff</Text>
+        <Text fontSize="xl">For Valuation Staff</Text>
         <InputGroup w={"40vw"}>
           <InputLeftElement pointerEvents={"none"}>
             <Search2Icon color={"gray.300"} />

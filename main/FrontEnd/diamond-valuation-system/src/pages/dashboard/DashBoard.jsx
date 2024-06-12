@@ -121,6 +121,44 @@ export default function DashBoard() {
           </VStack>
         </Box>
       </Flex>
+      <Box
+        bg="rgb(67 56 202)"
+        w="90%"
+        pl={1}
+        color="white"
+        m={"30px 40px 20px 70px"}
+      >
+        <Text py={3} fontSize="lg" ml={"15px"}>
+          RECENT SEARCHS
+        </Text>
+        <VStack
+          pl={4}
+          background={"rgb(239 246 255)"}
+          divider={<StackDivider borderColor="gray.200" />}
+          spacing={1}
+          align="stretch"
+          justifyContent={"center"}
+        >
+          <Box lineHeight={"40px"} h="40px" color={"#000"}>
+            <Flex>
+              <Text>There's one appointment</Text>
+              <Button justifyContent={"flex-end"}>View</Button>
+            </Flex>
+          </Box>
+          <Box lineHeight={"40px"} h="40px" color={"#000"}>
+            <Flex>
+              <Text>There's one appointment</Text>
+              <Button>View</Button>
+            </Flex>
+          </Box>
+          <Box lineHeight={"40px"} h="40px" color={"#000"}>
+            <Flex>
+              <Text>Show 5 recent searchs</Text>
+              <Link to={routes.dashboardSearch}>View all</Link>
+            </Flex>
+          </Box>
+        </VStack>
+      </Box>
     </div>
   );
 }

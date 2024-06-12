@@ -83,14 +83,18 @@ export default function SideBarConsultingStaff() {
                           <CiSettings />
                           <Text ml={3}>Setting</Text>
                       </Flex>
+                      <Link to={routes.diamondCalculate}>
                       <Flex pl={2} _hover={{background:'rgb(55 65 81)', color:'#fff'}} cursor="pointer" borderRadius={3} alignItems={"center"} h="40px" color={"#000"}>
                           <PiCalculatorThin />
                           <Text ml={3}>Calculate</Text>
                       </Flex>
+                      </Link>
+                      <Link>
                       <Flex pl={2} _hover={{background:'rgb(55 65 81)', color:'#fff'}} cursor="pointer" borderRadius={3} alignItems={"center"} h="40px" color={"#000"}>
                           <IoMdSearch />
                           <Text ml={3}>Search</Text>
                       </Flex>
+                      </Link>
                       <Flex pl={2} _hover={{background:'rgb(55 65 81)', color:'#fff'}} cursor="pointer" borderRadius={3} alignItems={"center"} h="40px" color={"#000"}>
                           <MdOutlineRemoveRedEye />
                           <Text ml={3}>Diamond Check</Text>
