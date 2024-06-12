@@ -1,5 +1,7 @@
 package com.diamond_shop.diamond_shop.dto;
 
+import java.util.Date;
+
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 
 import lombok.AllArgsConstructor;
@@ -13,8 +15,8 @@ import lombok.Setter;
 public class ValuationResultDTO {
     private int id;
     private ValuationRequestEntity valuationRequestId;
-    private String createdDate;
-    private String sealing_time;
+    private Date createdDate;
+    private Date sealing_time;
     private String origin;
     private String shape;
     private String carat_weight;
