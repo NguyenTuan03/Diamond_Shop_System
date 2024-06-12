@@ -88,11 +88,11 @@ public class ProcessResultImpl implements ProcessResultService {
     public AccountEntity getLeastOccupiedValuationStaff(List<AccountEntity> valuationStaff) {
         if (valuationStaff.isEmpty()) return null;
 
-        long minOccupiedStaff = processRequestRepository.countByStaffId(valuationStaff.get(0).getId());
+        long minOccupiedStaff = processResultRepository.countByStaffId(valuationStaff.get(0).getId());
         int choosenStaffId = 0;
         int i = 0;
         for (AccountEntity staff : valuationStaff) {
-            long countStaffOccupied = processRequestRepository.countByStaffId(staff.getId());
+            long countStaffOccupied = processResultRepository.countByStaffId(staff.getId());
             if (minOccupiedStaff > countStaffOccupied) {
                 minOccupiedStaff = countStaffOccupied;
                 choosenStaffId = i;
