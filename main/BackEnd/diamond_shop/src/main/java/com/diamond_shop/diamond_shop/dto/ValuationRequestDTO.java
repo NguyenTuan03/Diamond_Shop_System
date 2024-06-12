@@ -16,10 +16,4 @@ public class ValuationRequestDTO {
     private int serviceId;
     private Date createdDate;
     private String description;
-    public ValuationRequestDTO(String username, int serviceId, Date createdDate, String description) {
-        this.username = username;
-        this.serviceId = serviceId;
-        this.createdDate = createdDate;
-        this.description = description;
-    }
 }
