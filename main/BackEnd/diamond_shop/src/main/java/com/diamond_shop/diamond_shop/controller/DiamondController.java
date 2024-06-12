@@ -1,10 +1,8 @@
 package com.diamond_shop.diamond_shop.controller;
 
 import com.diamond_shop.diamond_shop.dto.DiamondCheckRequestDTO;
-import com.diamond_shop.diamond_shop.entity.ServiceEntity;
+import com.diamond_shop.diamond_shop.pojo.ServiceResultPojo;
 import com.diamond_shop.diamond_shop.service.DiamondService;
-import com.google.gson.Gson;
-
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,12 +28,12 @@ public class DiamondController {
         String cut = request.getCut();
         ResponseEntity<String> result = diamondService.fetchDiamondCalculate(gradingLab, carat, shape, color, clarity, cut);
         System.out.println(result);
-        Gson gson=new Gson();
+        Gson gson = new Gson();
         return ResponseEntity.ok(gson.toJson(result));
     }
 
     @GetMapping(value = "/service")
-    public List<ServiceEntity> getAllServices() {
+    public List<ServiceResultPojo> getAllServices() {
         return diamondService.getAllServices();
     }
 }
