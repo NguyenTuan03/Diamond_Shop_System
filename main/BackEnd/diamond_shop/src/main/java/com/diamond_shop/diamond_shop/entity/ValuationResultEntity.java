@@ -78,11 +78,10 @@ public class ValuationResultEntity {
         this.sealing_time = sealing_time;
     }
 
-    public ValuationResultEntity(int id, ValuationRequestEntity valuationRequestId, Date createdDate,
-                                 Date sealing_time, String origin, String shape, String carat_weight, String color, String cut,
-                                 String clarity, String measurements, String polish, String symmetry, String fluorescence,
-                                 String proportions) {
-        this.id = id;
+    public ValuationResultEntity(ValuationRequestEntity valuationRequestId, Date createdDate,
+            Date sealing_time, String origin, String shape, String carat_weight, String color, String cut,
+            String clarity, String measurements, String polish, String symmetry, String fluorescence,
+            String proportions) {
         this.valuationRequestId = valuationRequestId;
         this.createdDate = createdDate;
         this.sealing_time = sealing_time;
@@ -98,6 +97,4 @@ public class ValuationResultEntity {
         this.fluorescence = fluorescence;
         this.proportions = proportions;
     }
-
-
 }
