@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Getter
 @Table(name = "Service_statistics")
 public class ServiceStatisticEntity {
@@ -20,7 +20,7 @@ public class ServiceStatisticEntity {
     @Column(name = "Name")
     private String Name;
 
-    @OneToOne(mappedBy = "Service_statistic_id", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "Service_statistic_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ServiceEntity Service_id;
 
 

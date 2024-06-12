@@ -1,28 +1,17 @@
 package com.diamond_shop.diamond_shop.entity;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,7 +25,7 @@ public class ValuationResultEntity {
     @Column(name = "Id")
     private int id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "Valuation_request_id")
     private ValuationRequestEntity valuationRequestId;
 
@@ -45,13 +34,13 @@ public class ValuationResultEntity {
 
     @Column(name = "Sealing_time")
     private Date sealing_time;
-    
+
     @Column(name = "Origin")
     private String origin;
-    
+
     @Column(name = "Shape")
     private String shape;
-    
+
     @Column(name = "Carat_weight")
     private String carat_weight;
 
@@ -82,18 +71,17 @@ public class ValuationResultEntity {
     @OneToMany(mappedBy = "valuationResultId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessResultEntity> processResults = new HashSet<>();
 
-    
+
     public ValuationResultEntity(ValuationRequestEntity valuationRequestId, Date createdDate, Date sealing_time) {
         this.valuationRequestId = valuationRequestId;
         this.createdDate = createdDate;
         this.sealing_time = sealing_time;
     }
 
-    public ValuationResultEntity(int id, ValuationRequestEntity valuationRequestId, Date createdDate,
+    public ValuationResultEntity(ValuationRequestEntity valuationRequestId, Date createdDate,
             Date sealing_time, String origin, String shape, String carat_weight, String color, String cut,
             String clarity, String measurements, String polish, String symmetry, String fluorescence,
             String proportions) {
-        this.id = id;
         this.valuationRequestId = valuationRequestId;
         this.createdDate = createdDate;
         this.sealing_time = sealing_time;
@@ -109,6 +97,4 @@ public class ValuationResultEntity {
         this.fluorescence = fluorescence;
         this.proportions = proportions;
     }
-    
-    
 }
