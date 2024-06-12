@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ValuationRequestDTO {
-    private int requestId;
+//    private int requestId;
     private String username;
     private int serviceId;
     private Date createdDate;

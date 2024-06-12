@@ -17,4 +17,7 @@ public interface ProcessResultRepository extends JpaRepository<ProcessResultEnti
 
     @Query("SELECT p FROM ProcessResultEntity p WHERE p.ProcessRequestId.id = :processRequestId")
     Optional<ProcessResultEntity> findByProcessRequestId(@Param("processRequestId") int processRequestId);
+
+    @Query(value = "SELECT COUNT (p.valuationStaffId) FROM ProcessResultEntity p WHERE p.valuationStaffId.id=:staffId")
+    long countByStaffId(@Param("staffId") int staffId);
 }

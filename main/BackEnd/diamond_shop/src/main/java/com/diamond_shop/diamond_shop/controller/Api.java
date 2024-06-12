@@ -1,8 +1,5 @@
 package com.diamond_shop.diamond_shop.controller;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
@@ -23,18 +20,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @CrossOrigin
 @RequestMapping("api/account")
-public class    Api {
+public class Api {
 
     @Autowired
     private AccountService accountService;
@@ -48,13 +40,12 @@ public class    Api {
     private ValuationResultService valuationResultService;
 
     @PostMapping(path = "/save")
-    public String saveEmployee(@RequestBody AccountDTO accountDTO)
-    {
+    public String saveEmployee(@RequestBody AccountDTO accountDTO) {
         return accountService.addAccount(accountDTO);
     }
+
     @PostMapping(path = "/login")
-    public ResponseEntity<?> loginEmployee(@RequestBody LoginDTO loginDTO)
-    {
+    public ResponseEntity<?> loginEmployee(@RequestBody LoginDTO loginDTO) {
         LoginMessageDTO loginResponse = accountService.loginAccount(loginDTO);
         return ResponseEntity.ok(loginResponse);
     }
@@ -70,16 +61,20 @@ public class    Api {
     }
     @PostMapping(path = "/update-status-request")
     public String postMethodName(@RequestBody UpdateRequestDTO updateRequestDTO) {
-        int requestId = processRequestService.updateRequest(updateRequestDTO);
-        valuationResultService.asignForValuationStaff(requestId);
-        processResultService.processResult(requestId);
-        return "Update and assign to valuation staff successful!";
+        if (updateRequestDTO.getType().equals("Receive")) {
+            ProcessRequestEntity processRequest = processRequestService.updateRequest(updateRequestDTO);
+            valuationResultService.assignForValuationStaff(processRequest);
+            processResultService.processResult(processRequest);
+            return "Update and assign to valuation staff successful!";
+        } else if (updateRequestDTO.getType().equals("Reject")) {
+            return processRequestService.cancelRequest(updateRequestDTO.getConsultingStaffId(), updateRequestDTO.getValuationRequestId());
+        } else return null;
     }
+
     @PostMapping(path = "/valuate-diamond")
     public String postMethodName(@RequestBody ValuationResultDTO valuationResultDTO) {
         //Valuation staff
         return valuationResultService.valuateDiamond(valuationResultDTO);
-        
     }
-    
+
 }
