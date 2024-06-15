@@ -62,7 +62,7 @@ CREATE TABLE Valuation_results(
     Sealing_time NVARCHAR(255) NOT NULL,
     Origin NVARCHAR(255) NULL,
     Shape NVARCHAR(255) NULL,
-    Carat_weight NVARCHAR(255) NULL,
+    Carat_weight DECIMAL(3,1) NULL,
     Color NVARCHAR(255) NULL,
     Cut NVARCHAR(255) NULL,
     Clarity NVARCHAR(255) NULL,
@@ -71,6 +71,7 @@ CREATE TABLE Valuation_results(
     Symmetry NVARCHAR(255) NULL,
     Fluorescence NVARCHAR(255) NULL,
     Proportions NVARCHAR(255) NULL,
+    Price DECIMAL(5,2) NULL,
 	FOREIGN KEY (Valuation_request_id) REFERENCES Valuation_requests(Id)
 );
 CREATE TABLE Sealing_letters(
