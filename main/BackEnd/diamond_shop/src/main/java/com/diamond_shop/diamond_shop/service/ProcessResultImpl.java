@@ -3,6 +3,8 @@ package com.diamond_shop.diamond_shop.service;
 import com.diamond_shop.diamond_shop.entity.*;
 import com.diamond_shop.diamond_shop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +30,12 @@ public class ProcessResultImpl implements ProcessResultService {
     @Autowired
     private ValuationResultRepository valuationResultRepository;
 
+
+    @Override
+    public Page<ProcessResultEntity> viewProcessResult(int valuationStaff) {
+        return processResultRepository.findByStaffId(PageRequest.of(0, 5), valuationStaff);
+    }
+
     @Override
     public String processResult(ProcessRequestEntity p) {
         RoleEntity roleEntity = roleRepository.findById(4).orElse(null);
@@ -48,34 +56,6 @@ public class ProcessResultImpl implements ProcessResultService {
                 processRequest,
                 "Not resolved yet");
         processResultRepository.save(processResult);
-        //
-//        int i = 0;
-//        List<ProcessRequestEntity> processRequestEntities = processRequestRepository.findAll();
-//        for (ProcessRequestEntity processRequestEntity : processRequestEntities) {
-//            if ("Done".equals(processRequestEntity.getName())) {
-//                AccountEntity valuationStaff = accountEntities.get(i % accountEntities.size());
-//                ValuationResultEntity valuationResultEntity = valuationResultRepository.findByValuationRequestId(requestId);
-//
-//                Optional<ProcessResultEntity> existingResultOpt = processResultRepository.findByProcessRequestId(processRequestEntity.getId());
-//                ProcessResultEntity processResultEntity;
-//                if (existingResultOpt.isPresent()) {
-//                    processResultEntity = existingResultOpt.get();
-//                    processResultEntity.setValuationStaffId(valuationStaff);
-//                    processResultEntity.setValuationResultId(valuationResultEntity);
-//                    processResultEntity.setName("Not resolved yet");
-//                } else {
-//                    processResultEntity = new ProcessResultEntity(
-//                            valuationStaff,
-//                            valuationResultEntity,
-//                            processRequestEntity,
-//                            "Not resolved yet"
-//                    );
-//                }
-//                processRequestEntity.setProcessResult(processResultEntity);
-//                processRequestRepository.save(processRequestEntity); // save the process request which will also save the process result due to cascading
-//                i++;
-//            }
-//        }
         return "Task assigned successfully!";
     }
 

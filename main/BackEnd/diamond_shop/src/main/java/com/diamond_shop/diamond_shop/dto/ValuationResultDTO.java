@@ -1,25 +1,22 @@
 package com.diamond_shop.diamond_shop.dto;
 
-import java.util.Date;
-
-import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ValuationResultDTO {
     private int id;
-    private ValuationRequestEntity valuationRequestId;
-    private Date createdDate;
-    private Date sealing_time;
     private String origin;
     private String shape;
-    private String carat_weight;
+    private BigDecimal carat_weight;
     private String color;
     private String cut;
     private String clarity;
@@ -28,8 +25,5 @@ public class ValuationResultDTO {
     private String symmetry;
     private String fluorescence;
     private String proportions;
-    public ValuationResultDTO(ValuationRequestEntity valuationRequestId) {
-        this.valuationRequestId = valuationRequestId;
-    }
-       
+    private BigDecimal price;
 }
