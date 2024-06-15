@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -68,6 +69,9 @@ public class AccountEntity {
     @OneToMany(mappedBy = "valuationStaffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessResultEntity> processResultEntity = new HashSet<>();
 
+    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SealingLetterEntity> sealingLetterEntity = new ArrayList<>();
+
     public AccountEntity(RoleEntity role_id, String username, String password, String fullname, String phone_number) {
         this.role = role_id;
         this.username = username;
@@ -92,5 +96,11 @@ public class AccountEntity {
         this.email = email;
         this.phone_number = phonenumber;
         this.address = address;
+    }
+
+    public AccountEntity(String username, String password) {
+
+        this.username = username;
+        this.password = password;
     }
 }

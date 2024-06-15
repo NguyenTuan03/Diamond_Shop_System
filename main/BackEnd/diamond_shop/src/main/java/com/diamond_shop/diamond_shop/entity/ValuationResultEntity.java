@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class ValuationResultEntity {
     private String shape;
 
     @Column(name = "Carat_weight")
-    private String carat_weight;
+    private BigDecimal carat_weight;
 
     @Column(name = "Color")
     private String color;
@@ -68,9 +69,14 @@ public class ValuationResultEntity {
     @Column(name = "Proportions")
     private String proportions;
 
+    @Column(name = "Price")
+    private BigDecimal price;
+
     @OneToMany(mappedBy = "valuationResultId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessResultEntity> processResults = new HashSet<>();
 
+    @OneToOne(mappedBy = "valuationResult", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private SealingLetterEntity sealingLetterEntity;
 
     public ValuationResultEntity(ValuationRequestEntity valuationRequestId, Date createdDate, Date sealing_time) {
         this.valuationRequestId = valuationRequestId;
@@ -79,9 +85,9 @@ public class ValuationResultEntity {
     }
 
     public ValuationResultEntity(ValuationRequestEntity valuationRequestId, Date createdDate,
-            Date sealing_time, String origin, String shape, String carat_weight, String color, String cut,
-            String clarity, String measurements, String polish, String symmetry, String fluorescence,
-            String proportions) {
+                                 Date sealing_time, String origin, String shape, BigDecimal carat_weight, String color, String cut,
+                                 String clarity, String measurements, String polish, String symmetry, String fluorescence,
+                                 String proportions, BigDecimal price) {
         this.valuationRequestId = valuationRequestId;
         this.createdDate = createdDate;
         this.sealing_time = sealing_time;
@@ -96,5 +102,6 @@ public class ValuationResultEntity {
         this.symmetry = symmetry;
         this.fluorescence = fluorescence;
         this.proportions = proportions;
+        this.price = price;
     }
 }

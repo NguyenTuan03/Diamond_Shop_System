@@ -69,9 +69,9 @@ export default function DiamondValuationRequest() {
                       duration: 2000,
                       isClosable: true,
                     });
-                    setTimeout(() => {
-                      window.location.href = routes.home;
-                    }, 2000);
+                    // setTimeout(() => {
+                    //   window.location.href = routes.home;
+                    // }, 2000);
                   });
               } catch (e) {
                 console.log(e);
