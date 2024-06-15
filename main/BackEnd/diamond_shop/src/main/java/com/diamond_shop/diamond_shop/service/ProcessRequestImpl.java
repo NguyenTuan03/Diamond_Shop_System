@@ -66,7 +66,7 @@ public class ProcessRequestImpl implements ProcessRequestService {
         ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
         ProcessRequestEntity oldProcessRequest = processRequestRepository.findByStaffIdAndValuationRequestId(consultingStaffId, valuationRequestId);
         processRequestRepository.delete(oldProcessRequest);
-        ProcessRequestEntity newProcessRequest = new ProcessRequestEntity(leastOccupiedConsultingStaff, valuationRequest, "Not resolve yet");
+        ProcessRequestEntity newProcessRequest = new ProcessRequestEntity(leastOccupiedConsultingStaff, valuationRequest, "Not resolved yet");
         processRequestRepository.save(newProcessRequest);
         return "Cancel assigned successfully!";
     }
@@ -91,7 +91,7 @@ public class ProcessRequestImpl implements ProcessRequestService {
     @Override
     public ProcessRequestEntity updateRequest(UpdateRequestDTO updateRequestDTO) {
         ProcessRequestEntity process = processRequestRepository.findByStaffIdAndValuationRequestId(updateRequestDTO.getConsultingStaffId(), updateRequestDTO.getValuationRequestId());
-        process.setName("Done");
+        process.setName("Processing");
         processRequestRepository.save(process);
         return process;
     }
