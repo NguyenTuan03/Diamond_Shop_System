@@ -10,6 +10,9 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 public class ProcessRequestPojo {
+    private int consultingStaffId;
+    private String consultingStaffName;
+    private int valuationRequestId;
     private String type;
     private String customerName;
     private String customerEmail;

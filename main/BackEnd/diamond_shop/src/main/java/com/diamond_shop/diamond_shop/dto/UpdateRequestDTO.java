@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateRequestDTO {
     private String type;
+    private String processRequestType;
     private int consultingStaffId;
     private int valuationRequestId;
 }

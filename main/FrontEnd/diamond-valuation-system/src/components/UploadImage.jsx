@@ -7,13 +7,51 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export default function UploadImage() {
   const [selectedImages, setSelectedImages] = useState([]);
+  const [isUploading, setIsUpLoading] = useState(false);
   const toast = useToast();
-  async function handleSubmitImages() {
+
+  const handleSubmitImages = async () => {
+    setIsUpLoading(true);
+    for (const image of selectedImages) {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append(
+        "upload_preset",
+        import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+      );
+      formData.append("public_id", uuidv4());
+      await axios
+        .post(
+          `https://api.cloudinary.com/v1_1/${
+            import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+          }/image/upload`,
+          formData
+        )
+        .then((res) => {
+          console.log(res.data.public_id
+            
+          );
+        });
+    }
+    toast({
+      title: "Image submitted",
+      description: "Your diamond image has been submitted successfully",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+    setIsUpLoading(false);
+    setSelectedImages([]);
+  };
+
+  async function handleSubmitImages2() {
+    setIsUpLoading(true);
     for (const image of selectedImages) {
       const formData = new FormData();
       formData.append("file", image);
@@ -41,6 +79,8 @@ export default function UploadImage() {
       duration: 3000,
       isClosable: true,
     });
+    setIsUpLoading(false);
+    setSelectedImages([]);
   }
   return (
     <>
@@ -109,7 +149,11 @@ export default function UploadImage() {
               </Flex>
             ))}
           </Flex>
-          <Button colorScheme="green" onClick={handleSubmitImages}>
+          <Button
+            colorScheme="green"
+            onClick={handleSubmitImages}
+            isLoading={isUploading}
+          >
             Submit
           </Button>
         </Flex>

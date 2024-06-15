@@ -30,7 +30,7 @@ export default function Login({ signIn, signUp }) {
     try {
       console.log(username, password);
       const result = await login(username, password);
-      if (!result.data.status) {
+      if (!result.data?.status) {
         toast.error("Login failed. Try again later", {
           position: "top-right",
           autoClose: 2000,

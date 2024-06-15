@@ -1,8 +1,7 @@
-package com.diamond_shop.diamond_shop.dto;
+package com.diamond_shop.diamond_shop.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -11,12 +10,16 @@ import java.util.Date;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
-public class ValuationResultDTO {
-    private int id;
+public class ProcessResultPojo {
+    private int valuationResultId;
+    private String valuationStaffName;
+    private String serviceName;
+    private String type;
+    private Date createdDate;
+    private Date sealingDate;
     private String origin;
     private String shape;
-    private BigDecimal carat_weight;
+    private BigDecimal caratWeight;
     private String color;
     private String cut;
     private String clarity;
