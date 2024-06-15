@@ -1,8 +1,9 @@
-import { Button, Container, Image, Link, Tooltip } from "@chakra-ui/react";
+import { Container, Image, Link, Tooltip } from "@chakra-ui/react";
 import React from "react";
-export default function ZaloChat() {
+export default function ZaloChat({ customerPhone }) {
+  const customerZalo = `https://zalo.me/${customerPhone}`;
   return (
-    <Link href="https://zalo.me/0832428279" isExternal>
+    <Link href={customerZalo} isExternal>
       <Container className="zalo-container">
         <Tooltip
           hasArrow

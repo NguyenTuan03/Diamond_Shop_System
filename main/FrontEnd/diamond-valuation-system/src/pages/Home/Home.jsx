@@ -4,11 +4,8 @@ import {
   Flex,
   Text,
   Button,
-  Grid,
-  GridItem,
   Box,
   useColorModeValue,
-  SimpleGrid,
   AspectRatio,
   Container,
   Center,
@@ -46,37 +43,43 @@ export default function Home() {
             >
               Navigate the diamond market effortlessly.
             </Text>
-            <Flex mt={6}>
-              <Link to={routes.search}>
-                <Button
-                  size={{ base: "sm", md: "md", lg: "lg" }}
-                  backgroundColor=" #7B68EE"
-                  colorScheme="purple"
-                  variant="solid"
-                  mr={4}
-                  height="60px"
-                  fontSize={{ base: "sm", md: "md", lg: "lg" }}
-                  borderRadius="15px"
-                  leftIcon={<Search2Icon />}
-                >
-                  Search all diamonds
-                </Button>
-              </Link>
-              <Link to={routes.diamondService}>
-                <Button
-                  size={{ base: "sm", md: "md", lg: "lg" }}
-                  color="#7B68EE"
-                  colorScheme="gray"
-                  variant="outline"
-                  height="60px"
-                  fontSize={{ base: "sm", md: "md", lg: "lg" }}
-                  borderRadius="15px"
-                  leftIcon={<IoDiamond />}
-                >
-                  Check your diamonds
-                </Button>
-              </Link>
-            </Flex>
+            <Center>
+              <Flex
+                direction={{ base: "column", md: "row", lg: "row" }}
+                mt={6}
+                align={"center"}
+                gap={5}
+              >
+                <Link to={routes.search}>
+                  <Button
+                    size={{ base: "sm", md: "md", lg: "lg" }}
+                    backgroundColor=" #7B68EE"
+                    colorScheme="purple"
+                    variant="solid"
+                    height="60px"
+                    fontSize={{ base: "sm", md: "md", lg: "lg" }}
+                    borderRadius="15px"
+                    leftIcon={<Search2Icon />}
+                  >
+                    Search all diamonds
+                  </Button>
+                </Link>
+                <Link to={routes.diamondService}>
+                  <Button
+                    size={{ base: "sm", md: "md", lg: "lg" }}
+                    color="#7B68EE"
+                    colorScheme="gray"
+                    variant="outline"
+                    height="60px"
+                    fontSize={{ base: "sm", md: "md", lg: "lg" }}
+                    borderRadius="15px"
+                    leftIcon={<IoDiamond />}
+                  >
+                    Check your diamonds
+                  </Button>
+                </Link>
+              </Flex>
+            </Center>
           </Flex>
           <Box w="60%" position={{ base: "", md: "relative", lg: "relative" }}>
             <AspectRatio
