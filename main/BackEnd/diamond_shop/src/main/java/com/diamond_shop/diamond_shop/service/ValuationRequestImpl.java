@@ -1,6 +1,7 @@
 package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
+import com.diamond_shop.diamond_shop.dto.ViewRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.ServiceEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
