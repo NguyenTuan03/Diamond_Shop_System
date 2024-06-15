@@ -8,6 +8,7 @@ import com.diamond_shop.diamond_shop.service.ProcessRequestService;
 import com.diamond_shop.diamond_shop.service.ProcessResultService;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,10 +26,8 @@ public class Api {
     }
 
     @PostMapping(path = "/login")
-    public String loginEmployee(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<?> loginEmployee(@RequestBody LoginDTO loginDTO) {
         LoginMessageDTO loginResponse = accountService.loginAccount(loginDTO);
-        if (loginResponse != null) {
-            return "ok";
-        } else return null;
+        return ResponseEntity.ok(loginResponse);
     }
 }
