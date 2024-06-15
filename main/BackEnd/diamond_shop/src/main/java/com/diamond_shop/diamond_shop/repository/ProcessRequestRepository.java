@@ -14,7 +14,10 @@ import java.util.Optional;
 @Repository
 public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEntity, Integer> {
 
-    @Query(value = "SELECT " + "NEW com.diamond_shop.diamond_shop.pojo.ProcessRequestPojo(p.name,p.valuationRequestId.customer.fullname,p.valuationRequestId.customer.email, p.valuationRequestId.customer.phone_number, p.valuationRequestId.serviceId.Name, p.valuationRequestId.serviceId.Price, p.valuationRequestId.serviceId.Time, p.valuationRequestId.serviceId.Service_statistic_id.Name, p.valuationRequestId.createdDate, p.valuationRequestId.description) " + "FROM ProcessRequestEntity as p " + "WHERE p.staffId.id=:consultingStaffId")
+    @Query(value = "SELECT " +
+            "NEW com.diamond_shop.diamond_shop.pojo.ProcessRequestPojo(p.staffId.id, p.staffId.fullname, p.valuationRequestId.id,p.name,p.valuationRequestId.customer.fullname,p.valuationRequestId.customer.email, p.valuationRequestId.customer.phone_number, p.valuationRequestId.serviceId.Name, p.valuationRequestId.serviceId.Price, p.valuationRequestId.serviceId.Time, p.valuationRequestId.serviceId.Service_statistic_id.Name, p.valuationRequestId.createdDate, p.valuationRequestId.description)" +
+            "FROM ProcessRequestEntity as p " +
+            "WHERE p.staffId.id=:consultingStaffId")
     Page<ProcessRequestEntity> findCustomerByConsultingStaffId(Pageable pageable, @Param("consultingStaffId") int consultingStaffId);
 
 //    @Query("SELECT p FROM ProcessRequestEntity p WHERE p.staffId.id = :staffId AND p.valuationRequestId.id = :valuationRequestId")

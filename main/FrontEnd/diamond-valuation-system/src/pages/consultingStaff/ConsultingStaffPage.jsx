@@ -3,51 +3,39 @@ import {
   Text,
   useDisclosure,
   Input,
-  useToast,
   InputGroup,
   InputLeftElement,
   Select,
-  TableContainer,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  IconButton,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Search2Icon, ViewIcon } from "@chakra-ui/icons";
-import axios from "axios";
+import { Search2Icon } from "@chakra-ui/icons";
 import ConsultingStaffViewProcessRequest from "./ConsultingStaffViewProcessRequest";
-
+import ConsultingStaffTable from "./ConsultingStaffTable";
+import { fetchProcessRequest } from "./ConsultingStaffService";
 export default function ConsultingStaffPage() {
+  const toast = useToast();
   const viewProcessRequest = useDisclosure();
   const [viewSelectProcessRequest, setViewSelectProcessRequest] = useState(0);
   const [processRequest, setProcessRequest] = useState([]);
-  const handleSubmit = async () => {
-    try {
-      const res = await axios
-        .get("http://localhost:8081/api/process-request/get?staffId=138")
-        .then(function (response) {
-          setProcessRequest(response.data.content);
-          console.log(response.data.content);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const [isProcessRequest, setIsProcessRequest] = useState(false);
   useEffect(() => {
-    handleSubmit();
+    fetchProcessRequest(setProcessRequest, toast);
   }, []);
+  useEffect(() => {
+    if (isProcessRequest) {
+      fetchProcessRequest(setProcessRequest, toast);
+      setIsProcessRequest(false);
+    }
+  }, [isProcessRequest]);
   return (
     <>
       <Flex
         direction="column"
         alignItems="center"
         justifyContent="center"
-        w={"99vw"}
         m={"100px 0 0 0"}
+        paddingTop={10}
         gap={5}
       >
         <Text fontSize="4xl" fontWeight="bold">
@@ -65,8 +53,8 @@ export default function ConsultingStaffPage() {
             id="select"
             w={"10vw"}
             onChange={() => {
-              setSelectData(document.getElementById("select").value);
-              console.log(selectData);
+              // setSelectData(document.getElementById("select").value);
+              // console.log(selectData);
             }}
             onClick={() => {
               console.log(processRequest);
@@ -76,45 +64,20 @@ export default function ConsultingStaffPage() {
             <option value={"receipt"}>Receipt</option>
             <option value={"result"}>Result</option>
           </Select>
-          <TableContainer>
-            <Table size={"sm"} colorScheme="blue">
-              <Thead bg={"blue.400"}>
-                <Tr>
-                  <Th>No</Th>
-                  <Th>Customer</Th>
-                  <Th>Service</Th>
-                  <Th>Created Date</Th>
-                  <Th>View</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {processRequest.map((item, index) => (
-                  <Tr key={index}>
-                    <Td>{index + 1}</Td>
-                    <Td>{item.customerName}</Td>
-                    <Td>{item.serviceName}</Td>
-                    <Td>{item.createdDate}</Td>
-                    <Td>
-                      <IconButton
-                        icon={<ViewIcon />}
-                        bgColor={"transparent"}
-                        onClick={() => {
-                          setViewSelectProcessRequest(index);
-                          viewProcessRequest.onOpen();
-                        }}
-                      />
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
         </Flex>
+        <ConsultingStaffTable
+          processRequest={processRequest}
+          setViewSelectProcessRequest={setViewSelectProcessRequest}
+          viewProcessRequest={viewProcessRequest}
+        />
       </Flex>
       <ConsultingStaffViewProcessRequest
         isOpen={viewProcessRequest.isOpen}
         onClose={viewProcessRequest.onClose}
         processRequest={processRequest[viewSelectProcessRequest]}
+        setIsProcessRequest={setIsProcessRequest}
+        viewProcessRequest={viewProcessRequest}
+        toast={toast}
       />
     </>
   );
