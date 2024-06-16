@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Header from "../components/Header";
 import classnames from "classnames/bind";
 import styles from "./MainLayout.module.scss";
