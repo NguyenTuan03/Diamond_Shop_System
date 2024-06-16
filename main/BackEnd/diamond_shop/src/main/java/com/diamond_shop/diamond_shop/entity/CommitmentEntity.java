@@ -18,9 +18,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "Sealing_letters")
+@Table(name = "Commitments")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class SealingLetterEntity {
+public class CommitmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
@@ -37,12 +37,6 @@ public class SealingLetterEntity {
     @JoinColumn(name = "Valuation_request_id")
     private ValuationRequestEntity valuationRequest;
 
-    @OneToMany(mappedBy = "sealingLetter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ProcessSealingEntity> processSealingEntities = new HashSet<>();
-
-    public SealingLetterEntity(Date createdDate, String content, ValuationRequestEntity valuationRequest) {
-        this.createdDate = createdDate;
-        this.content = content;
-        this.valuationRequest = valuationRequest;
-    }
+    @OneToMany(mappedBy = "commitment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ProcessCommitmentEntity> processCommitmentEntities = new HashSet<>();
 }

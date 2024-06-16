@@ -3,31 +3,32 @@ package com.diamond_shop.diamond_shop.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@Entity
-@Table(name = "Roles")
+@Table(name = "Process_sealing_letters")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class RoleEntity {
+public class ProcessCommitmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private int id;
 
-    @NotNull(message = "Role name is mandatory")
-    @Column(name = "Name")
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "Commiment_id")
+    private CommitmentEntity commitment;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    private List<AccountEntity> users;
+    @ManyToOne
+    @JoinColumn(name = "Manager_id")
+    private AccountEntity manager;
+
+    @Column(name = "Status")
+    private String status;
 }

@@ -25,6 +25,8 @@ export default function ConsultingStaffTable({
             <Th>Customer</Th>
             <Th>Service</Th>
             <Th>Created Date</Th>
+            <Th>Finish Date</Th>
+            <Th>Sealing Date</Th>
             <Th>Status</Th>
             <Th>View</Th>
           </Tr>
@@ -36,6 +38,8 @@ export default function ConsultingStaffTable({
               <Td>{item?.customerName}</Td>
               <Td>{item?.serviceName}</Td>
               <Td>{item?.createdDate}</Td>
+              <Td>{item?.finishedDate}</Td>
+              <Td>{item?.sealingDate}</Td>
               <Td>{item?.type}</Td>
               <Td>
                 <IconButton

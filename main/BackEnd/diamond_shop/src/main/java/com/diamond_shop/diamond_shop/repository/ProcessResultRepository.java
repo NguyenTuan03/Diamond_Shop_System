@@ -17,7 +17,7 @@ public interface ProcessResultRepository extends JpaRepository<ProcessResultEnti
     // Optional<ProcessResultEntity> findByStaffIdAndProcessRequestId(@Param("staffId") int staffId, @Param("processRequestId") int processRequestId);
 
     @Query("SELECT p FROM ProcessResultEntity p WHERE p.ProcessRequestId.id = :processRequestId")
-    Optional<ProcessResultEntity> findByProcessRequestId(@Param("processRequestId") int processRequestId);
+    ProcessResultEntity findByProcessRequestId(@Param("processRequestId") int processRequestId);
 
     @Query(value = "SELECT COUNT (p.valuationStaffId) " +
             "FROM ProcessResultEntity p " +
@@ -25,7 +25,7 @@ public interface ProcessResultRepository extends JpaRepository<ProcessResultEnti
     long countByStaffId(@Param("staffId") int staffId);
 
     @Query(value = "SELECT " +
-            "NEW com.diamond_shop.diamond_shop.pojo.ProcessResultPojo(p.valuationResultId.id,p.valuationStaffId.fullname,p.valuationResultId.valuationRequestId.serviceId.Name,p.name, p.valuationResultId.createdDate,p.valuationResultId.sealing_time,p.valuationResultId.origin,p.valuationResultId.shape,p.valuationResultId.carat_weight,p.valuationResultId.color,p.valuationResultId.cut,p.valuationResultId.clarity,p.valuationResultId.measurements,p.valuationResultId.polish,p.valuationResultId.symmetry,p.valuationResultId.fluorescence,p.valuationResultId.proportions,p.valuationResultId.price)" +
+            "NEW com.diamond_shop.diamond_shop.pojo.ProcessResultPojo(p.valuationResultId.id,p.valuationStaffId.fullname,p.valuationResultId.valuationRequestId.serviceId.Name,p.name, p.valuationResultId.createdDate,p.valuationResultId.origin,p.valuationResultId.shape,p.valuationResultId.carat_weight,p.valuationResultId.color,p.valuationResultId.cut,p.valuationResultId.clarity,p.valuationResultId.measurements,p.valuationResultId.polish,p.valuationResultId.symmetry,p.valuationResultId.fluorescence,p.valuationResultId.proportions,p.valuationResultId.price)" +
             "FROM ProcessResultEntity as p " +
             "WHERE p.valuationStaffId.id=:staffId")
     Page<ProcessResultEntity> findByStaffId(Pageable pageable, @Param("staffId") int staffId);

@@ -22,19 +22,4 @@ public class ValuationResultController {
         //Valuation staff
         return valuationResultService.valuateDiamond(valuationResultDTO);
     }
-
-    @GetMapping(path = "/check-sealing", produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean checkSealingDate(@RequestParam("id") int id) {
-        return valuationResultService.checkSealingDate(id);
-    }    
-    @GetMapping("/crawl-natural")
-    public List<DiamondPojo> scrapeNaturalDiamonds(@RequestParam String shape) {
-        return valuationResultService.crawlNaturalDiamond(shape);
-    }
-    @GetMapping("/crawl-lab-grown")
-    public List<DiamondPojo> scrapeLabGrownDiamonds(@RequestParam String shape) {
-        return valuationResultService.crawlLabGrownDiamond(shape);
-    }
-
-
 }

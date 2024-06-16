@@ -88,9 +88,29 @@ export default function ConsultingStaffViewProcessRequest({
             </Button>
           </ModalFooter>
         ) : (
-          <ModalFooter>
-            <Flex direction={"row"} gap={5}>
-              <Button>Diamond Received</Button>
+          <ModalFooter justifyContent={"space-evenly"}>
+            <Flex direction={"row"} gap={5} align={"center"}>
+              {processRequest?.type !== "Diamond Received" ? (
+                <Button
+                  colorScheme="green"
+                  onClick={() => {
+                    handleProcessRequest(
+                      toast,
+                      "diamond",
+                      processRequest?.type,
+                      processRequest?.consultingStaffId,
+                      processRequest?.valuationRequestId
+                    ).then(() => {
+                      setIsProcessRequest(true);
+                      viewProcessRequest.onClose();
+                    });
+                  }}
+                >
+                  Diamond Received
+                </Button>
+              ) : (
+                <></>
+              )}
               <ZaloChat customerPhone={processRequest?.customerPhone} />
             </Flex>
           </ModalFooter>

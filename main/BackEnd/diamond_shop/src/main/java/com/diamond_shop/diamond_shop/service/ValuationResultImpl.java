@@ -61,37 +61,14 @@ public class ValuationResultImpl implements ValuationResultService {
     public String assignForValuationStaff(ProcessRequestEntity processRequest) {
         ValuationRequestEntity valuationRequestEntity = valuationRequestRepository.findById(processRequest.getValuationRequestId().getId());
         Date createdDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(createdDate);
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        Date sealingDate = calendar.getTime();
         ValuationResultEntity valuationResultEntity = new ValuationResultEntity(
                 valuationRequestEntity,
                 createdDate,
-                sealingDate,
                 "", "", new BigDecimal(0), "", "", "", "", "", "", "", "", new BigDecimal(0));
         valuationResultRepository.save(valuationResultEntity);
         return "Assigned successfully!";
     }
 
-    @Override
-    public boolean checkSealingDate(int valuationResultId) {
-        ValuationResultEntity valuationResult = valuationResultRepository.findById(valuationResultId);
-        if (valuationResult == null)
-            return false;
-        Date currentDate = new Date();
-        if (currentDate.after(valuationResult.getSealing_time())) {
-            ProcessResultEntity processResult = processResultRepository.findByValuationResultId(valuationResultId);
-            if (!processResult.getName().equals("Overdue")) {
-                processResult.setName("Overdue");
-                processResultRepository.save(processResult);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    
     @Override
     public List<DiamondPojo> crawlLabGrownDiamond(String shape) {
         List<DiamondPojo> diamonds = new ArrayList<>();
@@ -282,5 +259,4 @@ public class ValuationResultImpl implements ValuationResultService {
         }
         return diamonds;
     }
-
 }
