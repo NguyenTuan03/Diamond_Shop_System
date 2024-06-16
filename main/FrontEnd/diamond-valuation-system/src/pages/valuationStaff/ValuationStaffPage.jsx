@@ -47,26 +47,11 @@ export default function ValuationStaffPage() {
   const fetchProcessResult = async () => {
     try {
       await axios
-        .get("http://localhost:8081/api/process-result/get?staffId=137")
+        .get("http://localhost:8081/api/process-result/get?staffId=5")
         .then(function (response) {
           setProcessResult(response.data.content);
           console.log(response.data.content);
         });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const checkSealingDate = async () => {
-    try {
-      for (let i = 0; i < processResult.length; i++) {
-        await axios
-          .get(
-            `http://localhost:8081/api/valuation-result/check-sealing?id=${processResult[i]?.valuationResultId}`
-          )
-          .then(function (response) {
-            console.log(response.data);
-          });
-      }
     } catch (e) {
       console.log(e);
     }
@@ -98,7 +83,6 @@ export default function ValuationStaffPage() {
   };
   useEffect(() => {
     fetchProcessResult();
-    checkSealingDate();
   }, []);
   useEffect(() => {
     if (isValuated) {
@@ -112,8 +96,8 @@ export default function ValuationStaffPage() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        m={"100px 0 0 0"}
-        paddingTop={10}
+        h={"100vh"} 
+        // paddingTop={10}
         gap={5}
       >
         <Text fontSize="4xl" fontWeight="bold">
@@ -133,7 +117,6 @@ export default function ValuationStaffPage() {
                 <Th>No</Th>
                 <Th>Service</Th>
                 <Th>Created Date</Th>
-                <Th>Sealing Date</Th>
                 <Th>Status</Th>
                 <Th>View</Th>
               </Tr>
@@ -144,7 +127,6 @@ export default function ValuationStaffPage() {
                   <Td>{index + 1}</Td>
                   <Td>{item?.serviceName}</Td>
                   <Td>{item?.createdDate}</Td>
-                  <Td>{item?.sealingDate}</Td>
                   <Td>{item?.type}</Td>
                   <Td>
                     <IconButton

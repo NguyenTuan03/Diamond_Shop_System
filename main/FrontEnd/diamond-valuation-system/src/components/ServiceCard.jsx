@@ -33,7 +33,7 @@ export default function ServiceCard({
       <Flex direction={"column"} align={"center"}>
         <Text fontSize={"5xl"}>${price}</Text>
         <Text fontSize={"lg"}>
-          Valuation time: <strong>{time}</strong>
+          Valuation time: <strong>{time} days</strong>
         </Text>
       </Flex>
       <CardBody align={"start"}>
