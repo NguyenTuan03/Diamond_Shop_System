@@ -1,23 +1,21 @@
 package com.diamond_shop.diamond_shop.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "Process_requests")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ProcessRequestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +30,12 @@ public class ProcessRequestEntity {
     @JoinColumn(name = "Valuation_request_id")
     private ValuationRequestEntity valuationRequestId;
 
+    @NotBlank(message = "Process Request name is mandatory")
     @Column(name = "Name")
     private String name;
+
+    @OneToOne(mappedBy = "ProcessRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ProcessResultEntity processResult;
 
     public ProcessRequestEntity(AccountEntity staffId, ValuationRequestEntity valuationRequestId, String name) {
         this.staffId = staffId;

@@ -7,10 +7,10 @@ import theme from "./themes/theme.js";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <ChakraProvider>
-        <AuthContext>
-            <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
-            <App />
-        </AuthContext>
-    </ChakraProvider>
+  <ChakraProvider>
+    <AuthContext>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <App />
+    </AuthContext>
+  </ChakraProvider>
 );

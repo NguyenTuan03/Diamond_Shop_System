@@ -27,7 +27,7 @@ export default function DiamondService() {
   }
   try {
     for (let i = 0; i < serviceResponse.length; i++) {
-      serviceStatisticNames.push(serviceResponse[i].service_statistic_id.name);
+      serviceStatisticNames.push(serviceResponse[i].statisticName);
       serviceStatisticNames[i] = serviceStatisticNames[i]
         .split(",")
         .map((item) => item.trim());
@@ -35,13 +35,11 @@ export default function DiamondService() {
   } catch (e) {
     console.log(e);
   }
-  console.log(serviceStatisticNames);
   return (
     <Flex
       direction={"column"}
       alignItems={"center"}
       justifyContent={"center"}
-      w={"99vw"}
       p={10}
       bg={bgColor}
     >
@@ -50,14 +48,15 @@ export default function DiamondService() {
         description={
           "Make a choice of valuation service. The faster the valuation time is, the more expensive the price is."
         }
+        width={"80vw"}
       />
       <Divider m={"20px 0 20px 0"} />
-      <Flex direction={"row"} gap={20}>
+      <Flex direction={{ base: "column", md: "row", lg: "row" }} gap={20}>
         {serviceResponse.map((item, index) => {
           return (
             <ServiceCard
               key={index}
-              id={item.id}
+              serviceId={item.id}
               type={item.name.toUpperCase()}
               price={item.price}
               time={item.time}

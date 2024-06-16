@@ -7,12 +7,14 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { makeRequest } from "../service/MakeRequest";
 
 export default function UploadImage({description, service}) {
   const [selectedImages, setSelectedImages] = useState([]);
+  const [isUploading, setIsUpLoading] = useState(false);
   const toast = useToast();
   const handleSubmitImages = async () => {
     try {
@@ -147,7 +149,11 @@ export default function UploadImage({description, service}) {
               </Flex>
             ))}
           </Flex>
-          <Button colorScheme="green" onClick={handleSubmitImages}>
+          <Button
+            colorScheme="green"
+            onClick={handleSubmitImages}
+            isLoading={isUploading}
+          >
             Submit
           </Button>
         </Flex>

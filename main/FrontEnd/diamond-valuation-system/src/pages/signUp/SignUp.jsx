@@ -14,63 +14,68 @@ import {
     ModalOverlay,
     Text,
     FormErrorMessage,
+    useToast,
+    InputGroup,
+    InputLeftAddon,
+    FormHelperText,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { Link } from "react-router-dom";
-import { login } from "../../service/Login";
 import { validateSignUp } from "../../utils/ValidateSignUp";
-import { register } from "./../../service/SignUp";
-import { Bounce, toast } from "react-toastify";
+import Http from "../../utils/Http";
 export default function SignUp({ signUp }) {
-    async function signUpApi(username, fullName, phone, password) {
+    const toast = useToast();
+    // async function signUpApi(username, fullName, phone, password) {
+    //   try {
+    //     const result = await register(username, fullName, phone, password).then(()=>{
+    //       // signUp.onClose();
+    //       toast({
+    //         title: "Account created.",
+    //         description: "We've created your account for you.",
+    //         status: "success",
+    //         duration: 9000,
+    //         isClosable: true,
+    //       });
+    //     });
+    //     console.log(result);
+    //   } catch (error) {
+    //     console.error("Login failed:", error);
+    //   }
+    // }
+    async function signUpApi(username, fullname, phonenumber, password) {
         try {
-            const result = await register(username, fullName, phone, password);
-            console.log(result);
-            if (!result.data) {
-                toast.error("SignUp failed. Please try again!", {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
+            const res = await Http.httpRequest.post("api/account/save", {
+                username,
+                fullname,
+                phonenumber,
+                password,
+            });
+            if (res.data.includes("exist")) {
+                toast({
+                    title: "Sign up failed.",
+                    description: res.data,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
                 });
+                throw new Error(res.data);
             } else {
-                setTimeout(() => {
-                    window.location.reload();
-                }, [200]);
-                toast.success("Login Successful", {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
+                toast({
+                    title: "Account created.",
+                    description: "We've created your account for you.",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
                 });
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify(result.data.accountDTO)
-                );
             }
         } catch (error) {
-            console.error("Login failed:", error);
-            toast.error("An error occurred. Please try again later.", {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
+            toast({
+                title: "Sign up failed.",
+                description: "Please try again.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
             });
+            console.error("Login failed:", error);
         }
     }
     return (
@@ -94,15 +99,14 @@ export default function SignUp({ signUp }) {
                             return validateSignUp(values);
                         }}
                         onSubmit={(values, { setSubmitting }) => {
-                            setTimeout(() => {
-                                signUpApi(
-                                    values.username,
-                                    values.fullName,
-                                    values.phoneNumber,
-                                    values.password
-                                );
-                                setSubmitting(false);
-                            }, 400);
+                            console.log(values);
+                            signUpApi(
+                                values.username,
+                                values.fullName,
+                                values.phoneNumber,
+                                values.password
+                            );
+                            setSubmitting(false);
                         }}
                     >
                         {({
@@ -140,9 +144,9 @@ export default function SignUp({ signUp }) {
                                 <FormControl
                                     isRequired
                                     isInvalid={
-                                        errors.username &&
-                                        touched.username &&
-                                        errors.username
+                                        errors.fullName &&
+                                        touched.fullName &&
+                                        errors.fullName
                                     }
                                 >
                                     <FormLabel>Full name</FormLabel>
@@ -160,6 +164,7 @@ export default function SignUp({ signUp }) {
                                     </FormErrorMessage>
                                 </FormControl>
                                 <FormControl
+                                    isRequired
                                     isInvalid={
                                         errors.phoneNumber &&
                                         touched.phoneNumber &&
@@ -167,13 +172,19 @@ export default function SignUp({ signUp }) {
                                     }
                                 >
                                     <FormLabel>Phone number</FormLabel>
-                                    <Input
-                                        name="phoneNumber"
-                                        type="tel"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.phoneNumber}
-                                    />
+                                    <InputGroup>
+                                        <InputLeftAddon>+84</InputLeftAddon>
+                                        <Input
+                                            name="phoneNumber"
+                                            type="tel"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.phoneNumber}
+                                        />
+                                    </InputGroup>
+                                    <FormHelperText>
+                                        Ex: 0832428279
+                                    </FormHelperText>
                                     <FormErrorMessage>
                                         {errors.phoneNumber &&
                                             touched.phoneNumber &&

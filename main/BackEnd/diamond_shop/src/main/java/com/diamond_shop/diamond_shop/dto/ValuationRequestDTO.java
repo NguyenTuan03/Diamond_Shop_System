@@ -6,12 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 public class ValuationRequestDTO {
-    private int requestId;
+//    private int requestId;
     private String username;
     private int serviceId;
     private Date createdDate;

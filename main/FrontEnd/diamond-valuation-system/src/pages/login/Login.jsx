@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Flex,
@@ -13,7 +13,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
-  Toast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
@@ -31,7 +30,7 @@ export default function Login({ signIn, signUp }) {
     try {
       console.log(username, password);
       const result = await login(username, password);
-      if (!result.data.status) {
+      if (!result.data?.status) {
         toast.error("Login failed. Try again later", {
           position: "top-right",
           autoClose: 2000,

@@ -1,4 +1,4 @@
-import Http from '../utils/Http.js';
+import Http from "../utils/Http.js";
 // export const loginWithGoogle = async (token) => {
 //     try {
 //         const res = await httpRequest.post(
@@ -6,7 +6,7 @@ import Http from '../utils/Http.js';
 //             {},
 //             {
 //                 headers: {
-//                     'Content-Type': 'application/json',                    
+//                     'Content-Type': 'application/json',
 //                     Authorization: `Bearer ${token}`,
 //                 },
 //                 // mode: 'no-cors'
@@ -15,23 +15,20 @@ import Http from '../utils/Http.js';
 //         return res;
 //     } catch (error) {
 //         return {
-//             errCode: error  
+//             errCode: error
 //         }
 //     }
 // };
 export const login = async (username, password) => {
-    try {
-        const res = await Http.httpRequest.post(
-            'api/account/login',
-            {
-                username,
-                password    
-            }
-        );
-        return res;
-    } catch (error) {
-        return {
-            errCode: error  
-        }
-    }
+  try {
+    const res = await Http.httpRequest.post("api/account/login", {
+      username,
+      password,
+    });
+    return res;
+  } catch (error) {
+    return {
+      errCode: error,
+    };
+  }
 };
