@@ -4,9 +4,6 @@ import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
 import com.diamond_shop.diamond_shop.service.AccountService;
-import com.diamond_shop.diamond_shop.service.ProcessRequestService;
-import com.diamond_shop.diamond_shop.service.ProcessResultService;
-import com.diamond_shop.diamond_shop.service.ValuationResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +16,11 @@ public class Api {
 
     @Autowired
     private AccountService accountService;
+
+    @GetMapping(path = "/welcome")
+    public String welcome() {
+        return "Hello";
+    }
 
     @PostMapping(path = "/save")
     public String saveEmployee(@RequestBody AccountDTO accountDTO) {
