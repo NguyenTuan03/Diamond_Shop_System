@@ -9,5 +9,5 @@ public interface ValuationResultService {
 
     String assignForValuationStaff(ProcessRequestEntity processRequest);
 
-    boolean checkSealingDate(int valuationResultId);
+//    boolean checkSealingDate(int valuationResultId);
 }

@@ -18,10 +18,4 @@ public class ValuationResultController {
         //Valuation staff
         return valuationResultService.valuateDiamond(valuationResultDTO);
     }
-
-    @GetMapping(path = "/check-sealing", produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean checkSealingDate(@RequestParam("id") int id) {
-        return valuationResultService.checkSealingDate(id);
-    }
-
 }
