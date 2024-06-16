@@ -20,11 +20,12 @@ import {
     Button,
     UnorderedList,
     ListItem,
-    position,
+    Skeleton,
+    SkeletonText,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { naturalDiamond } from "../../../service/Price";
-
+import { RxExternalLink } from "react-icons/rx";
 const tabs = [
     {
         shape: "Round",
@@ -80,20 +81,25 @@ const tabs = [
 export default function Natural() {
     const [price, setPrice] = useState([]);
     const [selectedTab, setSelectedTab] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         const fetchApi = async () => {
+            setIsLoading(true);
             try {
                 const result = await naturalDiamond("");
                 setPrice(result);
                 console.log(result);
             } catch (error) {
                 console.log(error);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchApi();
     }, []);
     useEffect(() => {
         const fetchApi = async () => {
+            setIsLoading(true);
             try {
                 const shape = tabs[selectedTab].api;
                 const result = await naturalDiamond(shape);
@@ -101,6 +107,8 @@ export default function Natural() {
                 console.log(result);
             } catch (error) {
                 console.log(error);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchApi();
@@ -147,71 +155,105 @@ export default function Natural() {
                             Diamond prices are down -2,31%
                         </Text>
                         <Grid templateColumns="repeat(4, 1fr)" gap={4} mx={5}>
-                            {price.slice(0, 4).map((priceItem, index) => (
-                                <GridItem key={index} w="100%" bg="#fff">
-                                    <Box>
-                                        <Flex
-                                            pt={3}
-                                            justifyContent={"space-between"}
-                                        >
-                                            <div>
-                                                <Text
-                                                    fontWeight={"bold"}
-                                                    fontSize={"15px"}
-                                                    ml={3}
-                                                >
-                                                    {priceItem.name}
-                                                </Text>
-                                                <Text ml={3} fontSize={"12px"}>
-                                                    {priceItem.priceChange} (1m)
-                                                </Text>
-                                            </div>
-                                            <div>
-                                                <Text mr={3}>
-                                                    {priceItem.price}
-                                                </Text>
-                                                <Text mr={3}>$1,77</Text>
-                                            </div>
-                                        </Flex>
-                                        <Flex>
-                                            <Image
-                                                src={priceItem.imageUrl}
-                                                alt="Price Image"
-                                            />
-                                        </Flex>
-                                        <Flex
-                                            pt={3}
-                                            justifyContent={"space-between"}
-                                        >
-                                            <div>
-                                                <Text
-                                                    fontWeight={"bold"}
-                                                    fontSize={"15px"}
-                                                    ml={3}
-                                                >
-                                                    Weight
-                                                </Text>
-                                                <Text ml={3} fontSize={"12px"}>
-                                                    {priceItem.weight}
-                                                </Text>
-                                            </div>
-                                            <div>
-                                                <Text mr={3}>Inventory</Text>
-                                                <Text mr={3}>
-                                                    {priceItem.inventory}
-                                                </Text>
-                                            </div>
-                                            <div>
-                                                <Text mr={3}>Inv. Change</Text>
-                                                <Text mr={3}>
-                                                    ↑{" "}
-                                                    {priceItem.inventoryChange}
-                                                </Text>
-                                            </div>
-                                        </Flex>
-                                    </Box>
-                                </GridItem>
-                            ))}
+                            {isLoading
+                                ? Array(4)
+                                      .fill("")
+                                      .map((_, index) => (
+                                          <GridItem key={index} w="100%">
+                                              <SkeletonText
+                                                  noOfLines={4}
+                                                  spacing="4"
+                                                  skeletonHeight="2"
+                                              />
+                                          </GridItem>
+                                      ))
+                                : price.slice(0, 4).map((priceItem, index) => (
+                                      <GridItem key={index} w="100%" bg="#fff">
+                                          <Box>
+                                              <Flex
+                                                  pt={3}
+                                                  justifyContent={
+                                                      "space-between"
+                                                  }
+                                              >
+                                                  <div>
+                                                      <Text
+                                                          fontWeight={"bold"}
+                                                          fontSize={"15px"}
+                                                          ml={3}
+                                                      >
+                                                          {priceItem.name}
+                                                      </Text>
+                                                      <Text
+                                                          ml={3}
+                                                          fontSize={"12px"}
+                                                          color={
+                                                              parseFloat(
+                                                                  priceItem.priceChange
+                                                              ) < 0
+                                                                  ? "red"
+                                                                  : "green"
+                                                          }
+                                                      >
+                                                          {
+                                                              priceItem.priceChange
+                                                          }{" "}
+                                                          (1m)
+                                                      </Text>
+                                                  </div>
+                                                  <div>
+                                                      <Text mr={3}>
+                                                          {priceItem.price}
+                                                      </Text>
+                                                      <Text mr={3}><RxExternalLink color="blue"/></Text>
+                                                  </div>
+                                              </Flex>
+                                              <Flex>
+                                                  <Image
+                                                      src={priceItem.imageUrl}
+                                                      alt="Price Image"
+                                                  />
+                                              </Flex>
+                                              <Flex
+                                                  pt={3}
+                                                  justifyContent={
+                                                      "space-between"
+                                                  }
+                                              >
+                                                  <div>
+                                                      <Text
+                                                          fontSize={"15px"}
+                                                          ml={3}
+                                                      >
+                                                          Weight
+                                                      </Text>
+                                                      <Text ml={3}>
+                                                          {priceItem.weight}
+                                                      </Text>
+                                                  </div>
+                                                  <div>
+                                                      <Text mr={3}>
+                                                          Inventory
+                                                      </Text>
+                                                      <Text mr={3}>
+                                                          {priceItem.inventory}
+                                                      </Text>
+                                                  </div>
+                                                  <div>
+                                                      <Text mr={3}>
+                                                          Inv. Change
+                                                      </Text>
+                                                      <Text mr={3}>
+                                                          ↑{" "}
+                                                          {
+                                                              priceItem.inventoryChange
+                                                          }
+                                                      </Text>
+                                                  </div>
+                                              </Flex>
+                                          </Box>
+                                      </GridItem>
+                                  ))}
                         </Grid>
                         <TableContainer mt={"80px"}>
                             <Text fontWeight={"bold"}>
@@ -230,23 +272,72 @@ export default function Natural() {
                                     </Tr>
                                 </Thead>
                                 <Tbody>
-                                    {price.slice(4).map((priceItem, i) => (
-                                        <Tr key={i}>
-                                            <Td>{priceItem.priceIndex}</Td>
-                                            <Td>
-                                                <Image src={priceItem.chart} />
-                                            </Td>
-                                            <Td>{priceItem.priceUsd}</Td>
-                                            <Td>{priceItem.priceChange}</Td>
-                                            <Td>{priceItem.range}</Td>
-                                            <Td>{priceItem.inv}</Td>
-                                            <Td>
-                                                <Button colorScheme="blue">
-                                                    View price charts
-                                                </Button>
-                                            </Td>
-                                        </Tr>
-                                    ))}
+                                    {isLoading
+                                        ? Array(5)
+                                              .fill("")
+                                              .map((_, i) => (
+                                                  <Tr key={i}>
+                                                      <Td>
+                                                          <Skeleton height="20px" />
+                                                      </Td>
+                                                      <Td>
+                                                          <Skeleton height="20px" />
+                                                      </Td>
+                                                      <Td>
+                                                          <Skeleton height="20px" />
+                                                      </Td>
+                                                      <Td>
+                                                          <Skeleton height="20px" />
+                                                      </Td>
+                                                      <Td>
+                                                          <Skeleton height="20px" />
+                                                      </Td>
+                                                      <Td>
+                                                          <Skeleton height="20px" />
+                                                      </Td>
+                                                      <Td>
+                                                          <Skeleton height="20px" />
+                                                      </Td>
+                                                  </Tr>
+                                              ))
+                                        : price.slice(4).map((priceItem, i) => (
+                                              <Tr key={i}>
+                                                  <Td>
+                                                      {priceItem.priceIndex}
+                                                  </Td>
+                                                  <Td>
+                                                      <Image
+                                                          src={priceItem.chart}
+                                                      />
+                                                  </Td>
+                                                  <Td>{priceItem.priceUsd}</Td>
+                                                  <Td>
+                                                      <Text
+                                                          ml={3}
+                                                          fontSize={"12px"}
+                                                          color={
+                                                              parseFloat(
+                                                                  priceItem.change
+                                                              ) < 0
+                                                                  ? "red"
+                                                                  : "green"
+                                                          }
+                                                      >
+                                                          {
+                                                              priceItem.change
+                                                          }{" "}
+                                                          (1m)
+                                                      </Text>
+                                                  </Td>
+                                                  <Td>{priceItem.range}</Td>
+                                                  <Td>{priceItem.inv}</Td>
+                                                  <Td>
+                                                      <Button colorScheme="blue">
+                                                          View price charts
+                                                      </Button>
+                                                  </Td>
+                                              </Tr>
+                                          ))}
                                 </Tbody>
                             </Table>
                         </TableContainer>
@@ -429,7 +520,7 @@ export default function Natural() {
                     </Text>
                 </GridItem>
                 <GridItem w={"100%"}>
-                    <Box  position={"sticky"} top={"70px"}>
+                    <Box position={"sticky"} top={"70px"}>
                         <TableContainer>
                             <Table>
                                 <Thead>

@@ -113,16 +113,25 @@ public class ValuationResultImpl implements ValuationResultService {
                     String inventoryChange = element.select("dd").get(2).text();
                     String imageUrl = element.select("img").attr("src");
     
-                    DiamondPojo diamond = new DiamondPojo();
-                    diamond.setName(name);
-                    diamond.setPrice(price);
-                    diamond.setPriceChange(priceChange);
-                    diamond.setWeight(weight);
-                    diamond.setInventory(inventory);
-                    diamond.setInventoryChange(inventoryChange);
-                    diamond.setImageUrl(imageUrl);
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChange, imageUrl);
                     diamonds.add(diamond);
                 }
+
+                Elements rows = doc.select("tr[data-table_link=true]");
+                for (Element row : rows) {
+                    String priceIndex = row.select("td a span").text();
+                    String chart = row.select("td img").attr("data-src");
+    
+                    Elements tds = row.select("td");
+                    String priceUsd = tds.get(2).text(); 
+                    String change = tds.get(3).text();   
+                    String range = tds.get(4).text();    
+                    String inv = tds.get(5).text();      
+    
+                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, change, range, inv);
+                    diamonds.add(diamond);
+                }
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -147,16 +156,25 @@ public class ValuationResultImpl implements ValuationResultService {
                     String inventoryChange = element.select("dd").get(2).text();
                     String imageUrl = element.select("img").attr("src");
 
-                    DiamondPojo diamond = new DiamondPojo();
-                    diamond.setName(name);
-                    diamond.setPrice(price);
-                    diamond.setPriceChange(priceChange);
-                    diamond.setWeight(weight);
-                    diamond.setInventory(inventory);
-                    diamond.setInventoryChange(inventoryChange);
-                    diamond.setImageUrl(imageUrl);
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChange, imageUrl );
                     diamonds.add(diamond);
                 }
+
+                Elements rows = doc.select("tr[data-table_link=true]");
+                for (Element row : rows) {
+                    String priceIndex = row.select("td a span").text();
+                    String chart = row.select("td img").attr("data-src");
+    
+                    Elements tds = row.select("td");
+                    String priceUsd = tds.get(2).text(); 
+                    String change = tds.get(3).text();   
+                    String range = tds.get(4).text();    
+                    String inv = tds.get(5).text();      
+    
+                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, change, range, inv);
+                    diamonds.add(diamond);
+                }
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }
