@@ -1,7 +1,11 @@
 package com.diamond_shop.diamond_shop.controller;
 
 import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
+import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
