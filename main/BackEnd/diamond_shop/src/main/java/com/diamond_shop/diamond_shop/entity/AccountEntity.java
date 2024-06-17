@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -70,7 +69,10 @@ public class AccountEntity {
     private Set<ProcessResultEntity> processResultEntity = new HashSet<>();
 
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<SealingLetterEntity> sealingLetterEntity = new ArrayList<>();
+    private Set<ProcessSealingEntity> processSealingEntities = new HashSet<>();
+
+    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ProcessCommitmentEntity> processCommitmentEntities = new HashSet<>();
 
     public AccountEntity(RoleEntity role_id, String username, String password, String fullname, String phone_number) {
         this.role = role_id;

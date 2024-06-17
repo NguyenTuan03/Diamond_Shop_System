@@ -48,6 +48,7 @@ export default function AdminCreateUsers({
               return validateSignUp(values, "createAdmin");
             }}
             onSubmit={(values, { setSubmitting }) => {
+              console.log(values);
               createAccount(
                 values.role,
                 values.username,
@@ -134,7 +135,7 @@ export default function AdminCreateUsers({
                 <FormControl
                   isRequired
                   isInvalid={
-                    errors.username && touched.username && errors.username
+                    errors.fullName && touched.fullName && errors.fullName
                   }
                 >
                   <FormLabel>Full name</FormLabel>

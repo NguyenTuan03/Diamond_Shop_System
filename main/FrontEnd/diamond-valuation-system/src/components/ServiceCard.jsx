@@ -1,27 +1,27 @@
 import {
-  Flex,
-  Text,
-  Button,
-  UnorderedList,
-  ListItem,
-  Card,
-  CardHeader,
-  Heading,
-  CardBody,
-  CardFooter,
-  Center,
+    Flex,
+    Text,
+    Button,
+    UnorderedList,
+    ListItem,
+    Card,
+    CardHeader,
+    Heading,
+    CardBody,
+    CardFooter,
+    Center,
 } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
 import routes from "../config/Config";
 
 export default function ServiceCard({
-  serviceId,
-  type,
-  price,
-  time,
-  attributes,
-  color,
+    serviceId,
+    type,
+    price,
+    time,
+    attributes,
+    color,
 }) {
   return (
     <Card border={"1px solid"} w={{ base: "70vw", md: "40vw", lg: "20vw" }}>
@@ -33,7 +33,7 @@ export default function ServiceCard({
       <Flex direction={"column"} align={"center"}>
         <Text fontSize={"5xl"}>${price}</Text>
         <Text fontSize={"lg"}>
-          Valuation time: <strong>{time}</strong>
+          Valuation time: <strong>{time} days</strong>
         </Text>
       </Flex>
       <CardBody align={"start"}>

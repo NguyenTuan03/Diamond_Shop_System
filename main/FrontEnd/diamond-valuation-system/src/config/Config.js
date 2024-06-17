@@ -6,7 +6,7 @@ const routes = {
   diamondCheckDetails: "/diamond-check/:certificateId",
   diamondDetail: "/diamond-detail",
   diamondService: "/diamond-service",
-  diamondValuationRequest: "/diamond-valuation-request",
+  diamondValuationRequest: "/diamond-valuation-request/:id",
   prices: "/prices",
   educationCertificate: "/education/certificate",
   educationShape: "/education/shape",

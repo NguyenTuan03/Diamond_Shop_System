@@ -6,6 +6,7 @@ import com.diamond_shop.diamond_shop.service.ProcessRequestService;
 import com.diamond_shop.diamond_shop.service.ValuationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,5 +28,11 @@ public class ValuationRequestController {
     @GetMapping(path = "/get")
     public Page<ValuationRequestEntity> viewCustomerRequest(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter) {
         return valuationRequestService.viewRequest(search, page, filter);
+    }
+
+
+    @GetMapping(path = "/check-finished", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String checkFinishDate(@RequestParam("id") int id) {
+        return valuationRequestService.checkFinishDate(id);
     }
 }

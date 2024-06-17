@@ -1,3 +1,6 @@
+CREATE DATABASE DiamondValuationSystem
+use DiamondValuationSystem
+
 CREATE TABLE Roles(
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(255) NOT NULL
@@ -38,6 +41,8 @@ CREATE TABLE Valuation_requests(
     Customer_id BIGINT NOT NULL,
     Service_id BIGINT NOT NULL,
     Created_date DATETIME NOT NULL,
+    Finish_date DATETIME,
+    Sealing_date DATETIME NOT NULL,
     Description NVARCHAR(255) NULL,
 	FOREIGN KEY (Customer_id) REFERENCES Users(Id),
 	FOREIGN KEY (Service_id) REFERENCES Services(Id)
@@ -59,7 +64,6 @@ CREATE TABLE Valuation_results(
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
     Valuation_request_id BIGINT NOT NULL,
     Created_date DATETIME NOT NULL,
-    Sealing_time NVARCHAR(255) NOT NULL,
     Origin NVARCHAR(255) NULL,
     Shape NVARCHAR(255) NULL,
     Carat_weight DECIMAL(3,1) NULL,
@@ -76,27 +80,41 @@ CREATE TABLE Valuation_results(
 );
 CREATE TABLE Sealing_letters(
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
-    Valuation_result_id BIGINT NOT NULL,
-    Manager_id BIGINT NOT NULL,
+    Valuation_request_id BIGINT NOT NULL,
     Created_date DATETIME NOT NULL,
     Content NVARCHAR(255) NOT NULL,
-	FOREIGN KEY (Valuation_result_id) REFERENCES Valuation_results(Id)
+	FOREIGN KEY (Valuation_request_id) REFERENCES Valuation_requests(Id)
+);
+CREATE TABLE Process_sealing_letters(
+    Id BIGINT PRIMARY KEY IDENTITY(1,1),
+    Sealing_letter_id BIGINT NOT NULL,
+    Manager_id BIGINT NOT NULL,
+    Status NVARCHAR(255) NOT NULL,
+    FOREIGN KEY (Sealing_letter_id) REFERENCES Sealing_letters(Id),
+    FOREIGN KEY (Manager_id) REFERENCES Users(Id)
 );
 CREATE TABLE Valuated_diamonds(
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
-    Valuation_result_id BIGINT NOT NULL,
+    Valuation_request_id BIGINT NOT NULL,
     Created_date DATETIME NOT NULL,
-	FOREIGN KEY (Valuation_result_id) REFERENCES Valuation_results(Id)
+	FOREIGN KEY (Valuation_request_id) REFERENCES Valuation_requests(Id)
 );
 
-CREATE TABLE Commitment_letters(
+CREATE TABLE Commitments(
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
-    Valuation_result_id BIGINT NOT NULL,
-    Manager_id BIGINT NOT NULL,
+    Valuation_request_id BIGINT NOT NULL,
     Created_date DATETIME NOT NULL,
     Content NVARCHAR(255) NOT NULL,
-	FOREIGN KEY (Manager_id) REFERENCES Users(Id),
-	FOREIGN KEY (Valuation_result_id) REFERENCES Valuation_results(Id)
+	FOREIGN KEY (Valuation_request_id) REFERENCES Valuation_requests(Id)
+);
+
+CREATE TABLE Process_commitments(
+    Id BIGINT PRIMARY KEY IDENTITY(1,1),
+    Commitment_id BIGINT NOT NULL,
+    Manager_id BIGINT NOT NULL,
+    Status NVARCHAR(255) NOT NULL,
+    FOREIGN KEY (Commitment_id) REFERENCES Commitments(Id),
+    FOREIGN KEY (Manager_id) REFERENCES Users(Id)
 );
 
 CREATE TABLE Payments(

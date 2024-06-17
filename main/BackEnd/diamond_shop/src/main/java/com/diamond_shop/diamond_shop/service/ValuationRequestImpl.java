@@ -1,18 +1,19 @@
 package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
+import com.diamond_shop.diamond_shop.dto.ViewRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
+import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.entity.ServiceEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
-import com.diamond_shop.diamond_shop.repository.AccountRepository;
-import com.diamond_shop.diamond_shop.repository.ServiceRepository;
-import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
+import com.diamond_shop.diamond_shop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
@@ -23,6 +24,11 @@ public class ValuationRequestImpl implements ValuationRequestService {
     private AccountRepository accountRepository;
     @Autowired
     private ServiceRepository serviceRepository;
+    @Autowired
+    ProcessRequestRepository processRequestRepository;
+
+    @Autowired
+    ProcessResultRepository processResultRepository;
 
     @Override
     public int makeRequest(ValuationRequestDTO valuationRequestDTO) {
@@ -36,11 +42,19 @@ public class ValuationRequestImpl implements ValuationRequestService {
             return -1;
 
         Date createdDate = valuationRequestDTO.getCreatedDate() != null ? valuationRequestDTO.getCreatedDate() : new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(createdDate);
+        calendar.add(Calendar.DAY_OF_MONTH, Integer.parseInt(service.getTime()));
+        Date finishedDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        Date sealingDate = calendar.getTime();
         ValuationRequestEntity valuationRequestEntity = new ValuationRequestEntity(
 //                valuationRequestDTO.getRequestId(),
                 acc,
                 service,
                 createdDate,
+                finishedDate,
+                sealingDate,
                 valuationRequestDTO.getDescription()
         );
         valuationRequestRepository.save(valuationRequestEntity);
@@ -66,6 +80,22 @@ public class ValuationRequestImpl implements ValuationRequestService {
             }
         }
         return null;
+    }
+
+    @Override
+    public String checkFinishDate(int valuationRequestId) {
+        ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
+        if (valuationRequest == null)
+            return "Not found valuation request";
+        Date currentDate = new Date();
+        if (currentDate.after(valuationRequest.getFinishDate())) {
+            ProcessRequestEntity processRequest = processRequestRepository.findByValuationRequestId(valuationRequestId);
+            if (!processRequest.getName().equals("Finished")) {
+                processRequest.setName("Finished");
+                processRequestRepository.save(processRequest);
+                return "Finish request";
+            } else return "Already finished request";
+        } else return "Not finish";
     }
 
 }   
