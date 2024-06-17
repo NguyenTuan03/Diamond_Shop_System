@@ -9,13 +9,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@org.springframework.stereotype.Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, Integer>, PagingAndSortingRepository<AccountEntity, Integer> {
 
     @Query(value = "SELECT a FROM AccountEntity a")
