@@ -96,7 +96,7 @@ export default function ValuationStaffPage() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        h={"100vh"} 
+        h={"100vh"}
         // paddingTop={10}
         gap={5}
       >
@@ -143,7 +143,6 @@ export default function ValuationStaffPage() {
             </Tbody>
           </Table>
         </TableContainer>
-        <UploadImage />
       </Flex>
       <Modal
         isOpen={viewValuationResult.isOpen}
@@ -433,7 +432,8 @@ export default function ValuationStaffPage() {
               )}
             </Formik>
           </ModalBody>
-          <ModalFooter></ModalFooter>
+          <ModalFooter justifyContent={"center"}>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

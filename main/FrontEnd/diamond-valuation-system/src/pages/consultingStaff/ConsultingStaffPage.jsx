@@ -1,5 +1,5 @@
 import { Flex, Text, useDisclosure, Button, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ConsultingStaffViewProcessRequest from "./ConsultingStaffViewProcessRequest";
 import ConsultingStaffTable from "./ConsultingStaffTable";
 import {
@@ -7,7 +7,12 @@ import {
   checkSealingDate,
   checkFinishDate,
 } from "./ConsultingStaffService";
+import { useReactToPrint } from "react-to-print";
 export default function ConsultingStaffPage() {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const toast = useToast();
   const viewProcessRequest = useDisclosure();
   const [viewSelectProcessRequest, setViewSelectProcessRequest] = useState(0);
@@ -15,6 +20,8 @@ export default function ConsultingStaffPage() {
   const [isProcessRequest, setIsProcessRequest] = useState(false);
   const [isCheckSealingDate, setIsCheckSealingDate] = useState(false);
   const [isCheckFinishDate, setIsCheckFinishDate] = useState(false);
+
+  const [valuationResult, setValuationResult] = useState({});
 
   const pageIndicator = [];
   const [currentPage, setCurrentPage] = useState(1);

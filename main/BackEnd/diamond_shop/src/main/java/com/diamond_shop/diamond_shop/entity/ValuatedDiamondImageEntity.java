@@ -9,26 +9,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "Process_commitments")
+@Table(name = "Valuated_diamond_images")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class ProcessCommitmentEntity {
+public class ValuatedDiamondImageEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
-    private int id;
+    private String id;
 
     @ManyToOne
-    @JoinColumn(name = "Commiment_id")
-    private CommitmentEntity commitment;
-
-    @ManyToOne
-    @JoinColumn(name = "Manager_id")
-    private AccountEntity manager;
-
-    @Column(name = "Status")
-    private String status;
+    @JoinColumn(name = "Valuated_diamond_id")
+    ValuatedDiamondEntity valuatedDiamond;
 }

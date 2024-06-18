@@ -94,10 +94,10 @@ CREATE TABLE Process_sealing_letters(
     FOREIGN KEY (Manager_id) REFERENCES Users(Id)
 );
 CREATE TABLE Valuated_diamonds(
-    Id BIGINT PRIMARY KEY IDENTITY(1,1),
-    Valuation_request_id BIGINT NOT NULL,
+    Id NVARCHAR(25) PRIMARY KEY,
+    Valuation_result_id BIGINT NOT NULL,
     Created_date DATETIME NOT NULL,
-	FOREIGN KEY (Valuation_request_id) REFERENCES Valuation_requests(Id)
+	FOREIGN KEY (Valuation_result_id) REFERENCES Valuation_results(Id)
 );
 
 CREATE TABLE Commitments(
@@ -146,6 +146,6 @@ CREATE TABLE Process_results(
 
 CREATE TABLE Valuated_diamond_images(
 	Id NVARCHAR(50) PRIMARY KEY,
-	Valuated_diamond_id BIGINT NOT NULL
+	Valuated_diamond_id NVARCHAR(25) NOT NULL
 	FOREIGN KEY (Valuated_diamond_id) REFERENCES Valuated_diamonds(Id),
 )
