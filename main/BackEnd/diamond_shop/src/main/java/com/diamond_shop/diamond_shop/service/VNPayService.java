@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 
 public class VNPayService {
     private static final String HMAC_SHA512 = "HmacSHA512";
@@ -78,5 +80,17 @@ public class VNPayService {
         } catch (Exception e) {
             throw new RuntimeException("Error while verifying secure hash", e);
         }
+    }
+    public static String getClientIpAddress(HttpServletRequest request) {
+        String remoteAddr = "";
+
+        if (request != null) {
+            remoteAddr = request.getHeader("X-FORWARDED-FOR");
+            if (remoteAddr == null || remoteAddr.isEmpty()) {
+                remoteAddr = request.getRemoteAddr();
+            }
+        }
+
+        return remoteAddr;
     }
 }

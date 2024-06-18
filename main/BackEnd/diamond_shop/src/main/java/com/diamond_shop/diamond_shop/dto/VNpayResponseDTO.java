@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentRequestDTO {
+public class VNpayResponseDTO {
     private String code;
     private String message;
     private String paymentUrl;
