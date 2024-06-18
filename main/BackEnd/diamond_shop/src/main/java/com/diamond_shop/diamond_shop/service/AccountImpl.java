@@ -131,6 +131,7 @@ public class AccountImpl implements AccountService {
         }
     }
 
+
     @Override
     public String updateAccount(AccountDTO accountDTO) {
         String updatePhoneNumber = updatePhoneNumber(accountDTO.getPhonenumber());
@@ -160,6 +161,7 @@ public class AccountImpl implements AccountService {
                 Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
                 if (account.isPresent()) {
                     acc2.setId(acc1.getId());
+                    acc2.setRoleid(acc1.getRole().getId());
                     acc2.setFullname(acc1.getFullname());
                     acc2.setUsername(acc1.getUsername());
                     acc2.setPhonenumber(acc1.getPhone_number());
@@ -168,10 +170,10 @@ public class AccountImpl implements AccountService {
                     return new LoginMessageDTO("Login Failed", false);
                 }
             } else {
-                return new LoginMessageDTO("password Not Match", false);
+                return new LoginMessageDTO("Password Not Match", false);
             }
         } else {
-            return new LoginMessageDTO("Email not exits", false);
+            return new LoginMessageDTO("Not exits", false);
         }
     }
 
