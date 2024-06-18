@@ -95,9 +95,9 @@ CREATE TABLE Process_sealing_letters(
 );
 CREATE TABLE Valuated_diamonds(
     Id NVARCHAR(25) PRIMARY KEY,
-    Valuation_request_id BIGINT NOT NULL,
+    Valuation_result_id BIGINT NOT NULL,
     Created_date DATETIME NOT NULL,
-	FOREIGN KEY (Valuation_request_id) REFERENCES Valuation_requests(Id)
+	FOREIGN KEY (Valuation_result_id) REFERENCES Valuation_results(Id)
 );
 
 CREATE TABLE Commitments(
