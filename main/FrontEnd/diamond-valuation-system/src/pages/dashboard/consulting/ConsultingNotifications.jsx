@@ -4,8 +4,8 @@ export default function ConsultingNotifications() {
   return (
     <div>
       <Box bg="rgb(67 56 202)" w="100%" pl={1} color="white">
-        <Text py={3} fontSize="lg">
-          APPOINTMENTS
+        <Text py={3} fontSize="lg" p={3}>
+          NOTIFICATION
         </Text>
         <VStack
           pl={4}
