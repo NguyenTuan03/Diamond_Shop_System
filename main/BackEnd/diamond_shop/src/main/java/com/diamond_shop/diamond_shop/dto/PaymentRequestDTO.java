@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentRequestDTO {
-    private String orderInfo;
-    private String amount;
-    private String bankCode;
+    private String code;
+    private String message;
+    private String paymentUrl;
 }
