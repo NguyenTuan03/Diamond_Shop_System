@@ -4,7 +4,6 @@ import com.diamond_shop.diamond_shop.dto.UpdateRequestDTO;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.service.ProcessRequestService;
 import com.diamond_shop.diamond_shop.service.ProcessResultService;
-import com.diamond_shop.diamond_shop.service.ValuationReceiptService;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,32 +20,24 @@ public class ProcessRequestController {
     @Autowired
     private ProcessResultService processResultService;
 
-    @Autowired
-    ValuationReceiptService valuationReceiptService;
-
     @GetMapping(path = "/get")
-    public Page<ProcessRequestEntity> viewProcessRequestByStaff(@RequestParam("page") int page, @RequestParam("staffId") int consultingStaffId) {
-        return processRequestService.viewProcessRequests(page, consultingStaffId);
+    public Page<ProcessRequestEntity> viewProcessRequestByStaff(@RequestParam("staffId") int consultingStaffId) {
+        return processRequestService.viewProcessRequests(consultingStaffId);
     }
 
     @PostMapping(path = "/update")
     public String updateStatus(@RequestBody UpdateRequestDTO updateRequestDTO) {
         if (updateRequestDTO.getProcessRequestType().equals("Not resolved yet")) {
             if (updateRequestDTO.getType().equalsIgnoreCase("receive")) {
-                processRequestService.updateRequest("receive", updateRequestDTO);
-                return "Receive request successfully";
-            } else if (updateRequestDTO.getType().equalsIgnoreCase("reject")) {
-                return processRequestService.cancelRequest(updateRequestDTO.getConsultingStaffId(), updateRequestDTO.getValuationRequestId());
-            }
-        } else if (updateRequestDTO.getProcessRequestType().equals("Processing")) {
-            if (updateRequestDTO.getType().equalsIgnoreCase("diamond")) {
-                ProcessRequestEntity processRequest = processRequestService.updateRequest("diamond", updateRequestDTO);
+                ProcessRequestEntity processRequest = processRequestService.updateRequest(updateRequestDTO);
                 valuationResultService.assignForValuationStaff(processRequest);
                 processResultService.processResult(processRequest);
-                valuationReceiptService.createReceipt(updateRequestDTO.getValuationRequestId());
                 return "Update and assign to valuation staff successful!";
-            }
-        } else return "Has already assigned to a valuation staff";
-        return null;
+            } else if (updateRequestDTO.getType().equalsIgnoreCase("reject")) {
+                return processRequestService.cancelRequest(updateRequestDTO.getConsultingStaffId(), updateRequestDTO.getValuationRequestId());
+            } else return null;
+        } else if (updateRequestDTO.getProcessRequestType().equals("Processing"))
+            return "Has already assigned to a valuation staff";
+        else return null;
     }
 }

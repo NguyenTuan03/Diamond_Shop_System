@@ -3,15 +3,13 @@ package com.diamond_shop.diamond_shop.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -26,7 +24,7 @@ public class SealingLetterEntity {
     @Column(name = "Id")
     private int id;
 
-    @NotNull(message = "Created date is mandatory")
+    @NotBlank(message = "Created date is mandatory")
     @Column(name = "Created_date")
     private Date createdDate;
 
@@ -34,15 +32,10 @@ public class SealingLetterEntity {
     private String content;
 
     @OneToOne
-    @JoinColumn(name = "Valuation_request_id")
-    private ValuationRequestEntity valuationRequest;
+    @JoinColumn(name = "Valuation_result_id")
+    private ValuationResultEntity valuationResult;
 
-    @OneToMany(mappedBy = "sealingLetter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ProcessSealingEntity> processSealingEntities = new HashSet<>();
-
-    public SealingLetterEntity(Date createdDate, String content, ValuationRequestEntity valuationRequest) {
-        this.createdDate = createdDate;
-        this.content = content;
-        this.valuationRequest = valuationRequest;
-    }
+    @ManyToOne
+    @JoinColumn(name = "Manager_id")
+    private AccountEntity manager;
 }

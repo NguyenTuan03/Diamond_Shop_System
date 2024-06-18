@@ -22,7 +22,5 @@ public class ProcessRequestPojo {
     private String serviceTime;
     private String statisticName;
     private Date createdDate;
-    private Date finishedDate;
-    private Date sealingDate;
     private String description;
 }

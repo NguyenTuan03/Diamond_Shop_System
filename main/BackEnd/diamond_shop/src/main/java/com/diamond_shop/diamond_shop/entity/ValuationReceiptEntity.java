@@ -3,7 +3,7 @@ package com.diamond_shop.diamond_shop.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,16 +24,11 @@ public class ValuationReceiptEntity {
     @Column(name = "Id")
     private int id;
 
-    @NotNull(message = "Created date is mandatory")
+    @NotBlank(message = "Created date is mandatory")
     @Column(name = "Created_date")
     private Date createdDate;
 
     @OneToOne
     @JoinColumn(name = "Valuation_request_id")
     private ValuationRequestEntity valuationRequestId;
-
-    public ValuationReceiptEntity(Date createdDate, ValuationRequestEntity valuationRequestId) {
-        this.createdDate = createdDate;
-        this.valuationRequestId = valuationRequestId;
-    }
 }

@@ -3,7 +3,7 @@ package com.diamond_shop.diamond_shop.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Entity
@@ -16,11 +16,11 @@ public class ServiceStatisticEntity {
     @Column(name = "Id")
     private int Id;
 
-    @NotNull(message = "Statistic name is mandatory")
+    @NotBlank(message = "Statistic name is mandatory")
     @Column(name = "Name")
     private String Name;
 
-    @OneToOne(mappedBy = "Statistic_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "Service_statistic_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ServiceEntity Service_id;
 
 

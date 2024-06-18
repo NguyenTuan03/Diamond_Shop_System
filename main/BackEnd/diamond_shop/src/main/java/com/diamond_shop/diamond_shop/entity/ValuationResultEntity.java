@@ -33,6 +33,9 @@ public class ValuationResultEntity {
     @Column(name = "Created_date")
     private Date createdDate;
 
+    @Column(name = "Sealing_time")
+    private Date sealing_time;
+
     @Column(name = "Origin")
     private String origin;
 
@@ -72,15 +75,22 @@ public class ValuationResultEntity {
     @OneToMany(mappedBy = "valuationResultId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessResultEntity> processResults = new HashSet<>();
 
-    @OneToOne(mappedBy = "valuationResult", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ValuatedDiamondEntity valuatedDiamond;
+    @OneToOne(mappedBy = "valuationResult", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private SealingLetterEntity sealingLetterEntity;
+
+    public ValuationResultEntity(ValuationRequestEntity valuationRequestId, Date createdDate, Date sealing_time) {
+        this.valuationRequestId = valuationRequestId;
+        this.createdDate = createdDate;
+        this.sealing_time = sealing_time;
+    }
 
     public ValuationResultEntity(ValuationRequestEntity valuationRequestId, Date createdDate,
-                                 String origin, String shape, BigDecimal carat_weight, String color, String cut,
+                                 Date sealing_time, String origin, String shape, BigDecimal carat_weight, String color, String cut,
                                  String clarity, String measurements, String polish, String symmetry, String fluorescence,
                                  String proportions, BigDecimal price) {
         this.valuationRequestId = valuationRequestId;
         this.createdDate = createdDate;
+        this.sealing_time = sealing_time;
         this.origin = origin;
         this.shape = shape;
         this.carat_weight = carat_weight;
