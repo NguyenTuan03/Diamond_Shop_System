@@ -34,8 +34,6 @@ public class ProcessRequestController {
         if (updateRequestDTO.getProcessRequestType().equals("Not resolved yet")) {
             if (updateRequestDTO.getType().equalsIgnoreCase("receive")) {
                 processRequestService.updateRequest("receive", updateRequestDTO);
-//                valuationResultService.assignForValuationStaff(processRequest);
-//                processResultService.processResult(processRequest);
                 return "Receive request successfully";
             } else if (updateRequestDTO.getType().equalsIgnoreCase("reject")) {
                 return processRequestService.cancelRequest(updateRequestDTO.getConsultingStaffId(), updateRequestDTO.getValuationRequestId());
