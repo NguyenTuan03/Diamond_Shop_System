@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "Process_sealing_letters")
+@Table(name = "Process_commitments")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ProcessCommitmentEntity {
     @Id
