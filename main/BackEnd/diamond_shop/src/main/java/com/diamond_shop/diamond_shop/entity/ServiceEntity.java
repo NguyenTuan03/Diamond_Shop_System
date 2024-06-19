@@ -3,7 +3,7 @@ package com.diamond_shop.diamond_shop.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,21 +24,21 @@ public class ServiceEntity {
     @Column(name = "Id")
     private int Id;
 
-    @NotBlank(message = "Service name is mandatory")
+    @NotNull(message = "Service name is mandatory")
     @Column(name = "Name")
     private String Name;
 
-    @NotBlank(message = "Service price is mandatory")
+    @NotNull(message = "Service price is mandatory")
     @Column(name = "Price")
     private String Price;
 
-    @NotBlank(message = "Service valuation time is mandatory")
+    @NotNull(message = "Service valuation time is mandatory")
     @Column(name = "Time")
     private String Time;
 
     @OneToOne
-    @JoinColumn(name = "Service_statistic_id")
-    private ServiceStatisticEntity Service_statistic_id;
+    @JoinColumn(name = "Statistic_id")
+    private ServiceStatisticEntity Statistic_id;
 
     @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ValuationRequestEntity> valuation_request_id;
@@ -52,7 +52,7 @@ public class ServiceEntity {
         Name = name;
         Price = price;
         Time = time;
-        Service_statistic_id = statistic_id;
+        Statistic_id = statistic_id;
     }
 
 }

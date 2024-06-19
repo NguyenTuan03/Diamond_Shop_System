@@ -6,10 +6,10 @@ import com.diamond_shop.diamond_shop.entity.ProcessResultEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
+import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
 import com.diamond_shop.diamond_shop.repository.ProcessResultRepository;
 import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
 import com.diamond_shop.diamond_shop.repository.ValuationResultRepository;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +31,10 @@ public class ValuationResultImpl implements ValuationResultService {
     ValuationRequestRepository valuationRequestRepository;
     @Autowired
     private ProcessResultRepository processResultRepository;
+    @Autowired
+    private ProcessRequestRepository processRequestRepository;
+    @Autowired
+    ValuatedDiamondService valuatedDiamondService;
 
     @Override
     public String valuateDiamond(ValuationResultDTO valuationResultDTO) {
@@ -54,6 +57,12 @@ public class ValuationResultImpl implements ValuationResultService {
         processResult.setName("Valuated");
         processResultRepository.save(processResult);
 
+        ProcessRequestEntity processRequest = processRequestRepository.findById(processResult.getProcessRequestId().getId());
+        processRequest.setName("Valuated");
+        processRequestRepository.save(processRequest);
+
+        valuatedDiamondService.createValuatedDiamond(valuationResultDTO.getId());
+
         return "Valuate successful!";
     }
 
@@ -61,37 +70,14 @@ public class ValuationResultImpl implements ValuationResultService {
     public String assignForValuationStaff(ProcessRequestEntity processRequest) {
         ValuationRequestEntity valuationRequestEntity = valuationRequestRepository.findById(processRequest.getValuationRequestId().getId());
         Date createdDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(createdDate);
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        Date sealingDate = calendar.getTime();
         ValuationResultEntity valuationResultEntity = new ValuationResultEntity(
                 valuationRequestEntity,
                 createdDate,
-                sealingDate,
                 "", "", new BigDecimal(0), "", "", "", "", "", "", "", "", new BigDecimal(0));
         valuationResultRepository.save(valuationResultEntity);
         return "Assigned successfully!";
     }
 
-    @Override
-    public boolean checkSealingDate(int valuationResultId) {
-        ValuationResultEntity valuationResult = valuationResultRepository.findById(valuationResultId);
-        if (valuationResult == null)
-            return false;
-        Date currentDate = new Date();
-        if (currentDate.after(valuationResult.getSealing_time())) {
-            ProcessResultEntity processResult = processResultRepository.findByValuationResultId(valuationResultId);
-            if (!processResult.getName().equals("Overdue")) {
-                processResult.setName("Overdue");
-                processResultRepository.save(processResult);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    
     @Override
     public List<DiamondPojo> crawlLabGrownDiamond(String shape) {
         List<DiamondPojo> diamonds = new ArrayList<>();
@@ -99,12 +85,12 @@ public class ValuationResultImpl implements ValuationResultService {
             try {
                 Document doc = Jsoup.connect("https://www.stonealgo.com/lab-grown-diamond-prices/").get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-    
+
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-    
+
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
@@ -169,18 +155,17 @@ public class ValuationResultImpl implements ValuationResultService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             try {
                 String url = "https://www.stonealgo.com/lab-grown-diamond-prices/?i=" + shape;
                 Document doc = Jsoup.connect(url).get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-    
+
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-    
+
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
@@ -210,7 +195,7 @@ public class ValuationResultImpl implements ValuationResultService {
                 for (Element row : rows) {
                     String priceIndex = row.select("td a span").text();
                     String chart = row.select("td img").attr("data-src");
-    
+
                     Elements tds = row.select("td");
                     String priceUsd = tds.get(2).text();
                     String range = tds.get(4).text();
@@ -238,7 +223,7 @@ public class ValuationResultImpl implements ValuationResultService {
                     DiamondPojo diamond = new DiamondPojo(contentChange);
                     diamonds.add(diamond);
                 }
-                
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -253,12 +238,12 @@ public class ValuationResultImpl implements ValuationResultService {
             try {
                 Document doc = Jsoup.connect("https://www.stonealgo.com/diamond-prices/").get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-    
+
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-    
+
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
@@ -288,7 +273,7 @@ public class ValuationResultImpl implements ValuationResultService {
                 for (Element row : rows) {
                     String priceIndex = row.select("td a span").text();
                     String chart = row.select("td img").attr("data-src");
-    
+
                     Elements tds = row.select("td");
                     String priceUsd = tds.get(2).text();
                     String range = tds.get(4).text();
@@ -321,18 +306,17 @@ public class ValuationResultImpl implements ValuationResultService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             try {
                 String url = "https://www.stonealgo.com/diamond-prices/?i=" + shape;
                 Document doc = Jsoup.connect(url).get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-    
+
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-    
+
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
@@ -362,7 +346,7 @@ public class ValuationResultImpl implements ValuationResultService {
                 for (Element row : rows) {
                     String priceIndex = row.select("td a span").text();
                     String chart = row.select("td img").attr("data-src");
-    
+
                     Elements tds = row.select("td");
                     String priceUsd = tds.get(2).text();
                     String range = tds.get(4).text();
@@ -396,5 +380,4 @@ public class ValuationResultImpl implements ValuationResultService {
         }
         return diamonds;
     }
-
 }

@@ -31,7 +31,8 @@ public interface ValuationRequestRepository extends JpaRepository<ValuationReque
     @Query("SELECT new com.diamond_shop.diamond_shop.dto.ValuationRequestDTO(vr.customer.username, vr.serviceId.Id, vr.createdDate, vr.description) FROM ValuationRequestEntity vr")
     List<ValuationRequestDTO> findAllList();
 
-    ValuationRequestEntity findById(int id);
+    @Query("SELECT v FROM ValuationRequestEntity v WHERE v.id=:id")
+    ValuationRequestEntity findById(@Param("id") int id);
 
     @Query(value = "SELECT s FROM ValuationRequestEntity s")
     List<ValuationRequestEntity> getAll();

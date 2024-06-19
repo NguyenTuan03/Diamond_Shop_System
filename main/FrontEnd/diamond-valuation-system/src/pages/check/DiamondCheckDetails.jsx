@@ -9,14 +9,35 @@ import {
   UnorderedList,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 export default function DiamondCheckDetails() {
+  const location = useLocation();
   const bgColor = useColorModeValue("white", "black");
-  const diamond = JSON.parse(localStorage.getItem("diamond-check"));
+  const diamondId = location.state?.diamondId;
+  const [diamond, setDiamond] = useState({});
   const formattedDate = new Date(diamond?.createdDate).toLocaleDateString();
-
+  const fetchValuatedDiamond = () => {
+    axios
+      .get(`http://localhost:8081/api/valuated-diamond/get?id=${diamondId}`)
+      .then(function (response) {
+        // console.log(response.data);
+        if (response.data === null) {
+        } else {
+          setDiamond(response.data);
+          console.log(diamond);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    fetchValuatedDiamond();
+  }, []);
   return (
     <Flex
       direction={{ base: "column", md: "row", lg: "row" }}

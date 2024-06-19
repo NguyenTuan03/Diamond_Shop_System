@@ -22,7 +22,7 @@ public class ProcessCommitmentEntity {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "Commiment_id")
+    @JoinColumn(name = "Commitment_id")
     private CommitmentEntity commitment;
 
     @ManyToOne
