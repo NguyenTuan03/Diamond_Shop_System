@@ -6,19 +6,17 @@ import {
   Input,
   Text,
   useColorModeValue,
-  useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import axios from "axios";
 import { Form, Formik } from "formik";
-import { Link } from "react-router-dom";
 import routes from "../../config/Config";
+import { useNavigate } from "react-router-dom";
 export default function DiamondCheck() {
-  const toast = useToast();
+  const navigate = useNavigate();
   const bgColor = useColorModeValue("white", "black");
-  const [diamond, setDiamond] = useState({});
   return (
     <Container maxW="100vw">
       <Flex
@@ -56,22 +54,16 @@ export default function DiamondCheck() {
               console.log(values.id);
               axios
                 .get(
-                  `http://localhost:8081/api/valuated-diamond/get?id=${values.id}`
+                  `http://localhost:8081/api/valuated-diamond/check?id=${values.id}`
                 )
                 .then(function (response) {
-                  if (response.data === null) {
-                    toast({
-                      title: "Diamond not found",
-                      status: "error",
-                      duration: 2000,
-                      isClosable: true,
-                    });
+                  console.log(response.data);
+                  if (response.data === false) {
+                    navigate("/diamond-not-found");
                   } else {
-                    localStorage.setItem(
-                      "diamond-check",
-                      JSON.stringify(response.data)
-                    );
-                    window.location.href = routes.diamondCheck+`/${values.id}`;
+                    navigate(routes.diamondCheck + `/${values.id}`, {
+                      state: { diamondId: values.id },
+                    });
                   }
                 });
               setSubmitting(false);

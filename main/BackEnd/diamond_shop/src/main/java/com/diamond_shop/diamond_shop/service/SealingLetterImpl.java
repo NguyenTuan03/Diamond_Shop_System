@@ -7,6 +7,8 @@ import com.diamond_shop.diamond_shop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -29,6 +31,14 @@ public class SealingLetterImpl implements SealingLetterService {
     @Autowired
     ProcessRequestRepository processRequestRepository;
 
+    @Autowired
+    ProcessSealingService processSealingService;
+
+    @Override
+    public Page<SealingLetterEntity> getAllSealingLetters(int page) {
+        int pageNumber = --page, pageSize = 5;
+        return sealingLetterRepository.findAll(PageRequest.of(pageNumber, pageSize));
+    }
     @Autowired
     ProcessSealingService processSealingService;
 

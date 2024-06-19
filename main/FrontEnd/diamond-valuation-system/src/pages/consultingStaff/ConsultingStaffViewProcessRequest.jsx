@@ -147,7 +147,7 @@ export default function ConsultingStaffViewProcessRequest({
                   </Button>
                   <ZaloChat customerPhone={processRequest?.customerPhone} />
                 </>
-              ))}
+              )) || <ZaloChat customerPhone={processRequest?.customerPhone} />}
           </ModalFooter>
         </ModalContent>
       </Modal>
