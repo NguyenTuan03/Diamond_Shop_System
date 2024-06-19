@@ -52,7 +52,7 @@ public class ServiceEntity {
         this.Name = name;
         this.Price = price;
         this.Time = time;
-        this.Service_statistic_id = statistic_id;
+        this.Statistic_id = statistic_id;
     }
 
 }

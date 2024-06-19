@@ -156,14 +156,27 @@ export default function Natural() {
                     {tabs.map((tab, index) => (
                         <TabPanel key={index}>
                             <Box ml={5}>In the past month</Box>
-                            <Text
-                                fontSize={"18px"}
-                                ml={5}
-                                my={4}
-                                fontWeight={"bold"}
-                            >
-                                Diamond prices are down -2,31%
-                            </Text>
+                            {isLoading ? (
+                                <GridItem w="30%" my={"30px"}>
+                                    <SkeletonText
+                                        noOfLines={2}
+                                        spacing="4"
+                                        skeletonHeight="2"
+                                    />
+                                </GridItem>
+                            ) : (
+                                <Text
+                                    fontSize={"18px"}
+                                    ml={5}
+                                    my={4}
+                                    fontWeight={"bold"}
+                                >
+                                    Diamond prices{" "}
+                                    {price
+                                        .slice(18)
+                                        .map((price) => price.title)}
+                                </Text>
+                            )}
                             <Grid
                                 templateColumns={{
                                     base: "repeat(1, 1fr)",
@@ -306,10 +319,15 @@ export default function Natural() {
                                                                   Inv. Change
                                                               </Text>
                                                               <Text>
-                                                                  ↑{" "}
-                                                                  {
-                                                                      priceItem.inventoryChange
-                                                                  }
+                                                                {
+                                                                    priceItem.inventoryChangeDown === "" ? 
+                                                                    (
+                                                                        <span>↑{priceItem.inventoryChangeUp}</span>
+                                                                    ) : 
+                                                                    (
+                                                                        <span>↓{priceItem.inventoryChangeDown}</span>
+                                                                    )
+                                                                }
                                                               </Text>
                                                           </div>
                                                       </Flex>
@@ -363,7 +381,7 @@ export default function Natural() {
                                                       </Tr>
                                                   ))
                                             : price
-                                                  .slice(4)
+                                                  .slice(4,18)
                                                   .map((priceItem, i) => (
                                                       <Tr key={i}>
                                                           <Td>
@@ -390,15 +408,15 @@ export default function Natural() {
                                                                       "12px"
                                                                   }
                                                                   color={
-                                                                      parseFloat(
-                                                                          priceItem.change
-                                                                      ) < 0
-                                                                          ? "red"
-                                                                          : "green"
+                                                                    (priceItem.changeDown === "") ?
+                                                                    "green" : 
+                                                                    "red"
                                                                   }
                                                               >
                                                                   {
-                                                                      priceItem.change
+                                                                      (priceItem.changeDown === "") ?
+                                                                      priceItem.changeUp : 
+                                                                      priceItem.changeDown
                                                                   }{" "}
                                                                   (1m)
                                                               </Text>
@@ -715,7 +733,6 @@ export default function Natural() {
                                                 <Th>Price index</Th>
                                                 <Th>Chart</Th>
                                                 <Th>Price (USD)</Th>
-                                                <Th>% Change (1m)</Th>
                                             </Tr>
                                         </Thead>
                                         <Tbody>
@@ -737,9 +754,6 @@ export default function Natural() {
                                                         </Td>
                                                         <Td>
                                                             {priceItem.priceUsd}
-                                                        </Td>
-                                                        <Td>
-                                                            {priceItem.change}
                                                         </Td>
                                                     </Tr>
                                                 ))}
