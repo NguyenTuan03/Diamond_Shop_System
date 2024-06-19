@@ -188,7 +188,7 @@ export default function Footer() {
           <Center w="300px" mt={"-51px"}>
             <Stack spacing={1.5}>
               <Heading fontSize="15px">COMPANY</Heading>
-              <Link to={"#"}>
+              <Link to={routes.aboutUs}>
                 <Text
                   _hover={{
                     background: "gray.300",
