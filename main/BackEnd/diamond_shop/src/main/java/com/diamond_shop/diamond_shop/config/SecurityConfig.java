@@ -22,7 +22,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/diamond/calculate").permitAll()
                                 .requestMatchers("/api/sealing-letter/").permitAll()
-                                .requestMatchers("https://diamondval.vercel.app/").permitAll()
+                                .requestMatchers("/api/process-sealing/").permitAll()
+                                .requestMatchers("https://diamondval.vercel.app").permitAll()
                                 .anyRequest().permitAll() // Allow access without authentication to all requests
                 )
                 .logout(logout ->
