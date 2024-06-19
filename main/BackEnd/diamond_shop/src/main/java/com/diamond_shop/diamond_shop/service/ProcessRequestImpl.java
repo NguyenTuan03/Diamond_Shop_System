@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProcessRequestImpl implements ProcessRequestService {
@@ -30,8 +31,10 @@ public class ProcessRequestImpl implements ProcessRequestService {
     private ProcessResultRepository processResultRepository;
 
     @Override
-    public Page<ProcessRequestEntity> viewProcessRequests(int consultingStaff) {
-        return processRequestRepository.findCustomerByConsultingStaffId(PageRequest.of(0, 5), consultingStaff);
+    public Page<ProcessRequestEntity> viewProcessRequests(int page, int consultingStaff) {
+        int pageSize = 5;
+        int pageNumber = --page;
+        return processRequestRepository.findCustomerByConsultingStaffId(PageRequest.of(pageNumber, pageSize), consultingStaff);
     }
 
     @Override
@@ -58,9 +61,8 @@ public class ProcessRequestImpl implements ProcessRequestService {
         if (role == null)
             return "Role with id 3 not found";
 
-        List<ValuationRequestEntity> valuationRequestEntity = valuationRequestRepository.findAll();
         List<AccountEntity> accounts = accountRepository.findExceptById(role.getId(), consultingStaffId);
-        if (valuationRequestEntity.isEmpty() && accounts.isEmpty()) return "No request available";
+        if (accounts.isEmpty()) return "Cannot reject";
 
         AccountEntity leastOccupiedConsultingStaff = getLeastOccupiedConsultingStaff(accounts);
         ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
@@ -89,9 +91,12 @@ public class ProcessRequestImpl implements ProcessRequestService {
     }
 
     @Override
-    public ProcessRequestEntity updateRequest(UpdateRequestDTO updateRequestDTO) {
+    public ProcessRequestEntity updateRequest(String type, UpdateRequestDTO updateRequestDTO) {
         ProcessRequestEntity process = processRequestRepository.findByStaffIdAndValuationRequestId(updateRequestDTO.getConsultingStaffId(), updateRequestDTO.getValuationRequestId());
-        process.setName("Processing");
+        if (Objects.equals(type, "receive"))
+            process.setName("Processing");
+        else if (Objects.equals(type, "diamond"))
+            process.setName("Diamond Received");
         processRequestRepository.save(process);
         return process;
     }

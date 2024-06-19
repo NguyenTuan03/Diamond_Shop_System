@@ -1,40 +1,77 @@
-import {
-  Flex,
-  Text,
-  useDisclosure,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Select,
-  useToast,
-} from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { Search2Icon } from "@chakra-ui/icons";
+import { Flex, Text, useDisclosure, Button, useToast } from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
 import ConsultingStaffViewProcessRequest from "./ConsultingStaffViewProcessRequest";
 import ConsultingStaffTable from "./ConsultingStaffTable";
-import { fetchProcessRequest } from "./ConsultingStaffService";
+import {
+  fetchProcessRequest,
+  checkSealingDate,
+  checkFinishDate,
+} from "./ConsultingStaffService";
+import { useReactToPrint } from "react-to-print";
 export default function ConsultingStaffPage() {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const toast = useToast();
   const viewProcessRequest = useDisclosure();
   const [viewSelectProcessRequest, setViewSelectProcessRequest] = useState(0);
   const [processRequest, setProcessRequest] = useState([]);
   const [isProcessRequest, setIsProcessRequest] = useState(false);
+  const [isCheckSealingDate, setIsCheckSealingDate] = useState(false);
+  const [isCheckFinishDate, setIsCheckFinishDate] = useState(false);
+
+  const pageIndicator = [];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(null);
+
+  for (let i = 1; i <= totalPage; i++) {
+    pageIndicator.push(
+      <Button
+        key={i}
+        colorScheme="teal"
+        variant="outline"
+        onClick={() => {
+          setCurrentPage(i);
+          console.log("current:" + currentPage);
+        }}
+      >
+        {i}
+      </Button>
+    );
+  }
   useEffect(() => {
-    fetchProcessRequest(setProcessRequest, toast);
+    fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+    checkSealingDate(setIsCheckSealingDate, processRequest, toast);
+    checkFinishDate(setIsCheckFinishDate, processRequest, toast);
   }, []);
   useEffect(() => {
     if (isProcessRequest) {
-      fetchProcessRequest(setProcessRequest, toast);
+      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
       setIsProcessRequest(false);
     }
   }, [isProcessRequest]);
+
+  useEffect(() => {
+    if (isCheckSealingDate) {
+      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+      setIsCheckSealingDate(false);
+    }
+  }, [isCheckSealingDate, processRequest]);
+  useEffect(() => {
+    if (isCheckFinishDate) {
+      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+      setIsCheckFinishDate(false);
+    }
+  }, [isCheckFinishDate, processRequest]);
+
   return (
     <>
       <Flex
         direction="column"
         alignItems="center"
         justifyContent="center"
-        m={"100px 0 0 0"}
+        h={"70vh"}
         paddingTop={10}
         gap={5}
       >
@@ -42,34 +79,13 @@ export default function ConsultingStaffPage() {
           Welcome: Lam Tien Hung
         </Text>
         <Text fontSize="xl">For Consulting Staff</Text>
-        <Flex direction={"row"} gap={5}>
-          <InputGroup w={"40vw"}>
-            <InputLeftElement pointerEvents={"none"}>
-              <Search2Icon color={"gray.300"} />
-            </InputLeftElement>
-            <Input name="search" type="text" placeholder="Search..." />
-          </InputGroup>
-          <Select
-            id="select"
-            w={"10vw"}
-            onChange={() => {
-              // setSelectData(document.getElementById("select").value);
-              // console.log(selectData);
-            }}
-            onClick={() => {
-              console.log(processRequest);
-            }}
-          >
-            <option value={"request"}>Request</option>
-            <option value={"receipt"}>Receipt</option>
-            <option value={"result"}>Result</option>
-          </Select>
-        </Flex>
+
         <ConsultingStaffTable
           processRequest={processRequest}
           setViewSelectProcessRequest={setViewSelectProcessRequest}
           viewProcessRequest={viewProcessRequest}
         />
+        {pageIndicator}
       </Flex>
       <ConsultingStaffViewProcessRequest
         isOpen={viewProcessRequest.isOpen}
