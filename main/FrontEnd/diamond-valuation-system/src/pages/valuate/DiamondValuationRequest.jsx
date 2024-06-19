@@ -6,10 +6,7 @@ import {
   Textarea,
   useColorModeValue,
   Button,
-  Alert,
-  AlertIcon,
   useToast,
-  AlertTitle,
 } from "@chakra-ui/react";
 import React from "react";
 import Title from "../../components/Title";

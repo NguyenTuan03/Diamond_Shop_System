@@ -12,7 +12,7 @@ import LabGrown from "./labGrown/LabGrown";
 export default function Prices() {
   return (
     <>
-      <Tabs variant="enclosed">
+      <Tabs variant="enclosed" paddingTop={10}>
         <TabList justifyContent={"center"}>
           <Tab>Natural</Tab>
           <Tab>Lab Grown</Tab>
