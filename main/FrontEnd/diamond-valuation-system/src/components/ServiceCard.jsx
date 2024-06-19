@@ -11,9 +11,9 @@ import {
     CardFooter,
     Center,
 } from "@chakra-ui/react";
-import React from "react";
-import { Link } from "react-router-dom";
-import routes from "../config/Config";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "./GlobalContext/AuthContext";
 
 export default function ServiceCard({
     serviceId,
@@ -23,6 +23,8 @@ export default function ServiceCard({
     attributes,
     color,
 }) {
+    const nav = useNavigate();
+    const auth = useContext(UserContext);
     return (
         <Card border={"1px solid"} w={{ base: "70vw", md: "40vw", lg: "20vw" }}>
             <CardHeader align="center">
@@ -47,7 +49,7 @@ export default function ServiceCard({
             <Center>
                 <CardFooter>
                     <Link
-                        to={routes.diamondValuationRequest}
+                        to={`/diamond-valuation-request/${auth.userAuth.id}`}
                         state={{ serviceId: serviceId }}
                     >
                         <Button colorScheme={color} size={"lg"}>
