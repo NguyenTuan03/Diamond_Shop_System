@@ -39,7 +39,7 @@ export const handleProcessRequest = async (
     await axios
       .post("http://localhost:8081/api/process-request/update", {
         type: type,
-        processRequestType: processRequestType,
+        processRequestType:processRequestType,
         consultingStaffId: consultingStaffId,
         valuationRequestId: valuationRequestId,
       })
@@ -74,24 +74,16 @@ export const handleProcessRequest = async (
   }
 };
 
-export const checkSealingDate = async (
-  setIsCheckSealingDate,
-  processRequest,
-  toast
-) => {
+export const checkSealingDate = async (setIsCheckSealingDate, toast) => {
   try {
-    for (let i = 0; i < processRequest.length; i++) {
-      await axios
-        .get(
-          `http://localhost:8081/api/sealing-letter/check?id=${processRequest[i]?.valuationRequestId}`
-        )
-        .then(function (response) {
-          console.log(response.data);
-          if (response.data === "Create sealing letter") {
-            setIsCheckSealingDate(true);
-          }
-        });
-    }
+    await axios
+      .get(`http://localhost:8081/api/sealing-letter/check?id=${2}`)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data === "Create sealing letter") {
+          setIsCheckSealingDate(true);
+        }
+      });
   } catch (e) {
     toast({
       title: "Error",
@@ -104,24 +96,16 @@ export const checkSealingDate = async (
   }
 };
 
-export const checkFinishDate = async (
-  setIsCheckFinishDate,
-  processRequest,
-  toast
-) => {
+export const checkFinishDate = async (setIsCheckFinishDate, toast) => {
   try {
-    for (let i = 0; i < processRequest.length; i++) {
-      await axios
-        .get(
-          `http://localhost:8081/api/valuation-request/check-finished?id=${processRequest[i]?.valuationRequestId}`
-        )
-        .then(function (response) {
-          console.log(response.data);
-          if (response.data === "Finish request") {
-            setIsCheckFinishDate(true);
-          }
-        });
-    }
+    await axios
+      .get(`http://localhost:8081/api/valuation-request/check-finished?id=${7}`)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data === "Finish request") {
+          setIsCheckFinishDate(true);
+        }
+      });
   } catch (e) {
     toast({
       title: "Error",

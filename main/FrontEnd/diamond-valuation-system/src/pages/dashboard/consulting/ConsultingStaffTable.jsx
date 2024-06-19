@@ -23,7 +23,7 @@ export default function ConsultingStaffTable({
           <Tr>
             <Th>No</Th>
             <Th>Customer</Th>
-            <Th>Service</Th>
+            <Th>Services</Th>
             <Th>Created Date</Th>
             <Th>Finish Date</Th>
             <Th>Sealing Date</Th>
