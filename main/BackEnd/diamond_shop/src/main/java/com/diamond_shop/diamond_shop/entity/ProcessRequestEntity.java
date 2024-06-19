@@ -3,7 +3,6 @@ package com.diamond_shop.diamond_shop.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +29,6 @@ public class ProcessRequestEntity {
     @JoinColumn(name = "Valuation_request_id")
     private ValuationRequestEntity valuationRequestId;
 
-    @NotBlank(message = "Process Request name is mandatory")
     @Column(name = "Name")
     private String name;
 

@@ -12,12 +12,13 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { makeRequest } from "../service/MakeRequest";
 
-export default function UploadImage({description, service}) {
+export default function UploadImage({ description, service }) {
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUpLoading] = useState(false);
   const toast = useToast();
   const handleSubmitImages = async () => {
     try {
+      setIsUpLoading(true);
       for (const image of selectedImages) {
         const formData = new FormData();
         formData.append("file", image);
@@ -38,7 +39,7 @@ export default function UploadImage({description, service}) {
         const data = await res.json();
         console.log(data.public_id);
       }
-  
+      setIsUpLoading(false);
       toast({
         title: "Sending successful!",
         position: "top-right",
@@ -47,31 +48,8 @@ export default function UploadImage({description, service}) {
         duration: 3000,
         isClosable: true,
       });
-  
-      const makeRequestApi = async () => {
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (!user || !user.username) {
-          throw new Error("User information is missing");
-        }
-  
-        const result = await makeRequest(user.username, service, "", description);
-        if (result.status === 200) {
-          toast({
-            title: "Request successful",
-            position: "top-right",
-            description: "Your diamond image has been submitted successfully",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-          });
-        } else {
-          throw new Error(result.data || "Error sending request");
-        }
-      };
-  
-      await makeRequestApi();
-  
     } catch (error) {
+      setIsUpLoading(false);
       toast({
         title: "Error",
         position: "top-right",
@@ -127,7 +105,7 @@ export default function UploadImage({description, service}) {
       </FormControl>
       {selectedImages.length > 0 && (
         <Flex direction={"column"} alignItems={"center"} gap={2}>
-          <Flex direction={"row"} gap={5}>
+          <Flex direction={"column"} gap={5}>
             {selectedImages.map((image, index) => (
               <Flex direction={"column"} gap={2} key={index}>
                 <Image
