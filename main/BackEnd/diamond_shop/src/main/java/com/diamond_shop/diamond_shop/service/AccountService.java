@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface AccountService {
-    List<AccountEntity> getAllAccounts();
 
     Page<AccountEntity> getAllAccountsById(String search, int pageId, String filter);
 

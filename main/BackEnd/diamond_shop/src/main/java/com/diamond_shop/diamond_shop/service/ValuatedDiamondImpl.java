@@ -48,4 +48,9 @@ public class ValuatedDiamondImpl implements ValuatedDiamondService {
         }
         return "Have created a valuated diamond";
     }
+
+    @Override
+    public boolean checkValuatedDiamond(String id) {
+        return valuatedDiamondRepository.findById(id).isPresent();
+    }
 }
