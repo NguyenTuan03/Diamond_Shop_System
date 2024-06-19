@@ -1,11 +1,12 @@
 package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
-import com.diamond_shop.diamond_shop.entity.RoleEntity;
 import com.diamond_shop.diamond_shop.entity.SealingLetterEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 import com.diamond_shop.diamond_shop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -28,17 +29,22 @@ public class SealingLetterImpl implements SealingLetterService {
     @Autowired
     ProcessRequestRepository processRequestRepository;
 
+    @Autowired
+    ProcessSealingService processSealingService;
+
+    @Override
+    public Page<SealingLetterEntity> getAllSealingLetters(int page) {
+        int pageNumber = --page, pageSize = 5;
+        return sealingLetterRepository.findAll(PageRequest.of(pageNumber, pageSize));
+    }
 
     @Override
     public String createSealingLetter(int valuationRequestId) {
-        RoleEntity role = roleRepository.findById(2).orElse(null);
-        if (role == null)
-            return "Role with id 2 not found";
-
         ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
         SealingLetterEntity sealingLetter = new SealingLetterEntity(new Date(), "", valuationRequest);
         sealingLetterRepository.save(sealingLetter);
-        return "";
+        processSealingService.createProcessSealing(sealingLetter);
+        return "Create sealing letter successfully";
     }
 
     @Override

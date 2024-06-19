@@ -17,9 +17,8 @@ const routes = {
   login: "/login",
   logout: "/logout",
   consultingStaff: "/consulting-staff",
-  error: "/error",
+  error: "*",
   valuationStaff: "/valuation-staff",
-  aboutUs: "/about",
   // ConsultingStaff's DashBoard
   consulting_dashboard: "/consulting-staff-dashboard",
   consulting_dasboardNotification: "/consulting-staff-dashboard/notifications",
@@ -36,5 +35,6 @@ const routes = {
   dashboardRequest: "/dashboard/request",
   // Admin's Dashboard
   admin: "/admin",
+  manager: "/manager",
 };
 export default routes;

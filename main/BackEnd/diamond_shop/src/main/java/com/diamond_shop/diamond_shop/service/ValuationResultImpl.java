@@ -6,10 +6,10 @@ import com.diamond_shop.diamond_shop.entity.ProcessResultEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
+import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
 import com.diamond_shop.diamond_shop.repository.ProcessResultRepository;
 import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
 import com.diamond_shop.diamond_shop.repository.ValuationResultRepository;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +31,10 @@ public class ValuationResultImpl implements ValuationResultService {
     ValuationRequestRepository valuationRequestRepository;
     @Autowired
     private ProcessResultRepository processResultRepository;
+    @Autowired
+    private ProcessRequestRepository processRequestRepository;
+    @Autowired
+    ValuatedDiamondService valuatedDiamondService;
 
     @Override
     public String valuateDiamond(ValuationResultDTO valuationResultDTO) {
@@ -53,6 +56,12 @@ public class ValuationResultImpl implements ValuationResultService {
         ProcessResultEntity processResult = processResultRepository.findByValuationResultId(valuationResultDTO.getId());
         processResult.setName("Valuated");
         processResultRepository.save(processResult);
+
+        ProcessRequestEntity processRequest = processRequestRepository.findById(processResult.getProcessRequestId().getId());
+        processRequest.setName("Valuated");
+        processRequestRepository.save(processRequest);
+
+        valuatedDiamondService.createValuatedDiamond(valuationResultDTO.getId());
 
         return "Valuate successful!";
     }
@@ -76,12 +85,12 @@ public class ValuationResultImpl implements ValuationResultService {
             try {
                 Document doc = Jsoup.connect("https://www.stonealgo.com/lab-grown-diamond-prices/").get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-    
+
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-    
+
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
@@ -89,7 +98,7 @@ public class ValuationResultImpl implements ValuationResultService {
                     String inventory = element.select("dd").get(1).text();
                     String inventoryChange = element.select("dd").get(2).text();
                     String imageUrl = element.select("img").attr("src");
-    
+
                     DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChange, imageUrl);
                     diamonds.add(diamond);
                 }
@@ -98,42 +107,41 @@ public class ValuationResultImpl implements ValuationResultService {
                 for (Element row : rows) {
                     String priceIndex = row.select("td a span").text();
                     String chart = row.select("td img").attr("data-src");
-    
+
                     Elements tds = row.select("td");
-                    String priceUsd = tds.get(2).text(); 
-                    String change = tds.get(3).text();   
-                    String range = tds.get(4).text();    
-                    String inv = tds.get(5).text();      
-    
+                    String priceUsd = tds.get(2).text();
+                    String change = tds.get(3).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
+
                     DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, change, range, inv);
                     diamonds.add(diamond);
                 }
-                
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             try {
                 String url = "https://www.stonealgo.com/lab-grown-diamond-prices/?i=" + shape;
                 Document doc = Jsoup.connect(url).get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-    
+
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-    
+
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
-    
+
                     String weight = element.select("dd").get(0).text();
                     String inventory = element.select("dd").get(1).text();
                     String inventoryChange = element.select("dd").get(2).text();
                     String imageUrl = element.select("img").attr("src");
 
-                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChange, imageUrl );
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChange, imageUrl);
                     diamonds.add(diamond);
                 }
 
@@ -141,17 +149,17 @@ public class ValuationResultImpl implements ValuationResultService {
                 for (Element row : rows) {
                     String priceIndex = row.select("td a span").text();
                     String chart = row.select("td img").attr("data-src");
-    
+
                     Elements tds = row.select("td");
-                    String priceUsd = tds.get(2).text(); 
-                    String change = tds.get(3).text();   
-                    String range = tds.get(4).text();    
-                    String inv = tds.get(5).text();      
-    
+                    String priceUsd = tds.get(2).text();
+                    String change = tds.get(3).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
+
                     DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, change, range, inv);
                     diamonds.add(diamond);
                 }
-                
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -166,12 +174,12 @@ public class ValuationResultImpl implements ValuationResultService {
             try {
                 Document doc = Jsoup.connect("https://www.stonealgo.com/diamond-prices/").get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-    
+
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-    
+
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
@@ -179,7 +187,7 @@ public class ValuationResultImpl implements ValuationResultService {
                     String inventory = element.select("dd").get(1).text();
                     String inventoryChange = element.select("dd").get(2).text();
                     String imageUrl = element.select("img").attr("src");
-    
+
                     DiamondPojo diamond = new DiamondPojo();
                     diamond.setName(name);
                     diamond.setPrice(price);
@@ -195,35 +203,34 @@ public class ValuationResultImpl implements ValuationResultService {
                 for (Element row : rows) {
                     String priceIndex = row.select("td a span").text();
                     String chart = row.select("td img").attr("data-src");
-    
+
                     Elements tds = row.select("td");
-                    String priceUsd = tds.get(2).text(); 
-                    String change = tds.get(3).text();   
-                    String range = tds.get(4).text();    
-                    String inv = tds.get(5).text();      
-    
+                    String priceUsd = tds.get(2).text();
+                    String change = tds.get(3).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
+
                     DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, change, range, inv);
                     diamonds.add(diamond);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             try {
                 String url = "https://www.stonealgo.com/diamond-prices/?i=" + shape;
                 Document doc = Jsoup.connect(url).get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-    
+
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-    
+
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
-    
+
                     String weight = element.select("dd").get(0).text();
                     String inventory = element.select("dd").get(1).text();
                     String inventoryChange = element.select("dd").get(2).text();
@@ -243,13 +250,13 @@ public class ValuationResultImpl implements ValuationResultService {
                 for (Element row : rows) {
                     String priceIndex = row.select("td a span").text();
                     String chart = row.select("td img").attr("data-src");
-    
+
                     Elements tds = row.select("td");
-                    String priceUsd = tds.get(2).text(); 
-                    String change = tds.get(3).text();   
-                    String range = tds.get(4).text();    
-                    String inv = tds.get(5).text();      
-    
+                    String priceUsd = tds.get(2).text();
+                    String change = tds.get(3).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
+
                     DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, change, range, inv);
                     diamonds.add(diamond);
                 }

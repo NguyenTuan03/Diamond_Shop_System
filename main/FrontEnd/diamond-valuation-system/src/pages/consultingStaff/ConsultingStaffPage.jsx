@@ -1,5 +1,5 @@
 import { Flex, Text, useDisclosure, Button, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ConsultingStaffViewProcessRequest from "./ConsultingStaffViewProcessRequest";
 import ConsultingStaffTable from "./ConsultingStaffTable";
 import {
@@ -7,7 +7,12 @@ import {
   checkSealingDate,
   checkFinishDate,
 } from "./ConsultingStaffService";
+import { useReactToPrint } from "react-to-print";
 export default function ConsultingStaffPage() {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const toast = useToast();
   const viewProcessRequest = useDisclosure();
   const [viewSelectProcessRequest, setViewSelectProcessRequest] = useState(0);
@@ -37,8 +42,8 @@ export default function ConsultingStaffPage() {
   }
   useEffect(() => {
     fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
-    checkSealingDate(setIsCheckSealingDate, toast);
-    checkFinishDate(setIsCheckFinishDate, toast);
+    checkSealingDate(setIsCheckSealingDate, processRequest, toast);
+    checkFinishDate(setIsCheckFinishDate, processRequest, toast);
   }, []);
   useEffect(() => {
     if (isProcessRequest) {
@@ -52,13 +57,13 @@ export default function ConsultingStaffPage() {
       fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
       setIsCheckSealingDate(false);
     }
-  }, [isCheckSealingDate]);
+  }, [isCheckSealingDate, processRequest]);
   useEffect(() => {
     if (isCheckFinishDate) {
       fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
       setIsCheckFinishDate(false);
     }
-  }, [isCheckFinishDate]);
+  }, [isCheckFinishDate, processRequest]);
 
   return (
     <>

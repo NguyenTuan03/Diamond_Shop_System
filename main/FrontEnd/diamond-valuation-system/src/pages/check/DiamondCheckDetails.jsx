@@ -9,12 +9,35 @@ import {
   UnorderedList,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 export default function DiamondCheckDetails() {
+  const location = useLocation();
   const bgColor = useColorModeValue("white", "black");
-
+  const diamondId = location.state?.diamondId;
+  const [diamond, setDiamond] = useState({});
+  const formattedDate = new Date(diamond?.createdDate).toLocaleDateString();
+  const fetchValuatedDiamond = () => {
+    axios
+      .get(`http://localhost:8081/api/valuated-diamond/get?id=${diamondId}`)
+      .then(function (response) {
+        // console.log(response.data);
+        if (response.data === null) {
+        } else {
+          setDiamond(response.data);
+          console.log(diamond);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    fetchValuatedDiamond();
+  }, []);
   return (
     <Flex
       direction={{ base: "column", md: "row", lg: "row" }}
@@ -35,26 +58,26 @@ export default function DiamondCheckDetails() {
       <Flex direction={"column"} gap={5}>
         <Flex direction={"row"} alignItems={"center"} gap={5}>
           <Text fontSize="xl" fontWeight={"bold"}>
-            GIA ID 2474506136
+            ID {diamond?.id}
           </Text>
-          <Badge colorScheme="green">Natural Diamond</Badge>
+          <Badge colorScheme="green">{diamond?.origin} Diamond</Badge>
         </Flex>
         <Text fontSize="sm" color={"gray"}>
-          Valuated Date: 20/05/2024
+          Valuated Date: {formattedDate}
         </Text>
         <UnorderedList>
           <ListItem>
             Fair Price Estimate:{" "}
             <Text display={"inline"} color={"blue.400"} fontWeight={"bold"}>
-              $7178
+              ${diamond?.price}
             </Text>
           </ListItem>
-          <ListItem>
+          {/* <ListItem>
             Estimate Range:{" "}
             <Text display={"inline"} color={"blue.400"} fontWeight={"bold"}>
               $5,563 - $8,929
-            </Text>
-          </ListItem>
+            </Text> 
+          </ListItem> */}
         </UnorderedList>
         <Grid
           templateColumns="repeat(4, 1fr)"
@@ -69,7 +92,7 @@ export default function DiamondCheckDetails() {
               Price
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              $7,178
+              ${diamond?.price || "0"}
             </Text>
           </GridItem>
           <GridItem>
@@ -77,7 +100,7 @@ export default function DiamondCheckDetails() {
               Cut
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              9.4
+              {diamond?.cut || "N/A"}
             </Text>
           </GridItem>
           <GridItem>
@@ -85,7 +108,7 @@ export default function DiamondCheckDetails() {
               Origin
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              Natural
+              {diamond?.origin || "N/A"}
             </Text>
           </GridItem>
           <GridItem>
@@ -93,7 +116,7 @@ export default function DiamondCheckDetails() {
               Measurement
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              Good
+              {diamond?.measurements || "N/A"}
             </Text>
           </GridItem>
           <GridItem>
@@ -101,7 +124,7 @@ export default function DiamondCheckDetails() {
               Shape
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              Round
+              {diamond?.shape || "N/A"}
             </Text>
           </GridItem>
           <GridItem>
@@ -109,7 +132,7 @@ export default function DiamondCheckDetails() {
               Color
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              G
+              {diamond?.color || "N/A"}
             </Text>
           </GridItem>
           <GridItem>
@@ -117,7 +140,7 @@ export default function DiamondCheckDetails() {
               Fluorescence
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              None{" "}
+              {diamond?.fluorescence || "N/A"}
             </Text>
           </GridItem>
           <GridItem>
@@ -125,7 +148,7 @@ export default function DiamondCheckDetails() {
               Polish
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              Excellent
+              {diamond?.polish || "N/A"}
             </Text>
           </GridItem>
           <GridItem>
@@ -133,7 +156,7 @@ export default function DiamondCheckDetails() {
               Carat
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              1.14 ct.
+              {diamond?.carat_weight || "0"} ct.
             </Text>
           </GridItem>
           <GridItem>
@@ -141,7 +164,7 @@ export default function DiamondCheckDetails() {
               Clarity
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              VS2
+              {diamond?.clarity || "N/A"}
             </Text>
           </GridItem>
           <GridItem>
@@ -149,7 +172,7 @@ export default function DiamondCheckDetails() {
               Symmetry
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              Excellent
+              {diamond?.symmetry || "N/A"}
             </Text>
           </GridItem>
           <GridItem>
@@ -157,7 +180,7 @@ export default function DiamondCheckDetails() {
               Proportions
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              1.01
+              {diamond?.proportions || "N/A"}
             </Text>
           </GridItem>
         </Grid>
