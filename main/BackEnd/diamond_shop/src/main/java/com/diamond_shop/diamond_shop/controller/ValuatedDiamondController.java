@@ -25,4 +25,9 @@ public class ValuatedDiamondController {
     public Optional<ValuatedDiamondEntity> getValuatedDiamondById(@RequestParam("id") String id) {
         return valuatedDiamondService.getValuatedDiamondById(id);
     }
+
+    @GetMapping(path = "/check")
+    public boolean checkValuatedDiamondById(@RequestParam("id") String id) {
+        return valuatedDiamondService.checkValuatedDiamond(id);
+    }
 }
