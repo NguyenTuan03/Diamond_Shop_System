@@ -9,6 +9,4 @@ public interface ValuationRequestService {
     int makeRequest(ValuationRequestDTO valuationRequestDTO);
 
     Page<ValuationRequestEntity> viewRequest(String search, int pageId, String filter);
-
-    String checkFinishDate(int valuationRequestId);
 }

@@ -16,6 +16,7 @@ public class ProcessResultPojo {
     private String serviceName;
     private String type;
     private Date createdDate;
+    private Date sealingDate;
     private String origin;
     private String shape;
     private BigDecimal caratWeight;

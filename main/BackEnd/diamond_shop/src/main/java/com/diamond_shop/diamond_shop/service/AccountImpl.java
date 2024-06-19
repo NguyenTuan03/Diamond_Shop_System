@@ -126,7 +126,6 @@ public class AccountImpl implements AccountService {
         }
     }
 
-
     @Override
     public String updateAccount(AccountDTO accountDTO) {
         String updatePhoneNumber = updatePhoneNumber(accountDTO.getPhonenumber());

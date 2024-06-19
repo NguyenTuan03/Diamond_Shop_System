@@ -3,7 +3,7 @@ package com.diamond_shop.diamond_shop.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,16 +34,9 @@ public class ValuationRequestEntity {
     @JoinColumn(name = "Service_id")
     private ServiceEntity serviceId;
 
-    @NotNull(message = "Created date is mandatory")
+    @NotBlank(message = "Created date is mandatory")
     @Column(name = "Created_date")
     private Date createdDate;
-
-    @Column(name = "Finish_date")
-    private Date finishDate;
-
-    @NotNull(message = "Sealing date is mandatory")
-    @Column(name = "Sealing_date")
-    private Date sealingDate;
 
     @Column(name = "Description")
     private String description;
@@ -57,28 +50,19 @@ public class ValuationRequestEntity {
     @OneToOne(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuationReceiptEntity valuationReceipt;
 
-    @OneToOne(mappedBy = "valuationRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private SealingLetterEntity sealingLetter;
-
-    @OneToOne(mappedBy = "valuationRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private CommitmentEntity commitment;
-
-    public ValuationRequestEntity(AccountEntity customer, ServiceEntity serviceId, Date createdDate, Date finishDate, Date sealingDate, String description) {
+    public ValuationRequestEntity(AccountEntity customer, ServiceEntity serviceId, Date createdDate, String description) {
         this.customer = customer;
         this.serviceId = serviceId;
         this.createdDate = createdDate;
-        this.finishDate = finishDate;
-        this.sealingDate = sealingDate;
         this.description = description;
     }
 
-    public ValuationRequestEntity(int id, AccountEntity customer, ServiceEntity serviceId, Date createdDate, Date sealingDate,
+    public ValuationRequestEntity(int id, AccountEntity customer, ServiceEntity serviceId, Date createdDate,
                                   String description) {
         this.id = id;
         this.customer = customer;
         this.serviceId = serviceId;
         this.createdDate = createdDate;
-        this.sealingDate = sealingDate;
         this.description = description;
     }
 }
