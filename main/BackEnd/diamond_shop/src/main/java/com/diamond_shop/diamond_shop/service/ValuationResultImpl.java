@@ -36,10 +36,6 @@ public class ValuationResultImpl implements ValuationResultService {
     private ProcessRequestRepository processRequestRepository;
     @Autowired
     ValuatedDiamondService valuatedDiamondService;
-    @Autowired
-    private ProcessRequestRepository processRequestRepository;
-    @Autowired
-    ValuatedDiamondService valuatedDiamondService;
 
     @Override
     public String valuateDiamond(ValuationResultDTO valuationResultDTO) {
@@ -61,12 +57,6 @@ public class ValuationResultImpl implements ValuationResultService {
         ProcessResultEntity processResult = processResultRepository.findByValuationResultId(valuationResultDTO.getId());
         processResult.setName("Valuated");
         processResultRepository.save(processResult);
-
-        ProcessRequestEntity processRequest = processRequestRepository.findById(processResult.getProcessRequestId().getId());
-        processRequest.setName("Valuated");
-        processRequestRepository.save(processRequest);
-
-        valuatedDiamondService.createValuatedDiamond(valuationResultDTO.getId());
 
         ProcessRequestEntity processRequest = processRequestRepository.findById(processResult.getProcessRequestId().getId());
         processRequest.setName("Valuated");

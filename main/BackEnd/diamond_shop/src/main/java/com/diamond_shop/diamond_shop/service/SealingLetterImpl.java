@@ -39,14 +39,6 @@ public class SealingLetterImpl implements SealingLetterService {
         int pageNumber = --page, pageSize = 5;
         return sealingLetterRepository.findAll(PageRequest.of(pageNumber, pageSize));
     }
-    @Autowired
-    ProcessSealingService processSealingService;
-
-    @Override
-    public Page<SealingLetterEntity> getAllSealingLetters(int page) {
-        int pageNumber = --page, pageSize = 5;
-        return sealingLetterRepository.findAll(PageRequest.of(pageNumber, pageSize));
-    }
 
     @Override
     public String createSealingLetter(int valuationRequestId) {
