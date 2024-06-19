@@ -110,28 +110,62 @@ public class ValuationResultImpl implements ValuationResultService {
                     }
                     String weight = element.select("dd").get(0).text();
                     String inventory = element.select("dd").get(1).text();
-                    String inventoryChange = element.select("dd").get(2).text();
+                    String inventoryChangeUp = "";
+                    String inventoryChangeDown = "";
                     String imageUrl = element.select("img").attr("src");
     
-                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChange, imageUrl);
+                    // Extract inventory changes based on SVG elements
+                    Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
+                    for (Element changeElement : inventoryChangeElements) {
+                        String svgPath = changeElement.select("svg path").attr("d");
+                        String changeValue = changeElement.select("span").text();
+    
+                        // Check if the SVG path corresponds to an upward or downward arrow
+                        if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
+                            inventoryChangeUp = changeValue;
+                        } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
+                            inventoryChangeDown = changeValue;
+                        }
+                    }
+    
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
                     diamonds.add(diamond);
+                }
+    
+            Elements rows = doc.select("tr[data-table_link=true]");
+            for (Element row : rows) {
+                String priceIndex = row.select("td a span").text();
+                String chart = row.select("td img").attr("data-src");
+
+                Elements tds = row.select("td");
+                String priceUsd = tds.get(2).text();
+                String range = tds.get(4).text();
+                String inv = tds.get(5).text();
+
+                String changeUp = "";
+                String changeDown = "";
+
+                for (Element td : tds) {
+                    String changeValue = td.text();
+                    String changeClass = td.className();
+
+                    if (changeClass.contains("text-green-400")) {
+                        changeUp = changeValue;
+                    } else if (changeClass.contains("text-red-500")) {
+                        changeDown = changeValue;
+                    }
                 }
 
-                Elements rows = doc.select("tr[data-table_link=true]");
-                for (Element row : rows) {
-                    String priceIndex = row.select("td a span").text();
-                    String chart = row.select("td img").attr("data-src");
+                DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
+                diamonds.add(diamond);
+            }
     
-                    Elements tds = row.select("td");
-                    String priceUsd = tds.get(2).text(); 
-                    String change = tds.get(3).text();   
-                    String range = tds.get(4).text();    
-                    String inv = tds.get(5).text();      
+            String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
+            if (!contentChange.isEmpty()) {
+                DiamondPojo diamond = new DiamondPojo(contentChange);
+                diamonds.add(diamond);
+            }
     
-                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, change, range, inv);
-                    diamonds.add(diamond);
-                }
-                
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -150,13 +184,25 @@ public class ValuationResultImpl implements ValuationResultService {
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
-    
                     String weight = element.select("dd").get(0).text();
                     String inventory = element.select("dd").get(1).text();
-                    String inventoryChange = element.select("dd").get(2).text();
+                    String inventoryChangeUp = "";
+                    String inventoryChangeDown = "";
                     String imageUrl = element.select("img").attr("src");
-
-                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChange, imageUrl );
+    
+                    Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
+                    for (Element changeElement : inventoryChangeElements) {
+                        String svgPath = changeElement.select("svg path").attr("d");
+                        String changeValue = changeElement.select("span").text();
+    
+                        if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
+                            inventoryChangeUp = changeValue;
+                        } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
+                            inventoryChangeDown = changeValue;
+                        }
+                    }
+    
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
                     diamonds.add(diamond);
                 }
 
@@ -166,12 +212,30 @@ public class ValuationResultImpl implements ValuationResultService {
                     String chart = row.select("td img").attr("data-src");
     
                     Elements tds = row.select("td");
-                    String priceUsd = tds.get(2).text(); 
-                    String change = tds.get(3).text();   
-                    String range = tds.get(4).text();    
-                    String inv = tds.get(5).text();      
+                    String priceUsd = tds.get(2).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
     
-                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, change, range, inv);
+                    String changeUp = "";
+                    String changeDown = "";
+    
+                    for (Element td : tds) {
+                        String changeValue = td.text();
+                        String changeClass = td.className();
+    
+                        if (changeClass.contains("text-green-400")) {
+                            changeUp = changeValue;
+                        } else if (changeClass.contains("text-red-500")) {
+                            changeDown = changeValue;
+                        }
+                    }
+    
+                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
+                    diamonds.add(diamond);
+                }
+                String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
+                if (!contentChange.isEmpty()) {
+                    DiamondPojo diamond = new DiamondPojo(contentChange);
                     diamonds.add(diamond);
                 }
                 
@@ -200,17 +264,23 @@ public class ValuationResultImpl implements ValuationResultService {
                     }
                     String weight = element.select("dd").get(0).text();
                     String inventory = element.select("dd").get(1).text();
-                    String inventoryChange = element.select("dd").get(2).text();
+                    String inventoryChangeUp = "";
+                    String inventoryChangeDown = "";
                     String imageUrl = element.select("img").attr("src");
     
-                    DiamondPojo diamond = new DiamondPojo();
-                    diamond.setName(name);
-                    diamond.setPrice(price);
-                    diamond.setPriceChange(priceChange);
-                    diamond.setWeight(weight);
-                    diamond.setInventory(inventory);
-                    diamond.setInventoryChange(inventoryChange);
-                    diamond.setImageUrl(imageUrl);
+                    Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
+                    for (Element changeElement : inventoryChangeElements) {
+                        String svgPath = changeElement.select("svg path").attr("d");
+                        String changeValue = changeElement.select("span").text();
+    
+                        if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
+                            inventoryChangeUp = changeValue;
+                        } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
+                            inventoryChangeDown = changeValue;
+                        }
+                    }
+    
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
                     diamonds.add(diamond);
                 }
 
@@ -220,14 +290,34 @@ public class ValuationResultImpl implements ValuationResultService {
                     String chart = row.select("td img").attr("data-src");
     
                     Elements tds = row.select("td");
-                    String priceUsd = tds.get(2).text(); 
-                    String change = tds.get(3).text();   
-                    String range = tds.get(4).text();    
-                    String inv = tds.get(5).text();      
+                    String priceUsd = tds.get(2).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
     
-                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, change, range, inv);
+                    String changeUp = "";
+                    String changeDown = "";
+    
+                    for (Element td : tds) {
+                        String changeValue = td.text();
+                        String changeClass = td.className();
+    
+                        if (changeClass.contains("text-green-400")) {
+                            changeUp = changeValue;
+                        } else if (changeClass.contains("text-red-500")) {
+                            changeDown = changeValue;
+                        }
+                    }
+    
+                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
                     diamonds.add(diamond);
                 }
+
+                String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
+                if (!contentChange.isEmpty()) {
+                    DiamondPojo diamond = new DiamondPojo(contentChange);
+                    diamonds.add(diamond);
+                }
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -246,19 +336,25 @@ public class ValuationResultImpl implements ValuationResultService {
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
-    
                     String weight = element.select("dd").get(0).text();
                     String inventory = element.select("dd").get(1).text();
-                    String inventoryChange = element.select("dd").get(2).text();
+                    String inventoryChangeUp = "";
+                    String inventoryChangeDown = "";
                     String imageUrl = element.select("img").attr("src");
-                    DiamondPojo diamond = new DiamondPojo();
-                    diamond.setName(name);
-                    diamond.setPrice(price);
-                    diamond.setPriceChange(priceChange);
-                    diamond.setWeight(weight);
-                    diamond.setInventory(inventory);
-                    diamond.setInventoryChange(inventoryChange);
-                    diamond.setImageUrl(imageUrl);
+    
+                    Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
+                    for (Element changeElement : inventoryChangeElements) {
+                        String svgPath = changeElement.select("svg path").attr("d");
+                        String changeValue = changeElement.select("span").text();
+    
+                        if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
+                            inventoryChangeUp = changeValue;
+                        } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
+                            inventoryChangeDown = changeValue;
+                        }
+                    }
+    
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
                     diamonds.add(diamond);
                 }
 
@@ -268,12 +364,30 @@ public class ValuationResultImpl implements ValuationResultService {
                     String chart = row.select("td img").attr("data-src");
     
                     Elements tds = row.select("td");
-                    String priceUsd = tds.get(2).text(); 
-                    String change = tds.get(3).text();   
-                    String range = tds.get(4).text();    
-                    String inv = tds.get(5).text();      
+                    String priceUsd = tds.get(2).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
     
-                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, change, range, inv);
+                    String changeUp = "";
+                    String changeDown = "";
+    
+                    for (Element td : tds) {
+                        String changeValue = td.text();
+                        String changeClass = td.className();
+    
+                        if (changeClass.contains("text-green-400")) {
+                            changeUp = changeValue;
+                        } else if (changeClass.contains("text-red-500")) {
+                            changeDown = changeValue;
+                        }
+                    }
+    
+                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
+                    diamonds.add(diamond);
+                }
+                String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
+                if (!contentChange.isEmpty()) {
+                    DiamondPojo diamond = new DiamondPojo(contentChange);
                     diamonds.add(diamond);
                 }
             } catch (IOException e) {
