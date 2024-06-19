@@ -21,8 +21,6 @@ export default function ConsultingStaffPage() {
   const [isCheckSealingDate, setIsCheckSealingDate] = useState(false);
   const [isCheckFinishDate, setIsCheckFinishDate] = useState(false);
 
-  const [valuationResult, setValuationResult] = useState({});
-
   const pageIndicator = [];
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(null);
@@ -44,8 +42,8 @@ export default function ConsultingStaffPage() {
   }
   useEffect(() => {
     fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
-    checkSealingDate(setIsCheckSealingDate, toast);
-    checkFinishDate(setIsCheckFinishDate, toast);
+    checkSealingDate(setIsCheckSealingDate, processRequest, toast);
+    checkFinishDate(setIsCheckFinishDate, processRequest, toast);
   }, []);
   useEffect(() => {
     if (isProcessRequest) {
@@ -59,13 +57,13 @@ export default function ConsultingStaffPage() {
       fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
       setIsCheckSealingDate(false);
     }
-  }, [isCheckSealingDate]);
+  }, [isCheckSealingDate, processRequest]);
   useEffect(() => {
     if (isCheckFinishDate) {
       fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
       setIsCheckFinishDate(false);
     }
-  }, [isCheckFinishDate]);
+  }, [isCheckFinishDate, processRequest]);
 
   return (
     <>
