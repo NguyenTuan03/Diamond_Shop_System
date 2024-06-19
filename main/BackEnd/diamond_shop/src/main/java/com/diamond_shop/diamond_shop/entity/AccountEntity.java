@@ -74,6 +74,9 @@ public class AccountEntity {
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessCommitmentEntity> processCommitmentEntities = new HashSet<>();
 
+    @OneToOne(mappedBy = "customer_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private WalletsEntity wallets;
+
     public AccountEntity(RoleEntity role_id, String username, String password, String fullname, String phone_number) {
         this.role = role_id;
         this.username = username;
