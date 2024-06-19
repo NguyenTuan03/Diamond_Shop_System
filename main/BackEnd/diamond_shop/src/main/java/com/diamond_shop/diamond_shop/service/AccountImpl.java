@@ -27,11 +27,6 @@ public class AccountImpl implements AccountService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public List<AccountEntity> getAllAccounts() {
-        return accountRepository.getAllAccounts();
-    }
-
-    @Override
     public Page<AccountEntity> getAllAccountsById(String search, int pageId, String filter) {
         int pageSize = 5;
         int pageNumber = --pageId;
@@ -130,6 +125,7 @@ public class AccountImpl implements AccountService {
                 return errorMessage;
         }
     }
+
 
     @Override
     public String updateAccount(AccountDTO accountDTO) {

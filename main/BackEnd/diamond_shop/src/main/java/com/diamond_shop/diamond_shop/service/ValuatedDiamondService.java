@@ -13,4 +13,5 @@ public interface ValuatedDiamondService {
    Optional<ValuatedDiamondEntity> getValuatedDiamondByValuationRequestId(int id);
 
     String createValuatedDiamond(int valuationResultId);
+    boolean checkValuatedDiamond(String id);
 }

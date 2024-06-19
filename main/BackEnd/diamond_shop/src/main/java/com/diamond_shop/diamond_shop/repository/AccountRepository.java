@@ -9,13 +9,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@org.springframework.stereotype.Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, Integer>, PagingAndSortingRepository<AccountEntity, Integer> {
 
     @Query(value = "SELECT a FROM AccountEntity a")
@@ -83,6 +82,9 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Integer>
 
     @Query("SELECT a FROM AccountEntity a WHERE a.role = :Role_id")
     List<AccountEntity> findAllByRoleId(@Param("Role_id") RoleEntity Role_id);
+
+    @Query("SELECT a FROM AccountEntity a WHERE a.role.id=:id")
+    AccountEntity findByRoleId(@Param("id") int id);
 
     @Query("SELECT a1 " +
             "FROM AccountEntity a1 " +
