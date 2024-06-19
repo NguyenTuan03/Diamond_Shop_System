@@ -23,39 +23,39 @@ export default function ServiceCard({
     attributes,
     color,
 }) {
-    return (
-        <Card border={"1px solid"} w={{ base: "70vw", md: "40vw", lg: "20vw" }}>
-            <CardHeader align="center">
-                <Heading size={"md"} color={`${color}.400`}>
-                    {type}
-                </Heading>
-            </CardHeader>
-            <Flex direction={"column"} align={"center"}>
-                <Text fontSize={"5xl"}>${price}</Text>
-                <Text fontSize={"lg"}>
-                    Valuation time: <strong>{time}</strong>
-                </Text>
-            </Flex>
-            <CardBody align={"start"}>
-                <Text fontSize={"lg"}>We will valuate:</Text>
-                <UnorderedList fontSize={"sm"}>
-                    {attributes.map((item, index) => (
-                        <ListItem key={index}>{item}</ListItem>
-                    ))}
-                </UnorderedList>
-            </CardBody>
-            <Center>
-                <CardFooter>
-                    <Link
-                        to={routes.diamondValuationRequest}
-                        state={{ serviceId: serviceId }}
-                    >
-                        <Button colorScheme={color} size={"lg"}>
-                            Choose
-                        </Button>
-                    </Link>
-                </CardFooter>
-            </Center>
-        </Card>
-    );
+  return (
+    <Card border={"1px solid"} w={{ base: "70vw", md: "40vw", lg: "20vw" }}>
+      <CardHeader align="center">
+        <Heading size={"md"} color={`${color}.400`}>
+          {type}
+        </Heading>
+      </CardHeader>
+      <Flex direction={"column"} align={"center"}>
+        <Text fontSize={"5xl"}>${price}</Text>
+        <Text fontSize={"lg"}>
+          Valuation time: <strong>{time} days</strong>
+        </Text>
+      </Flex>
+      <CardBody align={"start"}>
+        <Text fontSize={"lg"}>We will valuate:</Text>
+        <UnorderedList fontSize={"sm"}>
+          {attributes.map((item, index) => (
+            <ListItem key={index}>{item}</ListItem>
+          ))}
+        </UnorderedList>
+      </CardBody>
+      <Center>
+        <CardFooter>
+          <Link
+            to={routes.diamondValuationRequest}
+            state={{ serviceId: serviceId }}
+          >
+            <Button colorScheme={color} size={"lg"}>
+              Choose
+            </Button>
+          </Link>
+        </CardFooter>
+      </Center>
+    </Card>
+  );
 }

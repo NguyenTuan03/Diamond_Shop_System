@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import {
   ChevronDownIcon,
-  CloseIcon,
   HamburgerIcon,
   Icon,
   MoonIcon,
