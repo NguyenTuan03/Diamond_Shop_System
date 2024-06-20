@@ -47,7 +47,7 @@ import {
 } from "@chakra-ui/react";
 import { CheckIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import React, { useEffect, useState } from "react";
-import { naturalDiamond } from "../../../service/Price";
+import { labGrownDiamond } from "../../../service/Price";
 import { RxExternalLink } from "react-icons/rx";
 
 const tabs = [
@@ -187,7 +187,7 @@ export default function Natural() {
         const fetchApi = async () => {
             setIsLoading(true);
             try {
-                const result = await naturalDiamond("");
+                const result = await labGrownDiamond("");
                 setPrice(result);
                 console.log(result);
             } catch (error) {
@@ -203,7 +203,7 @@ export default function Natural() {
             setIsLoading(true);
             try {
                 const shape = tabs[selectedTab].api;
-                const result = await naturalDiamond(shape);
+                const result = await labGrownDiamond(shape);
                 setPrice(result);
                 console.log(result);
             } catch (error) {
@@ -257,668 +257,723 @@ export default function Natural() {
         
         p={{ base: 10, md: 15, lg: 20 }}
                 gap={10}>
-<Flex gap={5}>
+<Flex flexWrap="wrap"
+                    gap={5}
+                    justifyContent={{ base: 'center', md: '250px' }} >
 
-<Popover>
-    <PopoverTrigger>
-        <Button border="1px solid" borderColor="gray.300" width="250px" height="50px" justifyContent="left">{`$${priceRange[0]} - $${priceRange[1]}`}
-            <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
-    </PopoverTrigger>
-    <PopoverContent width="700px" height="250px" border="1px solid" borderColor="gray.300">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="50px">
-            <Text as='b'>Price</Text>
-            <RangeSlider
-                defaultValue={[200, 1500000]}
-                min={200}
-                max={1500000}
-                step={50}
-                onChangeEnd={(val) => setPriceRange(val)}
-                value={priceRange}
-                onChange={(val) => setPriceRange(val)}
-            >
-                <RangeSliderTrack>
-                    <RangeSliderFilledTrack bg='blue.500' />
-                </RangeSliderTrack>
-                <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-            </RangeSlider>
-            <Flex mt={4} justifyContent="space-between">
-                <Box>
-                    <Text>Minimum</Text>
-                    <Input
-                        value={priceRange[0]}
-                        onChange={(e) => {
-                            const value = Math.min(Number(e.target.value), priceRange[1]);
-                            setPriceRange([value, priceRange[1]]);
-                        }}
-                    />
-                </Box>
-                <Box>
-                    <Text>Maximum</Text>
-                    <Input
-                        value={priceRange[1]}
-                        onChange={(e) => {
-                            const value = Math.max(Number(e.target.value), priceRange[0]);
-                            setPriceRange([priceRange[0], value]);
-                        }}
-                    />
-                </Box>
-            </Flex>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
+                    <Popover >
+                        <PopoverTrigger>
+                            <Button
+                                border="1px solid"
+                                borderColor="gray.300"
+                                width={{ base: '100%', md: '250px' }}
+                                height="50px"
+                                justifyContent="left">{`$${priceRange[0]} - $${priceRange[1]}`}
+                                <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
+                        </PopoverTrigger>
+                        <PopoverContent maxW="100%"
+                            width={{ base: '100%', md: '700px' }}
+                            height="auto"
+                            border="1px solid"
+                            borderColor="gray.300">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody justifyContent="space-between" height="100%" px="50px">
+                                <Text as='b'>Price</Text>
+                                <RangeSlider
+                                    defaultValue={[200, 1500000]}
+                                    min={200}
+                                    max={1500000}
+                                    step={50}
+                                    onChangeEnd={(val) => setPriceRange(val)}
+                                    value={priceRange}
+                                    onChange={(val) => setPriceRange(val)}
+                                >
+                                    <RangeSliderTrack>
+                                        <RangeSliderFilledTrack bg='blue.500' />
+                                    </RangeSliderTrack>
+                                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                </RangeSlider>
+                                <Flex mt={4} justifyContent="space-between">
+                                    <Box>
+                                        <Text>Minimum</Text>
+                                        <Input
+                                            value={priceRange[0]}
+                                            onChange={(e) => {
+                                                const value = Math.min(Number(e.target.value), priceRange[1]);
+                                                setPriceRange([value, priceRange[1]]);
+                                            }}
+                                        />
+                                    </Box>
+                                    <Box>
+                                        <Text>Maximum</Text>
+                                        <Input
+                                            value={priceRange[1]}
+                                            onChange={(e) => {
+                                                const value = Math.max(Number(e.target.value), priceRange[0]);
+                                                setPriceRange([priceRange[0], value]);
+                                            }}
+                                        />
+                                    </Box>
+                                </Flex>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
 
-<Popover>
-    <PopoverTrigger>
-        <Button border="1px solid" borderColor="gray.300" width="250px" height="50px" justifyContent="left">{`${caratRange[0]} - ${caratRange[1]} carat`}
-            <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
-    </PopoverTrigger>
-    <PopoverContent width="700px" height="250px" border="1px solid" borderColor="gray.300">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="50px">
-            <Text as='b'>Carat</Text>
-            <RangeSlider
-                defaultValue={[0.3, 10]}
-                min={0.3}
-                max={10}
-                step={0.01}
-                onChangeEnd={(val) => setCaratRange(val)}
-                value={caratRange}
-                onChange={(val) => setCaratRange(val)}
-            >
-                <RangeSliderTrack>
-                    <RangeSliderFilledTrack bg='blue.500' />
-                </RangeSliderTrack>
-                <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-            </RangeSlider>
-            <Flex mt={4} justifyContent="space-between">
-                <Box>
-                    <Text>Minimum</Text>
-                    <Input
-                        value={caratRange[0]}
-                        onChange={(e) => {
-                            const value = Math.min(Number(e.target.value), caratRange[1]);
-                            setCaratRange([value, caratRange[1]]);
-                        }}
-                    />
-                </Box>
-                <span >-</span>
-                <Box>
-                    <Text>Maximum</Text>
-                    <Input
-                        value={caratRange[1]}
-                        onChange={(e) => {
-                            const value = Math.max(Number(e.target.value), caratRange[0]);
-                            setCaratRange([caratRange[0], value]);
-                        }}
-                    />
-                </Box>
-            </Flex>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button
+                                border="1px solid"
+                                borderColor="gray.300"
+                                width={{ base: '100%', md: '250px' }}
+                                height="50px"
+                                justifyContent="left">{`${caratRange[0]} - ${caratRange[1]} carat`}
+                                <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
+                        </PopoverTrigger>
+                        <PopoverContent maxW="100%"
+                            width={{ base: '100%', md: '700px' }}
+                            height="auto"
+                            border="1px solid"
+                            borderColor="gray.300">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="50px">
+                                <Text as='b'>Carat</Text>
+                                <RangeSlider
+                                    defaultValue={[0.3, 10]}
+                                    min={0.3}
+                                    max={10}
+                                    step={0.01}
+                                    onChangeEnd={(val) => setCaratRange(val)}
+                                    value={caratRange}
+                                    onChange={(val) => setCaratRange(val)}
+                                >
+                                    <RangeSliderTrack>
+                                        <RangeSliderFilledTrack bg='blue.500' />
+                                    </RangeSliderTrack>
+                                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                </RangeSlider>
+                                <Flex mt={4} justifyContent="space-between">
+                                    <Box>
+                                        <Text>Minimum</Text>
+                                        <Input
+                                            value={caratRange[0]}
+                                            onChange={(e) => {
+                                                const value = Math.min(Number(e.target.value), caratRange[1]);
+                                                setCaratRange([value, caratRange[1]]);
+                                            }}
+                                        />
+                                    </Box>
+                                    <span >-</span>
+                                    <Box>
+                                        <Text>Maximum</Text>
+                                        <Input
+                                            value={caratRange[1]}
+                                            onChange={(e) => {
+                                                const value = Math.max(Number(e.target.value), caratRange[0]);
+                                                setCaratRange([caratRange[0], value]);
+                                            }}
+                                        />
+                                    </Box>
+                                </Flex>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
 
-<Popover>
-    <PopoverTrigger>
-        <Button border="1px solid" borderColor="gray.300" width="250px" height="50px" justifyContent="left">{`${colorRange[0]} - ${colorRange[1]} color`}
-            <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
-    </PopoverTrigger>
-    <PopoverContent width="700px" height="250px" border="1px solid" borderColor="gray.300">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="50px">
-            <Text as='b'>Color</Text>
-            <RangeSlider
-                defaultValue={[0, 6]} // Giá trị mặc định cho slider, từ J đến D
-                min={0}
-                max={6}
-                step={1}
-                onChangeEnd={(val) => handleSliderChange(val.map(index => ['J', 'I', 'H', 'G', 'F', 'E', 'D'][index]))}
-                value={colorRange.map(color => ['J', 'I', 'H', 'G', 'F', 'E', 'D'].indexOf(color))}
-                onChange={(val) => handleSliderChange(val.map(index => ['J', 'I', 'H', 'G', 'F', 'E', 'D'][index]))}
-            >
-                <RangeSliderTrack>
-                    <RangeSliderFilledTrack bg='blue.500' />
-                </RangeSliderTrack>
-                <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-            </RangeSlider>
-            <Box mt={4} justifyContent="space-between">
-                <Text>Color: </Text>
-                <Text>   J,  I,   H,   G,   F,   E,   D   </Text>
-            </Box>
-            <Flex mt={4} justifyContent="space-between">
-                <Box>
-                    <Text>Minimum</Text>
-                    <Input
-                        value={colorRange[0]}
-                        onChange={(e) => setColorRange([e.target.value, colorRange[1]])}
-                    />
-                </Box>
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button
+                                border="1px solid"
+                                borderColor="gray.300"
+                                width={{ base: '100%', md: '250px' }}
+                                height="50px"
+                                justifyContent="left">{`${colorRange[0]} - ${colorRange[1]} color`}
+                                <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
+                        </PopoverTrigger>
+                        <PopoverContent maxW="100%"
+                            width={{ base: '100%', md: '700px' }}
+                            height="auto"
+                            border="1px solid"
+                            borderColor="gray.300">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="50px">
+                                <Text as='b'>Color</Text>
+                                <RangeSlider
+                                    defaultValue={[0, 6]} // Giá trị mặc định cho slider, từ J đến D
+                                    min={0}
+                                    max={6}
+                                    step={1}
+                                    onChangeEnd={(val) => handleSliderChange(val.map(index => ['J', 'I', 'H', 'G', 'F', 'E', 'D'][index]))}
+                                    value={colorRange.map(color => ['J', 'I', 'H', 'G', 'F', 'E', 'D'].indexOf(color))}
+                                    onChange={(val) => handleSliderChange(val.map(index => ['J', 'I', 'H', 'G', 'F', 'E', 'D'][index]))}
+                                >
+                                    <RangeSliderTrack>
+                                        <RangeSliderFilledTrack bg='blue.500' />
+                                    </RangeSliderTrack>
+                                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                </RangeSlider>
+                                <Box mt={4} justifyContent="space-between">
+                                    <Text>Color: </Text>
+                                    <Text>   J,  I,   H,   G,   F,   E,   D   </Text>
+                                </Box>
+                                <Flex mt={4} justifyContent="space-between">
+                                    <Box>
+                                        <Text>Minimum</Text>
+                                        <Input
+                                            value={colorRange[0]}
+                                            onChange={(e) => setColorRange([e.target.value, colorRange[1]])}
+                                        />
+                                    </Box>
 
-                <Box>
-                    <Text>Maximum</Text>
-                    <Input
-                        value={colorRange[1]}
-                        onChange={(e) => setColorRange([colorRange[0], e.target.value])}
-                    />
-                </Box>
-            </Flex>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
+                                    <Box>
+                                        <Text>Maximum</Text>
+                                        <Input
+                                            value={colorRange[1]}
+                                            onChange={(e) => setColorRange([colorRange[0], e.target.value])}
+                                        />
+                                    </Box>
+                                </Flex>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
 
-<Popover>
-    <PopoverTrigger>
-        <Button border="1px solid" borderColor="gray.300" width="250px" height="50px" justifyContent="left">{`${clarityRange[0]} - ${clarityRange[1]} clarity`}
-            <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
-    </PopoverTrigger>
-    <PopoverContent width="700px" height="250px" border="1px solid" borderColor="gray.300">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="50px">
-            <Text as='b'>Clarity</Text>
-            <RangeSlider
-                defaultValue={[0, 7]} // Giá trị mặc định cho slider, từ J đến D
-                min={0}
-                max={7}
-                step={1}
-                onChangeEnd={(val) => handleSliderClarityChange(val.map(index => ['SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF', 'FL'][index]))}
-                value={clarityRange.map(clarity => ['SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF', 'FL'].indexOf(clarity))}
-                onChange={(val) => handleSliderClarityChange(val.map(index => ['SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF', 'FL'][index]))}
-            >
-                <RangeSliderTrack>
-                    <RangeSliderFilledTrack bg='blue.500' />
-                </RangeSliderTrack>
-                <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-            </RangeSlider>
-            <Box mt={4} justifyContent="space-between">
-                <Text>Clarity: </Text>
-                <Text>   SI2,   SI1,   VS2,   VS1,   VVS2,   VVS1,   IF,   FL</Text>
-            </Box>
-            <Flex mt={4} justifyContent="space-between">
-                <Box>
-                    <Text>Minimum</Text>
-                    <Input
-                        value={clarityRange[0]}
-                        onChange={(e) => setClarityRange([e.target.value, clarityRange[1]])}
-                    />
-                </Box>
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button
+                                border="1px solid"
+                                borderColor="gray.300"
+                                width={{ base: '100%', md: '250px' }}
+                                height="50px"
+                                justifyContent="left">{`${clarityRange[0]} - ${clarityRange[1]} clarity`}
+                                <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
+                        </PopoverTrigger>
+                        <PopoverContent maxW="100%"
+                            width={{ base: '100%', md: '700px' }}
+                            height="auto"
+                            border="1px solid"
+                            borderColor="gray.300">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="50px">
+                                <Text as='b'>Clarity</Text>
+                                <RangeSlider
+                                    defaultValue={[0, 7]} // Giá trị mặc định cho slider, từ J đến D
+                                    min={0}
+                                    max={7}
+                                    step={1}
+                                    onChangeEnd={(val) => handleSliderClarityChange(val.map(index => ['SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF', 'FL'][index]))}
+                                    value={clarityRange.map(clarity => ['SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF', 'FL'].indexOf(clarity))}
+                                    onChange={(val) => handleSliderClarityChange(val.map(index => ['SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF', 'FL'][index]))}
+                                >
+                                    <RangeSliderTrack>
+                                        <RangeSliderFilledTrack bg='blue.500' />
+                                    </RangeSliderTrack>
+                                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                </RangeSlider>
+                                <Box mt={4} justifyContent="space-between">
+                                    <Text>Clarity: </Text>
+                                    <Text>   SI2,   SI1,   VS2,   VS1,   VVS2,   VVS1,   IF,   FL</Text>
+                                </Box>
+                                <Flex mt={4} justifyContent="space-between">
+                                    <Box>
+                                        <Text>Minimum</Text>
+                                        <Input
+                                            value={clarityRange[0]}
+                                            onChange={(e) => setClarityRange([e.target.value, clarityRange[1]])}
+                                        />
+                                    </Box>
 
-                <Box>
-                    <Text>Maximum</Text>
-                    <Input
-                        value={clarityRange[1]}
-                        onChange={(e) => setClarityRange([clarityRange[0], e.target.value])}
-                    />
-                </Box>
-            </Flex>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
+                                    <Box>
+                                        <Text>Maximum</Text>
+                                        <Input
+                                            value={clarityRange[1]}
+                                            onChange={(e) => setClarityRange([clarityRange[0], e.target.value])}
+                                        />
+                                    </Box>
+                                </Flex>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
 
-</Flex>
-<Flex gap={3} >
-<Popover>
-    <PopoverTrigger>
-        <Button >
-            <img className="h-6" loading="lazy" height="23" width="23" src='https://cdn-icons-png.freepik.com/256/10515/10515819.png?' style={{ marginRight: '5px' }}></img>
-            All Filters</Button>
-    </PopoverTrigger>
-    <PopoverContent width="300px" maxHeight="700px" border="1px solid" borderColor="gray.300" overflowY="auto">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
-            <Text as='b'>Jewelers</Text>
-            <Flex alignItems="center" justifyContent="space-between">
-                <Text as='b'>Show all jewelers</Text>
-                <Switch id='allfilter' isChecked={isCheckedAll} onChange={handleSwitchChange} />
-            </Flex>
-            <Text fontSize='xs' as='b'>Or, select individual jewelers:</Text>
-            <Box display="flex" flexDirection="column">
-                <Checkbox isChecked={isChecked.adiamor} onChange={() => handleCheckboxChange('adiamor')}>Adiamor</Checkbox>
-                <Checkbox isChecked={isChecked.allurez} onChange={() => handleCheckboxChange('allurez')}>Allurez</Checkbox>
-                <Checkbox isChecked={isChecked.brilliance} onChange={() => handleCheckboxChange('brilliance')}>Brilliance</Checkbox>
-                <Checkbox isChecked={isChecked.danielWilliam} onChange={() => handleCheckboxChange('danielWilliam')}>Daniel William</Checkbox>
-                <Checkbox isChecked={isChecked.dreamStone} onChange={() => handleCheckboxChange('dreamStone')}>DreamStone</Checkbox>
-                <Checkbox isChecked={isChecked.friendlyDiamonds} onChange={() => handleCheckboxChange('friendlyDiamonds')}>Friendly Diamonds</Checkbox>
-                <Checkbox isChecked={isChecked.rockHer} onChange={() => handleCheckboxChange('rockHer')}>RockHer</Checkbox>
-                <Checkbox isChecked={isChecked.whiteflash} onChange={() => handleCheckboxChange('whiteflash')}>Whiteflash</Checkbox>
-                <Checkbox isChecked={isChecked.withClarity} onChange={() => handleCheckboxChange('withClarity')}>With Clarity</Checkbox>
-            </Box>
-
-            <Box>
-                <Text as='b'>Price</Text>
-                <RangeSlider
-                    defaultValue={[200, 1500000]}
-                    min={200}
-                    max={1500000}
-                    step={50}
-                    onChangeEnd={(val) => setPriceRange(val)}
-                    value={priceRange}
-                    onChange={(val) => setPriceRange(val)}
-                >
-                    <RangeSliderTrack>
-                        <RangeSliderFilledTrack bg='blue.500' />
-                    </RangeSliderTrack>
-                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-                </RangeSlider>
-                <Flex mt={4} justifyContent="space-between">
-                    <Box>
-                        <Text>Minimum</Text>
-                        <Input
-                            value={priceRange[0]}
-                            onChange={(e) => {
-                                const value = Math.min(Number(e.target.value), priceRange[1]);
-                                setPriceRange([value, priceRange[1]]);
-                            }}
-                        />
-                    </Box>
-                    <Box>
-                        <Text>Maximum</Text>
-                        <Input
-                            value={priceRange[1]}
-                            onChange={(e) => {
-                                const value = Math.max(Number(e.target.value), priceRange[0]);
-                                setPriceRange([priceRange[0], value]);
-                            }}
-                        />
-                    </Box>
                 </Flex>
-            </Box>
+                <Flex flexWrap="wrap"
 
-            <Box display="flex" flexDirection="column">
-                <Text as='b'>Symmetry Filter</Text>
-                <Flex alignItems="center" justifyContent="space-between">
-                    <Text as='b' fontSize='xs'>Select all symmetry options</Text>
-                    <Switch id='fluoresence' isChecked={isCheckedAll} onChange={handleSwitchChange} />
+                    gap={3}
+                    justifyContent={{ base: 'center', md: '250px' }}>
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button >
+                                <img className="h-6" loading="lazy" height="23" width="23" src='https://cdn-icons-png.freepik.com/256/10515/10515819.png?' style={{ marginRight: '5px' }}></img>
+                                All Filters</Button>
+                        </PopoverTrigger>
+                        <PopoverContent width="300px" maxHeight="700px" border="1px solid" borderColor="gray.300" overflowY="auto">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody display="flex" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
+                                <Text as='b'>Jewelers</Text>
+                                <Flex alignItems="center" justifyContent="space-between">
+                                    <Text as='b'>Show all jewelers</Text>
+                                    <Switch id='allfilter' isChecked={isCheckedAll} onChange={handleSwitchChange} />
+                                </Flex>
+                                <Text fontSize='xs' as='b'>Or, select individual jewelers:</Text>
+                                <Box display="flex" flexDirection="column">
+                                    <Checkbox isChecked={isChecked.adiamor} onChange={() => handleCheckboxChange('adiamor')}>Adiamor</Checkbox>
+                                    <Checkbox isChecked={isChecked.allurez} onChange={() => handleCheckboxChange('allurez')}>Allurez</Checkbox>
+                                    <Checkbox isChecked={isChecked.brilliance} onChange={() => handleCheckboxChange('brilliance')}>Brilliance</Checkbox>
+                                    <Checkbox isChecked={isChecked.danielWilliam} onChange={() => handleCheckboxChange('danielWilliam')}>Daniel William</Checkbox>
+                                    <Checkbox isChecked={isChecked.dreamStone} onChange={() => handleCheckboxChange('dreamStone')}>DreamStone</Checkbox>
+                                    <Checkbox isChecked={isChecked.friendlyDiamonds} onChange={() => handleCheckboxChange('friendlyDiamonds')}>Friendly Diamonds</Checkbox>
+                                    <Checkbox isChecked={isChecked.rockHer} onChange={() => handleCheckboxChange('rockHer')}>RockHer</Checkbox>
+                                    <Checkbox isChecked={isChecked.whiteflash} onChange={() => handleCheckboxChange('whiteflash')}>Whiteflash</Checkbox>
+                                    <Checkbox isChecked={isChecked.withClarity} onChange={() => handleCheckboxChange('withClarity')}>With Clarity</Checkbox>
+                                </Box>
+
+                                <Box>
+                                    <Text as='b'>Price</Text>
+                                    <RangeSlider
+                                        defaultValue={[200, 1500000]}
+                                        min={200}
+                                        max={1500000}
+                                        step={50}
+                                        onChangeEnd={(val) => setPriceRange(val)}
+                                        value={priceRange}
+                                        onChange={(val) => setPriceRange(val)}
+                                    >
+                                        <RangeSliderTrack>
+                                            <RangeSliderFilledTrack bg='blue.500' />
+                                        </RangeSliderTrack>
+                                        <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                        <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                    </RangeSlider>
+                                    <Flex mt={4} justifyContent="space-between">
+                                        <Box>
+                                            <Text>Minimum</Text>
+                                            <Input
+                                                value={priceRange[0]}
+                                                onChange={(e) => {
+                                                    const value = Math.min(Number(e.target.value), priceRange[1]);
+                                                    setPriceRange([value, priceRange[1]]);
+                                                }}
+                                            />
+                                        </Box>
+                                        <Box>
+                                            <Text>Maximum</Text>
+                                            <Input
+                                                value={priceRange[1]}
+                                                onChange={(e) => {
+                                                    const value = Math.max(Number(e.target.value), priceRange[0]);
+                                                    setPriceRange([priceRange[0], value]);
+                                                }}
+                                            />
+                                        </Box>
+                                    </Flex>
+                                </Box>
+
+                                <Box display="flex" flexDirection="column">
+                                    <Text as='b'>Symmetry Filter</Text>
+                                    <Flex alignItems="center" justifyContent="space-between">
+                                        <Text as='b' fontSize='xs'>Select all symmetry options</Text>
+                                        <Switch id='fluoresence' isChecked={isCheckedAll} onChange={handleSwitchChange} />
+                                    </Flex>
+                                    <Checkbox isChecked={isChecked.excellent} onChange={() => handleCheckboxChange('excellent')}>Excellent</Checkbox>
+                                    <Checkbox isChecked={isChecked.veryGood} onChange={() => handleCheckboxChange('veryGood')}>Very Good</Checkbox>
+                                    <Checkbox isChecked={isChecked.good} onChange={() => handleCheckboxChange('good')}>Good</Checkbox>
+                                    <Checkbox isChecked={isChecked.fair} onChange={() => handleCheckboxChange('fair')}>Fair</Checkbox>
+                                    <Checkbox isChecked={isChecked.poor} onChange={() => handleCheckboxChange('poor')}>Poor</Checkbox>
+                                </Box>
+
+                                <Box display="flex" flexDirection="column">
+                                    <Text as='b'>Polish Filter</Text>
+                                    <Flex alignItems="center" justifyContent="space-between">
+                                        <Text as='b' fontSize='xs'>Select all polish</Text>
+                                        <Switch id='fluoresence' isChecked={isCheckedAll} onChange={handleSwitchChange} />
+                                    </Flex>
+                                    <Checkbox isChecked={isChecked.excellent} onChange={() => handleCheckboxChange('excellent')}>Excellent</Checkbox>
+                                    <Checkbox isChecked={isChecked.veryGood} onChange={() => handleCheckboxChange('veryGood')}>Very Good</Checkbox>
+                                    <Checkbox isChecked={isChecked.good} onChange={() => handleCheckboxChange('good')}>Good</Checkbox>
+                                    <Checkbox isChecked={isChecked.fair} onChange={() => handleCheckboxChange('fair')}>Fair</Checkbox>
+                                    <Checkbox isChecked={isChecked.poor} onChange={() => handleCheckboxChange('poor')}>Poor</Checkbox>
+                                </Box>
+
+                                <Box display="flex" flexDirection="column">
+                                    <Text as='b'>Fluoresence Filter</Text>
+                                    <Flex alignItems="center" justifyContent="space-between">
+                                        <Text as='b' fontSize='xs'>Select all fluor. intensities</Text>
+                                        <Switch id='fluoresence' isChecked={isCheckedAll} onChange={handleSwitchChange} />
+                                    </Flex>
+                                    <Checkbox isChecked={isChecked.none} onChange={() => handleCheckboxChange('none')}>None</Checkbox>
+                                    <Checkbox isChecked={isChecked.faint} onChange={() => handleCheckboxChange('faint')}>Faint</Checkbox>
+                                    <Checkbox isChecked={isChecked.medium} onChange={() => handleCheckboxChange('medium')}>Medium</Checkbox>
+                                    <Checkbox isChecked={isChecked.strong} onChange={() => handleCheckboxChange('strong')}>Strong</Checkbox>
+                                    <Checkbox isChecked={isChecked.veryStrong} onChange={() => handleCheckboxChange('veryStrong')}>Very Strong</Checkbox>
+                                </Box>
+
+                                <Box>
+                                    <Text as='b'>Table %</Text>
+                                    <RangeSlider
+                                        defaultValue={[0, 100]}
+                                        min={0}
+                                        max={100}
+                                        step={0.1}
+                                        onChangeEnd={(val) => setTableRange(val)}
+                                        value={tableRange}
+                                        onChange={(val) => setTableRange(val)}
+                                    >
+                                        <RangeSliderTrack>
+                                            <RangeSliderFilledTrack bg='blue.500' />
+                                        </RangeSliderTrack>
+                                        <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                        <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                    </RangeSlider>
+                                    <Flex mt={4} justifyContent="space-between">
+                                        <Box>
+                                            <Text>Minimum %</Text>
+                                            <Input
+                                                value={tableRange[0]}
+                                                onChange={(e) => {
+                                                    const value = Math.min(Number(e.target.value), tableRange[1]);
+                                                    setTableRange([value, tableRange[1]]);
+                                                }}
+                                            />
+                                        </Box>
+                                        <span>-</span>
+                                        <Box>
+                                            <Text>Maximum %</Text>
+                                            <Input
+                                                value={tableRange[1]}
+                                                onChange={(e) => {
+                                                    const value = Math.max(Number(e.target.value), tableRange[0]);
+                                                    setTableRange([tableRange[0], value]);
+                                                }}
+                                            />
+                                        </Box>
+                                    </Flex>
+                                </Box>
+
+                                <Box>
+                                    <Text as='b'>Depth %</Text>
+                                    <RangeSlider
+                                        defaultValue={[0, 100]}
+                                        min={0}
+                                        max={100}
+                                        step={0.1}
+                                        onChangeEnd={(val) => setDepthRange(val)}
+                                        value={depthRange}
+                                        onChange={(val) => setDepthRange(val)}
+                                    >
+                                        <RangeSliderTrack>
+                                            <RangeSliderFilledTrack bg='blue.500' />
+                                        </RangeSliderTrack>
+                                        <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                        <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                    </RangeSlider>
+                                    <Flex mt={4} justifyContent="space-between">
+                                        <Box>
+                                            <Text>Minimum %</Text>
+                                            <Input
+                                                value={depthRange[0]}
+                                                onChange={(e) => {
+                                                    const value = Math.min(Number(e.target.value), depthRange[1]);
+                                                    setDepthRange([value, depthRange[1]]);
+                                                }}
+                                            />
+                                        </Box>
+                                        <span>-</span>
+                                        <Box>
+                                            <Text>Maximum %</Text>
+                                            <Input
+                                                value={depthRange[1]}
+                                                onChange={(e) => {
+                                                    const value = Math.max(Number(e.target.value), depthRange[0]);
+                                                    setDepthRange([depthRange[0], value]);
+                                                }}
+                                            />
+                                        </Box>
+                                    </Flex>
+                                </Box>
+
+                                <Box>
+                                    <Text as='b'>L/W Ratio</Text>
+                                    <RangeSlider
+                                        defaultValue={[0, 3]}
+                                        min={0}
+                                        max={3}
+                                        step={0.1}
+                                        onChangeEnd={(val) => setRatioRange(val)}
+                                        value={ratioRange}
+                                        onChange={(val) => setRatioRange(val)}
+                                    >
+                                        <RangeSliderTrack>
+                                            <RangeSliderFilledTrack bg='blue.500' />
+                                        </RangeSliderTrack>
+                                        <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                        <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                    </RangeSlider>
+                                    <Flex mt={4} justifyContent="space-between">
+                                        <Box>
+                                            <Text>Minimum</Text>
+                                            <Input
+                                                value={ratioRange[0]}
+                                                onChange={(e) => {
+                                                    const value = Math.min(Number(e.target.value), ratioRange[1]);
+                                                    setRatioRange([value, ratioRange[1]]);
+                                                }}
+                                            />
+                                        </Box>
+                                        <span>-</span>
+                                        <Box>
+                                            <Text>Maximum</Text>
+                                            <Input
+                                                value={ratioRange[1]}
+                                                onChange={(e) => {
+                                                    const value = Math.max(Number(e.target.value), ratioRange[0]);
+                                                    setRatioRange([ratioRange[0], value]);
+                                                }}
+                                            />
+                                        </Box>
+                                    </Flex>
+                                </Box>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
+
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button border="1px solid" borderColor="gray.300" w='150px' justifyContent="left">Fluoresence
+                                <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
+                        </PopoverTrigger>
+                        <PopoverContent width="300px" height="250px" border="1px solid" borderColor="gray.300">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
+                                <Text as='b' >Fluoresence Filter</Text>
+                                <Text fontSize='xs' as='b'>Select all fluor. intensities <Switch id='fluoresence' display="flex" justifyContent="end" isChecked={isCheckedAll} onChange={handleSwitchChange} /></Text>
+                                <Checkbox isChecked={isChecked.none} onChange={() => handleCheckboxChange('none')}>None</Checkbox>
+                                <Checkbox isChecked={isChecked.faint} onChange={() => handleCheckboxChange('faint')}>Faint</Checkbox>
+                                <Checkbox isChecked={isChecked.medium} onChange={() => handleCheckboxChange('medium')}>Medium</Checkbox>
+                                <Checkbox isChecked={isChecked.strong} onChange={() => handleCheckboxChange('strong')}>Strong</Checkbox>
+                                <Checkbox isChecked={isChecked.veryStrong} onChange={() => handleCheckboxChange('veryStrong')}>Very Strong</Checkbox>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
+
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button border="1px solid" borderColor="gray.300" w='140px' justifyContent="left">L/W Ratio
+                                <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
+                        </PopoverTrigger>
+                        <PopoverContent maxW="100%"
+                            width={{ base: '100%', md: '700px' }}
+                            height="auto"
+                            border="1px solid"
+                            borderColor="gray.300">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
+                                <Text as='b'>L/W Ratio</Text>
+                                <RangeSlider
+                                    defaultValue={[0, 3]}
+                                    min={0}
+                                    max={3}
+                                    step={0.1}
+                                    onChangeEnd={(val) => setRatioRange(val)}
+                                    value={ratioRange}
+                                    onChange={(val) => setRatioRange(val)}
+                                >
+                                    <RangeSliderTrack>
+                                        <RangeSliderFilledTrack bg='blue.500' />
+                                    </RangeSliderTrack>
+                                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                </RangeSlider>
+                                <Flex mt={4} justifyContent="space-between">
+                                    <Box>
+                                        <Text>Minimum</Text>
+                                        <Input
+                                            value={ratioRange[0]}
+                                            onChange={(e) => {
+                                                const value = Math.min(Number(e.target.value), ratioRange[1]);
+                                                setRatioRange([value, ratioRange[1]]);
+                                            }}
+                                        />
+                                    </Box>
+                                    <span >-</span>
+                                    <Box>
+                                        <Text>Maximum</Text>
+                                        <Input
+                                            value={ratioRange[1]}
+                                            onChange={(e) => {
+                                                const value = Math.max(Number(e.target.value), ratioRange[0]);
+                                                setRatioRange([ratioRange[0], value]);
+                                            }}
+                                        />
+                                    </Box>
+                                </Flex>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
+
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button border="1px solid" borderColor="gray.300" w='140px' justifyContent="left"> Table %
+                                <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
+                        </PopoverTrigger>
+                        <PopoverContent maxW="100%"
+                            width={{ base: '100%', md: '700px' }}
+                            height="auto"
+                            border="1px solid"
+                            borderColor="gray.300">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
+                                <Text as='b'>Table %</Text>
+                                <RangeSlider
+                                    defaultValue={[0, 100]}
+                                    min={0}
+                                    max={100}
+                                    step={0.1}
+                                    onChangeEnd={(val) => setTableRange(val)}
+                                    value={tableRange}
+                                    onChange={(val) => setTableRange(val)}
+                                >
+                                    <RangeSliderTrack>
+                                        <RangeSliderFilledTrack bg='blue.500' />
+                                    </RangeSliderTrack>
+                                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                </RangeSlider>
+                                <Flex mt={4} justifyContent="space-between">
+                                    <Box>
+                                        <Text>Minimum %</Text>
+                                        <Input
+                                            value={tableRange[0]}
+                                            onChange={(e) => {
+                                                const value = Math.min(Number(e.target.value), tableRange[1]);
+                                                setTableRange([value, tableRange[1]]);
+                                            }}
+                                        />
+                                    </Box>
+                                    <span >-</span>
+                                    <Box>
+                                        <Text>Maximum %</Text>
+                                        <Input
+                                            value={tableRange[1]}
+                                            onChange={(e) => {
+                                                const value = Math.max(Number(e.target.value), tableRange[0]);
+                                                setTableRange([tableRange[0], value]);
+                                            }}
+                                        />
+                                    </Box>
+                                </Flex>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
+
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button border="1px solid" borderColor="gray.300" w='140px' justifyContent="left">Depth %
+                                <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
+                        </PopoverTrigger>
+                        <PopoverContent maxW="100%"
+                            width={{ base: '100%', md: '700px' }}
+                            height="auto"
+                            border="1px solid"
+                            borderColor="gray.300">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
+                                <Text as='b'>Depth %</Text>
+                                <RangeSlider
+                                    defaultValue={[0, 100]}
+                                    min={0}
+                                    max={100}
+                                    step={0.1}
+                                    onChangeEnd={(val) => setDepthRange(val)}
+                                    value={depthRange}
+                                    onChange={(val) => setDepthRange(val)}
+                                >
+                                    <RangeSliderTrack>
+                                        <RangeSliderFilledTrack bg='blue.500' />
+                                    </RangeSliderTrack>
+                                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
+                                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
+                                </RangeSlider>
+                                <Flex mt={4} justifyContent="space-between">
+                                    <Box>
+                                        <Text>Minimum %</Text>
+                                        <Input
+                                            value={depthRange[0]}
+                                            onChange={(e) => {
+                                                const value = Math.min(Number(e.target.value), depthRange[1]);
+                                                setDepthRange([value, depthRange[1]]);
+                                            }}
+                                        />
+                                    </Box>
+                                    <span >-</span>
+                                    <Box>
+                                        <Text>Maximum %</Text>
+                                        <Input
+                                            value={depthRange[1]}
+                                            onChange={(e) => {
+                                                const value = Math.max(Number(e.target.value), depthRange[0]);
+                                                setDepthRange([depthRange[0], value]);
+                                            }}
+                                        />
+                                    </Box>
+                                </Flex>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
+
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button border="1px solid" borderColor="gray.300" w='150px' justifyContent="left">Polish
+                                <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
+                        </PopoverTrigger>
+                        <PopoverContent width="300px" height="250px" border="1px solid" borderColor="gray.300">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
+                                <Text as='b' >Polish Fillter</Text>
+                                <Text as='b' fontSize='xs' >Select all polish <Switch id='fluoresence' display="flex" justifyContent="end" isChecked={isCheckedAll} onChange={handleSwitchChange} /></Text>
+                                <Checkbox isChecked={isChecked.excellent} onChange={() => handleCheckboxChange('excellent')}>Excellent</Checkbox>
+                                <Checkbox isChecked={isChecked.veryGood} onChange={() => handleCheckboxChange('veryGood')}>Very Good</Checkbox>
+                                <Checkbox isChecked={isChecked.good} onChange={() => handleCheckboxChange('good')}>Good</Checkbox>
+                                <Checkbox isChecked={isChecked.fair} onChange={() => handleCheckboxChange('fair')}>Fair</Checkbox>
+                                <Checkbox isChecked={isChecked.poor} onChange={() => handleCheckboxChange('poor')}>Poor</Checkbox>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
+
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button border="1px solid" borderColor="gray.300" w='140px' justifyContent="left">Symmetry
+                                <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
+                        </PopoverTrigger>
+                        <PopoverContent width="300px" height="250px" border="1px solid" borderColor="gray.300">
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
+                                <Text as='b' >Symmetry Fillter</Text>
+                                <Text as='b' fontSize='xs' >Select all symmetry option<Switch id='fluoresence' display="flex" justifyContent="end" isChecked={isCheckedAll} onChange={handleSwitchChange} /></Text>
+                                <Checkbox isChecked={isChecked.excellent} onChange={() => handleCheckboxChange('excellent')}>Excellent</Checkbox>
+                                <Checkbox isChecked={isChecked.veryGood} onChange={() => handleCheckboxChange('veryGood')}>Very Good</Checkbox>
+                                <Checkbox isChecked={isChecked.good} onChange={() => handleCheckboxChange('good')}>Good</Checkbox>
+                                <Checkbox isChecked={isChecked.fair} onChange={() => handleCheckboxChange('fair')}>Fair</Checkbox>
+                                <Checkbox isChecked={isChecked.poor} onChange={() => handleCheckboxChange('poor')}>Poor</Checkbox>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
                 </Flex>
-                <Checkbox isChecked={isChecked.excellent} onChange={() => handleCheckboxChange('excellent')}>Excellent</Checkbox>
-                <Checkbox isChecked={isChecked.veryGood} onChange={() => handleCheckboxChange('veryGood')}>Very Good</Checkbox>
-                <Checkbox isChecked={isChecked.good} onChange={() => handleCheckboxChange('good')}>Good</Checkbox>
-                <Checkbox isChecked={isChecked.fair} onChange={() => handleCheckboxChange('fair')}>Fair</Checkbox>
-                <Checkbox isChecked={isChecked.poor} onChange={() => handleCheckboxChange('poor')}>Poor</Checkbox>
-            </Box>
-
-            <Box display="flex" flexDirection="column">
-                <Text as='b'>Polish Filter</Text>
-                <Flex alignItems="center" justifyContent="space-between">
-                    <Text as='b' fontSize='xs'>Select all polish</Text>
-                    <Switch id='fluoresence' isChecked={isCheckedAll} onChange={handleSwitchChange} />
-                </Flex>
-                <Checkbox isChecked={isChecked.excellent} onChange={() => handleCheckboxChange('excellent')}>Excellent</Checkbox>
-                <Checkbox isChecked={isChecked.veryGood} onChange={() => handleCheckboxChange('veryGood')}>Very Good</Checkbox>
-                <Checkbox isChecked={isChecked.good} onChange={() => handleCheckboxChange('good')}>Good</Checkbox>
-                <Checkbox isChecked={isChecked.fair} onChange={() => handleCheckboxChange('fair')}>Fair</Checkbox>
-                <Checkbox isChecked={isChecked.poor} onChange={() => handleCheckboxChange('poor')}>Poor</Checkbox>
-            </Box>
-
-            <Box display="flex" flexDirection="column">
-                <Text as='b'>Fluoresence Filter</Text>
-                <Flex alignItems="center" justifyContent="space-between">
-                    <Text as='b' fontSize='xs'>Select all fluor. intensities</Text>
-                    <Switch id='fluoresence' isChecked={isCheckedAll} onChange={handleSwitchChange} />
-                </Flex>
-                <Checkbox isChecked={isChecked.none} onChange={() => handleCheckboxChange('none')}>None</Checkbox>
-                <Checkbox isChecked={isChecked.faint} onChange={() => handleCheckboxChange('faint')}>Faint</Checkbox>
-                <Checkbox isChecked={isChecked.medium} onChange={() => handleCheckboxChange('medium')}>Medium</Checkbox>
-                <Checkbox isChecked={isChecked.strong} onChange={() => handleCheckboxChange('strong')}>Strong</Checkbox>
-                <Checkbox isChecked={isChecked.veryStrong} onChange={() => handleCheckboxChange('veryStrong')}>Very Strong</Checkbox>
-            </Box>
-
-            <Box>
-                <Text as='b'>Table %</Text>
-                <RangeSlider
-                    defaultValue={[0, 100]}
-                    min={0}
-                    max={100}
-                    step={0.1}
-                    onChangeEnd={(val) => setTableRange(val)}
-                    value={tableRange}
-                    onChange={(val) => setTableRange(val)}
-                >
-                    <RangeSliderTrack>
-                        <RangeSliderFilledTrack bg='blue.500' />
-                    </RangeSliderTrack>
-                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-                </RangeSlider>
-                <Flex mt={4} justifyContent="space-between">
-                    <Box>
-                        <Text>Minimum %</Text>
-                        <Input
-                            value={tableRange[0]}
-                            onChange={(e) => {
-                                const value = Math.min(Number(e.target.value), tableRange[1]);
-                                setTableRange([value, tableRange[1]]);
-                            }}
-                        />
-                    </Box>
-                    <span>-</span>
-                    <Box>
-                        <Text>Maximum %</Text>
-                        <Input
-                            value={tableRange[1]}
-                            onChange={(e) => {
-                                const value = Math.max(Number(e.target.value), tableRange[0]);
-                                setTableRange([tableRange[0], value]);
-                            }}
-                        />
-                    </Box>
-                </Flex>
-            </Box>
-
-            <Box>
-                <Text as='b'>Depth %</Text>
-                <RangeSlider
-                    defaultValue={[0, 100]}
-                    min={0}
-                    max={100}
-                    step={0.1}
-                    onChangeEnd={(val) => setDepthRange(val)}
-                    value={depthRange}
-                    onChange={(val) => setDepthRange(val)}
-                >
-                    <RangeSliderTrack>
-                        <RangeSliderFilledTrack bg='blue.500' />
-                    </RangeSliderTrack>
-                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-                </RangeSlider>
-                <Flex mt={4} justifyContent="space-between">
-                    <Box>
-                        <Text>Minimum %</Text>
-                        <Input
-                            value={depthRange[0]}
-                            onChange={(e) => {
-                                const value = Math.min(Number(e.target.value), depthRange[1]);
-                                setDepthRange([value, depthRange[1]]);
-                            }}
-                        />
-                    </Box>
-                    <span>-</span>
-                    <Box>
-                        <Text>Maximum %</Text>
-                        <Input
-                            value={depthRange[1]}
-                            onChange={(e) => {
-                                const value = Math.max(Number(e.target.value), depthRange[0]);
-                                setDepthRange([depthRange[0], value]);
-                            }}
-                        />
-                    </Box>
-                </Flex>
-            </Box>
-
-            <Box>
-                <Text as='b'>L/W Ratio</Text>
-                <RangeSlider
-                    defaultValue={[0, 3]}
-                    min={0}
-                    max={3}
-                    step={0.1}
-                    onChangeEnd={(val) => setRatioRange(val)}
-                    value={ratioRange}
-                    onChange={(val) => setRatioRange(val)}
-                >
-                    <RangeSliderTrack>
-                        <RangeSliderFilledTrack bg='blue.500' />
-                    </RangeSliderTrack>
-                    <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                    <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-                </RangeSlider>
-                <Flex mt={4} justifyContent="space-between">
-                    <Box>
-                        <Text>Minimum</Text>
-                        <Input
-                            value={ratioRange[0]}
-                            onChange={(e) => {
-                                const value = Math.min(Number(e.target.value), ratioRange[1]);
-                                setRatioRange([value, ratioRange[1]]);
-                            }}
-                        />
-                    </Box>
-                    <span>-</span>
-                    <Box>
-                        <Text>Maximum</Text>
-                        <Input
-                            value={ratioRange[1]}
-                            onChange={(e) => {
-                                const value = Math.max(Number(e.target.value), ratioRange[0]);
-                                setRatioRange([ratioRange[0], value]);
-                            }}
-                        />
-                    </Box>
-                </Flex>
-            </Box>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
-
-<Popover>
-    <PopoverTrigger>
-        <Button border="1px solid" borderColor="gray.300" w='150px' justifyContent="left">Fluoresence
-            <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
-    </PopoverTrigger>
-    <PopoverContent width="300px" height="250px" border="1px solid" borderColor="gray.300">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
-            <Text as='b' >Fluoresence Filter</Text>
-            <Text fontSize='xs' as='b'>Select all fluor. intensities <Switch id='fluoresence' display="flex" justifyContent="end" isChecked={isCheckedAll} onChange={handleSwitchChange} /></Text>
-            <Checkbox isChecked={isChecked.none} onChange={() => handleCheckboxChange('none')}>None</Checkbox>
-            <Checkbox isChecked={isChecked.faint} onChange={() => handleCheckboxChange('faint')}>Faint</Checkbox>
-            <Checkbox isChecked={isChecked.medium} onChange={() => handleCheckboxChange('medium')}>Medium</Checkbox>
-            <Checkbox isChecked={isChecked.strong} onChange={() => handleCheckboxChange('strong')}>Strong</Checkbox>
-            <Checkbox isChecked={isChecked.veryStrong} onChange={() => handleCheckboxChange('veryStrong')}>Very Strong</Checkbox>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
-
-<Popover>
-    <PopoverTrigger>
-        <Button border="1px solid" borderColor="gray.300" w='140px' justifyContent="left">L/W Ratio
-            <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
-    </PopoverTrigger>
-    <PopoverContent width="700px" height="250px" border="1px solid" borderColor="gray.300">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
-            <Text as='b'>L/W Ratio</Text>
-            <RangeSlider
-                defaultValue={[0, 3]}
-                min={0}
-                max={3}
-                step={0.1}
-                onChangeEnd={(val) => setRatioRange(val)}
-                value={ratioRange}
-                onChange={(val) => setRatioRange(val)}
-            >
-                <RangeSliderTrack>
-                    <RangeSliderFilledTrack bg='blue.500' />
-                </RangeSliderTrack>
-                <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-            </RangeSlider>
-            <Flex mt={4} justifyContent="space-between">
-                <Box>
-                    <Text>Minimum</Text>
-                    <Input
-                        value={ratioRange[0]}
-                        onChange={(e) => {
-                            const value = Math.min(Number(e.target.value), ratioRange[1]);
-                            setRatioRange([value, ratioRange[1]]);
-                        }}
-                    />
-                </Box>
-                <span >-</span>
-                <Box>
-                    <Text>Maximum</Text>
-                    <Input
-                        value={ratioRange[1]}
-                        onChange={(e) => {
-                            const value = Math.max(Number(e.target.value), ratioRange[0]);
-                            setRatioRange([ratioRange[0], value]);
-                        }}
-                    />
-                </Box>
-            </Flex>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
-
-<Popover>
-    <PopoverTrigger>
-        <Button border="1px solid" borderColor="gray.300" w='140px' justifyContent="left"> Table %
-            <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
-    </PopoverTrigger>
-    <PopoverContent width="700px" height="250px" border="1px solid" borderColor="gray.300">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
-            <Text as='b'>Table %</Text>
-            <RangeSlider
-                defaultValue={[0, 100]}
-                min={0}
-                max={100}
-                step={0.1}
-                onChangeEnd={(val) => setTableRange(val)}
-                value={tableRange}
-                onChange={(val) => setTableRange(val)}
-            >
-                <RangeSliderTrack>
-                    <RangeSliderFilledTrack bg='blue.500' />
-                </RangeSliderTrack>
-                <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-            </RangeSlider>
-            <Flex mt={4} justifyContent="space-between">
-                <Box>
-                    <Text>Minimum %</Text>
-                    <Input
-                        value={tableRange[0]}
-                        onChange={(e) => {
-                            const value = Math.min(Number(e.target.value), tableRange[1]);
-                            setTableRange([value, tableRange[1]]);
-                        }}
-                    />
-                </Box>
-                <span >-</span>
-                <Box>
-                    <Text>Maximum %</Text>
-                    <Input
-                        value={tableRange[1]}
-                        onChange={(e) => {
-                            const value = Math.max(Number(e.target.value), tableRange[0]);
-                            setTableRange([tableRange[0], value]);
-                        }}
-                    />
-                </Box>
-            </Flex>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
-
-<Popover>
-    <PopoverTrigger>
-        <Button border="1px solid" borderColor="gray.300" w='140px' justifyContent="left">Depth %
-            <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
-    </PopoverTrigger>
-    <PopoverContent width="700px" height="250px" border="1px solid" borderColor="gray.300">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
-            <Text as='b'>Depth %</Text>
-            <RangeSlider
-                defaultValue={[0, 100]}
-                min={0}
-                max={100}
-                step={0.1}
-                onChangeEnd={(val) => setDepthRange(val)}
-                value={depthRange}
-                onChange={(val) => setDepthRange(val)}
-            >
-                <RangeSliderTrack>
-                    <RangeSliderFilledTrack bg='blue.500' />
-                </RangeSliderTrack>
-                <RangeSliderThumb boxSize={6} index={0} bg='blue.500' />
-                <RangeSliderThumb boxSize={6} index={1} bg='blue.500' />
-            </RangeSlider>
-            <Flex mt={4} justifyContent="space-between">
-                <Box>
-                    <Text>Minimum %</Text>
-                    <Input
-                        value={depthRange[0]}
-                        onChange={(e) => {
-                            const value = Math.min(Number(e.target.value), depthRange[1]);
-                            setDepthRange([value, depthRange[1]]);
-                        }}
-                    />
-                </Box>
-                <span >-</span>
-                <Box>
-                    <Text>Maximum %</Text>
-                    <Input
-                        value={depthRange[1]}
-                        onChange={(e) => {
-                            const value = Math.max(Number(e.target.value), depthRange[0]);
-                            setDepthRange([depthRange[0], value]);
-                        }}
-                    />
-                </Box>
-            </Flex>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
-
-<Popover>
-    <PopoverTrigger>
-        <Button border="1px solid" borderColor="gray.300" w='150px' justifyContent="left">Polish
-            <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
-    </PopoverTrigger>
-    <PopoverContent width="300px" height="250px" border="1px solid" borderColor="gray.300">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
-            <Text as='b' >Polish Fillter</Text>
-            <Text as='b' fontSize='xs' >Select all polish <Switch id='fluoresence' display="flex" justifyContent="end" isChecked={isCheckedAll} onChange={handleSwitchChange} /></Text>
-            <Checkbox isChecked={isChecked.excellent} onChange={() => handleCheckboxChange('excellent')}>Excellent</Checkbox>
-            <Checkbox isChecked={isChecked.veryGood} onChange={() => handleCheckboxChange('veryGood')}>Very Good</Checkbox>
-            <Checkbox isChecked={isChecked.good} onChange={() => handleCheckboxChange('good')}>Good</Checkbox>
-            <Checkbox isChecked={isChecked.fair} onChange={() => handleCheckboxChange('fair')}>Fair</Checkbox>
-            <Checkbox isChecked={isChecked.poor} onChange={() => handleCheckboxChange('poor')}>Poor</Checkbox>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
-
-<Popover>
-    <PopoverTrigger>
-        <Button border="1px solid" borderColor="gray.300" w='140px' justifyContent="left">Symmetry
-            <Icon as={ChevronDownIcon} position="absolute" right="0.5rem" /></Button>
-    </PopoverTrigger>
-    <PopoverContent width="300px" height="250px" border="1px solid" borderColor="gray.300">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody display="flex" padding="0 0 50" flexDirection="column" justifyContent="space-between" height="100%" px="20px">
-            <Text as='b' >Symmetry Fillter</Text>
-            <Text as='b' fontSize='xs' >Select all symmetry option<Switch id='fluoresence' display="flex" justifyContent="end" isChecked={isCheckedAll} onChange={handleSwitchChange} /></Text>
-            <Checkbox isChecked={isChecked.excellent} onChange={() => handleCheckboxChange('excellent')}>Excellent</Checkbox>
-            <Checkbox isChecked={isChecked.veryGood} onChange={() => handleCheckboxChange('veryGood')}>Very Good</Checkbox>
-            <Checkbox isChecked={isChecked.good} onChange={() => handleCheckboxChange('good')}>Good</Checkbox>
-            <Checkbox isChecked={isChecked.fair} onChange={() => handleCheckboxChange('fair')}>Fair</Checkbox>
-            <Checkbox isChecked={isChecked.poor} onChange={() => handleCheckboxChange('poor')}>Poor</Checkbox>
-        </PopoverBody>
-    </PopoverContent>
-</Popover>
-</Flex>
                 </Flex>
                 
+
+
 
             </Tabs>
         </Container>
