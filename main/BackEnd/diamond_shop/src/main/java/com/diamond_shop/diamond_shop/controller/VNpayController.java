@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond_shop.diamond_shop.dto.VNpayResponseDTO;
 import com.diamond_shop.diamond_shop.pojo.ResponseObjectPojo;
-import com.diamond_shop.diamond_shop.repository.AccountRepository;
-import com.diamond_shop.diamond_shop.repository.WalletsRepository;
 import com.diamond_shop.diamond_shop.service.VNPayService;
 
 import jakarta.servlet.http.HttpServletRequest;

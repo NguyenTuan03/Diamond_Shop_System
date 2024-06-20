@@ -1,6 +1,6 @@
 import axios from "axios";
-
 export const fetchProcessRequest = async (
+  id,
   setProcessRequest,
   currentPage,
   setTotalPage,
@@ -9,7 +9,7 @@ export const fetchProcessRequest = async (
   try {
     await axios
       .get(
-        `http://localhost:8081/api/process-request/get?page=${currentPage}&staffId=3`
+        `http://localhost:8081/api/process-request/get?page=${currentPage}&staffId=${id}`
       )
       .then(function (response) {
         setProcessRequest(response.data.content);

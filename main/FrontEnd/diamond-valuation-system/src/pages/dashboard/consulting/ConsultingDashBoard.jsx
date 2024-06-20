@@ -1,5 +1,5 @@
 import { Flex, Text, useDisclosure, Button, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ConsultingRequest from "./ConsultingRequest";
 import ConsultingStaffTable from "./ConsultingStaffTable";
 import {
@@ -7,7 +7,9 @@ import {
   checkSealingDate,
   checkFinishDate,
 } from "./ConsultingStaffService";
+import { UserContext } from "../../../components/GlobalContext/AuthContext";
 export default function ConsultingDashBoard() {
+  const user = useContext(UserContext);
   const toast = useToast();
   const viewProcessRequest = useDisclosure();
   const [viewSelectProcessRequest, setViewSelectProcessRequest] = useState(0);
@@ -37,13 +39,25 @@ export default function ConsultingDashBoard() {
   }
   useEffect(() => {
     console.log("fetching");
-    fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+    fetchProcessRequest(
+      user.userAuth.id,
+      setProcessRequest,
+      currentPage,
+      setTotalPage,
+      toast
+    );
     checkSealingDate(setIsCheckSealingDate, processRequest, toast);
     checkFinishDate(setIsCheckFinishDate, processRequest, toast);
   }, []);
   useEffect(() => {
     if (isProcessRequest) {
-      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+      fetchProcessRequest(
+        user.userAuth.id,
+        setProcessRequest,
+        currentPage,
+        setTotalPage,
+        toast
+      );
       checkSealingDate(setIsCheckSealingDate, processRequest, toast);
       checkFinishDate(setIsCheckFinishDate, processRequest, toast);
       setIsProcessRequest(false);
@@ -52,18 +66,36 @@ export default function ConsultingDashBoard() {
 
   useEffect(() => {
     if (isCheckSealingDate) {
-      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+      fetchProcessRequest(
+        user.userAuth.id,
+        setProcessRequest,
+        currentPage,
+        setTotalPage,
+        toast
+      );
       setIsCheckSealingDate(false);
     }
   }, [isCheckSealingDate, processRequest]);
   useEffect(() => {
     if (isCheckFinishDate) {
-      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+      fetchProcessRequest(
+        user.userAuth.id,
+        setProcessRequest,
+        currentPage,
+        setTotalPage,
+        toast
+      );
       setIsCheckFinishDate(false);
     }
   }, [isCheckFinishDate, processRequest]);
   useEffect(() => {
-    fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+    fetchProcessRequest(
+      user.userAuth.id,
+      setProcessRequest,
+      currentPage,
+      setTotalPage,
+      toast
+    );
   }, [currentPage]);
 
   return (

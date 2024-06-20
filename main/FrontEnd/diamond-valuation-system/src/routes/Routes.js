@@ -17,34 +17,23 @@ import Logout from "../pages/logout/Logout.jsx";
 import Prices from "../pages/prices/Prices.jsx";
 import Search from "../pages/Search/Search.jsx";
 import Error from "../pages/error/Error.jsx";
-import ValuationStaffPage from "../pages/valuationStaff/ValuationStaffPage.jsx";
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
 import ConsultingDashBoard from "../pages/dashboard/consulting/ConsultingDashBoard.jsx";
 import ConsultingAppointment from "../pages/dashboard/consulting/ConsultingAppointment.jsx";
 import ConsultingNotifications from "../pages/dashboard/consulting/ConsultingNotifications.jsx";
 import ConsultingSearch from "../pages/dashboard/consulting/ConsultingSearch.jsx";
 import ConsultingRequest from "../pages/dashboard/consulting/ConsultingRequest.jsx";
-import AdminPage from "../pages/admin/AdminPage.jsx";
 import DashBoard from "../pages/dashboard/DashBoard.jsx";
 import DashBoardNotification from "./../pages/dashboard/DashBoardNotification";
 import DashBoardPrices from "./../pages/dashboard/DashBoardPrices";
 import DashBoardAppoint from "./../pages/dashboard/DashBoardAppoint";
 import DashBoardSearch from "./../pages/dashboard/DashBoardSearch";
 import DashBoardRequest from "./../pages/dashboard/DashBoardRequest";
-import ManagePage from "../pages/manager/ManagePage.jsx";
 
 const ALlRoutes = [
   {
     path: routes.home,
     component: HomePage,
-  },
-  {
-    path: routes.admin,
-    component: AdminPage,
-  },
-  {
-    path: routes.manager,
-    component: ManagePage,
   },
   {
     path: routes.search,
@@ -146,10 +135,6 @@ const ALlRoutes = [
   {
     path: routes.logout,
     component: Logout,
-  },
-  {
-    path: routes.valuationStaff,
-    component: ValuationStaffPage,
   },
   //DashBoard => add layout: DashBoardLayout
   // Consulting Staff
