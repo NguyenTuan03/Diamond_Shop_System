@@ -175,9 +175,7 @@ export default function LabGrown() {
                                     fontWeight={"bold"}
                                 >
                                     Diamond prices{" "}
-                                    {price
-                                        .slice(18)
-                                        .map((price) => price.title)}
+                                    {price.slice(18).map((price) => price.title)}
                                 </Text>
                             )}
                             <Grid
