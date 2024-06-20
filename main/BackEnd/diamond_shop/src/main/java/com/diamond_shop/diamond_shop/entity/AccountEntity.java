@@ -65,6 +65,9 @@ public class AccountEntity {
     @OneToMany(mappedBy = "staffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessRequestEntity> processRequestEntity = new HashSet<>();
 
+    @OneToMany(mappedBy = "customerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PaymentEntity> payments = new HashSet<>();
+
     @OneToMany(mappedBy = "valuationStaffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessResultEntity> processResultEntity = new HashSet<>();
 

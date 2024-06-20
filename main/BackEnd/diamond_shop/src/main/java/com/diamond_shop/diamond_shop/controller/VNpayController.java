@@ -1,5 +1,6 @@
 package com.diamond_shop.diamond_shop.controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import com.diamond_shop.diamond_shop.pojo.ResponseObjectPojo;
 import com.diamond_shop.diamond_shop.service.VNPayService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/vnpay")
@@ -27,9 +29,16 @@ public class VNpayController {
 
     private String vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
 
+    private String success_Url = "http://localhost:5173/diamond-valuation-request";
+
+    private String failed_Url = "http://localhost:5173/diamond-service";
+
     private String return_Url = "http://localhost:8081/api/vnpay/payment_return";
+
     @GetMapping("/create")
-    public String createPayment(@RequestParam long amount, @RequestParam String orderInfo, @RequestParam String orderType, HttpServletRequest request) {
+    public String createPayment(@RequestParam long amount, @RequestParam String orderInfo, @RequestParam String orderType, HttpServletRequest request,HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Content-Type", "text/plain");
         Map<String, String> vnpParams = new HashMap<>();
         String vnpTxnRef = String.valueOf(System.currentTimeMillis());
 
@@ -42,7 +51,7 @@ public class VNpayController {
         vnpParams.put("vnp_OrderInfo", orderInfo);
         vnpParams.put("vnp_OrderType", orderType);
         vnpParams.put("vnp_Locale", "vn");
-        vnpParams.put("vnp_ReturnUrl", return_Url);
+        vnpParams.put("vnp_ReturnUrl",return_Url);
         String clientIpAddress =VNPayService.getClientIpAddress(request);
         vnpParams.put("vnp_IpAddr", clientIpAddress);
         String createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -60,13 +69,17 @@ public class VNpayController {
     }
 
     @GetMapping("/payment_return")
-    public ResponseObjectPojo<VNpayResponseDTO> payCallbackHandler(HttpServletRequest request) {
+    public ResponseObjectPojo<VNpayResponseDTO> payCallbackHandler(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         String status = request.getParameter("vnp_ResponseCode");
-        if (status.equals("00")) {
-            return new ResponseObjectPojo<>(HttpStatus.OK, "Success", new VNpayResponseDTO("00", "Success", ""));
-        } else {
-            return new ResponseObjectPojo<>(HttpStatus.BAD_REQUEST, "Failed", null);
+        if ("00".equals(status)) {
+            response.sendRedirect(success_Url);
+            return new ResponseObjectPojo<>(HttpStatus.OK, "Success", new VNpayResponseDTO("00", "Success", return_Url));
         }
-    }
+        else {
+            response.sendRedirect(failed_Url);
+            return new ResponseObjectPojo<>(HttpStatus.OK, "Success", new VNpayResponseDTO("01", "Failed", failed_Url));
+        }
+    }   
     
 }

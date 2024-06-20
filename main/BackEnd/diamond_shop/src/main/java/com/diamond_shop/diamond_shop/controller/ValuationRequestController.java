@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
 import com.diamond_shop.diamond_shop.entity.ValuatedDiamondEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
+import com.diamond_shop.diamond_shop.service.PaymentService;
 import com.diamond_shop.diamond_shop.service.ProcessRequestService;
 import com.diamond_shop.diamond_shop.service.ValuatedDiamondService;
 import com.diamond_shop.diamond_shop.service.ValuationRequestService;
@@ -22,11 +23,16 @@ public class ValuationRequestController {
     @Autowired
     private ProcessRequestService processRequestService;
     @Autowired
-    ValuatedDiamondService valuatedDiamondService;
+    private ValuatedDiamondService valuatedDiamondService;
+    @Autowired
+    private PaymentService paymentService;
 
     @PostMapping(path = "/create")
     public String createValuationRequest(@RequestBody ValuationRequestDTO valuationRequestDTO) {
         int valuationRequestId = valuationRequestService.makeRequest(valuationRequestDTO);
+
+        paymentService.createPayment(valuationRequestDTO.getUsername(), valuationRequestId);
+        
         String makeProcessRequest = processRequestService.processRequest(valuationRequestId);
         return valuationRequestId + " " + makeProcessRequest;
     }

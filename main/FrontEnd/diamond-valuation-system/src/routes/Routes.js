@@ -16,11 +16,13 @@ import Login from "../pages/login/Login.jsx";
 import Logout from "../pages/logout/Logout.jsx";
 import Prices from "../pages/prices/Prices.jsx";
 import Search from "../pages/Search/Search.jsx";
+import ConsultingStaffPage from "../pages/consultingStaff/ConsultingStaffPage.jsx";
 import Error from "../pages/error/Error.jsx";
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
 import ConsultingDashBoard from "../pages/dashboard/consulting/ConsultingDashBoard.jsx";
 import ConsultingAppointment from "../pages/dashboard/consulting/ConsultingAppointment.jsx";
 import ConsultingNotifications from "../pages/dashboard/consulting/ConsultingNotifications.jsx";
+import ConsultingPrice from "../pages/dashboard/consulting/ConsultingPrice.jsx";
 import ConsultingSearch from "../pages/dashboard/consulting/ConsultingSearch.jsx";
 import ConsultingRequest from "../pages/dashboard/consulting/ConsultingRequest.jsx";
 import DashBoard from "../pages/dashboard/DashBoard.jsx";
@@ -90,6 +92,10 @@ const ALlRoutes = [
     component: Logout,
   },
   {
+    path: routes.consultingStaff,
+    component: ConsultingStaffPage,
+  },
+  {
     path: routes.error,
     component: Error,
     layout: null,
@@ -146,6 +152,11 @@ const ALlRoutes = [
   {
     path: routes.consulting_dasboardNotification,
     component: ConsultingNotifications,
+    layout: DashBoardLayout,
+  },
+  {
+    path: routes.consulting_dashboardPrices,
+    component: ConsultingPrice,
     layout: DashBoardLayout,
   },
   {

@@ -85,12 +85,12 @@ public class ValuationResultImpl implements ValuationResultService {
             try {
                 Document doc = Jsoup.connect("https://www.stonealgo.com/lab-grown-diamond-prices/").get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-
+    
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-
+    
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
@@ -155,17 +155,18 @@ public class ValuationResultImpl implements ValuationResultService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
+        }
+        else {
             try {
                 String url = "https://www.stonealgo.com/lab-grown-diamond-prices/?i=" + shape;
                 Document doc = Jsoup.connect(url).get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-
+    
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-
+    
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
@@ -195,7 +196,7 @@ public class ValuationResultImpl implements ValuationResultService {
                 for (Element row : rows) {
                     String priceIndex = row.select("td a span").text();
                     String chart = row.select("td img").attr("data-src");
-
+    
                     Elements tds = row.select("td");
                     String priceUsd = tds.get(2).text();
                     String range = tds.get(4).text();
@@ -223,7 +224,7 @@ public class ValuationResultImpl implements ValuationResultService {
                     DiamondPojo diamond = new DiamondPojo(contentChange);
                     diamonds.add(diamond);
                 }
-
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -238,12 +239,12 @@ public class ValuationResultImpl implements ValuationResultService {
             try {
                 Document doc = Jsoup.connect("https://www.stonealgo.com/diamond-prices/").get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-
+    
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-
+    
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
@@ -273,7 +274,7 @@ public class ValuationResultImpl implements ValuationResultService {
                 for (Element row : rows) {
                     String priceIndex = row.select("td a span").text();
                     String chart = row.select("td img").attr("data-src");
-
+    
                     Elements tds = row.select("td");
                     String priceUsd = tds.get(2).text();
                     String range = tds.get(4).text();
@@ -306,17 +307,18 @@ public class ValuationResultImpl implements ValuationResultService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
+        }
+        else {
             try {
                 String url = "https://www.stonealgo.com/diamond-prices/?i=" + shape;
                 Document doc = Jsoup.connect(url).get();
                 Elements elements = doc.select(".bg-white.overflow-hidden.border");
-
+    
                 for (Element element : elements) {
                     String name = element.select("a").text();
                     String price = element.select(".text-xl").text();
                     String priceChange = element.select(".text-xs .text-red-500").text();
-
+    
                     if (priceChange.isEmpty()) {
                         priceChange = element.select(".text-xs .text-green-400").text();
                     }
@@ -346,7 +348,7 @@ public class ValuationResultImpl implements ValuationResultService {
                 for (Element row : rows) {
                     String priceIndex = row.select("td a span").text();
                     String chart = row.select("td img").attr("data-src");
-
+    
                     Elements tds = row.select("td");
                     String priceUsd = tds.get(2).text();
                     String range = tds.get(4).text();
