@@ -22,7 +22,7 @@ public class ProcessRequestEntity {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "staff_id")
+    @JoinColumn(name = "Consulting_staff_id")
     private AccountEntity staffId;
 
     @ManyToOne
