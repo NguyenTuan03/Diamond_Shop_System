@@ -8,16 +8,24 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import Title from "../../components/Title";
 import { Form, Formik } from "formik";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import routes from "../../config/Config";
+import { createPayment } from "../../service/CreatePayment";
 export default function DiamondValuationRequest() {
   const bgColor = useColorModeValue("white", "black");
   const location = useLocation();
   const toast = useToast();
+  useEffect(() => {
+    const fetchApi = async () => {
+      const result = await createPayment();
+      console.log(result);
+    }
+    fetchApi();
+  },[])
   return (
     <>
       <Flex
