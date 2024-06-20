@@ -29,9 +29,9 @@ public class VNpayController {
 
     private String vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
 
-    private String success_Url = "http://localhost:5174/diamond-valuation-request";
+    private String success_Url = "http://localhost:5173/diamond-valuation-request";
 
-    private String failed_Url = "http://localhost:5174/diamond-service";
+    private String failed_Url = "http://localhost:5173/diamond-service";
 
     private String return_Url = "http://localhost:8081/api/vnpay/payment_return";
 
