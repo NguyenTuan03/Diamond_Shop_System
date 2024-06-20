@@ -31,4 +31,10 @@ public class ProcessSealingEntity {
 
     @Column(name = "Status")
     private String status;
+
+    public ProcessSealingEntity(String status, AccountEntity manager, SealingLetterEntity sealingLetter) {
+        this.status = status;
+        this.manager = manager;
+        this.sealingLetter = sealingLetter;
+    }
 }

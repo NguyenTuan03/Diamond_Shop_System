@@ -72,10 +72,8 @@ public class ValuationResultEntity {
     @OneToMany(mappedBy = "valuationResultId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessResultEntity> processResults = new HashSet<>();
 
-    public ValuationResultEntity(ValuationRequestEntity valuationRequestId, Date createdDate) {
-        this.valuationRequestId = valuationRequestId;
-        this.createdDate = createdDate;
-    }
+    @OneToOne(mappedBy = "valuationResult", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ValuatedDiamondEntity valuatedDiamond;
 
     public ValuationResultEntity(ValuationRequestEntity valuationRequestId, Date createdDate,
                                  String origin, String shape, BigDecimal carat_weight, String color, String cut,

@@ -23,7 +23,7 @@ function App() {
                   path={item.path}
                   element={
                     <Layout>
-                      <Page />
+                        <Page />
                     </Layout>
                   }
                 />

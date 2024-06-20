@@ -6,8 +6,6 @@ import {
   Textarea,
   useColorModeValue,
   Button,
-  Alert,
-  AlertIcon,
   useToast,
 } from "@chakra-ui/react";
 import React from "react";
@@ -45,34 +43,51 @@ export default function DiamondValuationRequest() {
             onSubmit={(values, { setSubmitting }) => {
               try {
                 if (location.state?.serviceId === undefined) {
-                  <Alert status="error">
-                    <AlertIcon />
-                    Please select a service first.
-                  </Alert>;
+                  toast({
+                    title: "Please select a service first.",
+                    status: "error",
+                    duration: 2000,
+                    isClosable: true,
+                  });
                   setTimeout(() => {
                     window.location.href = routes.diamondService;
                   }, 2000);
                 }
-                const res =  axios
-                  .post("http://localhost:8081/api/valuation-request/create", {
-                    username: JSON.parse(localStorage.getItem("user")).username,
-                    serviceId: location.state?.serviceId,
-                    createdDate: "",
-                    description: values.description,
-                  })
-                  .then(() => {
-                    console.log(res.data);
-                    setSubmitting(false);
-                    toast({
-                      title: "Successful. Our team will contact you soon.",
-                      status: "success",
-                      duration: 2000,
-                      isClosable: true,
-                    });
-                    // setTimeout(() => {
-                    //   window.location.href = routes.home;
-                    // }, 2000);
+                if (localStorage.getItem("user") === null) {
+                  console.log("Please login first.");
+                  toast({
+                    title: "Please login first.",
+                    status: "error",
+                    duration: 500,
+                    isClosable: true,
                   });
+                    setSubmitting(false);
+                } else {
+                  const res = axios
+                    .post(
+                      "http://localhost:8081/api/valuation-request/create",
+                      {
+                        username: JSON.parse(localStorage.getItem("user"))
+                          .username,
+                        serviceId: location.state?.serviceId,
+                        createdDate: "",
+                        description: values.description,
+                      }
+                    )
+                    .then(() => {
+                      console.log(res.data);
+                      setSubmitting(false);
+                      toast({
+                        title: "Successful. Our team will contact you soon.",
+                        status: "success",
+                        duration: 2000,
+                        isClosable: true,
+                      });
+                      // setTimeout(() => {
+                      //   window.location.href = routes.home;
+                      // }, 2000);
+                    });
+                }
               } catch (e) {
                 console.log(e);
               }
@@ -112,7 +127,6 @@ export default function DiamondValuationRequest() {
             )}
           </Formik>
         </Center>
-        <Formik>{/* <UploadImage /> */}</Formik>
       </Flex>
     </>
   );
