@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ProcessSealingImpl implements ProcessSealingService {
     @Autowired
@@ -40,7 +42,7 @@ public class ProcessSealingImpl implements ProcessSealingService {
         if (manager == null)
             return "No manager found";
 
-        ProcessSealingEntity processSealing = new ProcessSealingEntity("Not resolved yet", manager, sealingLetter);
+        ProcessSealingEntity processSealing = new ProcessSealingEntity("Not resolved yet", new Date(), manager, sealingLetter);
         processSealingRepository.save(processSealing);
         return "";
     }
@@ -48,6 +50,7 @@ public class ProcessSealingImpl implements ProcessSealingService {
     @Override
     public String acceptSealingLetter(ProcessSealingEntity processSealing) {
         processSealing.setStatus("Accepted");
+        processSealing.setCreatedDate(new Date());
         processSealingRepository.save(processSealing);
         return "Accepted";
     }
@@ -55,6 +58,7 @@ public class ProcessSealingImpl implements ProcessSealingService {
     @Override
     public String rejectSealingLetter(ProcessSealingEntity processSealing) {
         processSealing.setStatus("Rejected");
+        processSealing.setCreatedDate(new Date());
         processSealingRepository.save(processSealing);
         return "Rejected";
     }

@@ -16,7 +16,7 @@ public class ValuatedDiamondController {
     @Autowired
     ValuatedDiamondService valuatedDiamondService;
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/get/all")
     public Page<ValuatedDiamondEntity> getValuatedDiamonds() {
         return valuatedDiamondService.getAllValuatedDiamonds();
     }

@@ -37,9 +37,9 @@ export default function ConsultingStaffTable({
               <Td>{index + 1}</Td>
               <Td>{item?.customerName}</Td>
               <Td>{item?.serviceName}</Td>
-              <Td>{item?.createdDate}</Td>
-              <Td>{item?.finishedDate}</Td>
-              <Td>{item?.sealingDate}</Td>
+              <Td>{(item?.createdDate).slice(0, 10)}</Td>
+              <Td>{item?.finishedDate.slice(0, 10)}</Td>
+              <Td>{item?.sealingDate.slice(0, 10)}</Td>
               <Td>{item?.type}</Td>
               <Td>
                 <IconButton

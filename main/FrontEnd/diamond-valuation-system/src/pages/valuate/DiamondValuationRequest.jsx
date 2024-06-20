@@ -59,7 +59,7 @@ export default function DiamondValuationRequest() {
                     duration: 500,
                     isClosable: true,
                   });
-                    setSubmitting(false);
+                  setSubmitting(false);
                 } else {
                   const res = axios
                     .post(

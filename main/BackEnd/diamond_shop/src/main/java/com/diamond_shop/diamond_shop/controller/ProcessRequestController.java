@@ -46,6 +46,11 @@ public class ProcessRequestController {
                 valuationReceiptService.createReceipt(updateRequestDTO.getValuationRequestId());
                 return "Update and assign to valuation staff successful!";
             }
+        } else if (updateRequestDTO.getProcessRequestType().equals("Finished") || updateRequestDTO.getProcessRequestType().equals("Overdue")) {
+            if (updateRequestDTO.getType().equalsIgnoreCase("customer_received")) {
+                processRequestService.updateRequest("customer_received", updateRequestDTO);
+                return "Customer has received their diamond and valuation result";
+            }
         } else return "Has already assigned to a valuation staff";
         return null;
     }
