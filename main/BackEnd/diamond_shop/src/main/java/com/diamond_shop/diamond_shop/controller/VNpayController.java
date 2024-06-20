@@ -71,6 +71,7 @@ public class VNpayController {
     @GetMapping("/payment_return")
     public ResponseObjectPojo<VNpayResponseDTO> payCallbackHandler(HttpServletRequest request,HttpServletResponse response) throws IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Content-Type", "text/plain");
         String status = request.getParameter("vnp_ResponseCode");
         if ("00".equals(status)) {
             response.sendRedirect(success_Url);
