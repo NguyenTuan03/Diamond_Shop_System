@@ -5,8 +5,9 @@ import com.diamond_shop.diamond_shop.DiamondShopApplication;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,18 +24,17 @@ public class LoginTest {
     @Autowired
     AccountRepository accountRepository;
 
-    //    @Test
-    //    public void loginAccountTest() {
-    //        LoginDTO loginDTO = new LoginDTO("lthung60412", "1am4tien1hunG2#");
-    //        AccountEntity acc1 = accountRepository.findByUserName(loginDTO.getUsername());
-    //
-    //        if (acc1 != null) {
-    //            String password = loginDTO.getPassword();
-    //            String encodedPassword = acc1.getPassword();
-    //            boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-    //            if (isPwdRight) {
-    //                Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
-    //            }
-    //        }
-    //    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/loginTest.csv", numLinesToSkip = 1)
+    public void loginAccountTest(String username, String password) {
+        LoginDTO loginDTO = new LoginDTO(username, password);
+        AccountEntity acc1 = accountRepository.findByUserName(loginDTO.getUsername());
+        Assertions.assertNotNull(acc1);
+        if (acc1 != null) {
+            password = loginDTO.getPassword();
+            String encodedPassword = acc1.getPassword();
+            boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            Assertions.assertTrue(isPwdRight);
+        }
+    }
 }
