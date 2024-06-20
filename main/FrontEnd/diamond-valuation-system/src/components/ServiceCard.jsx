@@ -11,10 +11,11 @@ import {
     CardFooter,
     Center,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./GlobalContext/AuthContext";
 import { vnpayPayment } from "../service/Payment";
+import axios from "axios";
 
 export default function ServiceCard({
     serviceId,
@@ -25,14 +26,51 @@ export default function ServiceCard({
     color,
 }) {
     const auth = useContext(UserContext);
+    const nav = useNavigate();
+    const location = useLocation();
     const handleSubmit = async () => {
         try {
-            const result = await vnpayPayment("10000", "Thanh toan don hang", "other");
+            const response = await axios.get("http://localhost:8081/api/vnpay/create", {
+                params: {
+                    amount: `${price}000`,
+                    orderInfo: "Thanh toan don hang",
+                    orderType: "Other"
+                },
+                headers: {
+                    "Content-Type": "text/plain"
+                }
+            });
+            const result = await response.data;
+            window.location.href = result;
             console.log(result);
         } catch (error) {
-            console.error('Error during payment process:', error);
+            console.error("Error during payment process:", error);
         }
     };
+    // Function to fetch the payment result
+    const fetchPaymentResult = async (params) => {
+        try {
+            const response = await axios.get("http://localhost:8081/api/vnpay/payment_return", {
+                params: params
+            });
+            console.log(response.data); // Handle the JSON response
+        } catch (error) {
+            console.error("Error fetching payment result:", error);
+        }
+    };
+
+    // Check if the URL contains VNPay return parameters
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        if (queryParams.has('vnp_Amount')) {
+            // Extract parameters and fetch the payment result
+            const params = {};
+            queryParams.forEach((value, key) => {
+                params[key] = value;
+            });
+            fetchPaymentResult(params);
+        }
+    }, [location.search]);
     return (
         <Card border={"1px solid"} w={{ base: "70vw", md: "40vw", lg: "20vw" }}>
             <CardHeader align="center">
@@ -43,7 +81,7 @@ export default function ServiceCard({
             <Flex direction={"column"} align={"center"}>
                 <Text fontSize={"5xl"}>${price}</Text>
                 <Text fontSize={"lg"}>
-                    Valuation time: <strong>{time}</strong>
+                    Valuation time: <strong>{time} days</strong>
                 </Text>
             </Flex>
             <CardBody align={"start"}>
@@ -56,15 +94,19 @@ export default function ServiceCard({
             </CardBody>
             <Center>
                 <CardFooter>
-                    <Link
+                    {/* <Link
 
-                        to={`/diamond-valuation-request/${auth.userAuth.id}`}
+                        to={handleSubmit}
                         state={{ serviceId: serviceId }}
+                    > */}
+                    <Button
+                        onClick={handleSubmit}
+                        colorScheme={color}
+                        size={"lg"}
                     >
-                        <Button colorScheme={color} size={"lg"}>
-                            Choose
-                        </Button>
-                    </Link>
+                        Choose
+                    </Button>
+                    {/* </Link> */}
                 </CardFooter>
             </Center>
         </Card>
