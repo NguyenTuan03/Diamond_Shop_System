@@ -80,6 +80,7 @@ export const checkSealingDate = async (
   toast
 ) => {
   try {
+    console.log("check sealing");
     for (let i = 0; i < processRequest.length; i++) {
       await axios
         .get(

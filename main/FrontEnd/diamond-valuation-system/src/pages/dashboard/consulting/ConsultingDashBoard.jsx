@@ -36,13 +36,16 @@ export default function ConsultingDashBoard() {
     );
   }
   useEffect(() => {
+    console.log("fetching");
     fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
-    checkSealingDate(setIsCheckSealingDate, toast);
-    checkFinishDate(setIsCheckFinishDate, toast);
+    checkSealingDate(setIsCheckSealingDate, processRequest, toast);
+    checkFinishDate(setIsCheckFinishDate, processRequest, toast);
   }, []);
   useEffect(() => {
     if (isProcessRequest) {
       fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+      checkSealingDate(setIsCheckSealingDate, processRequest, toast);
+      checkFinishDate(setIsCheckFinishDate, processRequest, toast);
       setIsProcessRequest(false);
     }
   }, [isProcessRequest]);
@@ -52,13 +55,16 @@ export default function ConsultingDashBoard() {
       fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
       setIsCheckSealingDate(false);
     }
-  }, [isCheckSealingDate]);
+  }, [isCheckSealingDate, processRequest]);
   useEffect(() => {
     if (isCheckFinishDate) {
       fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
       setIsCheckFinishDate(false);
     }
-  }, [isCheckFinishDate]);
+  }, [isCheckFinishDate, processRequest]);
+  useEffect(() => {
+    fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+  }, [currentPage]);
 
   return (
     <>
@@ -80,7 +86,9 @@ export default function ConsultingDashBoard() {
           setViewSelectProcessRequest={setViewSelectProcessRequest}
           viewProcessRequest={viewProcessRequest}
         />
-        {pageIndicator}
+        <Flex direction={"row"} gap={2}>
+          {pageIndicator}
+        </Flex>
       </Flex>
       <ConsultingRequest
         isOpen={viewProcessRequest.isOpen}
