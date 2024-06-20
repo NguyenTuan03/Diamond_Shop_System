@@ -48,11 +48,11 @@ public class ServiceEntity {
     }
 
     public ServiceEntity(int id, String name, String price, String time, ServiceStatisticEntity statistic_id) {
-        Id = id;
-        Name = name;
-        Price = price;
-        Time = time;
-        Statistic_id = statistic_id;
+        this.Id = id;
+        this.Name = name;
+        this.Price = price;
+        this.Time = time;
+        this.Statistic_id = statistic_id;
     }
 
 }

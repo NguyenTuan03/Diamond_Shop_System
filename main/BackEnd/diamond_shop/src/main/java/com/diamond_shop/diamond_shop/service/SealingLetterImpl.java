@@ -52,19 +52,18 @@ public class SealingLetterImpl implements SealingLetterService {
 
     @Override
     public String checkSealingDate(int valuationRequestId) {
-        // ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
-        // if (valuationRequest == null)
-        //     return "Not found valuation request";
-        // Date currentDate = new Date();
-        // if (currentDate.after(valuationRequest.getSealingDate())) {
-        //     ProcessRequestEntity processRequest = processRequestRepository.findByValuationRequestId(valuationRequestId);
-        //     if (!processRequest.getName().equals("Overdue")) {
-        //         processRequest.setName("Overdue");
-        //         processRequestRepository.save(processRequest);
-        //         createSealingLetter(valuationRequestId);
-        //         return "Create sealing letter";
-        //     } else return "Already created sealing letter";
-        // } else return "Sealing date not overdue";
-        return "";
+         ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
+         if (valuationRequest == null)
+             return "Not found valuation request";
+         Date currentDate = new Date();
+         if (currentDate.after(valuationRequest.getSealingDate())) {
+             ProcessRequestEntity processRequest = processRequestRepository.findByValuationRequestId(valuationRequestId);
+             if (!processRequest.getName().equals("Overdue")) {
+                 processRequest.setName("Overdue");
+                 processRequestRepository.save(processRequest);
+                 createSealingLetter(valuationRequestId);
+                 return "Create sealing letter";
+             } else return "Already created sealing letter";
+         } else return "Sealing date not overdue";
     }
 }
