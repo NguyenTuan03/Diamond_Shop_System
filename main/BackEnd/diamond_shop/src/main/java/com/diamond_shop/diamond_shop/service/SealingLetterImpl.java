@@ -40,11 +40,14 @@ public class SealingLetterImpl implements SealingLetterService {
 
     @Override
     public String createSealingLetter(int valuationRequestId) {
-        ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
-        SealingLetterEntity sealingLetter = new SealingLetterEntity(new Date(), "", valuationRequest);
-        sealingLetterRepository.save(sealingLetter);
-        processSealingService.createProcessSealing(sealingLetter);
-        return "Create sealing letter successfully";
+        // RoleEntity role = roleRepository.findById(2).orElse(null);
+        // if (role == null)
+        //     return "Role with id 2 not found";
+
+        // ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
+        // SealingLetterEntity sealingLetter = new SealingLetterEntity(new Date(), "", valuationRequest);
+        // sealingLetterRepository.save(sealingLetter);
+        return "";
     }
 
     @Override
