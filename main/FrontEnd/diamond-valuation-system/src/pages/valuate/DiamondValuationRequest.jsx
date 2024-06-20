@@ -16,9 +16,7 @@ import { useLocation } from "react-router-dom";
 import routes from "../../config/Config";
 export default function DiamondValuationRequest() {
   const bgColor = useColorModeValue("white", "black");
-
   const location = useLocation();
-
   const toast = useToast();
   return (
     <>
