@@ -7,8 +7,6 @@ import com.diamond_shop.diamond_shop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -42,31 +40,27 @@ public class SealingLetterImpl implements SealingLetterService {
 
     @Override
     public String createSealingLetter(int valuationRequestId) {
-        // RoleEntity role = roleRepository.findById(2).orElse(null);
-        // if (role == null)
-        //     return "Role with id 2 not found";
-
-        // ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
-        // SealingLetterEntity sealingLetter = new SealingLetterEntity(new Date(), "", valuationRequest);
-        // sealingLetterRepository.save(sealingLetter);
-        return "";
+        ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
+        SealingLetterEntity sealingLetter = new SealingLetterEntity(new Date(), "", valuationRequest);
+        sealingLetterRepository.save(sealingLetter);
+        processSealingService.createProcessSealing(sealingLetter);
+        return "Create sealing letter successfully";
     }
 
     @Override
     public String checkSealingDate(int valuationRequestId) {
-        // ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
-        // if (valuationRequest == null)
-        //     return "Not found valuation request";
-        // Date currentDate = new Date();
-        // if (currentDate.after(valuationRequest.getSealingDate())) {
-        //     ProcessRequestEntity processRequest = processRequestRepository.findByValuationRequestId(valuationRequestId);
-        //     if (!processRequest.getName().equals("Overdue")) {
-        //         processRequest.setName("Overdue");
-        //         processRequestRepository.save(processRequest);
-        //         createSealingLetter(valuationRequestId);
-        //         return "Create sealing letter";
-        //     } else return "Already created sealing letter";
-        // } else return "Sealing date not overdue";
-        return "";
+         ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
+         if (valuationRequest == null)
+             return "Not found valuation request";
+         Date currentDate = new Date();
+         if (currentDate.after(valuationRequest.getSealingDate())) {
+             ProcessRequestEntity processRequest = processRequestRepository.findByValuationRequestId(valuationRequestId);
+             if (!processRequest.getName().equals("Overdue")) {
+                 processRequest.setName("Overdue");
+                 processRequestRepository.save(processRequest);
+                 createSealingLetter(valuationRequestId);
+                 return "Create sealing letter";
+             } else return "Already created sealing letter";
+         } else return "Sealing date not overdue";
     }
 }

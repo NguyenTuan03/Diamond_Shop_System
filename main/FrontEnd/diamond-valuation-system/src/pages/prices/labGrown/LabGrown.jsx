@@ -175,9 +175,7 @@ export default function LabGrown() {
                                     fontWeight={"bold"}
                                 >
                                     Diamond prices{" "}
-                                    {price
-                                        .slice(18)
-                                        .map((price) => price.title)}
+                                    {price.slice(18).map((price) => price.title)}
                                 </Text>
                             )}
                             <Grid
@@ -201,9 +199,7 @@ export default function LabGrown() {
                                                   />
                                               </GridItem>
                                           ))
-                                    : price
-                                          .slice(0, 4)
-                                          .map((priceItem, index) => (
+                                    : price.slice(0, 4).map((priceItem, index) => (
                                               <GridItem
                                                   key={index}
                                                   w="100%"
@@ -383,9 +379,7 @@ export default function LabGrown() {
                                                           </Td>
                                                       </Tr>
                                                   ))
-                                            : price
-                                                  .slice(4,18)
-                                                  .map((priceItem, i) => (
+                                            : price.slice(4,18).map((priceItem, i) => (
                                                       <Tr key={i}>
                                                           <Td>
                                                               {
@@ -739,9 +733,7 @@ export default function LabGrown() {
                                             </Tr>
                                         </Thead>
                                         <Tbody>
-                                            {price
-                                                .slice(4)
-                                                .map((priceItem, i) => (
+                                            {price.slice(4).map((priceItem, i) => (
                                                     <Tr key={i}>
                                                         <Td>
                                                             {
