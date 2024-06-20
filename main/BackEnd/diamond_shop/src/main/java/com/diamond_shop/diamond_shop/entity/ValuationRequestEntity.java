@@ -51,6 +51,9 @@ public class ValuationRequestEntity {
     @OneToMany(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessRequestEntity> processRequestEntity = new HashSet<>();
 
+    @OneToMany(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PaymentEntity> payments = new HashSet<>();
+
     @OneToOne(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuationResultEntity valuationResult;
 
