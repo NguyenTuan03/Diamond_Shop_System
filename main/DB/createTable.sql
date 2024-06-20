@@ -87,6 +87,7 @@ CREATE TABLE Sealing_letters(
 );
 CREATE TABLE Process_sealing_letters(
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
+    Created_date DATETIME NOT NULL,
     Sealing_letter_id BIGINT NOT NULL,
     Manager_id BIGINT NOT NULL,
     Status NVARCHAR(255) NOT NULL,
