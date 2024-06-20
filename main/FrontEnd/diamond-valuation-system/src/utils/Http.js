@@ -4,7 +4,7 @@ const httpRequest = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  // timeout:1000,
+  timeout:1000,
 });
 export const get = async (url, options = {}) => {
   const res = await httpRequest.get(url, options);

@@ -14,6 +14,7 @@ import {
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "./GlobalContext/AuthContext";
+import { vnpayPayment } from "../service/Payment";
 
 export default function ServiceCard({
     serviceId,
@@ -23,8 +24,15 @@ export default function ServiceCard({
     attributes,
     color,
 }) {
-    const nav = useNavigate();
     const auth = useContext(UserContext);
+    const handleSubmit = async () => {
+        try {
+            const result = await vnpayPayment("10000", "Thanh toan don hang", "other");
+            console.log(result);
+        } catch (error) {
+            console.error('Error during payment process:', error);
+        }
+    };
     return (
         <Card border={"1px solid"} w={{ base: "70vw", md: "40vw", lg: "20vw" }}>
             <CardHeader align="center">
@@ -35,7 +43,7 @@ export default function ServiceCard({
             <Flex direction={"column"} align={"center"}>
                 <Text fontSize={"5xl"}>${price}</Text>
                 <Text fontSize={"lg"}>
-                    Valuation time: <strong>{time} days</strong>
+                    Valuation time: <strong>{time}</strong>
                 </Text>
             </Flex>
             <CardBody align={"start"}>
@@ -49,6 +57,7 @@ export default function ServiceCard({
             <Center>
                 <CardFooter>
                     <Link
+
                         to={`/diamond-valuation-request/${auth.userAuth.id}`}
                         state={{ serviceId: serviceId }}
                     >
