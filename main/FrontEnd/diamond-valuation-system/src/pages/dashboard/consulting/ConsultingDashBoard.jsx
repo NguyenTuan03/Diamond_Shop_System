@@ -1,5 +1,5 @@
 import { Flex, Text, useDisclosure, Button, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ConsultingRequest from "./ConsultingRequest";
 import ConsultingStaffTable from "./ConsultingStaffTable";
 import {
@@ -7,7 +7,9 @@ import {
   checkSealingDate,
   checkFinishDate,
 } from "./ConsultingStaffService";
+import { UserContext } from "../../../components/GlobalContext/AuthContext";
 export default function ConsultingDashBoard() {
+  const user = useContext(UserContext);
   const toast = useToast();
   const viewProcessRequest = useDisclosure();
   const [viewSelectProcessRequest, setViewSelectProcessRequest] = useState(0);
@@ -36,29 +38,68 @@ export default function ConsultingDashBoard() {
     );
   }
   useEffect(() => {
-    fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
-    checkSealingDate(setIsCheckSealingDate, toast);
-    checkFinishDate(setIsCheckFinishDate, toast);
+    console.log("fetching");
+    fetchProcessRequest(
+      user.userAuth.id,
+      setProcessRequest,
+      currentPage,
+      setTotalPage,
+      toast
+    ).then(() => {
+      checkFinishDate(setIsCheckFinishDate, processRequest, toast).then(() => {
+        checkSealingDate(setIsCheckSealingDate, processRequest, toast);
+      });
+    });
+    setIsProcessRequest(true)
   }, []);
   useEffect(() => {
     if (isProcessRequest) {
-      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+      fetchProcessRequest(
+        user.userAuth.id,
+        setProcessRequest,
+        currentPage,
+        setTotalPage,
+        toast
+      );
+      checkSealingDate(setIsCheckSealingDate, processRequest, toast);
+      checkFinishDate(setIsCheckFinishDate, processRequest, toast);
       setIsProcessRequest(false);
     }
   }, [isProcessRequest]);
 
   useEffect(() => {
     if (isCheckSealingDate) {
-      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+      fetchProcessRequest(
+        user.userAuth.id,
+        setProcessRequest,
+        currentPage,
+        setTotalPage,
+        toast
+      );
       setIsCheckSealingDate(false);
     }
-  }, [isCheckSealingDate]);
+  }, [isCheckSealingDate, isProcessRequest]);
   useEffect(() => {
     if (isCheckFinishDate) {
-      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+      fetchProcessRequest(
+        user.userAuth.id,
+        setProcessRequest,
+        currentPage,
+        setTotalPage,
+        toast
+      );
       setIsCheckFinishDate(false);
     }
-  }, [isCheckFinishDate]);
+  }, [isCheckFinishDate, isProcessRequest]);
+  useEffect(() => {
+    fetchProcessRequest(
+      user.userAuth.id,
+      setProcessRequest,
+      currentPage,
+      setTotalPage,
+      toast
+    );
+  }, [currentPage]);
 
   return (
     <>
@@ -80,7 +121,9 @@ export default function ConsultingDashBoard() {
           setViewSelectProcessRequest={setViewSelectProcessRequest}
           viewProcessRequest={viewProcessRequest}
         />
-        {pageIndicator}
+        <Flex direction={"row"} gap={2}>
+          {pageIndicator}
+        </Flex>
       </Flex>
       <ConsultingRequest
         isOpen={viewProcessRequest.isOpen}

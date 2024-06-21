@@ -65,6 +65,9 @@ public class AccountEntity {
     @OneToMany(mappedBy = "staffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessRequestEntity> processRequestEntity = new HashSet<>();
 
+    @OneToMany(mappedBy = "customerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PaymentEntity> payments = new HashSet<>();
+
     @OneToMany(mappedBy = "valuationStaffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessResultEntity> processResultEntity = new HashSet<>();
 
@@ -73,9 +76,6 @@ public class AccountEntity {
 
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessCommitmentEntity> processCommitmentEntities = new HashSet<>();
-
-    @OneToOne(mappedBy = "customer_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private WalletsEntity wallets;
 
     public AccountEntity(RoleEntity role_id, String username, String password, String fullname, String phone_number) {
         this.role = role_id;

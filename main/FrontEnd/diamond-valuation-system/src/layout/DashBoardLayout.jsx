@@ -10,7 +10,7 @@ import SideBarValuationStaff from "./sidebar/SideBarValuationStaff";
 
 export default function DashBoardLayout({ children }) {
     let users = {
-        role: 5, // Test dashboard role
+        role: 3, // Test dashboard role
     };
     return (
         <Flex width={"100%"} height={"100vh"} bg={"rgb(243 244 246)"}>

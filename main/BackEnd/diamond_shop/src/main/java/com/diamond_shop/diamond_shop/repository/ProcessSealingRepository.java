@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ProcessSealingRepository extends JpaRepository<ProcessSealingEntity, Integer>, PagingAndSortingRepository<ProcessSealingEntity, Integer> {
 
     @Query(value = "SELECT " +
-            "NEW  com.diamond_shop.diamond_shop.pojo.ProcessSealingPojo(p.id,p.status,p.sealingLetter.id,p.sealingLetter.content,p.sealingLetter.valuationRequest.sealingDate,p.sealingLetter.valuationRequest.customer.id, p.sealingLetter.valuationRequest.customer.fullname,p.sealingLetter.valuationRequest.serviceId.Id,p.sealingLetter.valuationRequest.serviceId.Name)" +
+            "NEW  com.diamond_shop.diamond_shop.pojo.ProcessSealingPojo(p.id,p.status,p.sealingLetter.id,p.sealingLetter.content,p.sealingLetter.valuationRequest.sealingDate, p.createdDate,p.sealingLetter.valuationRequest.valuationResult.valuatedDiamond.id, p.manager.fullname,p.sealingLetter.valuationRequest.customer.id, p.sealingLetter.valuationRequest.customer.fullname,p.sealingLetter.valuationRequest.serviceId.Id,p.sealingLetter.valuationRequest.serviceId.Name)" +
             "FROM ProcessSealingEntity as p")
     Page<ProcessSealingEntity> findAll(Pageable pageable);
 
