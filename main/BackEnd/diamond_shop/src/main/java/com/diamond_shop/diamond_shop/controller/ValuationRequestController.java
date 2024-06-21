@@ -32,7 +32,6 @@ public class ValuationRequestController {
         int valuationRequestId = valuationRequestService.makeRequest(valuationRequestDTO);
 
         paymentService.createPayment(valuationRequestDTO.getUsername(), valuationRequestId);
-        
         String makeProcessRequest = processRequestService.processRequest(valuationRequestId);
         return valuationRequestId + " " + makeProcessRequest;
     }

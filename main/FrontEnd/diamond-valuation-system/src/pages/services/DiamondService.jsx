@@ -16,7 +16,7 @@ export default function DiamondService() {
   function fetchServices() {
     try {
       axios
-        .get("http://localhost:8081/api/diamond/service")
+        .get(`${import.meta.env.VITE_REACT_APP_BASE_URL}/api/diamond/service`)
         .then(function (response) {
           setServiceResponse(response.data);
           console.log(response.data);

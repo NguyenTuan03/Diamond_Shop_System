@@ -21,10 +21,15 @@ export default function UploadImage({ diamondId }) {
       for (const image of selectedImages) {
         const formData = new FormData();
         formData.append("file", image);
-        formData.append("upload_preset", "dwkx9vz8");
+        formData.append(
+          "upload_preset",
+          import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+        );
         formData.append("public_id", uuidv4());
         const res = await fetch(
-          `https://api.cloudinary.com/v1_1/drmnbl51j/image/upload`,
+          `https://api.cloudinary.com/v1_1/${
+            import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+          }/image/upload`,
           {
             method: "POST",
             body: formData,
@@ -44,7 +49,7 @@ export default function UploadImage({ diamondId }) {
           });
           axios
             .get(
-              `http://localhost:8081/api/valuated-diamond-image/create?id=${data?.public_id}&diamond=${diamondId}`
+              `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/valuated-diamond-image/create?id=${data?.public_id}&diamond=${diamondId}`
             )
             .then(function (response) {
               console.log(response.data);

@@ -39,11 +39,29 @@ export default function ConsultingRequest({
   const viewValuationResult = async (i) => {
     axios
       .get(
-        `http://localhost:8081/api/valuation-request/valuated-diamond?id=${i}`
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-request/valuated-diamond?id=${i}`
       )
       .then(function (response) {
         console.log(response.data);
         setValuationResult(response.data);
+      });
+  };
+  const valuationReceiptModal = useDisclosure();
+  const [valuationReceipt, setValuationReceipt] = useState({});
+  const receiptRef = useRef();
+  const handlePrintReceipt = useReactToPrint({
+    content: () => receiptRef.current,
+  });
+  const viewValuationReceipt = async (i) => {
+    axios
+      .get(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/valuation-receipt/get?valuation-request-id=${i}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        setValuationReceipt(response.data);
       });
   };
   return (

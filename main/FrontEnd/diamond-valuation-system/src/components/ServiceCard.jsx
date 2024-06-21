@@ -25,37 +25,39 @@ export default function ServiceCard({
     attributes,
     color,
 }) {
-    const auth = useContext(UserContext);
-    const nav = useNavigate();
-    const location = useLocation();
-    const handleSubmit = async () => {
-        try {
-            const response = await axios.get("http://localhost:8081/api/vnpay/create", {
-                params: {
-                    amount: `${price}000`,
-                    orderInfo: "Thanh toan don hang",
-                    orderType: "Other"
-                },
-                headers: {
-                    "Content-Type": "text/plain"
-                }
-            });
-            const result = await response.data;
-            window.location.href = result;
-            console.log(result);
-        } catch (error) {
-            console.error("Error during payment process:", error);
+  const auth = useContext(UserContext);
+  const nav = useNavigate();
+  const location = useLocation();
+  const handleSubmit = async () => {
+    try {
+      localStorage.setItem("serviceId", serviceId);
+      const response = await axios.get(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/vnpay/create`,
+        {
+          params: {
+            amount: `${price}000`,
+            orderInfo: "Thanh toan don hang",
+            orderType: "Other",
+          },
+          headers: {
+            "Content-Type": "text/plain",
+          },
         }
-    };
-    // Function to fetch the payment result
-    const fetchPaymentResult = async (params) => {
-        try {
-            const response = await axios.get("http://localhost:8081/api/vnpay/payment_return", {
-                params: params
-            });
-            console.log(response.data); // Handle the JSON response
-        } catch (error) {
-            console.error("Error fetching payment result:", error);
+      );
+      const result = await response.data;
+      window.location.href = result;
+      console.log(result);
+    } catch (error) {
+      console.error("Error during payment process:", error);
+    }
+  };
+  // Function to fetch the payment result
+  const fetchPaymentResult = async (params) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/vnpay/payment_return`,
+        {
+          params: params,
         }
     };
 
