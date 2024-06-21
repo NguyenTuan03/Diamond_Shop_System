@@ -19,7 +19,6 @@ public class AccountDTO {
     private String password;
     private String address;
     public AccountDTO(String username, String fullname, String phonenumber, String password) {
-        this.roleid = roleid;
         this.username = username;
         this.fullname = fullname;
         this.phonenumber = phonenumber;
