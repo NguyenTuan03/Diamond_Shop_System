@@ -1,5 +1,6 @@
 package com.diamond_shop.diamond_shop.controller;
 
+import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
 import com.diamond_shop.diamond_shop.entity.ValuatedDiamondEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +28,11 @@ public class ValuationRequestController {
     private ValuatedDiamondService valuatedDiamondService;
     @Autowired
     private PaymentService paymentService;
+
+    @GetMapping(path = "/view")
+    public List<ValuationRequestDTO> viewRequest(@RequestParam("id") int id) {
+        return valuationRequestService.viewCustomerRequestId(id);
+    }
 
     @PostMapping(path = "/create")
     public String createValuationRequest(@RequestBody ValuationRequestDTO valuationRequestDTO) {

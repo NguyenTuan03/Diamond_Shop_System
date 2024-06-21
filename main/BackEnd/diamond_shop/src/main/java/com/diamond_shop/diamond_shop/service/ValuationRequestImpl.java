@@ -12,8 +12,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ValuationRequestImpl implements ValuationRequestService {
@@ -97,4 +100,18 @@ public class ValuationRequestImpl implements ValuationRequestService {
         } else return "Not finish";
     }
 
+    @Override
+    public List<ValuationRequestDTO> viewCustomerRequestId(int id) {
+        List<ValuationRequestEntity> valuationRequestEntities = valuationRequestRepository.findByCustomerId(id);
+        return valuationRequestEntities.stream()
+            .map(entity -> new ValuationRequestDTO(
+                entity.getCustomer().getUsername(), 
+                entity.getServiceId().getId(), 
+                entity.getCreatedDate(),
+                entity.getDescription()
+            ))
+            .collect(Collectors.toList());
+    }
+
+    
 }   

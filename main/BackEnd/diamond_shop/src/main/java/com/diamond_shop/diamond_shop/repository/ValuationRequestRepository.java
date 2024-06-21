@@ -16,6 +16,9 @@ public interface ValuationRequestRepository extends JpaRepository<ValuationReque
 
     Page<ValuationRequestEntity> findAll(Pageable pageable);
 
+    @Query("SELECT v FROM ValuationRequestEntity v WHERE v.customer.id=:id")
+    List<ValuationRequestEntity> findByCustomerId(@Param("id") int id);
+
     @Query(value = "SELECT v FROM ValuationRequestEntity v WHERE v.customer.fullname LIKE lower(concat(:search, '%')) OR v.serviceId.Name LIKE lower(concat(:search, '%')) OR v.description LIKE lower(concat(:search, '%') )")
     Page<ValuationRequestEntity> searchNonFilter(Pageable pageable, String search);
 
