@@ -32,7 +32,7 @@ export default function ServiceCard({
     try {
       localStorage.setItem("serviceId", serviceId);
       const response = await axios.get(
-        "http://localhost:8081/api/vnpay/create",
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/vnpay/create`,
         {
           params: {
             amount: `${price}000`,
@@ -55,7 +55,7 @@ export default function ServiceCard({
   const fetchPaymentResult = async (params) => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/vnpay/payment_return",
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/vnpay/payment_return`,
         {
           params: params,
         }

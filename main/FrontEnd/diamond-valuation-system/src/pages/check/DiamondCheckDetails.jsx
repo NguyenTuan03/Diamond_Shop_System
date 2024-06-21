@@ -36,7 +36,11 @@ export default function DiamondCheckDetails() {
 
   const fetchValuatedDiamond = () => {
     axios
-      .get(`http://localhost:8081/api/valuated-diamond/get?id=${checkId}`)
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuated-diamond/get?id=${checkId}`
+      )
       .then(function (response) {
         // console.log(response.data);
         if (response.data === null) {
@@ -52,7 +56,7 @@ export default function DiamondCheckDetails() {
   const fetchValuatedDiamondImages = () => {
     axios
       .get(
-        `http://localhost:8081/api/valuated-diamond-image/get?diamondId=${checkId}`
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/valuated-diamond-image/get?diamondId=${checkId}`
       )
       .then(function (response) {
         console.log(response.data);

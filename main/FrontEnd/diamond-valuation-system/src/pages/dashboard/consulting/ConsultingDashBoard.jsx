@@ -107,7 +107,7 @@ export default function ConsultingDashBoard() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        h={"70vh"}
+        // h={"70vh"}
         paddingTop={10}
         gap={5}
       >
