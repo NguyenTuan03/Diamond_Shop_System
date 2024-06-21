@@ -40,7 +40,9 @@ export default function ConsultingRequest({
   const viewValuationResult = async (i) => {
     axios
       .get(
-        `http://localhost:8081/api/valuation-request/valuated-diamond?id=${i}`
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-request/valuated-diamond?id=${i}`
       )
       .then(function (response) {
         console.log(response.data);
@@ -56,7 +58,7 @@ export default function ConsultingRequest({
   const viewValuationReceipt = async (i) => {
     axios
       .get(
-        `http://localhost:8081/api/valuation-receipt/get?valuation-request-id=${i}`
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/valuation-receipt/get?valuation-request-id=${i}`
       )
       .then(function (response) {
         console.log(response.data);

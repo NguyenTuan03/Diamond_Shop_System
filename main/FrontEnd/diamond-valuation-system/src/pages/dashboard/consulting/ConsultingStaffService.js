@@ -9,7 +9,9 @@ export const fetchProcessRequest = async (
   try {
     await axios
       .get(
-        `http://localhost:8081/api/process-request/get?page=${currentPage}&staffId=${id}`
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/process-request/get?page=${currentPage}&staffId=${id}`
       )
       .then(function (response) {
         setProcessRequest(response.data.content);
@@ -37,12 +39,15 @@ export const handleProcessRequest = async (
 ) => {
   try {
     await axios
-      .post("http://localhost:8081/api/process-request/update", {
-        type: type,
-        processRequestType: processRequestType,
-        consultingStaffId: consultingStaffId,
-        valuationRequestId: valuationRequestId,
-      })
+      .post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/process-request/update`,
+        {
+          type: type,
+          processRequestType: processRequestType,
+          consultingStaffId: consultingStaffId,
+          valuationRequestId: valuationRequestId,
+        }
+      )
       .then(function (response) {
         if (response.data === "Cannot reject") {
           toast({
@@ -84,7 +89,11 @@ export const checkSealingDate = async (
     for (let i = 0; i < processRequest.length; i++) {
       await axios
         .get(
-          `http://localhost:8081/api/sealing-letter/check?id=${processRequest[i]?.valuationRequestId}`
+          `${
+            import.meta.env.VITE_REACT_APP_BASE_URL
+          }/api/sealing-letter/check?id=${
+            processRequest[i]?.valuationRequestId
+          }`
         )
         .then(function (response) {
           console.log(response.data);
@@ -115,7 +124,11 @@ export const checkFinishDate = async (
     for (let i = 0; i < processRequest.length; i++) {
       await axios
         .get(
-          `http://localhost:8081/api/valuation-request/check-finished?id=${processRequest[i]?.valuationRequestId}`
+          `${
+            import.meta.env.VITE_REACT_APP_BASE_URL
+          }/api/valuation-request/check-finished?id=${
+            processRequest[i]?.valuationRequestId
+          }`
         )
         .then(function (response) {
           console.log(response.data);
