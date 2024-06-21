@@ -97,6 +97,8 @@ public class ProcessRequestImpl implements ProcessRequestService {
             process.setName("Processing");
         else if (Objects.equals(type, "diamond"))
             process.setName("Diamond Received");
+        else if (Objects.equals(type, "customer_received"))
+            process.setName("Customer Received");
         processRequestRepository.save(process);
         return process;
     }

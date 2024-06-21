@@ -10,9 +10,8 @@ import {
 import axios from "axios";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { makeRequest } from "../service/MakeRequest";
 
-export default function UploadImage({ description, service }) {
+export default function UploadImage({ diamondId }) {
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUpLoading] = useState(false);
   const toast = useToast();
@@ -22,32 +21,36 @@ export default function UploadImage({ description, service }) {
       for (const image of selectedImages) {
         const formData = new FormData();
         formData.append("file", image);
-        formData.append(
-          "upload_preset",
-          import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-        );
+        formData.append("upload_preset", "dwkx9vz8");
         formData.append("public_id", uuidv4());
         const res = await fetch(
-          `https://api.cloudinary.com/v1_1/${
-            import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
-          }/image/upload`,
+          `https://api.cloudinary.com/v1_1/drmnbl51j/image/upload`,
           {
             method: "POST",
             body: formData,
           }
         );
-        const data = await res.json();
-        console.log(data.public_id);
+        if (res) {
+          const data = await res.json();
+          console.log(data.public_id);
+          setIsUpLoading(false);
+          toast({
+            title: "Sending successful!",
+            position: "top-right",
+            description: "Your diamond image has been submitted successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          axios
+            .get(
+              `http://localhost:8081/api/valuated-diamond-image/create?id=${data?.public_id}&diamond=${diamondId}`
+            )
+            .then(function (response) {
+              console.log(response.data);
+            });
+        }
       }
-      setIsUpLoading(false);
-      toast({
-        title: "Sending successful!",
-        position: "top-right",
-        description: "Your diamond image has been submitted successfully",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
     } catch (error) {
       setIsUpLoading(false);
       toast({

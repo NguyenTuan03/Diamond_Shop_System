@@ -79,7 +79,7 @@ export default function AdminPage() {
       </Button>
     );
   }
-
+  
   useEffect(() => {
     if (isAdded) {
       fetchAccounts("", currentPage, "", setAccounts, setTotalPage, toast);

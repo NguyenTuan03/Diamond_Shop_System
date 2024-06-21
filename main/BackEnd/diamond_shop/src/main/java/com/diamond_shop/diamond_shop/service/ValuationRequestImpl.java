@@ -1,7 +1,6 @@
 package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
-import com.diamond_shop.diamond_shop.dto.ViewRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.entity.ServiceEntity;
@@ -90,7 +89,7 @@ public class ValuationRequestImpl implements ValuationRequestService {
         Date currentDate = new Date();
         if (currentDate.after(valuationRequest.getFinishDate())) {
             ProcessRequestEntity processRequest = processRequestRepository.findByValuationRequestId(valuationRequestId);
-            if (!processRequest.getName().equals("Finished")) {
+            if (!processRequest.getName().equals("Finished") && !processRequest.getName().equals("Customer Received")) {
                 processRequest.setName("Finished");
                 processRequestRepository.save(processRequest);
                 return "Finish request";
