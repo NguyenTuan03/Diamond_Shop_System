@@ -44,7 +44,7 @@ export default function ManagerValuatedDiamondPage() {
           <Thead bg={"blue.400"}>
             <Tr>
               <Th>No</Th>
-              <Th>Content</Th>
+              <Th>Id</Th>
               <Th>Valuated Date</Th>
               <Th>Price</Th>
               <Th>View</Th>

@@ -111,6 +111,7 @@ export const checkFinishDate = async (
   toast
 ) => {
   try {
+    console.log("check finish");
     for (let i = 0; i < processRequest.length; i++) {
       await axios
         .get(
