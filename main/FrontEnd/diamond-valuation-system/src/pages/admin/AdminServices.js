@@ -10,7 +10,7 @@ export const fetchAccounts = async (
   try {
     await axios
       .get(
-        `http://localhost:8081/api/admin/get?search=${search}&page=${pageId}&filter=${filter}`
+        `https://diamondval-latest.onrender.com/api/admin/get?search=${search}&page=${pageId}&filter=${filter}`
       )
       .then(function (response) {
         console.log(response.data.content);
@@ -40,7 +40,7 @@ export const createAccount = async (
   toast
 ) => {
   try {
-    const res = await axios.post("http://localhost:8081/api/admin/create", {
+    const res = await axios.post("https://diamondval-latest.onrender.com/api/admin/create", {
       roleid: roleid,
       username: username,
       password: password,
@@ -88,7 +88,7 @@ export const updateAccount = async (
   toast
 ) => {
   try {
-    const res = await axios.post("http://localhost:8081/api/admin/update", {
+    const res = await axios.post("https://diamondval-latest.onrender.com/api/admin/update", {
       id: id,
       roleid: roleid,
       fullname: fullname,
@@ -128,7 +128,7 @@ export const updateAccount = async (
 export const deleteAccount = async (id, setIsDeleted, toast) => {
   try {
     await axios
-      .post("http://localhost:8081/api/admin/delete", { id: id })
+      .post("https://diamondval-latest.onrender.com/api/admin/delete", { id: id })
       .then(function (response) {
         setIsDeleted(true);
         toast({

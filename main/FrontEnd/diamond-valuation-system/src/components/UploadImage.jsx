@@ -44,7 +44,9 @@ export default function UploadImage({ diamondId }) {
           });
           axios
             .get(
-              `http://localhost:8081/api/valuated-diamond-image/create?id=${data?.public_id}&diamond=${diamondId}`
+              `http://diamondval-latest.onrender.com
+
+/api/valuated-diamond-image/create?id=${data?.public_id}&diamond=${diamondId}`
             )
             .then(function (response) {
               console.log(response.data);
