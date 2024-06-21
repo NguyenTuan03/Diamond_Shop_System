@@ -45,9 +45,12 @@ export default function ConsultingDashBoard() {
       currentPage,
       setTotalPage,
       toast
-    );
-    checkSealingDate(setIsCheckSealingDate, processRequest, toast);
-    checkFinishDate(setIsCheckFinishDate, processRequest, toast);
+    ).then(() => {
+      checkFinishDate(setIsCheckFinishDate, processRequest, toast).then(() => {
+        checkSealingDate(setIsCheckSealingDate, processRequest, toast);
+      });
+    });
+    setIsProcessRequest(true)
   }, []);
   useEffect(() => {
     if (isProcessRequest) {
@@ -75,7 +78,7 @@ export default function ConsultingDashBoard() {
       );
       setIsCheckSealingDate(false);
     }
-  }, [isCheckSealingDate, processRequest]);
+  }, [isCheckSealingDate, isProcessRequest]);
   useEffect(() => {
     if (isCheckFinishDate) {
       fetchProcessRequest(
@@ -87,7 +90,7 @@ export default function ConsultingDashBoard() {
       );
       setIsCheckFinishDate(false);
     }
-  }, [isCheckFinishDate, processRequest]);
+  }, [isCheckFinishDate, isProcessRequest]);
   useEffect(() => {
     fetchProcessRequest(
       user.userAuth.id,
@@ -98,8 +101,6 @@ export default function ConsultingDashBoard() {
     );
   }, [currentPage]);
 
-
-export default function ConsultingDashBoard() {
   return (
     <>
       <Flex

@@ -20,6 +20,7 @@ import React, { useRef, useState } from "react";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { useReactToPrint } from "react-to-print";
 import ZaloChat from "../../../components/zalo/ZaloChat";
+
 import axios from "axios";
 export default function ConsultingRequest({
   isOpen,
@@ -30,9 +31,9 @@ export default function ConsultingRequest({
   toast,
 }) {
   const valuationResultModal = useDisclosure();
-  const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+  const resultRef = useRef();
+  const handlePrintResult = useReactToPrint({
+    content: () => resultRef.current,
   });
 
   const [valuationResult, setValuationResult] = useState({});
@@ -44,6 +45,22 @@ export default function ConsultingRequest({
       .then(function (response) {
         console.log(response.data);
         setValuationResult(response.data);
+      });
+  };
+  const valuationReceiptModal = useDisclosure();
+  const [valuationReceipt, setValuationReceipt] = useState({});
+  const receiptRef = useRef();
+  const handlePrintReceipt = useReactToPrint({
+    content: () => receiptRef.current,
+  });
+  const viewValuationReceipt = async (i) => {
+    axios
+      .get(
+        `http://localhost:8081/api/valuation-receipt/get?valuation-request-id=${i}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        setValuationReceipt(response.data);
       });
   };
   return (
@@ -136,11 +153,26 @@ export default function ConsultingRequest({
                   <ZaloChat customerPhone={processRequest?.customerPhone} />
                 </>
               )) ||
+              (processRequest?.type === "Diamond Received" && (
+                <>
+                  <Button
+                    onClick={() => {
+                      setIsProcessRequest(true);
+                      valuationReceiptModal.onOpen();
+                      viewValuationReceipt(processRequest?.valuationRequestId);
+                    }}
+                  >
+                    Receipt
+                  </Button>
+                  <ZaloChat customerPhone={processRequest?.customerPhone} />
+                </>
+              )) ||
               (processRequest?.type === "Valuated" && (
                 <>
                   <Button
                     colorScheme="green"
                     onClick={() => {
+                      setIsProcessRequest(true);
                       valuationResultModal.onOpen();
                       viewValuationResult(processRequest?.valuationRequestId);
                     }}
@@ -157,6 +189,7 @@ export default function ConsultingRequest({
                     <Button
                       colorScheme="green"
                       onClick={() => {
+                        setIsProcessRequest(true);
                         valuationResultModal.onOpen();
                         viewValuationResult(processRequest?.valuationRequestId);
                       }}
@@ -193,7 +226,7 @@ export default function ConsultingRequest({
         size={"full"}
       >
         <ModalOverlay />
-        <ModalContent ref={componentRef}>
+        <ModalContent ref={resultRef}>
           <ModalHeader>
             <Flex direction={"row"} alignItems={"center"}>
               <Icon as={GiDiamondTrophy} w={16} h={16} />
@@ -258,7 +291,7 @@ export default function ConsultingRequest({
                   ADDITIONAL GRADING INFORMATION
                 </Text>
                 <Text fontSize={"sm"}>
-                  Polish: {valuationResult?.poslish || "N/A"}
+                  Polish: {valuationResult?.polish || "N/A"}
                 </Text>
                 <Text fontSize={"sm"}>
                   Symmetry: {valuationResult?.symmetry || "N/A"}
@@ -273,7 +306,67 @@ export default function ConsultingRequest({
             </Flex>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={handlePrint}>Print</Button>
+            <Button onClick={handlePrintResult}>Print</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal
+        isOpen={valuationReceiptModal.isOpen}
+        onClose={valuationReceiptModal.onClose}
+        size={"full"}
+      >
+        <ModalOverlay />
+        <ModalContent ref={receiptRef}>
+          <ModalHeader>
+            <Flex direction={"row"} alignItems={"center"}>
+              <Icon as={GiDiamondTrophy} w={16} h={16} />
+              <Text
+                fontFamily={"The Nautigal"}
+                fontSize="4xl"
+                fontWeight={"bold"}
+                m={"10px "}
+              >
+                DiamondVal
+              </Text>
+            </Flex>
+          </ModalHeader>
+          <ModalBody>
+            <Flex
+              direction={"column"}
+              gap={5}
+              border={"2px solid"}
+              borderColor={"gray.200"}
+              p={5}
+            >
+              <Center>
+                <Text fontSize={"xl"} fontWeight={"bold"}>
+                  Valuation Receipt
+                </Text>
+              </Center>
+              <Text>ID: {valuationReceipt?.id || "N/A"}</Text>
+              <Text>
+                Created Date:{" "}
+                {valuationReceipt?.createdDate?.slice(0, 10) || "N/A"}
+              </Text>
+              <Text>Customer ID: {valuationReceipt?.customerId || "N/A"}</Text>
+              <Text>Name: {valuationReceipt?.customerName || "N/A"}</Text>
+              <Text>
+                Phone number: {valuationReceipt?.customerPhoneNumber || "N/A"}
+              </Text>
+              <Text>Service: {valuationReceipt?.serviceName || "N/A"}</Text>
+              <Text>Price: {valuationReceipt?.price || "N/A"} $</Text>
+              <Text>
+                Valuation Finish Date:{" "}
+                {valuationReceipt?.valuationFinishDate?.slice(0, 10) || "N/A"}
+              </Text>
+              <Text>
+                Valuation Sealing Date:{" "}
+                {valuationReceipt?.valuationSealingDate?.slice(0, 10) || "N/A"}
+              </Text>
+            </Flex>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handlePrintReceipt}>Print</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
