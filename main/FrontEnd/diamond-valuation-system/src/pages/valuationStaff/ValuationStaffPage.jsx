@@ -33,13 +33,15 @@ import {
   Thead,
   Tr,
   useDisclosure,
+  useDrawerContext,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import UploadImage from "../../components/UploadImage";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../components/GlobalContext/AuthContext";
 
 export default function ValuationStaffPage() {
+  const user = useContext(UserContext);
   const viewValuationResult = useDisclosure();
   const [processResult, setProcessResult] = useState([]);
   const [selectProcessResult, setSelectProcessResult] = useState({});
@@ -47,7 +49,11 @@ export default function ValuationStaffPage() {
   const fetchProcessResult = async () => {
     try {
       await axios
-        .get("http://localhost:8081/api/process-result/get?staffId=5")
+        .get(
+          `${
+            import.meta.env.VITE_REACT_APP_BASE_URL
+          }/api/process-result/get?staffId=${user.userAuth.id}`
+        )
         .then(function (response) {
           setProcessResult(response.data.content);
           console.log(response.data.content);
@@ -59,21 +65,26 @@ export default function ValuationStaffPage() {
   const valuateDiamond = async (values) => {
     try {
       await axios
-        .post("http://localhost:8081/api/valuation-result/valuate", {
-          id: selectProcessResult.valuationResultId,
-          origin: values.origin,
-          shape: values.shape,
-          carat_weight: values.caratWeight,
-          color: values.color,
-          cut: values.cut,
-          clarity: values.clarity,
-          measurements: values.measurements,
-          polish: values.polish,
-          symmetry: values.symmetry,
-          fluorescence: values.fluorescence,
-          proportions: values.proportions,
-          price: values.price,
-        })
+        .post(
+          `${
+            import.meta.env.VITE_REACT_APP_BASE_URL
+          }/api/valuation-result/valuate`,
+          {
+            id: selectProcessResult.valuationResultId,
+            origin: values.origin,
+            shape: values.shape,
+            carat_weight: values.caratWeight,
+            color: values.color,
+            cut: values.cut,
+            clarity: values.clarity,
+            measurements: values.measurements,
+            polish: values.polish,
+            symmetry: values.symmetry,
+            fluorescence: values.fluorescence,
+            proportions: values.proportions,
+            price: values.price,
+          }
+        )
         .then(function (response) {
           console.log(response);
         });

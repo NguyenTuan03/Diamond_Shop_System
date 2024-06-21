@@ -59,11 +59,13 @@ export default function DiamondValuationRequest() {
                     duration: 500,
                     isClosable: true,
                   });
-                    setSubmitting(false);
+                  setSubmitting(false);
                 } else {
                   const res = axios
                     .post(
-                      "http://localhost:8081/api/valuation-request/create",
+                      `${
+                        import.meta.env.VITE_REACT_APP_BASE_URL
+                      }/api/valuation-request/create`,
                       {
                         username: JSON.parse(localStorage.getItem("user"))
                           .username,

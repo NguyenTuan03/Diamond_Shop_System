@@ -32,5 +32,8 @@ public interface ValuatedDiamondRepository extends JpaRepository<ValuatedDiamond
             "NEW com.diamond_shop.diamond_shop.pojo.ValuatedDiamondPojo(v.id,v.createdDate,v.valuationResult.origin,v.valuationResult.shape,v.valuationResult.carat_weight,v.valuationResult.color, v.valuationResult.cut,v.valuationResult.clarity,v.valuationResult.measurements,v.valuationResult.polish, v.valuationResult.symmetry, v.valuationResult.fluorescence,v.valuationResult.proportions,v.valuationResult.price)" +
             "FROM ValuatedDiamondEntity as v " +
             "WHERE v.valuationResult.valuationRequestId.id=:id")
-  Optional<ValuatedDiamondEntity> findByValuationRequestId(@Param("id") int id);
+    Optional<ValuatedDiamondEntity> findByValuationRequestId(@Param("id") int id);
+
+    @Query(value = "SELECT v FROM ValuatedDiamondEntity v WHERE v.id=:id")
+    ValuatedDiamondEntity getById(@Param("id") String id);
 }

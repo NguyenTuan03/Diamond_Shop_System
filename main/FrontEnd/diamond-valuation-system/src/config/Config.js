@@ -16,9 +16,7 @@ const routes = {
   educationClarity: "/education/clarity",
   login: "/login",
   logout: "/logout",
-  consultingStaff: "/consulting-staff",
   error: "*",
-  valuationStaff: "/valuation-staff",
   // ConsultingStaff's DashBoard
   consulting_dashboard: "/consulting-staff-dashboard",
   consulting_dasboardNotification: "/consulting-staff-dashboard/notifications",
@@ -34,7 +32,5 @@ const routes = {
   dashboardSearch: "/dashboard/search",
   dashboardRequest: "/dashboard/request",
   // Admin's Dashboard
-  admin: "/admin",
-  manager: "/manager",
 };
 export default routes;

@@ -87,6 +87,7 @@ CREATE TABLE Sealing_letters(
 );
 CREATE TABLE Process_sealing_letters(
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
+    Created_date DATETIME NOT NULL,
     Sealing_letter_id BIGINT NOT NULL,
     Manager_id BIGINT NOT NULL,
     Status NVARCHAR(255) NOT NULL,
@@ -149,3 +150,35 @@ CREATE TABLE Valuated_diamond_images(
 	Valuated_diamond_id NVARCHAR(25) NOT NULL
 	FOREIGN KEY (Valuated_diamond_id) REFERENCES Valuated_diamonds(Id),
 )
+
+INSERT INTO Roles (
+    NAME
+) VALUES (
+    'Admin'
+),
+(
+    'Manager'
+),
+(
+    'Consulting staff'
+),
+(
+    'Valuation staff'
+),
+(
+    'Customer'
+),
+(
+    'Guest'
+) INSERT INTO Service_statistics(
+    NAME
+) VALUES(
+    'Origin, Shape, Carat Weight, Color, Cut, Clarity'
+),
+(
+    'Origin, Shape, Carat Weight, Color, Cut, Clarity, Measurement, Polish'
+),
+(
+    'Origin, Shape, Carat Weight, Color, Cut, Clarity, Measurement, Polish, Symmetry, Fluorescence, Proportion'
+)
+INSERT INTO Services(Name, Price, Time, Statistic_id) VALUES('Normal', '20', '30', 1),('Pro', '50', '20', 2), ('Premium','100', '10',3)

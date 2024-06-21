@@ -5,24 +5,42 @@ import {
   Grid,
   GridItem,
   ListItem,
+  SimpleGrid,
   Text,
   UnorderedList,
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { Cloudinary } from "@cloudinary/url-gen/index";
+import { AdvancedImage } from "@cloudinary/react";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 export default function DiamondCheckDetails() {
+  const { certificateId } = useParams();
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: "drmnbl51j",
+    },
+  });
   const location = useLocation();
   const bgColor = useColorModeValue("white", "black");
   const diamondId = location.state?.diamondId;
   const [diamond, setDiamond] = useState({});
+  const [diamondImages, setDiamondImages] = useState([]);
   const formattedDate = new Date(diamond?.createdDate).toLocaleDateString();
+  let checkId = null;
+  if (diamondId === undefined) checkId = certificateId;
+  else checkId = diamondId;
+
   const fetchValuatedDiamond = () => {
     axios
-      .get(`http://localhost:8081/api/valuated-diamond/get?id=${diamondId}`)
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuated-diamond/get?id=${checkId}`
+      )
       .then(function (response) {
         // console.log(response.data);
         if (response.data === null) {
@@ -35,8 +53,23 @@ export default function DiamondCheckDetails() {
         console.log(error);
       });
   };
+  const fetchValuatedDiamondImages = () => {
+    axios
+      .get(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/valuated-diamond-image/get?diamondId=${checkId}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        setDiamondImages(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   useEffect(() => {
+    console.log(certificateId);
     fetchValuatedDiamond();
+    fetchValuatedDiamondImages();
   }, []);
   return (
     <Flex
@@ -48,13 +81,26 @@ export default function DiamondCheckDetails() {
       p={10}
       bg={bgColor}
     >
-      <LazyLoadImage
-        style={{ borderRadius: "20px" }}
-        width={{ base: "300px", md: "400px", lg: "500px" }}
-        src="https://stonealgo.b-cdn.net/img/img_53d827c57a7a0d79f823a43c226fca6b.jpg?width=900&height=900"
-        effect="blur"
-      />
-
+      <SimpleGrid
+        columns={{
+          lg:
+            (diamondImages.length === 1 && 1) ||
+            (diamondImages.length === 2 && 2) ||
+            Math.ceil(diamondImages.length / 2),
+        }}
+        spacing={10}
+      >
+        {diamondImages?.map((image, index) => {
+          return (
+            <AdvancedImage
+              key={index}
+              cldImg={cld
+                .image(image)
+                .resize(thumbnail().width(200).height(200))}
+            />
+          );
+        })}
+      </SimpleGrid>
       <Flex direction={"column"} gap={5}>
         <Flex direction={"row"} alignItems={"center"} gap={5}>
           <Text fontSize="xl" fontWeight={"bold"}>

@@ -6,7 +6,7 @@ export default function DashBoardAppoint() {
     return (
         <div>
             <Box bg="rgb(67 56 202)" w="100%" pl={1} color="white">
-                <Text py={3} fontSize="lg">
+                <Text py={3} fontSize="lg" pl={"20px"}>
                     APPOINTMENTS
                 </Text>
                 <VStack
@@ -28,14 +28,6 @@ export default function DashBoardAppoint() {
                     </Box>
                 </VStack>
             </Box>
-            <Button
-                mt={5}
-                leftIcon={<IoIosCreate />}
-                colorScheme="teal"
-                variant="solid"
-            >
-                Make an appointment
-            </Button>
         </div>
     );
 }
