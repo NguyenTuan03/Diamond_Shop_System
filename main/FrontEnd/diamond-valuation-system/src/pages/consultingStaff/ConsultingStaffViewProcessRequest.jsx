@@ -13,15 +13,14 @@ import {
   Text,
   Icon,
   useDisclosure,
-  SimpleGrid,
 } from "@chakra-ui/react";
 import { handleProcessRequest } from "./ConsultingStaffService";
 import React, { useRef, useState } from "react";
+import ZaloChat from "../../components/zalo/ZaloChat";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { useReactToPrint } from "react-to-print";
-import ZaloChat from "../../../components/zalo/ZaloChat";
 import axios from "axios";
-export default function ConsultingRequest({
+export default function ConsultingStaffViewProcessRequest({
   isOpen,
   onClose,
   processRequest,
@@ -58,20 +57,18 @@ export default function ConsultingRequest({
               <Center>
                 <Text fontWeight={"bold"}>Customer</Text>
               </Center>
-              <Text>Name: {processRequest?.customerName || "N/A"}</Text>
-              <Text>Email: {processRequest?.customerEmail || "N/A"}</Text>
-              <Text>Phone: {processRequest?.customerPhone || "N/A"}</Text>
-              <Text>Description: {processRequest?.description || "N/A"}</Text>
+              <Text>Name: {processRequest?.customerName}</Text>
+              <Text>Email: {processRequest?.customerEmail}</Text>
+              <Text>Phone: {processRequest?.customerPhone}</Text>
+              <Text>Description: {processRequest?.description}</Text>
               <Divider />
               <Center>
                 <Text fontWeight={"bold"}>Service</Text>
               </Center>
-              <Text>Type: {processRequest?.serviceName || "N/A"}</Text>
-              <Text>Price: {processRequest?.servicePrice || "N/A"}</Text>
-              <Text>Time: {processRequest?.serviceTime || "N/A"}</Text>
-              <Text>
-                Will valuate: {processRequest?.statisticName || "N/A"}
-              </Text>
+              <Text>Type: {processRequest?.serviceName}</Text>
+              <Text>Price: {processRequest?.servicePrice}</Text>
+              <Text>Time: {processRequest?.serviceTime}</Text>
+              <Text>Will valuate: {processRequest?.statisticName}</Text>
               <Divider />
             </Flex>
           </ModalBody>
@@ -136,6 +133,7 @@ export default function ConsultingRequest({
                   <ZaloChat customerPhone={processRequest?.customerPhone} />
                 </>
               )) ||
+              processRequest?.type === "Finished" ||
               (processRequest?.type === "Valuated" && (
                 <>
                   <Button
@@ -148,40 +146,6 @@ export default function ConsultingRequest({
                     View
                   </Button>
                   <ZaloChat customerPhone={processRequest?.customerPhone} />
-                </>
-              )) ||
-              ((processRequest?.type === "Finished" ||
-                processRequest?.type === "Overdue") && (
-                <>
-                  <SimpleGrid columns={2} spacing={10}>
-                    <Button
-                      colorScheme="green"
-                      onClick={() => {
-                        valuationResultModal.onOpen();
-                        viewValuationResult(processRequest?.valuationRequestId);
-                      }}
-                    >
-                      View
-                    </Button>
-                    <ZaloChat customerPhone={processRequest?.customerPhone} />
-                    <Button
-                      onClick={() => {
-                        handleProcessRequest(
-                          toast,
-                          "customer_received",
-                          processRequest?.type,
-                          processRequest?.consultingStaffId,
-                          processRequest?.valuationRequestId
-                        ).then(() => {
-                          setIsProcessRequest(true);
-                          viewProcessRequest.onClose();
-                        });
-                      }}
-                    >
-                      Cust. Received
-                    </Button>
-                    <Button>Lost receipt</Button>
-                  </SimpleGrid>
                 </>
               )) || <ZaloChat customerPhone={processRequest?.customerPhone} />}
           </ModalFooter>
@@ -207,7 +171,7 @@ export default function ConsultingRequest({
               </Text>
             </Flex>
           </ModalHeader>
-          {/* <ModalCloseButton /> */}
+          <ModalCloseButton />
           <ModalBody>
             <Flex
               direction={"column"}
@@ -227,17 +191,13 @@ export default function ConsultingRequest({
                   DIAMOND GRADING REPORT
                 </Text>
                 <Text fontSize={"sm"}>
-                  Valuated Date:{" "}
-                  {valuationResult?.createdDate?.slice(0, 10) || "N/A"}
+                  Valuated Date: {valuationResult?.createdDate || "N/A"}
                 </Text>
                 <Text fontSize={"sm"}>
                   Shape: {valuationResult?.shape || "N/A"}
                 </Text>
                 <Text fontSize={"sm"}>
                   Measurements: {valuationResult?.measurements || "N/A"}
-                </Text>
-                <Text fontSize={"sm"}>
-                  Price: {valuationResult?.price || "N/A"} USD
                 </Text>
                 <Text fontSize={"sm"} bg={"blue.300"} p={1} fontWeight={"bold"}>
                   GRADING RESULT

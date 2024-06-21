@@ -1,6 +1,6 @@
 import axios from "axios";
+
 export const fetchProcessRequest = async (
-  id,
   setProcessRequest,
   currentPage,
   setTotalPage,
@@ -9,7 +9,7 @@ export const fetchProcessRequest = async (
   try {
     await axios
       .get(
-        `http://localhost:8081/api/process-request/get?page=${currentPage}&staffId=${id}`
+        `http://localhost:8081/api/process-request/get?page=${currentPage}&staffId=3`
       )
       .then(function (response) {
         setProcessRequest(response.data.content);
@@ -80,7 +80,6 @@ export const checkSealingDate = async (
   toast
 ) => {
   try {
-    console.log("check sealing");
     for (let i = 0; i < processRequest.length; i++) {
       await axios
         .get(

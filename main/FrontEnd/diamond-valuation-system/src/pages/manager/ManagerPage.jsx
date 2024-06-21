@@ -1,5 +1,5 @@
 import { Flex, Select, Text, useDisclosure } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ManagerSealingLetterPage from "./ManagerSealingLetterPage";
 import ManagerValuatedDiamondPage from "./ManagerValuatedDiamondPage";
 export default function ManagerPage() {

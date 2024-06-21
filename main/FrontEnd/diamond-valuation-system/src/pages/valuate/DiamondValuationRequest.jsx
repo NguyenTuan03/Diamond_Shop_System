@@ -40,9 +40,7 @@ export default function DiamondValuationRequest() {
             initialValues={{ description: "" }}
             onSubmit={(values, { setSubmitting }) => {
               try {
-                if (
-                  JSON.parse(localStorage.getItem("serviceId")) === undefined
-                ) {
+                if (location.state?.serviceId === undefined) {
                   toast({
                     title: "Please select a service first.",
                     status: "error",
@@ -69,9 +67,7 @@ export default function DiamondValuationRequest() {
                       {
                         username: JSON.parse(localStorage.getItem("user"))
                           .username,
-                        serviceId: JSON.parse(
-                          localStorage.getItem("serviceId")
-                        ),
+                        serviceId: location.state?.serviceId,
                         createdDate: "",
                         description: values.description,
                       }
