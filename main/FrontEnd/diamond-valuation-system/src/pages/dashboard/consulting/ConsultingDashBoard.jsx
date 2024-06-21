@@ -98,8 +98,6 @@ export default function ConsultingDashBoard() {
     );
   }, [currentPage]);
 
-
-export default function ConsultingDashBoard() {
   return (
     <>
       <Flex
