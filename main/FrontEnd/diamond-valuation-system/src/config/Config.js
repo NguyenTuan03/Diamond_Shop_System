@@ -31,6 +31,7 @@ const routes = {
   dashboardAppoint: "/dashboard/appointments",
   dashboardSearch: "/dashboard/search",
   dashboardRequest: "/dashboard/request",
+  dashboardSetting: "/dashboard/setting"
   // Admin's Dashboard
 };
 export default routes;
