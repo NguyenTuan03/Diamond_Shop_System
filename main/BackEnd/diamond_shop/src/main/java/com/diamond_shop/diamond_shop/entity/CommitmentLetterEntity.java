@@ -10,30 +10,34 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "Valuation_receipts")
+@Table(name = "commiment_letters")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class ValuationReceiptEntity {
+public class CommitmentLetterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
+    @Column(name = "id")
     private int id;
-
-    @NotNull(message = "Created date is mandatory")
-    @Column(name = "Created_date")
-    private Date createdDate;
 
     @OneToOne
     @JoinColumn(name = "valuation_request_id")
-    private ValuationRequestEntity valuationRequestId;
+    private ValuationRequestEntity valuationRequest;
+    
+    @ManyToOne
+    @Column(name = "manager_id")
+    private AccountEntity managerId;
+    
+    @NotNull(message = "Created date is mandatory")
+    @Column(name = "created_date")
+    private Date createdDate;
 
-    public ValuationReceiptEntity(Date createdDate, ValuationRequestEntity valuationRequestId) {
-        this.createdDate = createdDate;
-        this.valuationRequestId = valuationRequestId;
-    }
+    @Column(name = "content")
+    private String content;
 }

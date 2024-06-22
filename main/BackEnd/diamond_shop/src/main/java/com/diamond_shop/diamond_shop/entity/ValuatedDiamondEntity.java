@@ -16,18 +16,18 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "Valuated_diamonds")
+@Table(name = "valuated_diamonds")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ValuatedDiamondEntity {
     @Id
-    @Column(name = "Id")
+    @Column(name = "id")
     private String id;
 
     @OneToOne
-    @JoinColumn(name = "Valuation_result_id")
+    @JoinColumn(name = "valuation_result_id")
     private ValuationResultEntity valuationResult;
 
-    @Column(name = "Created_date")
+    @Column(name = "created_date")
     private Date createdDate;
 
     @OneToMany(mappedBy = "valuatedDiamond", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
