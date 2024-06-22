@@ -45,9 +45,12 @@ export default function ConsultingDashBoard() {
       currentPage,
       setTotalPage,
       toast
-    );
-    checkSealingDate(setIsCheckSealingDate, processRequest, toast);
-    checkFinishDate(setIsCheckFinishDate, processRequest, toast);
+    ).then(() => {
+      checkFinishDate(setIsCheckFinishDate, processRequest, toast).then(() => {
+        checkSealingDate(setIsCheckSealingDate, processRequest, toast);
+      });
+    });
+    setIsProcessRequest(true);
   }, []);
   useEffect(() => {
     if (isProcessRequest) {
