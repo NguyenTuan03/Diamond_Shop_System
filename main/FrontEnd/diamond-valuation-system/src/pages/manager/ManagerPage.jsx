@@ -13,7 +13,6 @@ export default function ManagerPage() {
         direction={"column"}
         alignItems={"center"}
         justifyContent={"center"}
-        h={"70vh"}
         paddingTop={10}
         gap={5}
       >

@@ -104,12 +104,12 @@ export default function ConsultingDashBoard() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        h={"70vh"}
+        // h={"70vh"}
         paddingTop={10}
         gap={5}
       >
         <Text fontSize="4xl" fontWeight="bold">
-          Welcome: Lâm Tiên Hưng
+          Welcome: {user.userAuth.fullname}
         </Text>
         <Text fontSize="xl">For Consulting Staff</Text>
 

@@ -28,7 +28,7 @@ export default function ManagerValuatedDiamondPage() {
   const viewValuatedDiamondDetail = useDisclosure();
   const viewValuatedDiamond = () => {
     axios
-      .get(`http://localhost:8081/api/valuated-diamond/get/all`)
+      .get(`${import.meta.env.VITE_REACT_APP_BASE_URL}/api/valuated-diamond/get/all`)
       .then(function (response) {
         console.log(response.data);
         setValuatedDiamond(response.data.content);

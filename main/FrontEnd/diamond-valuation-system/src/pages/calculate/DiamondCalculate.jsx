@@ -86,14 +86,17 @@ export default function Calculate() {
       }
       setIsLoading(true);
       await axios
-        .post("http://localhost:8081/api/diamond/calculate", {
-          gradingLab: gradingLab,
-          carat: carat,
-          shape: shape,
-          color: color,
-          clarity: clarity,
-          cut: cut,
-        })
+        .post(
+          `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/diamond/calculate`,
+          {
+            gradingLab: gradingLab,
+            carat: carat,
+            shape: shape,
+            color: color,
+            clarity: clarity,
+            cut: cut,
+          }
+        )
         .then(function (response) {
           console.log(response.data.body);
           const test = new DOMParser().parseFromString(

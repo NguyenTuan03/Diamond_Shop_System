@@ -16,7 +16,7 @@ export default function MainLayout({ children }) {
       <Header />
       {children}
       {
-        auth.userAuth &&
+        auth.userAuth.roleid === 5 &&
         <Button onClick={() => nav(`/diamond-service`)} position={"fixed"} left={"20px"} bottom={"60px"} colorScheme='blue'><FaPlus style={{marginRight: "10px"}}/> Create Request</Button>
       }
       <Footer/>
