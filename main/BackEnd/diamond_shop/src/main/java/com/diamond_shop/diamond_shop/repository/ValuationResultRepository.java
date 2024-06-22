@@ -12,13 +12,13 @@ import java.util.List;
 @Repository
 public interface ValuationResultRepository extends JpaRepository<ValuationResultEntity, Integer> {
 
-    @Query("SELECT p FROM ValuationResultEntity p WHERE p.id=:id")
-    ValuationResultEntity findById(@Param("id") int id);
-
-    @Query("SELECT p FROM ValuationResultEntity p WHERE p.valuationRequestId.id = :valuationRequestId")
-    ValuationResultEntity findByValuationRequestId(@Param("valuationRequestId") int valuationRequestId);
-
-    @Modifying
-    @Query("DELETE FROM ValuationResultEntity v WHERE v.id IN :ids")
-    void deleteByIds(@Param("ids") List<Integer> ids);
+//    @Query("SELECT p FROM ValuationResultEntity p WHERE p.id=:id")
+//    ValuationResultEntity findById(@Param("id") int id);
+//
+//    @Query("SELECT p FROM ValuationResultEntity p WHERE p.valuationRequestId.id = :valuationRequestId")
+//    ValuationResultEntity findByValuationRequestId(@Param("valuationRequestId") int valuationRequestId);
+//
+//    @Modifying
+//    @Query("DELETE FROM ValuationResultEntity v WHERE v.id IN :ids")
+//    void deleteByIds(@Param("ids") List<Integer> ids);
 }

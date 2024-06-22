@@ -9,11 +9,11 @@ import org.springframework.data.domain.Page;
 
 
 public interface ValuationRequestService {
-    int makeRequest(ValuationRequestDTO valuationRequestDTO);
-
-    Page<ValuationRequestEntity> viewRequest(String search, int pageId, String filter);
-
-    String checkFinishDate(int valuationRequestId);
-
-    List<ValuationRequestDTO> viewCustomerRequestId(int id);
+//    int makeRequest(ValuationRequestDTO valuationRequestDTO);
+//
+//    Page<ValuationRequestEntity> viewRequest(String search, int pageId, String filter);
+//
+//    String checkFinishDate(int valuationRequestId);
+//
+//    List<ValuationRequestDTO> viewCustomerRequestId(int id);
 }

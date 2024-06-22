@@ -11,23 +11,23 @@ import java.util.List;
 
 @Service
 public class ValuatedDiamondImageImpl implements ValuatedDiamondImageService {
-    @Autowired
-    private ValuatedDiamondImageRepository valuatedDiamondImageRepository;
-    @Autowired
-    private ValuatedDiamondRepository valuatedDiamondRepository;
-
-    @Override
-    public String createValuatedDiamondImage(String id, String valuatedDiamondId) {
-        ValuatedDiamondEntity valuatedDiamond = valuatedDiamondRepository.getById(valuatedDiamondId);
-        if (valuatedDiamond == null)
-            return "Not found valuated diamond with id: " + valuatedDiamondId;
-        ValuatedDiamondImageEntity valuatedDiamondImage = new ValuatedDiamondImageEntity(id, valuatedDiamond);
-        valuatedDiamondImageRepository.save(valuatedDiamondImage);
-        return "Successfully created valuated diamond image: " + valuatedDiamondId;
-    }
-
-    @Override
-    public List<String> getValuatedDiamondImagesByDiamondId(String diamondId) {
-        return valuatedDiamondImageRepository.getValuatedDiamondImageByDiamondImageId(diamondId);
-    }
+//    @Autowired
+//    private ValuatedDiamondImageRepository valuatedDiamondImageRepository;
+//    @Autowired
+//    private ValuatedDiamondRepository valuatedDiamondRepository;
+//
+//    @Override
+//    public String createValuatedDiamondImage(String id, String valuatedDiamondId) {
+//        ValuatedDiamondEntity valuatedDiamond = valuatedDiamondRepository.getById(valuatedDiamondId);
+//        if (valuatedDiamond == null)
+//            return "Not found valuated diamond with id: " + valuatedDiamondId;
+//        ValuatedDiamondImageEntity valuatedDiamondImage = new ValuatedDiamondImageEntity(id, valuatedDiamond);
+//        valuatedDiamondImageRepository.save(valuatedDiamondImage);
+//        return "Successfully created valuated diamond image: " + valuatedDiamondId;
+//    }
+//
+//    @Override
+//    public List<String> getValuatedDiamondImagesByDiamondId(String diamondId) {
+//        return valuatedDiamondImageRepository.getValuatedDiamondImageByDiamondImageId(diamondId);
+//    }
 }

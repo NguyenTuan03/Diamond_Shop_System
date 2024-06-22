@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface ServiceRepository extends JpaRepository<ServiceEntity, Integer> {
 
-    @Query(value = "SELECT NEW com.diamond_shop.diamond_shop.pojo.ServiceResultPojo(s.Id, s.Name, s.Price, s.Time, s.Statistic_id.Name) FROM ServiceEntity as s")
-    List<ServiceResultPojo> searchAllServices();
+//    @Query(value = "SELECT NEW com.diamond_shop.diamond_shop.pojo.ServiceResultPojo(s.Id, s.Name, s.Price, s.Time, s.Statistic_id.Name) FROM ServiceEntity as s")
+//    List<ServiceResultPojo> searchAllServices();
 }

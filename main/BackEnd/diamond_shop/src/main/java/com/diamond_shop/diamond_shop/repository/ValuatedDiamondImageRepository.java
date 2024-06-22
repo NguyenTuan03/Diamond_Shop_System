@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface ValuatedDiamondImageRepository extends JpaRepository<ValuatedDiamondImageEntity, String> {
-
-    @Query(value = "SELECT v.id FROM ValuatedDiamondImageEntity v WHERE v.valuatedDiamond.id=:diamondImageId")
-    List<String> getValuatedDiamondImageByDiamondImageId(@Param("diamondImageId") String diamondImageId);
+//
+//    @Query(value = "SELECT v.id FROM ValuatedDiamondImageEntity v WHERE v.valuatedDiamond.id=:diamondImageId")
+//    List<String> getValuatedDiamondImageByDiamondImageId(@Param("diamondImageId") String diamondImageId);
 }
