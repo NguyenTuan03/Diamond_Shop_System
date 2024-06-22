@@ -7,11 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class UpdateRequestDTO {
-    private String type;
-    private String processRequestStatus;
-    private int consultingStaffId;
-    private int pendingRequestId;
+@AllArgsConstructor
+public class PendingRequestDTO {
+    private int customerId;
+    private String description;
 }

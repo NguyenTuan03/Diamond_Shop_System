@@ -2,6 +2,8 @@ package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
+import com.diamond_shop.diamond_shop.entity.PaymentEntity;
+import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.entity.ServiceEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
@@ -20,48 +22,50 @@ import java.util.stream.Collectors;
 
 @Service
 public class ValuationRequestImpl implements ValuationRequestService {
-//    @Autowired
-//    private ValuationRequestRepository valuationRequestRepository;
-//    @Autowired
-//    private AccountRepository accountRepository;
-//    @Autowired
-//    private ServiceRepository serviceRepository;
-//    @Autowired
-//    ProcessRequestRepository processRequestRepository;
-//
-//    @Autowired
-//    ProcessResultRepository processResultRepository;
+    @Autowired
+    private ValuationRequestRepository valuationRequestRepository;
+    @Autowired
+    private PendingRepository pendingRepository;
+    @Autowired
+    private ServiceRepository serviceRepository;
+    @Autowired
+    private PaymentRepository paymentRepository;
 
-//    @Override
-//    public int makeRequest(ValuationRequestDTO valuationRequestDTO) {
-//
-//        AccountEntity acc = accountRepository.findByUserName(valuationRequestDTO.getUsername());
-//        ServiceEntity service = serviceRepository.findById(valuationRequestDTO.getServiceId()).orElse(null);
-//
-//        if (acc == null)
-//            return -1;
-//        else if (service == null)
-//            return -1;
-//
-//        Date createdDate = valuationRequestDTO.getCreatedDate() != null ? valuationRequestDTO.getCreatedDate() : new Date();
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(createdDate);
-//        calendar.add(Calendar.DAY_OF_MONTH, Integer.parseInt(service.getTime()));
-//        Date finishedDate = calendar.getTime();
-//        calendar.add(Calendar.DAY_OF_MONTH, 1);
-//        Date sealingDate = calendar.getTime();
-//        ValuationRequestEntity valuationRequestEntity = new ValuationRequestEntity(
-////                valuationRequestDTO.getRequestId(),
-//                acc,
-//                service,
-//                createdDate,
-//                finishedDate,
-//                sealingDate,
-//                valuationRequestDTO.getDescription()
-//        );
-//        valuationRequestRepository.save(valuationRequestEntity);
-//        return valuationRequestEntity.getId();
-//    }
+    @Autowired
+    ProcessResultRepository processResultRepository;
+
+    @Override
+    public String makeRequest(int pendingId, int serviceId, int paymentId) {
+
+        PendingRequestsEntity pending = pendingRepository.findById(pendingId).orElse(null);
+        ServiceEntity service = serviceRepository.findById(serviceId).orElse(null);
+        PaymentEntity payment = paymentRepository.findById(paymentId).orElse(null);
+
+        if (pending == null)
+            return "Pending not found";
+        else if (service == null)
+            return "Service not found";
+        else if (payment == null)
+            return "payment not found";
+
+        Date createdDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(createdDate);
+        calendar.add(Calendar.DAY_OF_MONTH, Integer.parseInt(service.getTime()));
+        Date finishedDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        Date sealingDate = calendar.getTime();
+        ValuationRequestEntity valuationRequestEntity = new ValuationRequestEntity(    
+                pending,
+                service,
+                payment,
+                createdDate,
+                finishedDate,
+                sealingDate
+        );
+        valuationRequestRepository.save(valuationRequestEntity);
+        return "Create successfully";
+    }
 //
 //    @Override
 //    public Page<ValuationRequestEntity> viewRequest(String search, int pageId, String filter) {

@@ -37,11 +37,10 @@ public class ServiceEntity {
     private String time;
 
     @ManyToOne
-    @JoinColumn(name = "statistic_id")
+    @JoinColumn(name = "service_statistic_id")
     private ServiceStatisticEntity statistic_id;
 
-    @OneToOne
-    @JoinColumn(name = "serviceId")
+    @OneToOne(mappedBy = "serviceId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuationRequestEntity valuationRequestEntity;
 
     public ServiceEntity(int id) {

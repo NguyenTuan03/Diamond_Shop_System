@@ -33,4 +33,11 @@ public class PendingRequestsEntity {
 
     @OneToOne(mappedBy = "pendingRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuationRequestEntity valuationRequestEntity;
+
+    public PendingRequestsEntity(AccountEntity customerId, String description, Date createdDate) {
+        this.customerId = customerId;
+        this.description = description;
+        this.createdDate = createdDate;
+    }
+
 }

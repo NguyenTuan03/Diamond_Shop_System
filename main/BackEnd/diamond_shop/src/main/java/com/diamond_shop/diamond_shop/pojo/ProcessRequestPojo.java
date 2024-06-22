@@ -12,17 +12,11 @@ import java.util.Date;
 public class ProcessRequestPojo {
     private int consultingStaffId;
     private String consultingStaffName;
-    private int valuationRequestId;
-    private String type;
+    private int pendingRequestId;
+    private String status;
     private String customerName;
     private String customerEmail;
     private String customerPhone;
-    private String serviceName;
-    private String servicePrice;
-    private String serviceTime;
-    private String statisticName;
     private Date createdDate;
-    private Date finishedDate;
-    private Date sealingDate;
     private String description;
 }

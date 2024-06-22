@@ -9,10 +9,10 @@ import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 public interface ValuationResultService {
 
 //    String valuateDiamond(ValuationResultDTO valuationResultDTO);
-//
+
 //    String assignForValuationStaff(ProcessRequestEntity processRequest);
-//
-//    List<DiamondPojo> crawlNaturalDiamond(String shape);
-//
-//    List<DiamondPojo> crawlLabGrownDiamond(String shape);
+
+   List<DiamondPojo> crawlNaturalDiamond(String shape);
+
+   List<DiamondPojo> crawlLabGrownDiamond(String shape);
 }

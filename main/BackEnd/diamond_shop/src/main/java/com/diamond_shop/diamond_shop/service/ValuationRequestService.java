@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 
 
 public interface ValuationRequestService {
-//    int makeRequest(ValuationRequestDTO valuationRequestDTO);
+    String makeRequest(int pendingId, int serviceId, int paymentId);
 //
 //    Page<ValuationRequestEntity> viewRequest(String search, int pageId, String filter);
 //
