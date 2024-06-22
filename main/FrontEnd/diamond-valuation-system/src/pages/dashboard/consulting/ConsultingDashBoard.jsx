@@ -50,7 +50,7 @@ export default function ConsultingDashBoard() {
         checkSealingDate(setIsCheckSealingDate, processRequest, toast);
       });
     });
-    setIsProcessRequest(true)
+    setIsProcessRequest(true);
   }, []);
   useEffect(() => {
     if (isProcessRequest) {
