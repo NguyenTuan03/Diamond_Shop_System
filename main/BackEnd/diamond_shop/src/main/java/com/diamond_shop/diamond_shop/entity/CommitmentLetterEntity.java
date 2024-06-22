@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -31,7 +29,7 @@ public class CommitmentLetterEntity {
     private ValuationRequestEntity valuationRequest;
     
     @ManyToOne
-    @Column(name = "manager_id")
+    @JoinColumn(name = "manager_id")
     private AccountEntity managerId;
     
     @NotNull(message = "Created date is mandatory")

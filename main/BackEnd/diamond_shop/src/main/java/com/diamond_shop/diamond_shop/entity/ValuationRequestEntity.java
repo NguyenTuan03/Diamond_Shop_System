@@ -55,5 +55,16 @@ public class ValuationRequestEntity {
 
     @OneToOne(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuationReceiptEntity valuationReceipt;
+
+    public ValuationRequestEntity(PendingRequestsEntity pendingRequestId, ServiceEntity serviceId,
+            PaymentEntity paymentId, @NotNull(message = "Created date is mandatory") Date createdDate, Date finishDate,
+            @NotNull(message = "Sealing date is mandatory") Date sealingDate) {
+        this.pendingRequestId = pendingRequestId;
+        this.serviceId = serviceId;
+        this.paymentId = paymentId;
+        this.createdDate = createdDate;
+        this.finishDate = finishDate;
+        this.sealingDate = sealingDate;
+    }
     
 }

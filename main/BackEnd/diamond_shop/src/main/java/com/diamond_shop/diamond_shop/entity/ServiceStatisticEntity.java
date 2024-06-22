@@ -26,4 +26,8 @@ public class ServiceStatisticEntity {
     @OneToMany(mappedBy = "statistic_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ServiceEntity> serviceEntity = new HashSet<>();
 
+    public ServiceStatisticEntity(@NotNull(message = "Statistic name is mandatory") String name) {
+        this.name = name;
+    }
+
 }
