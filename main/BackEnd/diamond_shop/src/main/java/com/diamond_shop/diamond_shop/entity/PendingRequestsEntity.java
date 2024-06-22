@@ -25,9 +25,19 @@ public class PendingRequestsEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "created_date")
+    private Date createdDate;
+
     @OneToOne(mappedBy = "pendingRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ProcessRequestEntity processRequestEntity;
 
     @OneToOne(mappedBy = "pendingRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuationRequestEntity valuationRequestEntity;
+
+    public PendingRequestsEntity(AccountEntity customerId, String description, Date createdDate) {
+        this.customerId = customerId;
+        this.description = description;
+        this.createdDate = createdDate;
+    }
+
 }
