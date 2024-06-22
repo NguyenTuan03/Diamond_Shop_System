@@ -1,5 +1,8 @@
 package com.diamond_shop.diamond_shop.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -9,19 +12,18 @@ import lombok.Getter;
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Getter
-@Table(name = "Service_statistics")
+@Table(name = "service_statistics")
 public class ServiceStatisticEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
-    private int Id;
+    @Column(name = "id")
+    private int id;
 
     @NotNull(message = "Statistic name is mandatory")
-    @Column(name = "Name")
-    private String Name;
+    @Column(name = "name")
+    private String name;
 
-    @OneToOne(mappedBy = "Statistic_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ServiceEntity Service_id;
-
+    @OneToMany(mappedBy = "statistic_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ServiceEntity> serviceEntity = new HashSet<>();
 
 }

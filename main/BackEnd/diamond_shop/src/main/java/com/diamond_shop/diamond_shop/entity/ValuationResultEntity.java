@@ -18,56 +18,59 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "Valuation_results")
+@Table(name = "valuation_results")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ValuationResultEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
+    @Column(name = "id")
     private int id;
 
     @OneToOne
-    @JoinColumn(name = "Valuation_request_id")
+    @JoinColumn(name = "valuation_request_id")
     private ValuationRequestEntity valuationRequestId;
 
-    @Column(name = "Created_date")
+    @Column(name = "created_date")
     private Date createdDate;
 
-    @Column(name = "Origin")
+    @Column(name = "origin")
     private String origin;
 
-    @Column(name = "Shape")
+    @Column(name = "shape")
     private String shape;
 
-    @Column(name = "Carat_weight")
-    private BigDecimal carat_weight;
+    @Column(name = "carat")
+    private BigDecimal carat;
 
-    @Column(name = "Color")
+    @Column(name = "color")
     private String color;
 
-    @Column(name = "Cut")
+    @Column(name = "cut")
     private String cut;
 
-    @Column(name = "Clarity")
+    @Column(name = "clarity")
     private String clarity;
-
-    @Column(name = "Measurements")
-    private String measurements;
-
-    @Column(name = "Polish")
-    private String polish;
-
-    @Column(name = "Symmetry")
+    
+    @Column(name = "symmetry")
     private String symmetry;
 
-    @Column(name = "Fluorescence")
+    @Column(name = "polish")
+    private String polish;
+
+    @Column(name = "fluorescence")
     private String fluorescence;
 
-    @Column(name = "Proportions")
-    private String proportions;
+    @Column(name = "measurements")
+    private String measurements;
 
-    @Column(name = "Price")
-    private BigDecimal price;
+    @Column(name = "diamond_table")
+    private BigDecimal diamondTable;
+
+    @Column(name = "depth")
+    private BigDecimal depth;
+
+    @Column(name = "length_to_width_ratio")
+    private BigDecimal lengthToWidthRatio;
 
     @OneToMany(mappedBy = "valuationResultId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessResultEntity> processResults = new HashSet<>();
@@ -75,23 +78,5 @@ public class ValuationResultEntity {
     @OneToOne(mappedBy = "valuationResult", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuatedDiamondEntity valuatedDiamond;
 
-    public ValuationResultEntity(ValuationRequestEntity valuationRequestId, Date createdDate,
-                                 String origin, String shape, BigDecimal carat_weight, String color, String cut,
-                                 String clarity, String measurements, String polish, String symmetry, String fluorescence,
-                                 String proportions, BigDecimal price) {
-        this.valuationRequestId = valuationRequestId;
-        this.createdDate = createdDate;
-        this.origin = origin;
-        this.shape = shape;
-        this.carat_weight = carat_weight;
-        this.color = color;
-        this.cut = cut;
-        this.clarity = clarity;
-        this.measurements = measurements;
-        this.polish = polish;
-        this.symmetry = symmetry;
-        this.fluorescence = fluorescence;
-        this.proportions = proportions;
-        this.price = price;
-    }
+    
 }

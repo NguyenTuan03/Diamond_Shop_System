@@ -18,27 +18,28 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "Sealing_letters")
+@Table(name = "sealing_letters")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class SealingLetterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
+    @Column(name = "id")
     private int id;
-
-    @NotNull(message = "Created date is mandatory")
-    @Column(name = "Created_date")
-    private Date createdDate;
-
-    @Column(name = "Content")
-    private String content;
 
     @OneToOne
     @JoinColumn(name = "Valuation_request_id")
     private ValuationRequestEntity valuationRequest;
 
-    @OneToMany(mappedBy = "sealingLetter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ProcessSealingEntity> processSealingEntities = new HashSet<>();
+    @ManyToOne
+    @Column(name = "manager_id")
+    private AccountEntity managerId;
+
+    @NotNull(message = "Created date is mandatory")
+    @Column(name = "created_date")
+    private Date createdDate;
+
+    @Column(name = "content")
+    private String content;
 
     public SealingLetterEntity(Date createdDate, String content, ValuationRequestEntity valuationRequest) {
         this.createdDate = createdDate;
