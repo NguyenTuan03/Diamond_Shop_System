@@ -28,7 +28,7 @@ public class PaymentEntity {
     @Column(name = "id")
     private int id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     private AccountEntity customerId;
 
