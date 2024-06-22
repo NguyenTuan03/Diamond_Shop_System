@@ -25,6 +25,9 @@ public class PendingRequestsEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "created_date")
+    private Date createdDate;
+
     @OneToOne(mappedBy = "pendingRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ProcessRequestEntity processRequestEntity;
 
