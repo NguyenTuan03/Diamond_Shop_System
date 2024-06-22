@@ -29,7 +29,7 @@ public class ValuationReceiptEntity {
     private Date createdDate;
 
     @OneToOne
-    @JoinColumn(name = "Valuation_request_id")
+    @JoinColumn(name = "valuation_request_id")
     private ValuationRequestEntity valuationRequestId;
 
     public ValuationReceiptEntity(Date createdDate, ValuationRequestEntity valuationRequestId) {

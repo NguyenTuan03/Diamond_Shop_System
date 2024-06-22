@@ -18,25 +18,26 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "Commitments")
+@Table(name = "commiment_letters")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class CommitmentEntity {
+public class CommitmentLetterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
+    @Column(name = "id")
     private int id;
 
+    @OneToOne
+    @JoinColumn(name = "valuation_request_id")
+    private ValuationRequestEntity valuationRequest;
+    
+    @ManyToOne
+    @Column(name = "manager_id")
+    private AccountEntity managerId;
+    
     @NotNull(message = "Created date is mandatory")
-    @Column(name = "Created_date")
+    @Column(name = "created_date")
     private Date createdDate;
 
-    @Column(name = "Content")
+    @Column(name = "content")
     private String content;
-
-    @OneToOne
-    @JoinColumn(name = "Valuation_request_id")
-    private ValuationRequestEntity valuationRequest;
-
-    @OneToMany(mappedBy = "commitment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ProcessCommitmentEntity> processCommitmentEntities = new HashSet<>();
 }
