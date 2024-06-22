@@ -74,8 +74,8 @@ public class AccountEntity {
     @OneToMany(mappedBy = "valuationStaffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessResultEntity> processResultEntity = new HashSet<>();
 
-    @OneToOne(mappedBy = "customerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private PaymentEntity paymentEntity;
+    @OneToMany(mappedBy = "customerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PaymentEntity> paymentEntity=new HashSet<>();
 
     public AccountEntity(RoleEntity role_id, String username, String password, String fullname, String phone_number, String email) {
         this.role = role_id;

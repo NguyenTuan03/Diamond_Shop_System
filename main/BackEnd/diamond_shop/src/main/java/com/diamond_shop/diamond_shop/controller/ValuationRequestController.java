@@ -20,43 +20,43 @@ import java.util.Optional;
 @CrossOrigin
 @RequestMapping("api/valuation-request")
 public class ValuationRequestController {
-    @Autowired
-    private ValuationRequestService valuationRequestService;
-    @Autowired
-    private ProcessRequestService processRequestService;
-    @Autowired
-    private ValuatedDiamondService valuatedDiamondService;
-    @Autowired
-    private PaymentService paymentService;
-
-    @GetMapping(path = "/view")
-    public List<ValuationRequestDTO> viewRequest(@RequestParam("id") int id) {
-        return valuationRequestService.viewCustomerRequestId(id);
-    }
-
-    @PostMapping(path = "/create")
-    public String createValuationRequest(@RequestBody ValuationRequestDTO valuationRequestDTO) {
-        int valuationRequestId = valuationRequestService.makeRequest(valuationRequestDTO);
-
-        paymentService.createPayment(valuationRequestDTO.getUsername(), valuationRequestId);
-        
-        String makeProcessRequest = processRequestService.processRequest(valuationRequestId);
-        return valuationRequestId + " " + makeProcessRequest;
-    }
-
-    @GetMapping(path = "/get")
-    public Page<ValuationRequestEntity> viewCustomerRequest(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter) {
-        return valuationRequestService.viewRequest(search, page, filter);
-    }
-    
-    @GetMapping(path = "/check-finished", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String checkFinishDate(@RequestParam("id") int id) {
-        return valuationRequestService.checkFinishDate(id);
-    }
-
-    @GetMapping(path = "/valuated-diamond")
-    public Optional<ValuatedDiamondEntity> getValuatedDiamond(@RequestParam("id") int id) {
-
-        return valuatedDiamondService.getValuatedDiamondByValuationRequestId(id);
-    }
+//    @Autowired
+//    private ValuationRequestService valuationRequestService;
+//    @Autowired
+//    private ProcessRequestService processRequestService;
+//    @Autowired
+//    private ValuatedDiamondService valuatedDiamondService;
+//    @Autowired
+//    private PaymentService paymentService;
+//
+//    @GetMapping(path = "/view")
+//    public List<ValuationRequestDTO> viewRequest(@RequestParam("id") int id) {
+//        return valuationRequestService.viewCustomerRequestId(id);
+//    }
+//
+//    @PostMapping(path = "/create")
+//    public String createValuationRequest(@RequestBody ValuationRequestDTO valuationRequestDTO) {
+//        int valuationRequestId = valuationRequestService.makeRequest(valuationRequestDTO);
+//
+//        paymentService.createPayment(valuationRequestDTO.getUsername(), valuationRequestId);
+//
+//        String makeProcessRequest = processRequestService.processRequest(valuationRequestId);
+//        return valuationRequestId + " " + makeProcessRequest;
+//    }
+//
+//    @GetMapping(path = "/get")
+//    public Page<ValuationRequestEntity> viewCustomerRequest(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter) {
+//        return valuationRequestService.viewRequest(search, page, filter);
+//    }
+//
+//    @GetMapping(path = "/check-finished", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public String checkFinishDate(@RequestParam("id") int id) {
+//        return valuationRequestService.checkFinishDate(id);
+//    }
+//
+//    @GetMapping(path = "/valuated-diamond")
+//    public Optional<ValuatedDiamondEntity> getValuatedDiamond(@RequestParam("id") int id) {
+//
+//        return valuatedDiamondService.getValuatedDiamondByValuationRequestId(id);
+//    }
 }

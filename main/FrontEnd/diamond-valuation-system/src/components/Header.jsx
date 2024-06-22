@@ -142,11 +142,11 @@ export default function Header() {
             justify={"center"}
             gap={20}
           >
-            <Link to={routes.search}>
-              <Text fontSize={"lg"} fontWeight={"bold"}>
-                Search
-              </Text>
-            </Link>
+              <Link to={routes.search}>
+                <Text fontSize={"lg"} fontWeight={"bold"}>
+                  Search
+                </Text>
+              </Link>
             <Link to={routes.diamondCheck}>
               <Text fontSize={"lg"} fontWeight={"bold"}>
                 Diamond Check

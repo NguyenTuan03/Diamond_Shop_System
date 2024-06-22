@@ -12,22 +12,22 @@ import java.util.Optional;
 @CrossOrigin
 @RequestMapping("api/valuated-diamond")
 public class ValuatedDiamondController {
-
-    @Autowired
-    ValuatedDiamondService valuatedDiamondService;
-
-    @GetMapping(path = "/get/all")
-    public Page<ValuatedDiamondEntity> getValuatedDiamonds() {
-        return valuatedDiamondService.getAllValuatedDiamonds();
-    }
-
-    @GetMapping(path = "/get")
-    public Optional<ValuatedDiamondEntity> getValuatedDiamondById(@RequestParam("id") String id) {
-        return valuatedDiamondService.getValuatedDiamondById(id);
-    }
-
-    @GetMapping(path = "/check")
-    public boolean checkValuatedDiamondById(@RequestParam("id") String id) {
-        return valuatedDiamondService.checkValuatedDiamond(id);
-    }
+//
+//    @Autowired
+//    ValuatedDiamondService valuatedDiamondService;
+//
+//    @GetMapping(path = "/get/all")
+//    public Page<ValuatedDiamondEntity> getValuatedDiamonds() {
+//        return valuatedDiamondService.getAllValuatedDiamonds();
+//    }
+//
+//    @GetMapping(path = "/get")
+//    public Optional<ValuatedDiamondEntity> getValuatedDiamondById(@RequestParam("id") String id) {
+//        return valuatedDiamondService.getValuatedDiamondById(id);
+//    }
+//
+//    @GetMapping(path = "/check")
+//    public boolean checkValuatedDiamondById(@RequestParam("id") String id) {
+//        return valuatedDiamondService.checkValuatedDiamond(id);
+//    }
 }

@@ -16,17 +16,17 @@ import com.diamond_shop.diamond_shop.service.ValuatedDiamondImageService;
 @CrossOrigin
 @RequestMapping("api/valuated-diamond-image")
 public class ValuatedDiamondImageController {
-
-    @Autowired
-    ValuatedDiamondImageService valuatedDiamondImageService;
-
-    @GetMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String createValuatedDiamondImage(@RequestParam("id") String id, @RequestParam("diamond") String diamondId) {
-        return valuatedDiamondImageService.createValuatedDiamondImage(id, diamondId);
-    }
-
-    @GetMapping(path = "/get")
-    public List<String> getValuatedDiamondImageByDiamondId(@RequestParam("diamondId") String diamondId) {
-        return valuatedDiamondImageService.getValuatedDiamondImagesByDiamondId(diamondId);
-    }
+//
+//    @Autowired
+//    ValuatedDiamondImageService valuatedDiamondImageService;
+//
+//    @GetMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public String createValuatedDiamondImage(@RequestParam("id") String id, @RequestParam("diamond") String diamondId) {
+//        return valuatedDiamondImageService.createValuatedDiamondImage(id, diamondId);
+//    }
+//
+//    @GetMapping(path = "/get")
+//    public List<String> getValuatedDiamondImageByDiamondId(@RequestParam("diamondId") String diamondId) {
+//        return valuatedDiamondImageService.getValuatedDiamondImagesByDiamondId(diamondId);
+//    }
 }

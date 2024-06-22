@@ -31,7 +31,7 @@ public class SealingLetterEntity {
     private ValuationRequestEntity valuationRequest;
 
     @ManyToOne
-    @Column(name = "manager_id")
+    @JoinColumn(name = "manager_id")
     private AccountEntity managerId;
 
     @NotNull(message = "Created date is mandatory")

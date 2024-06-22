@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public interface DiamondService {
-    ResponseEntity<String> fetchDiamondCalculate(String gradingLab, String carat, String shape, String color, String clarity, String cut);
-
-    List<ServiceResultPojo> getAllServices();
+//    ResponseEntity<String> fetchDiamondCalculate(String gradingLab, String carat, String shape, String color, String clarity, String cut);
+//
+//    List<ServiceResultPojo> getAllServices();
 }
