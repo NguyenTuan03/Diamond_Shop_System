@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface SealingLetterService {
-    Page<SealingLetterEntity> getAllSealingLetters(int page);
-    String createSealingLetter(int valuationRequestId);
-    String checkSealingDate(int valuationRequestId);
+//    Page<SealingLetterEntity> getAllSealingLetters(int page);
+//    String createSealingLetter(int valuationRequestId);
+//    String checkSealingDate(int valuationRequestId);
 }

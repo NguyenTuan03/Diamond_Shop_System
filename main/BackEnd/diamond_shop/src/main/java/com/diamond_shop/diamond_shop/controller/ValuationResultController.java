@@ -13,22 +13,22 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("api/valuation-result")
 public class ValuationResultController {
-    @Autowired
-    private ValuationResultService valuationResultService;
-
-    @PostMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String postMethodName(@RequestBody ValuationResultDTO valuationResultDTO) {
-        //Valuation staff
-        return valuationResultService.valuateDiamond(valuationResultDTO);
-    }
-
-    @GetMapping("/crawl-natural")
-    public List<DiamondPojo> scrapeNaturalDiamonds(@RequestParam String shape) {
-        return valuationResultService.crawlNaturalDiamond(shape);
-    }
-
-    @GetMapping("/crawl-lab-grown")
-    public List<DiamondPojo> scrapeLabGrownDiamonds(@RequestParam String shape) {
-        return valuationResultService.crawlLabGrownDiamond(shape);
-    }
+//    @Autowired
+//    private ValuationResultService valuationResultService;
+//
+//    @PostMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public String postMethodName(@RequestBody ValuationResultDTO valuationResultDTO) {
+//        //Valuation staff
+//        return valuationResultService.valuateDiamond(valuationResultDTO);
+//    }
+//
+//    @GetMapping("/crawl-natural")
+//    public List<DiamondPojo> scrapeNaturalDiamonds(@RequestParam String shape) {
+//        return valuationResultService.crawlNaturalDiamond(shape);
+//    }
+//
+//    @GetMapping("/crawl-lab-grown")
+//    public List<DiamondPojo> scrapeLabGrownDiamonds(@RequestParam String shape) {
+//        return valuationResultService.crawlLabGrownDiamond(shape);
+//    }
 }

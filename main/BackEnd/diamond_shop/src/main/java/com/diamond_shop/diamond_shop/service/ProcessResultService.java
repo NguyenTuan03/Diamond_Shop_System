@@ -7,9 +7,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProcessResultService {
 
-    Page<ProcessResultEntity> viewProcessResult(int valuationStaff);
-
-    String processResult(ProcessRequestEntity requestId);
-
-    void valuateDiamondProduct();
+//    Page<ProcessResultEntity> viewProcessResult(int valuationStaff);
+//
+//    String processResult(ProcessRequestEntity requestId);
+//
+//    void valuateDiamondProduct();
 }
