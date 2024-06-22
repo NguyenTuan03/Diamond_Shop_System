@@ -137,7 +137,7 @@ export default function ValuationStaffPage() {
                 <Tr key={index}>
                   <Td>{index + 1}</Td>
                   <Td>{item?.serviceName}</Td>
-                  <Td>{item?.createdDate?.slice(0, 10)}</Td>
+                  <Td>{item?.createdDate}</Td>
                   <Td>{item?.type}</Td>
                   <Td>
                     <IconButton
@@ -443,7 +443,8 @@ export default function ValuationStaffPage() {
               )}
             </Formik>
           </ModalBody>
-          <ModalFooter justifyContent={"center"}></ModalFooter>
+          <ModalFooter justifyContent={"center"}>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

@@ -1,15 +1,18 @@
 import { Flex, Text, useDisclosure, Button, useToast } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
-import ConsultingRequest from "./ConsultingRequest";
+import React, { useEffect, useRef, useState } from "react";
+import ConsultingStaffViewProcessRequest from "./ConsultingStaffViewProcessRequest";
 import ConsultingStaffTable from "./ConsultingStaffTable";
 import {
   fetchProcessRequest,
   checkSealingDate,
   checkFinishDate,
 } from "./ConsultingStaffService";
-import { UserContext } from "../../../components/GlobalContext/AuthContext";
-export default function ConsultingDashBoard() {
-  const user = useContext(UserContext);
+import { useReactToPrint } from "react-to-print";
+export default function ConsultingStaffPage() {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const toast = useToast();
   const viewProcessRequest = useDisclosure();
   const [viewSelectProcessRequest, setViewSelectProcessRequest] = useState(0);
@@ -38,68 +41,29 @@ export default function ConsultingDashBoard() {
     );
   }
   useEffect(() => {
-    console.log("fetching");
-    fetchProcessRequest(
-      user.userAuth.id,
-      setProcessRequest,
-      currentPage,
-      setTotalPage,
-      toast
-    ).then(() => {
-      checkFinishDate(setIsCheckFinishDate, processRequest, toast).then(() => {
-        checkSealingDate(setIsCheckSealingDate, processRequest, toast);
-      });
-    });
-    setIsProcessRequest(true);
+    fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
+    checkSealingDate(setIsCheckSealingDate, processRequest, toast);
+    checkFinishDate(setIsCheckFinishDate, processRequest, toast);
   }, []);
   useEffect(() => {
     if (isProcessRequest) {
-      fetchProcessRequest(
-        user.userAuth.id,
-        setProcessRequest,
-        currentPage,
-        setTotalPage,
-        toast
-      );
-      checkSealingDate(setIsCheckSealingDate, processRequest, toast);
-      checkFinishDate(setIsCheckFinishDate, processRequest, toast);
+      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
       setIsProcessRequest(false);
     }
   }, [isProcessRequest]);
 
   useEffect(() => {
     if (isCheckSealingDate) {
-      fetchProcessRequest(
-        user.userAuth.id,
-        setProcessRequest,
-        currentPage,
-        setTotalPage,
-        toast
-      );
+      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
       setIsCheckSealingDate(false);
     }
   }, [isCheckSealingDate, processRequest]);
   useEffect(() => {
     if (isCheckFinishDate) {
-      fetchProcessRequest(
-        user.userAuth.id,
-        setProcessRequest,
-        currentPage,
-        setTotalPage,
-        toast
-      );
+      fetchProcessRequest(setProcessRequest, currentPage, setTotalPage, toast);
       setIsCheckFinishDate(false);
     }
   }, [isCheckFinishDate, processRequest]);
-  useEffect(() => {
-    fetchProcessRequest(
-      user.userAuth.id,
-      setProcessRequest,
-      currentPage,
-      setTotalPage,
-      toast
-    );
-  }, [currentPage]);
 
   return (
     <>
@@ -107,12 +71,12 @@ export default function ConsultingDashBoard() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        // h={"70vh"}
+        h={"70vh"}
         paddingTop={10}
         gap={5}
       >
         <Text fontSize="4xl" fontWeight="bold">
-          Welcome: {user.userAuth.fullname}
+          Welcome: Lam Tien Hung
         </Text>
         <Text fontSize="xl">For Consulting Staff</Text>
 
@@ -121,11 +85,9 @@ export default function ConsultingDashBoard() {
           setViewSelectProcessRequest={setViewSelectProcessRequest}
           viewProcessRequest={viewProcessRequest}
         />
-        <Flex direction={"row"} gap={2}>
-          {pageIndicator}
-        </Flex>
+        {pageIndicator}
       </Flex>
-      <ConsultingRequest
+      <ConsultingStaffViewProcessRequest
         isOpen={viewProcessRequest.isOpen}
         onClose={viewProcessRequest.onClose}
         processRequest={processRequest[viewSelectProcessRequest]}
