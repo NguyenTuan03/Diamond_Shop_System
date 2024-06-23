@@ -48,7 +48,7 @@ CREATE TABLE service_statistics(
 CREATE TABLE services(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	name nvarchar(25),
-	price DECIMAL(5,2),
+	price INT,
 	time INT,
 	service_statistic_id BIGINT,
 	FOREIGN KEY (service_statistic_id) REFERENCES service_statistics(id)
@@ -67,15 +67,8 @@ CREATE TABLE valuation_requests(
 	FOREIGN KEY (payment_id) REFERENCES payments(id)
 )
 
-CREATE TABLE valuation_receipts(
-	id BIGINT PRIMARY KEY IDENTITY(1,1),
-	valuation_request_id BIGINT,
-	created_date DATETIME,
-	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id)
-)
-
 CREATE TABLE valuation_results(
-	id BIGINT PRIMARY KEY IDENTITY(1,1),
+	id NVARCHAR(50) PRIMARY KEY,
 	valuation_request_id BIGINT,
 	created_date DATETIME,
 	origin NVARCHAR(25),
@@ -90,26 +83,21 @@ CREATE TABLE valuation_results(
 	measurements NVARCHAR(50),
 	diamond_table DECIMAL(3,1),
 	depth DECIMAL(3,1),
-	length_to_width_ratio DECIMAL(3,1)
+	length_to_width_ratio DECIMAL(3,1),
+	price DECIMAL(10,2)
 )
 
-CREATE TABLE valuated_diamonds(
+
+CREATE TABLE valuation_result_images(
 	id NVARCHAR(255) PRIMARY KEY,
-	valuation_result_id BIGINT,
-	created_date DATETIME,
+	valuation_result_id NVARCHAR(50),
 	FOREIGN KEY (valuation_result_id) REFERENCES valuation_results(id)
-)
-
-CREATE TABLE valuated_diamond_images(
-	id NVARCHAR(255) PRIMARY KEY,
-	valuated_diamond_id NVARCHAR(255),
-	FOREIGN KEY (valuated_diamond_id) REFERENCES valuated_diamonds(id)
 )
 
 CREATE TABLE process_results(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	valuation_staff_id BIGINT,
-	valuation_result_id BIGINT,
+	valuation_result_id NVARCHAR(50),
 	status NVARCHAR(25)
 	FOREIGN KEY (valuation_staff_id) REFERENCES users(id),
 	FOREIGN KEY (valuation_result_id) REFERENCES valuation_results(id)
@@ -150,4 +138,4 @@ INSERT INTO service_statistics(
 (
     'Origin, Shape, Carat Weight, Color, Cut, Clarity, Measurement, Polish, Symmetry, Fluorescence, Proportion')
 
-INSERT INTO Services(Name, Price, Time, service_statistic_id) VALUES('Normal', 20.00, 30, 1),('Pro', 50.00, 20, 2), ('Premium',100.00, 10,3)
+INSERT INTO Services(Name, Price, Time, service_statistic_id) VALUES('Normal', 200000, 30, 1),('Pro', 500000, 20, 2), ('Premium',1000000, 10, 3)
