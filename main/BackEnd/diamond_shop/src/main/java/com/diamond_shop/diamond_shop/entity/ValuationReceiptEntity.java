@@ -21,11 +21,11 @@ import java.util.Date;
 public class ValuationReceiptEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
+    @Column(name = "id")
     private int id;
 
     @NotNull(message = "Created date is mandatory")
-    @Column(name = "Created_date")
+    @Column(name = "created_date")
     private Date createdDate;
 
     @OneToOne
