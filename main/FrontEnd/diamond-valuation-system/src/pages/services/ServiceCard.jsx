@@ -34,7 +34,7 @@ export default function ServiceCard({
         `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/vnpay/create`,
         {
           params: {
-            amount: `${price}000`,
+            amount: `${Math.floor(price * 1000)}`,
             orderInfo: "Thanh toan don hang",
             orderType: "Other",
           },
