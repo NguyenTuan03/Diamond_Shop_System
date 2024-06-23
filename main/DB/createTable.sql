@@ -18,7 +18,8 @@ CREATE TABLE users(
 CREATE TABLE pending_requests(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	customer_id BIGINT,
-	description NVARCHAR(255)
+	description NVARCHAR(255),
+	created_date DATETIME,
 	FOREIGN KEY (customer_id) REFERENCES users(id)
 )
 
@@ -58,7 +59,7 @@ CREATE TABLE valuation_requests(
 	pending_request_id BIGINT,
 	service_id BIGINT,
 	payment_id BIGINT,
-	create_date DATETIME,
+	created_date DATETIME,
 	finish_date DATETIME,
 	sealing_date DATETIME,
 	FOREIGN KEY (pending_request_id) REFERENCES pending_requests(id),
@@ -76,7 +77,7 @@ CREATE TABLE valuation_receipts(
 CREATE TABLE valuation_results(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	valuation_request_id BIGINT,
-	create_date DATETIME,
+	created_date DATETIME,
 	origin NVARCHAR(25),
 	shape NVARCHAR(25),
 	carat DECIMAL(4,2),
