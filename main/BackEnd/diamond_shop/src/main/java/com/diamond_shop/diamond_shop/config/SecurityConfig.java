@@ -21,6 +21,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/admin/get").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/diamond/calculate").permitAll()
+                                .requestMatchers("/api/pending-request/").permitAll()
                                 .requestMatchers("/api/sealing-letter/").permitAll()
                                 .requestMatchers("/api/process-sealing/").permitAll()
                                 .requestMatchers("https://diamondval.vercel.app").permitAll()
