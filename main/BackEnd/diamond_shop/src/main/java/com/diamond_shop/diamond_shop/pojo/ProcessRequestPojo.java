@@ -10,13 +10,15 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 public class ProcessRequestPojo {
+    private int id;
+    private Date createdDate;
+    private String status;
+    private String description;
     private int consultingStaffId;
     private String consultingStaffName;
-    private int pendingRequestId;
-    private String status;
+    private String consultingStaffPhone;
+    private int customerId;
     private String customerName;
     private String customerEmail;
     private String customerPhone;
-    private Date createdDate;
-    private String description;
 }

@@ -39,7 +39,7 @@ public class ValuationRequestEntity {
     private PaymentEntity paymentId;
 
     @NotNull(message = "Created date is mandatory")
-    @Column(name = "create_date")
+    @Column(name = "created_date")
     private Date createdDate;
 
     @Column(name = "finish_date")
