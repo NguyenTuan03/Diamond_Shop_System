@@ -1,24 +1,16 @@
 package com.diamond_shop.diamond_shop.service;
 
-import com.diamond_shop.diamond_shop.dto.ValuationRequestDTO;
-import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.PaymentEntity;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
-import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.entity.ServiceEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 import com.diamond_shop.diamond_shop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class ValuationRequestImpl implements ValuationRequestService {
@@ -51,11 +43,11 @@ public class ValuationRequestImpl implements ValuationRequestService {
         Date createdDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(createdDate);
-        calendar.add(Calendar.DAY_OF_MONTH, Integer.parseInt(service.getTime()));
+        calendar.add(Calendar.DAY_OF_MONTH, service.getTime());
         Date finishedDate = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DAY_OF_MONTH, 30);
         Date sealingDate = calendar.getTime();
-        ValuationRequestEntity valuationRequestEntity = new ValuationRequestEntity(    
+        ValuationRequestEntity valuationRequestEntity = new ValuationRequestEntity(
                 pending,
                 service,
                 payment,
@@ -65,6 +57,11 @@ public class ValuationRequestImpl implements ValuationRequestService {
         );
         valuationRequestRepository.save(valuationRequestEntity);
         return "Create successfully";
+    }
+
+    @Override
+    public Optional<ValuationRequestEntity> getValuationRequestByPendingRequestId(int pendingId) {
+        return valuationRequestRepository.findByPendingRequestId(pendingId);
     }
 //
 //    @Override
@@ -117,5 +114,5 @@ public class ValuationRequestImpl implements ValuationRequestService {
 //            .collect(Collectors.toList());
 //    }
 
-    
+
 }   
