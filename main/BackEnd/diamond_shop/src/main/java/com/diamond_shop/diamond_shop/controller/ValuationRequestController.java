@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @CrossOrigin
 @RequestMapping("api/valuation-request")
@@ -34,15 +35,20 @@ public class ValuationRequestController {
     //     return valuationRequestService.viewCustomerRequestId(id);
     // }
 
-    // @PostMapping(path = "/create")
-    // public String createValuationRequest(@RequestBody ValuationRequestDTO valuationRequestDTO) {
-    //     int valuationRequestId = valuationRequestService.makeRequest(valuationRequestDTO);
+        @GetMapping(path = "/create")
+        public String createValuationRequest(
+            @RequestParam("id") int id,
+            @RequestParam("serviceId") int serviceId,
+            @RequestParam("pendingId") int pendingId) {
+            int paymentId = paymentService.createPayment(id);
+            valuationRequestService.makeRequest(pendingId,serviceId,paymentId);
+            // int valuationRequestId = valuationRequestService.makeRequest(valuationRequestDTO);
 
-    //     paymentService.createPayment(valuationRequestDTO.getUsername(), valuationRequestId);
+            // paymentService.createPayment(valuationRequestDTO.getUsername(), valuationRequestId);
 
-    //     String makeProcessRequest = processRequestService.processRequest(valuationRequestId);
-    //     return valuationRequestId + " " + makeProcessRequest;
-    // }
+            // String makeProcessRequest = processRequestService.processRequest(valuationRequestId);
+            return "ok";
+        }
 
     // @GetMapping(path = "/get")
     // public Page<ValuationRequestEntity> viewCustomerRequest(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter) {

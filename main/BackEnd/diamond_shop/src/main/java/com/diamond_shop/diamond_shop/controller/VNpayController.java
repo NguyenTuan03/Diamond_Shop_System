@@ -48,9 +48,6 @@ public class VNpayController {
         @RequestParam long amount, 
         @RequestParam String orderInfo, 
         @RequestParam String orderType, 
-        @RequestParam int id,
-        @RequestParam int serviceId,
-        @RequestParam int pendingId,
         HttpServletRequest request,
         HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -85,18 +82,13 @@ public class VNpayController {
     }
 
     @GetMapping("/payment_return")
-    public ResponseObjectPojo<VNpayResponseDTO> payCallbackHandler(
-        @RequestParam("id") int id,
-        @RequestParam("serviceId") int serviceId,
-        @RequestParam("pendingId") int pendingId,
-        HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public ResponseObjectPojo<VNpayResponseDTO> payCallbackHandler(HttpServletRequest request,HttpServletResponse response) throws IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
         String status = request.getParameter("vnp_ResponseCode");
         if ("00".equals(status)) {
             response.sendRedirect(success_Url);
-            int paymentId = paymentService.createPayment(id);
-            valuationRequestService.makeRequest(pendingId,serviceId,paymentId);
-            
+            // int paymentId = paymentService.createPayment(id);
+            // valuationRequestService.makeRequest(pendingId,serviceId,paymentId);
             return new ResponseObjectPojo<>(HttpStatus.OK, "Success", new VNpayResponseDTO("00", "Success", return_Url));
         }
         else {
@@ -104,5 +96,4 @@ public class VNpayController {
             return new ResponseObjectPojo<>(HttpStatus.OK, "Success", new VNpayResponseDTO("01", "Failed", failed_Url));
         }
     }
-    
 }
