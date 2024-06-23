@@ -50,6 +50,7 @@ export default function ConsultingStaffProcessRequestPage() {
   const viewProcessRequest = useDisclosure();
   const [processRequest, setProcessRequest] = useState([]);
   const [selectedProcessRequest, setSelectedProcessRequest] = useState({});
+  const [selectedValuationRequest, setSelectedValuationRequest] = useState({});
   const fetchProcessRequest = (page, consultingStaffId) => {
     axios
       .get(
@@ -92,6 +93,20 @@ export default function ConsultingStaffProcessRequestPage() {
   useEffect(() => {
     fetchProcessRequest(currentPage, user.userAuth.id);
   }, []);
+  const fetchValuationRequest = (pendingRequestId) => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-request/get?pending-request-id=${pendingRequestId}`
+      )
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 200) {
+          setSelectedValuationRequest(response.data);
+        }
+      });
+  };
   return (
     <>
       <TableContainer>
@@ -101,7 +116,6 @@ export default function ConsultingStaffProcessRequestPage() {
               <Th>No</Th>
               <Th>Customer Name</Th>
               <Th>Description</Th>
-              <Th>Created Date</Th>
               <Th>Status</Th>
               <Th>View</Th>
             </Tr>
@@ -112,7 +126,6 @@ export default function ConsultingStaffProcessRequestPage() {
                 <Td>{index + 1}</Td>
                 <Td>{item?.customerName || "N/A"}</Td>
                 <Td>{item?.description || "N/A"}</Td>
-                <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
                 <Td>{item?.status || "N/A"}</Td>
                 <Td>
                   <IconButton
@@ -121,6 +134,7 @@ export default function ConsultingStaffProcessRequestPage() {
                     onClick={() => {
                       setSelectedProcessRequest(item);
                       viewProcessRequest.onOpen();
+                      fetchValuationRequest(item?.pendingRequestId);
                     }}
                   />
                 </Td>
@@ -142,18 +156,6 @@ export default function ConsultingStaffProcessRequestPage() {
           <ModalBody>
             <Flex direction={"column"} gap={5}>
               <Text>
-                <strong>Create Date</strong>:{" "}
-                {selectedProcessRequest?.createdDate?.slice(0, 10) || "N/A"}
-              </Text>
-              <Text>
-                <strong>Description</strong>:{" "}
-                {selectedProcessRequest?.description || "N/A"}
-              </Text>
-              <Text>
-                <strong>Status</strong>:{" "}
-                {selectedProcessRequest?.status || "N/A"}
-              </Text>
-              <Text>
                 <strong>Customer Name</strong>:{" "}
                 {selectedProcessRequest?.customerName || "N/A"}
               </Text>
@@ -165,6 +167,38 @@ export default function ConsultingStaffProcessRequestPage() {
                 <strong>Customer Phone</strong>:{" "}
                 {selectedProcessRequest?.customerPhone || "N/A"}
               </Text>
+              <Text>
+                <strong>Status</strong>:{" "}
+                {selectedProcessRequest?.status || "N/A"}
+              </Text>
+              <Text>
+                <strong>Description</strong>:{" "}
+                {selectedProcessRequest?.description || "N/A"}
+              </Text>
+              <Text>
+                <strong>Service Type</strong>:{" "}
+                {selectedValuationRequest?.serviceName || "N/A"}
+              </Text>
+              <Text>
+                <strong>Price</strong>:{" "}
+                {selectedValuationRequest?.servicePrice || "N/A"} vnd
+              </Text>
+              <Text>
+                <strong>Will valuate</strong>:{" "}
+                {selectedValuationRequest?.serviceStatistic || "N/A"}
+              </Text>
+              <Text>
+                <strong>Created Date</strong>:{" "}
+                {selectedValuationRequest?.createdDate?.slice(0, 10) || "N/A"}
+              </Text>
+              <Text>
+                <strong>Finish Date</strong>:{" "}
+                {selectedValuationRequest?.finishDate?.slice(0, 10) || "N/A"}
+              </Text>
+              <Text>
+                <strong>Sealing Date</strong>:{" "}
+                {selectedValuationRequest?.sealingDate?.slice(0, 10) || "N/A"}
+              </Text>
             </Flex>
           </ModalBody>
           <ModalFooter justifyContent={"space-around"}>
@@ -172,6 +206,7 @@ export default function ConsultingStaffProcessRequestPage() {
               <>
                 <Button
                   onClick={() => {
+                    viewProcessRequest.onClose();
                     updateProcessRequest(
                       selectedProcessRequest?.id,
                       "Contacted"
@@ -185,6 +220,22 @@ export default function ConsultingStaffProcessRequestPage() {
             )) ||
               (selectedProcessRequest?.status === "Contacted" && (
                 <ZaloChat phone={selectedProcessRequest?.customerPhone} />
+              )) ||
+              (selectedProcessRequest?.status === "Paid" && (
+                <>
+                  <Button
+                    onClick={() => {
+                      viewProcessRequest.onClose();
+                      updateProcessRequest(
+                        selectedProcessRequest?.id,
+                        "Diamond Received"
+                      );
+                    }}
+                  >
+                    Diamond Received
+                  </Button>
+                  <ZaloChat phone={selectedProcessRequest?.customerPhone} />
+                </>
               ))}
           </ModalFooter>
         </ModalContent>

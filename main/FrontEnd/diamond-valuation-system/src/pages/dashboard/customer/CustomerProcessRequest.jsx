@@ -52,6 +52,7 @@ export default function CustomerProcessRequest() {
   const viewProcessRequest = useDisclosure();
   const [processRequest, setProcessRequest] = useState([]);
   const [selectedProcessRequest, setSelectedProcessRequest] = useState({});
+  const [selectedValuationRequest, setSelectedValuationRequest] = useState({});
   const fetchProcessRequest = (page, customerId) => {
     axios
       .get(
@@ -60,6 +61,7 @@ export default function CustomerProcessRequest() {
         }/api/process-request/get/customer?page=${page}&customerId=${customerId}`
       )
       .then(function (response) {
+        console.log(response);
         if (response.status === 200) {
           setProcessRequest(response.data.content);
           setTotalPages(response.data.totalPages);
@@ -69,6 +71,20 @@ export default function CustomerProcessRequest() {
   useEffect(() => {
     fetchProcessRequest(currentPage, user.userAuth.id);
   }, []);
+  const fetchValuationRequest = (pendingRequestId) => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-request/get?pending-request-id=${pendingRequestId}`
+      )
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 200) {
+          setSelectedValuationRequest(response.data);
+        }
+      });
+  };
   return (
     <>
       <TableContainer>
@@ -78,7 +94,6 @@ export default function CustomerProcessRequest() {
               <Th>No</Th>
               <Th>Customer Name</Th>
               <Th>Description</Th>
-              <Th>Created Date</Th>
               <Th>Status</Th>
               <Th>View</Th>
             </Tr>
@@ -89,7 +104,6 @@ export default function CustomerProcessRequest() {
                 <Td>{index + 1}</Td>
                 <Td>{item?.customerName || "N/A"}</Td>
                 <Td>{item?.description || "N/A"}</Td>
-                <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
                 <Td>{item?.status || "N/A"}</Td>
                 <Td>
                   <IconButton
@@ -98,6 +112,7 @@ export default function CustomerProcessRequest() {
                     onClick={() => {
                       setSelectedProcessRequest(item);
                       viewProcessRequest.onOpen();
+                      fetchValuationRequest(item?.pendingRequestId);
                     }}
                   />
                 </Td>
@@ -120,18 +135,6 @@ export default function CustomerProcessRequest() {
           <ModalBody>
             <Flex direction={"column"} gap={5}>
               <Text>
-                <strong>Create Date</strong>:{" "}
-                {selectedProcessRequest?.createdDate?.slice(0, 10) || "N/A"}
-              </Text>
-              <Text>
-                <strong>Description</strong>:{" "}
-                {selectedProcessRequest?.description || "N/A"}
-              </Text>
-              <Text>
-                <strong>Status</strong>:{" "}
-                {selectedProcessRequest?.status || "N/A"}
-              </Text>
-              <Text>
                 <strong>Customer Name</strong>:{" "}
                 {selectedProcessRequest?.customerName || "N/A"}
               </Text>
@@ -143,6 +146,38 @@ export default function CustomerProcessRequest() {
                 <strong>Customer Phone</strong>:{" "}
                 {selectedProcessRequest?.customerPhone || "N/A"}
               </Text>
+              <Text>
+                <strong>Status</strong>:{" "}
+                {selectedProcessRequest?.status || "N/A"}
+              </Text>
+              <Text>
+                <strong>Description</strong>:{" "}
+                {selectedProcessRequest?.description || "N/A"}
+              </Text>
+              <Text>
+                <strong>Service Type</strong>:{" "}
+                {selectedValuationRequest?.serviceName || "N/A"}
+              </Text>
+              <Text>
+                <strong>Price</strong>:{" "}
+                {selectedValuationRequest?.servicePrice || "N/A"} vnd
+              </Text>
+              <Text>
+                <strong>Will valuate</strong>:{" "}
+                {selectedValuationRequest?.serviceStatistic || "N/A"}
+              </Text>
+              <Text>
+                <strong>Created Date</strong>:{" "}
+                {selectedValuationRequest?.createdDate?.slice(0, 10) || "N/A"}
+              </Text>
+              <Text>
+                <strong>Finish Date</strong>:{" "}
+                {selectedValuationRequest?.finishDate?.slice(0, 10) || "N/A"}
+              </Text>
+              <Text>
+                <strong>Sealing Date</strong>:{" "}
+                {selectedValuationRequest?.sealingDate?.slice(0, 10) || "N/A"}
+              </Text>
             </Flex>
           </ModalBody>
           <ModalFooter justifyContent={"space-around"}>
@@ -151,13 +186,24 @@ export default function CustomerProcessRequest() {
             )) ||
               (selectedProcessRequest?.status === "Contacted" && (
                 <>
-                  <Link to={routes.diamondService}>
+                  <Link
+                    to={routes.diamondService}
+                    state={{
+                      pendingRequestId:
+                        selectedProcessRequest?.pendingRequestId,
+                    }}
+                  >
                     <Button colorScheme="teal">Service</Button>
                   </Link>
                   <ZaloChat
                     phone={selectedProcessRequest?.consultingStaffPhone}
                   />
                 </>
+              )) ||
+              (selectedProcessRequest?.status === "Paid" && (
+                <ZaloChat
+                  phone={selectedProcessRequest?.consultingStaffPhone}
+                />
               ))}
           </ModalFooter>
         </ModalContent>
