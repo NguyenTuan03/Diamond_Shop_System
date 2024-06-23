@@ -21,13 +21,13 @@ public interface ProcessResultRepository extends JpaRepository<ProcessResultEnti
 //    @Query("SELECT p FROM ProcessResultEntity p WHERE p.ProcessRequestId.id = :processRequestId")
 //    ProcessResultEntity findByProcessRequestId(@Param("processRequestId") int processRequestId);
 //
-//    @Query(value = "SELECT COUNT (p.valuationStaffId) " +
-//            "FROM ProcessResultEntity p " +
-//            "WHERE p.valuationStaffId.id=:staffId")
-//    long countByStaffId(@Param("staffId") int staffId);
+    @Query(value = "SELECT COUNT (p.valuationStaffId) " +
+            "FROM ProcessResultEntity p " +
+            "WHERE p.valuationStaffId.id=:staffId")
+    long countByStaffId(@Param("staffId") int staffId);
 //
 //    @Query(value = "SELECT " +
-//            "NEW com.diamond_shop.diamond_shop.pojo.ProcessResultPojo(p.valuationResultId.id,p.valuationStaffId.fullname,p.valuationResultId.valuationRequestId.serviceId.Name,p.name, p.valuationResultId.createdDate,p.valuationResultId.origin,p.valuationResultId.shape,p.valuationResultId.carat_weight,p.valuationResultId.color,p.valuationResultId.cut,p.valuationResultId.clarity,p.valuationResultId.measurements,p.valuationResultId.polish,p.valuationResultId.symmetry,p.valuationResultId.fluorescence,p.valuationResultId.proportions,p.valuationResultId.price)" +
+//            "NEW com.diamond_shop.diamond_shop.pojo.ProcessResultPojo(p.)" +
 //            "FROM ProcessResultEntity as p " +
 //            "WHERE p.valuationStaffId.id=:staffId")
 //    Page<ProcessResultEntity> findByStaffId(Pageable pageable, @Param("staffId") int staffId);

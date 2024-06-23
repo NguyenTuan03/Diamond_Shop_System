@@ -32,7 +32,7 @@ public class ProcessResultEntity {
     @JoinColumn(name = "valuation_staff_id")
     private AccountEntity valuationStaffId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "valuation_result_id")
     private ValuationResultEntity valuationResultId;
 
