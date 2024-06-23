@@ -8,10 +8,14 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "service_statistics")
 public class ServiceStatisticEntity {
     @Id
@@ -29,5 +33,5 @@ public class ServiceStatisticEntity {
     public ServiceStatisticEntity(@NotNull(message = "Statistic name is mandatory") String name) {
         this.name = name;
     }
-
+    
 }

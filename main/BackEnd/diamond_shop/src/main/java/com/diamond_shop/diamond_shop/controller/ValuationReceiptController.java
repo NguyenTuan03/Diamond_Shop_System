@@ -12,17 +12,17 @@ import java.util.Optional;
 @RequestMapping("api/valuation-receipt")
 public class ValuationReceiptController {
 
-//    @Autowired
-//    private ValuationReceiptService valuationReceiptService;
-//
-//    @GetMapping(path = "/get/all")
-//    public String getAllValuationReceipt() {
-//
-//        return null;
-//    }
-//
-//    @GetMapping(path = "/get")
-//    public Optional<ValuationReceiptEntity> getByValuationRequestId(@RequestParam("valuation-request-id") int valuationRequestId) {
-//        return valuationReceiptService.findByValuationRequestId(valuationRequestId);
-//    }
+   @Autowired
+   private ValuationReceiptService valuationReceiptService;
+
+   @GetMapping(path = "/get/all")
+   public String getAllValuationReceipt() {
+
+       return null;
+   }
+
+   @GetMapping(path = "/get")
+   public Optional<ValuationReceiptEntity> getByValuationRequestId(@RequestParam("valuation-request-id") int valuationRequestId) {
+       return valuationReceiptService.findByValuationRequestId(valuationRequestId);
+   }
 }
