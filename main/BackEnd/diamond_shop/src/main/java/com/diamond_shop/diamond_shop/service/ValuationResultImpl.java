@@ -1,12 +1,9 @@
 package com.diamond_shop.diamond_shop.service;
 
-import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
-import com.diamond_shop.diamond_shop.entity.ProcessResultEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
-import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
 import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
 import com.diamond_shop.diamond_shop.repository.ProcessResultRepository;
 import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
@@ -23,20 +20,20 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ValuationResultImpl implements ValuationResultService {
-   @Autowired
-   ValuationResultRepository valuationResultRepository;
-   @Autowired
-   ValuationRequestRepository valuationRequestRepository;
-   @Autowired
-   private ProcessResultRepository processResultRepository;
-   @Autowired
-   private ProcessRequestRepository processRequestRepository;
-   @Autowired
-   ValuatedDiamondService valuatedDiamondService;
-//
+    @Autowired
+    ValuationResultRepository valuationResultRepository;
+    @Autowired
+    ValuationRequestRepository valuationRequestRepository;
+    @Autowired
+    private ProcessResultRepository processResultRepository;
+    @Autowired
+    private ProcessRequestRepository processRequestRepository;
+
+    //
 //    @Override
 //    public String valuateDiamond(ValuationResultDTO valuationResultDTO) {
 //        ValuationResultEntity valuationResult = valuationResultRepository.findById(valuationResultDTO.getId());
@@ -67,319 +64,317 @@ public class ValuationResultImpl implements ValuationResultService {
 //        return "Valuate successful!";
 //    }
 //
-//    @Override
-//    public String assignForValuationStaff(ProcessRequestEntity processRequest) {
-//        ValuationRequestEntity valuationRequestEntity = valuationRequestRepository.findById(processRequest.getValuationRequestId().getId());
-//        Date createdDate = new Date();
-//        ValuationResultEntity valuationResultEntity = new ValuationResultEntity(
-//                valuationRequestEntity,
-//                createdDate,
-//                "", "", new BigDecimal(0), "", "", "", "", "", "", "", "", new BigDecimal(0));
-//        valuationResultRepository.save(valuationResultEntity);
-//        return "Assigned successfully!";
-//    }
-   @Override
-   public List<DiamondPojo> crawlLabGrownDiamond(String shape) {
-       List<DiamondPojo> diamonds = new ArrayList<>();
-       if (shape.isEmpty()) {
-           try {
-               Document doc = Jsoup.connect("https://www.stonealgo.com/lab-grown-diamond-prices/").get();
-               Elements elements = doc.select(".bg-white.overflow-hidden.border");
+    @Override
+    public String createValuationResult(ProcessRequestEntity processRequest) {
+        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findById(processRequest.getPendingRequestId().getValuationRequestEntity().getId());
+        if (valuationRequest.isEmpty()) return "Could not find valuation request";
+        Date createdDate = new Date();
+        long randomId = (long) (Math.random() * Math.pow(10, 10));
+        ValuationResultEntity valuationResultEntity = new ValuationResultEntity(Long.toString(randomId), valuationRequest.get(), createdDate, "", "", new BigDecimal(0), "", "", "", "", "", "", "", new BigDecimal(0), new BigDecimal(0), new BigDecimal(0), new BigDecimal(0));
+        valuationResultRepository.save(valuationResultEntity);
+        return "Assigned successfully!";
+    }
 
-               for (Element element : elements) {
-                   String name = element.select("a").text();
-                   String price = element.select(".text-xl").text();
-                   String priceChange = element.select(".text-xs .text-red-500").text();
+    @Override
+    public List<DiamondPojo> crawlLabGrownDiamond(String shape) {
+        List<DiamondPojo> diamonds = new ArrayList<>();
+        if (shape.isEmpty()) {
+            try {
+                Document doc = Jsoup.connect("https://www.stonealgo.com/lab-grown-diamond-prices/").get();
+                Elements elements = doc.select(".bg-white.overflow-hidden.border");
 
-                   if (priceChange.isEmpty()) {
-                       priceChange = element.select(".text-xs .text-green-400").text();
-                   }
-                   String weight = element.select("dd").get(0).text();
-                   String inventory = element.select("dd").get(1).text();
-                   String inventoryChangeUp = "";
-                   String inventoryChangeDown = "";
-                   String imageUrl = element.select("img").attr("src");
+                for (Element element : elements) {
+                    String name = element.select("a").text();
+                    String price = element.select(".text-xl").text();
+                    String priceChange = element.select(".text-xs .text-red-500").text();
 
-                   // Extract inventory changes based on SVG elements
-                   Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
-                   for (Element changeElement : inventoryChangeElements) {
-                       String svgPath = changeElement.select("svg path").attr("d");
-                       String changeValue = changeElement.select("span").text();
+                    if (priceChange.isEmpty()) {
+                        priceChange = element.select(".text-xs .text-green-400").text();
+                    }
+                    String weight = element.select("dd").get(0).text();
+                    String inventory = element.select("dd").get(1).text();
+                    String inventoryChangeUp = "";
+                    String inventoryChangeDown = "";
+                    String imageUrl = element.select("img").attr("src");
 
-                       // Check if the SVG path corresponds to an upward or downward arrow
-                       if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
-                           inventoryChangeUp = changeValue;
-                       } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
-                           inventoryChangeDown = changeValue;
-                       }
-                   }
+                    // Extract inventory changes based on SVG elements
+                    Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
+                    for (Element changeElement : inventoryChangeElements) {
+                        String svgPath = changeElement.select("svg path").attr("d");
+                        String changeValue = changeElement.select("span").text();
 
-                   DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
-                   diamonds.add(diamond);
-               }
+                        // Check if the SVG path corresponds to an upward or downward arrow
+                        if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
+                            inventoryChangeUp = changeValue;
+                        } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
+                            inventoryChangeDown = changeValue;
+                        }
+                    }
 
-           Elements rows = doc.select("tr[data-table_link=true]");
-           for (Element row : rows) {
-               String priceIndex = row.select("td a span").text();
-               String chart = row.select("td img").attr("data-src");
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
+                    diamonds.add(diamond);
+                }
 
-               Elements tds = row.select("td");
-               String priceUsd = tds.get(2).text();
-               String range = tds.get(4).text();
-               String inv = tds.get(5).text();
+                Elements rows = doc.select("tr[data-table_link=true]");
+                for (Element row : rows) {
+                    String priceIndex = row.select("td a span").text();
+                    String chart = row.select("td img").attr("data-src");
 
-               String changeUp = "";
-               String changeDown = "";
+                    Elements tds = row.select("td");
+                    String priceUsd = tds.get(2).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
 
-               for (Element td : tds) {
-                   String changeValue = td.text();
-                   String changeClass = td.className();
+                    String changeUp = "";
+                    String changeDown = "";
 
-                   if (changeClass.contains("text-green-400")) {
-                       changeUp = changeValue;
-                   } else if (changeClass.contains("text-red-500")) {
-                       changeDown = changeValue;
-                   }
-               }
+                    for (Element td : tds) {
+                        String changeValue = td.text();
+                        String changeClass = td.className();
 
-               DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
-               diamonds.add(diamond);
-           }
+                        if (changeClass.contains("text-green-400")) {
+                            changeUp = changeValue;
+                        } else if (changeClass.contains("text-red-500")) {
+                            changeDown = changeValue;
+                        }
+                    }
 
-           String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
-           if (!contentChange.isEmpty()) {
-               DiamondPojo diamond = new DiamondPojo(contentChange);
-               diamonds.add(diamond);
-           }
+                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
+                    diamonds.add(diamond);
+                }
 
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-       }
-       else {
-           try {
-               String url = "https://www.stonealgo.com/lab-grown-diamond-prices/?i=" + shape;
-               Document doc = Jsoup.connect(url).get();
-               Elements elements = doc.select(".bg-white.overflow-hidden.border");
+                String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
+                if (!contentChange.isEmpty()) {
+                    DiamondPojo diamond = new DiamondPojo(contentChange);
+                    diamonds.add(diamond);
+                }
 
-               for (Element element : elements) {
-                   String name = element.select("a").text();
-                   String price = element.select(".text-xl").text();
-                   String priceChange = element.select(".text-xs .text-red-500").text();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                String url = "https://www.stonealgo.com/lab-grown-diamond-prices/?i=" + shape;
+                Document doc = Jsoup.connect(url).get();
+                Elements elements = doc.select(".bg-white.overflow-hidden.border");
 
-                   if (priceChange.isEmpty()) {
-                       priceChange = element.select(".text-xs .text-green-400").text();
-                   }
-                   String weight = element.select("dd").get(0).text();
-                   String inventory = element.select("dd").get(1).text();
-                   String inventoryChangeUp = "";
-                   String inventoryChangeDown = "";
-                   String imageUrl = element.select("img").attr("src");
+                for (Element element : elements) {
+                    String name = element.select("a").text();
+                    String price = element.select(".text-xl").text();
+                    String priceChange = element.select(".text-xs .text-red-500").text();
 
-                   Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
-                   for (Element changeElement : inventoryChangeElements) {
-                       String svgPath = changeElement.select("svg path").attr("d");
-                       String changeValue = changeElement.select("span").text();
+                    if (priceChange.isEmpty()) {
+                        priceChange = element.select(".text-xs .text-green-400").text();
+                    }
+                    String weight = element.select("dd").get(0).text();
+                    String inventory = element.select("dd").get(1).text();
+                    String inventoryChangeUp = "";
+                    String inventoryChangeDown = "";
+                    String imageUrl = element.select("img").attr("src");
 
-                       if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
-                           inventoryChangeUp = changeValue;
-                       } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
-                           inventoryChangeDown = changeValue;
-                       }
-                   }
+                    Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
+                    for (Element changeElement : inventoryChangeElements) {
+                        String svgPath = changeElement.select("svg path").attr("d");
+                        String changeValue = changeElement.select("span").text();
 
-                   DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
-                   diamonds.add(diamond);
-               }
+                        if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
+                            inventoryChangeUp = changeValue;
+                        } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
+                            inventoryChangeDown = changeValue;
+                        }
+                    }
 
-               Elements rows = doc.select("tr[data-table_link=true]");
-               for (Element row : rows) {
-                   String priceIndex = row.select("td a span").text();
-                   String chart = row.select("td img").attr("data-src");
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
+                    diamonds.add(diamond);
+                }
 
-                   Elements tds = row.select("td");
-                   String priceUsd = tds.get(2).text();
-                   String range = tds.get(4).text();
-                   String inv = tds.get(5).text();
+                Elements rows = doc.select("tr[data-table_link=true]");
+                for (Element row : rows) {
+                    String priceIndex = row.select("td a span").text();
+                    String chart = row.select("td img").attr("data-src");
 
-                   String changeUp = "";
-                   String changeDown = "";
+                    Elements tds = row.select("td");
+                    String priceUsd = tds.get(2).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
 
-                   for (Element td : tds) {
-                       String changeValue = td.text();
-                       String changeClass = td.className();
+                    String changeUp = "";
+                    String changeDown = "";
 
-                       if (changeClass.contains("text-green-400")) {
-                           changeUp = changeValue;
-                       } else if (changeClass.contains("text-red-500")) {
-                           changeDown = changeValue;
-                       }
-                   }
+                    for (Element td : tds) {
+                        String changeValue = td.text();
+                        String changeClass = td.className();
 
-                   DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
-                   diamonds.add(diamond);
-               }
-               String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
-               if (!contentChange.isEmpty()) {
-                   DiamondPojo diamond = new DiamondPojo(contentChange);
-                   diamonds.add(diamond);
-               }
+                        if (changeClass.contains("text-green-400")) {
+                            changeUp = changeValue;
+                        } else if (changeClass.contains("text-red-500")) {
+                            changeDown = changeValue;
+                        }
+                    }
 
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-       }
-       return diamonds;
-   }
+                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
+                    diamonds.add(diamond);
+                }
+                String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
+                if (!contentChange.isEmpty()) {
+                    DiamondPojo diamond = new DiamondPojo(contentChange);
+                    diamonds.add(diamond);
+                }
 
-   @Override
-   public List<DiamondPojo> crawlNaturalDiamond(String shape) {
-       List<DiamondPojo> diamonds = new ArrayList<>();
-       if (shape.isEmpty()) {
-           try {
-               Document doc = Jsoup.connect("https://www.stonealgo.com/diamond-prices/").get();
-               Elements elements = doc.select(".bg-white.overflow-hidden.border");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return diamonds;
+    }
 
-               for (Element element : elements) {
-                   String name = element.select("a").text();
-                   String price = element.select(".text-xl").text();
-                   String priceChange = element.select(".text-xs .text-red-500").text();
+    @Override
+    public List<DiamondPojo> crawlNaturalDiamond(String shape) {
+        List<DiamondPojo> diamonds = new ArrayList<>();
+        if (shape.isEmpty()) {
+            try {
+                Document doc = Jsoup.connect("https://www.stonealgo.com/diamond-prices/").get();
+                Elements elements = doc.select(".bg-white.overflow-hidden.border");
 
-                   if (priceChange.isEmpty()) {
-                       priceChange = element.select(".text-xs .text-green-400").text();
-                   }
-                   String weight = element.select("dd").get(0).text();
-                   String inventory = element.select("dd").get(1).text();
-                   String inventoryChangeUp = "";
-                   String inventoryChangeDown = "";
-                   String imageUrl = element.select("img").attr("src");
+                for (Element element : elements) {
+                    String name = element.select("a").text();
+                    String price = element.select(".text-xl").text();
+                    String priceChange = element.select(".text-xs .text-red-500").text();
 
-                   Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
-                   for (Element changeElement : inventoryChangeElements) {
-                       String svgPath = changeElement.select("svg path").attr("d");
-                       String changeValue = changeElement.select("span").text();
+                    if (priceChange.isEmpty()) {
+                        priceChange = element.select(".text-xs .text-green-400").text();
+                    }
+                    String weight = element.select("dd").get(0).text();
+                    String inventory = element.select("dd").get(1).text();
+                    String inventoryChangeUp = "";
+                    String inventoryChangeDown = "";
+                    String imageUrl = element.select("img").attr("src");
 
-                       if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
-                           inventoryChangeUp = changeValue;
-                       } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
-                           inventoryChangeDown = changeValue;
-                       }
-                   }
+                    Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
+                    for (Element changeElement : inventoryChangeElements) {
+                        String svgPath = changeElement.select("svg path").attr("d");
+                        String changeValue = changeElement.select("span").text();
 
-                   DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
-                   diamonds.add(diamond);
-               }
+                        if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
+                            inventoryChangeUp = changeValue;
+                        } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
+                            inventoryChangeDown = changeValue;
+                        }
+                    }
 
-               Elements rows = doc.select("tr[data-table_link=true]");
-               for (Element row : rows) {
-                   String priceIndex = row.select("td a span").text();
-                   String chart = row.select("td img").attr("data-src");
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
+                    diamonds.add(diamond);
+                }
 
-                   Elements tds = row.select("td");
-                   String priceUsd = tds.get(2).text();
-                   String range = tds.get(4).text();
-                   String inv = tds.get(5).text();
+                Elements rows = doc.select("tr[data-table_link=true]");
+                for (Element row : rows) {
+                    String priceIndex = row.select("td a span").text();
+                    String chart = row.select("td img").attr("data-src");
 
-                   String changeUp = "";
-                   String changeDown = "";
+                    Elements tds = row.select("td");
+                    String priceUsd = tds.get(2).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
 
-                   for (Element td : tds) {
-                       String changeValue = td.text();
-                       String changeClass = td.className();
+                    String changeUp = "";
+                    String changeDown = "";
 
-                       if (changeClass.contains("text-green-400")) {
-                           changeUp = changeValue;
-                       } else if (changeClass.contains("text-red-500")) {
-                           changeDown = changeValue;
-                       }
-                   }
+                    for (Element td : tds) {
+                        String changeValue = td.text();
+                        String changeClass = td.className();
 
-                   DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
-                   diamonds.add(diamond);
-               }
+                        if (changeClass.contains("text-green-400")) {
+                            changeUp = changeValue;
+                        } else if (changeClass.contains("text-red-500")) {
+                            changeDown = changeValue;
+                        }
+                    }
 
-               String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
-               if (!contentChange.isEmpty()) {
-                   DiamondPojo diamond = new DiamondPojo(contentChange);
-                   diamonds.add(diamond);
-               }
+                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
+                    diamonds.add(diamond);
+                }
 
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-       }
-       else {
-           try {
-               String url = "https://www.stonealgo.com/diamond-prices/?i=" + shape;
-               Document doc = Jsoup.connect(url).get();
-               Elements elements = doc.select(".bg-white.overflow-hidden.border");
+                String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
+                if (!contentChange.isEmpty()) {
+                    DiamondPojo diamond = new DiamondPojo(contentChange);
+                    diamonds.add(diamond);
+                }
 
-               for (Element element : elements) {
-                   String name = element.select("a").text();
-                   String price = element.select(".text-xl").text();
-                   String priceChange = element.select(".text-xs .text-red-500").text();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                String url = "https://www.stonealgo.com/diamond-prices/?i=" + shape;
+                Document doc = Jsoup.connect(url).get();
+                Elements elements = doc.select(".bg-white.overflow-hidden.border");
 
-                   if (priceChange.isEmpty()) {
-                       priceChange = element.select(".text-xs .text-green-400").text();
-                   }
-                   String weight = element.select("dd").get(0).text();
-                   String inventory = element.select("dd").get(1).text();
-                   String inventoryChangeUp = "";
-                   String inventoryChangeDown = "";
-                   String imageUrl = element.select("img").attr("src");
+                for (Element element : elements) {
+                    String name = element.select("a").text();
+                    String price = element.select(".text-xl").text();
+                    String priceChange = element.select(".text-xs .text-red-500").text();
 
-                   Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
-                   for (Element changeElement : inventoryChangeElements) {
-                       String svgPath = changeElement.select("svg path").attr("d");
-                       String changeValue = changeElement.select("span").text();
+                    if (priceChange.isEmpty()) {
+                        priceChange = element.select(".text-xs .text-green-400").text();
+                    }
+                    String weight = element.select("dd").get(0).text();
+                    String inventory = element.select("dd").get(1).text();
+                    String inventoryChangeUp = "";
+                    String inventoryChangeDown = "";
+                    String imageUrl = element.select("img").attr("src");
 
-                       if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
-                           inventoryChangeUp = changeValue;
-                       } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
-                           inventoryChangeDown = changeValue;
-                       }
-                   }
+                    Elements inventoryChangeElements = element.select("dd.chart-gray-100 .flex.items-baseline");
+                    for (Element changeElement : inventoryChangeElements) {
+                        String svgPath = changeElement.select("svg path").attr("d");
+                        String changeValue = changeElement.select("span").text();
 
-                   DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
-                   diamonds.add(diamond);
-               }
+                        if (svgPath.equals("M5 10l7-7m0 0l7 7m-7-7v18")) {
+                            inventoryChangeUp = changeValue;
+                        } else if (svgPath.equals("M19 14l-7 7m0 0l-7-7m7 7V3")) {
+                            inventoryChangeDown = changeValue;
+                        }
+                    }
 
-               Elements rows = doc.select("tr[data-table_link=true]");
-               for (Element row : rows) {
-                   String priceIndex = row.select("td a span").text();
-                   String chart = row.select("td img").attr("data-src");
+                    DiamondPojo diamond = new DiamondPojo(name, price, priceChange, weight, inventory, inventoryChangeUp, inventoryChangeDown, imageUrl);
+                    diamonds.add(diamond);
+                }
 
-                   Elements tds = row.select("td");
-                   String priceUsd = tds.get(2).text();
-                   String range = tds.get(4).text();
-                   String inv = tds.get(5).text();
+                Elements rows = doc.select("tr[data-table_link=true]");
+                for (Element row : rows) {
+                    String priceIndex = row.select("td a span").text();
+                    String chart = row.select("td img").attr("data-src");
 
-                   String changeUp = "";
-                   String changeDown = "";
+                    Elements tds = row.select("td");
+                    String priceUsd = tds.get(2).text();
+                    String range = tds.get(4).text();
+                    String inv = tds.get(5).text();
 
-                   for (Element td : tds) {
-                       String changeValue = td.text();
-                       String changeClass = td.className();
+                    String changeUp = "";
+                    String changeDown = "";
 
-                       if (changeClass.contains("text-green-400")) {
-                           changeUp = changeValue;
-                       } else if (changeClass.contains("text-red-500")) {
-                           changeDown = changeValue;
-                       }
-                   }
+                    for (Element td : tds) {
+                        String changeValue = td.text();
+                        String changeClass = td.className();
 
-                   DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
-                   diamonds.add(diamond);
-               }
-               String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
-               if (!contentChange.isEmpty()) {
-                   DiamondPojo diamond = new DiamondPojo(contentChange);
-                   diamonds.add(diamond);
-               }
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-       }
-       return diamonds;
-   }
+                        if (changeClass.contains("text-green-400")) {
+                            changeUp = changeValue;
+                        } else if (changeClass.contains("text-red-500")) {
+                            changeDown = changeValue;
+                        }
+                    }
+
+                    DiamondPojo diamond = new DiamondPojo(priceIndex, chart, priceUsd, changeUp, changeDown, range, inv);
+                    diamonds.add(diamond);
+                }
+                String contentChange = doc.select("div.flex.flex-wrap.items-center.justify-start.text-lg.leading-6.font-bold.text-gray-900.mt-2 p").text();
+                if (!contentChange.isEmpty()) {
+                    DiamondPojo diamond = new DiamondPojo(contentChange);
+                    diamonds.add(diamond);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return diamonds;
+    }
 }
