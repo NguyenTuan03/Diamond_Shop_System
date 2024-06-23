@@ -25,7 +25,8 @@ import {
 import axios from "axios";
 import { ViewIcon } from "@chakra-ui/icons";
 import ZaloChat from "../../../components/zalo/ZaloChat";
-
+import { Link } from "react-router-dom";
+import routes from "../../../config/Config";
 export default function CustomerProcessRequest() {
   const user = useContext(UserContext);
   const toast = useToast();
@@ -150,7 +151,9 @@ export default function CustomerProcessRequest() {
             )) ||
               (selectedProcessRequest?.status === "Contacted" && (
                 <>
-                  <Button>Service</Button>
+                  <Link to={routes.diamondService}>
+                    <Button colorScheme="teal">Service</Button>
+                  </Link>
                   <ZaloChat
                     phone={selectedProcessRequest?.consultingStaffPhone}
                   />
