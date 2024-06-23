@@ -11,9 +11,9 @@ import java.util.Date;
 @AllArgsConstructor
 public class ProcessRequestPojo {
     private int id;
-    private Date createdDate;
     private String status;
     private String description;
+    private int pendingRequestId;
     private int consultingStaffId;
     private String consultingStaffName;
     private String consultingStaffPhone;

@@ -40,9 +40,7 @@ public class DiamondImpl implements DiamondService {
 //
     @Override
     public List<ServiceResultPojo> getAllServices() {
-        List<ServiceResultPojo> services = serviceRepository.getAllServices();
-        System.out.println(services);
-        return services;
+        return serviceRepository.getAllServices();
     }
 //
 //    private String builderQueryString(Map<String, String> params) {

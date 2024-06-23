@@ -30,11 +30,11 @@ public class ServiceEntity {
 
     @NotNull(message = "Service price is mandatory")
     @Column(name = "price")
-    private String price;
+    private int price;
 
     @NotNull(message = "Service valuation time is mandatory")
     @Column(name = "time")
-    private String time;
+    private int time;
 
     @ManyToOne
     @JoinColumn(name = "service_statistic_id")
@@ -48,8 +48,8 @@ public class ServiceEntity {
     }
 
     public ServiceEntity(int id, @NotNull(message = "Service name is mandatory") String name,
-            @NotNull(message = "Service price is mandatory") String price,
-            @NotNull(message = "Service valuation time is mandatory") String time,
+            @NotNull(message = "Service price is mandatory") int price,
+            @NotNull(message = "Service valuation time is mandatory") int time,
             ServiceStatisticEntity statistic_id) {
         this.id = id;
         this.name = name;

@@ -12,7 +12,4 @@ public interface ProcessRequestService {
     Page<ProcessRequestEntity> viewProcessRequestsByCustomerId(int page, int customerId);
     String createProcessRequest(ReceivePendingRequestDTO receivePendingRequestDTO);
     String updateProcessRequest(int id, UpdateProcessRequestDTO updateProcessRequestDTO);
-    String cancelRequest(int consultingStaffId, int valuationRequestId);
-
-    ProcessRequestEntity updateRequest(String type, UpdateRequestDTO updateRequestDTO);
-}   
+}

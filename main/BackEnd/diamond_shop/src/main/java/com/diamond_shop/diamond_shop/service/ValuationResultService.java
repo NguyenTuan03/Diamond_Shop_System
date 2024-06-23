@@ -10,7 +10,7 @@ public interface ValuationResultService {
 
 //    String valuateDiamond(ValuationResultDTO valuationResultDTO);
 
-//    String assignForValuationStaff(ProcessRequestEntity processRequest);
+    String createValuationResult(ProcessRequestEntity processRequest);
 
    List<DiamondPojo> crawlNaturalDiamond(String shape);
 

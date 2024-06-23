@@ -22,9 +22,8 @@ import java.util.Set;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ValuationResultEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private String id;
 
     @OneToOne
     @JoinColumn(name = "valuation_request_id")
@@ -50,7 +49,7 @@ public class ValuationResultEntity {
 
     @Column(name = "clarity")
     private String clarity;
-    
+
     @Column(name = "symmetry")
     private String symmetry;
 
@@ -72,11 +71,49 @@ public class ValuationResultEntity {
     @Column(name = "length_to_width_ratio")
     private BigDecimal lengthToWidthRatio;
 
-    @OneToMany(mappedBy = "valuationResultId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ProcessResultEntity> processResults = new HashSet<>();
+    @Column(name = "price")
+    private BigDecimal price;
 
-    @OneToOne(mappedBy = "valuationResult", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ValuatedDiamondEntity valuatedDiamond;
+    @OneToOne(mappedBy = "valuationResultId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ProcessResultEntity processResults;
 
-    
+    @OneToMany(mappedBy = "valuationResult", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ValuationResultImageEntity> images = new HashSet<>();
+
+    public ValuationResultEntity(
+            String id,
+            ValuationRequestEntity valuationRequestId,
+            Date createdDate,
+            String origin,
+            String shape,
+            BigDecimal carat,
+            String color,
+            String cut,
+            String clarity,
+            String symmetry,
+            String polish,
+            String fluorescence,
+            String measurements,
+            BigDecimal diamondTable,
+            BigDecimal depth,
+            BigDecimal lengthToWidthRatio,
+            BigDecimal price) {
+        this.id = id;
+        this.valuationRequestId = valuationRequestId;
+        this.createdDate = createdDate;
+        this.origin = origin;
+        this.shape = shape;
+        this.carat = carat;
+        this.color = color;
+        this.cut = cut;
+        this.clarity = clarity;
+        this.symmetry = symmetry;
+        this.polish = polish;
+        this.fluorescence = fluorescence;
+        this.measurements = measurements;
+        this.diamondTable = diamondTable;
+        this.depth = depth;
+        this.lengthToWidthRatio = lengthToWidthRatio;
+        this.price = price;
+    }
 }

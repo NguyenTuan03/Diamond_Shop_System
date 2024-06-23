@@ -33,14 +33,13 @@ import {
   Thead,
   Tr,
   useDisclosure,
-  useDrawerContext,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../components/GlobalContext/AuthContext";
+import { UserContext } from "../../../components/GlobalContext/AuthContext";
 
-export default function ValuationStaffPage() {
+export default function ValuationStaffDashboard() {
   const user = useContext(UserContext);
   const viewValuationResult = useDisclosure();
   const [processResult, setProcessResult] = useState([]);

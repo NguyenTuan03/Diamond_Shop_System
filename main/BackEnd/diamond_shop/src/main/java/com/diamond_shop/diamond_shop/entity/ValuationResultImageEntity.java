@@ -13,14 +13,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "valuated_diamond_images")
+@Table(name = "valuation_result_images")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class ValuatedDiamondImageEntity {
+public class ValuationResultImageEntity {
     @Id
     @Column(name = "id")
     private String id;
 
     @ManyToOne
-    @JoinColumn(name = "valuated_diamond_id")
-    ValuatedDiamondEntity valuatedDiamond;
+    @JoinColumn(name = "valuation_result_id")
+    ValuationResultEntity valuationResult;
 }
