@@ -11,5 +11,5 @@ import java.util.List;
 public interface DiamondService {
 //    ResponseEntity<String> fetchDiamondCalculate(String gradingLab, String carat, String shape, String color, String clarity, String cut);
 //
-//    List<ServiceResultPojo> getAllServices();
+    List<ServiceResultPojo> getAllServices();
 }
