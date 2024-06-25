@@ -8,15 +8,15 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Title from "../../components/Title";
 import { Form, Formik } from "formik";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import routes from "../../config/Config";
+import { UserContext } from "../../components/GlobalContext/AuthContext";
 export default function DiamondValuationRequest() {
+  const user = useContext(UserContext);
   const bgColor = useColorModeValue("white", "black");
-  const location = useLocation();
   const toast = useToast();
   return (
     <>
@@ -40,52 +40,43 @@ export default function DiamondValuationRequest() {
             initialValues={{ description: "" }}
             onSubmit={(values, { setSubmitting }) => {
               try {
-                if (location.state?.serviceId === undefined) {
+                if (localStorage.getItem("user") === null) {
                   toast({
-                    title: "Please select a service first.",
+                    title: "Please login first !",
                     status: "error",
-                    duration: 2000,
+                    duration: 3000,
                     isClosable: true,
                   });
-                  setTimeout(() => {
-                    window.location.href = routes.diamondService;
-                  }, 2000);
-                }
-                if (localStorage.getItem("user") === null) {
-                  console.log("Please login first.");
+                  setSubmitting(false);
+                } else if (user.userAuth.roleid !== 5) {
                   toast({
-                    title: "Please login first.",
-                    status: "error",
-                    duration: 500,
+                    title: "Just customer can make a request !",
+                    status: "warning",
+                    duration: 3000,
                     isClosable: true,
                   });
                   setSubmitting(false);
                 } else {
-                  const res = axios
+                  axios
                     .post(
                       `${
                         import.meta.env.VITE_REACT_APP_BASE_URL
-                      }/api/valuation-request/create`,
+                      }/api/pending-request/create`,
                       {
-                        username: JSON.parse(localStorage.getItem("user"))
-                          .username,
-                        serviceId: location.state?.serviceId,
-                        createdDate: "",
+                        customerId: user.userAuth.id,
                         description: values.description,
                       }
                     )
-                    .then(() => {
-                      console.log(res.data);
-                      setSubmitting(false);
-                      toast({
-                        title: "Successful. Our team will contact you soon.",
-                        status: "success",
-                        duration: 2000,
-                        isClosable: true,
-                      });
-                      // setTimeout(() => {
-                      //   window.location.href = routes.home;
-                      // }, 2000);
+                    .then(function (response) {
+                      if (response.status === 200) {
+                        setSubmitting(false);
+                        toast({
+                          title: response.data,
+                          status: "success",
+                          duration: 3000,
+                          isClosable: true,
+                        });
+                      }
                     });
                 }
               } catch (e) {

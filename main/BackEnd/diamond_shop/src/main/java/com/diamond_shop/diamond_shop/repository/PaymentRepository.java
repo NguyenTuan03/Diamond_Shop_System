@@ -13,7 +13,7 @@ import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 public interface PaymentRepository extends JpaRepository<PaymentEntity, Integer>{
     @Query(value = "SELECT a FROM AccountEntity a WHERE a.username=:username")
     AccountEntity findByUsername(@Param("username") String username);
-
-    @Query(value = "SELECT v FROM ValuationRequestEntity v WHERE v.id=:id")
-    ValuationRequestEntity findByValuationRequest(@Param("id") int id);
+//
+//    @Query(value = "SELECT v FROM ValuationRequestEntity v WHERE v.id=:id")
+//    ValuationRequestEntity findByValuationRequest(@Param("id") int id);
 }

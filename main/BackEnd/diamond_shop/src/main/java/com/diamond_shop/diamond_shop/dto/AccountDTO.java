@@ -25,4 +25,13 @@ public class AccountDTO {
         this.password = password;
     }
 
+    public AccountDTO(int roleid, String username, String fullname, String email, String phonenumber, String password, String address) {
+        this.roleid = roleid;
+        this.username = username;
+        this.fullname = fullname;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.password = password;
+        this.address = address;
+    }
 }
