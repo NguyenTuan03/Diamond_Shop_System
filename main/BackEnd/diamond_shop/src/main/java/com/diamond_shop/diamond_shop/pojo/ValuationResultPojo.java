@@ -10,12 +10,9 @@ import java.util.Date;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ProcessResultPojo {
-    private String valuationResultId;
-    private String valuationStaffName;
-    private String serviceName;
-    private String serviceStatistic;
-    private String status;
+public class ValuationResultPojo {
+    private String id;
+    private Date createdDate;
     private String origin;
     private String shape;
     private BigDecimal carat;
