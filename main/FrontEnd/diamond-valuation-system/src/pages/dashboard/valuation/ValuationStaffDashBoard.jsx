@@ -1,4 +1,4 @@
-import { Search2Icon, ViewIcon } from "@chakra-ui/icons";
+import { ViewIcon } from "@chakra-ui/icons";
 import {
   Button,
   Center,
@@ -8,7 +8,6 @@ import {
   IconButton,
   Input,
   InputGroup,
-  InputLeftElement,
   InputRightElement,
   Modal,
   ModalBody,
@@ -33,100 +32,186 @@ import {
   Thead,
   Tr,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
-
+import UploadImage from "../../../components/UploadImage";
+import { Cloudinary } from "@cloudinary/url-gen/index";
+import { AdvancedImage } from "@cloudinary/react";
+import { thumbnail } from "@cloudinary/url-gen/actions/resize";
+import { sha1 } from "js-sha1";
 export default function ValuationStaffDashboard() {
+  const navigate = useNavigate();
+  const toast = useToast();
   const user = useContext(UserContext);
+  const pageIndicator = [];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(null);
+  if (totalPages !== null) {
+    for (let i = 1; i <= totalPages; i++) {
+      pageIndicator.push(
+        <Button
+          key={i}
+          colorScheme="teal"
+          variant={"outline"}
+          onClick={() => {
+            setCurrentPage(i);
+          }}
+        >
+          {i}
+        </Button>
+      );
+    }
+  }
   const viewValuationResult = useDisclosure();
   const [processResult, setProcessResult] = useState([]);
-  const [selectProcessResult, setSelectProcessResult] = useState({});
-  const [isValuated, setIsValuated] = useState(false);
-  const fetchProcessResult = async () => {
-    try {
-      await axios
-        .get(
-          `${
-            import.meta.env.VITE_REACT_APP_BASE_URL
-          }/api/process-result/get?staffId=${user.userAuth.id}`
-        )
-        .then(function (response) {
+  const [selectedProcessResult, setSelectedProcessResult] = useState({});
+  const fetchProcessResult = (page, valuationStaffId) => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/process-result/get/valuation-staff?page=${page}&valuationStaffId=${valuationStaffId}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        if (response.status === 200) {
           setProcessResult(response.data.content);
-          console.log(response.data.content);
-        });
-    } catch (e) {
-      console.log(e);
-    }
+          setTotalPages(response.data.totalPages);
+        }
+      });
   };
-  const valuateDiamond = async (values) => {
-    try {
-      await axios
-        .post(
+  useEffect(() => {
+    fetchProcessResult(currentPage, user.userAuth.id);
+  }, []);
+  const valuateDiamond = (id, values) => {
+    axios
+      .put(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-result/valuate?id=${id}`,
+        {
+          origin: values?.origin,
+          shape: values?.shape,
+          carat: values?.carat,
+          color: values?.color,
+          cut: values?.cut,
+          clarity: values?.clarity,
+          measurements: values?.measurements,
+          polish: values?.polish,
+          symmetry: values?.symmetry,
+          fluorescence: values?.fluorescence,
+          diamondTable: values?.diamondTable,
+          depth: values?.depth,
+          lengthToWidthRatio: values?.lengthToWidthRatio,
+          price: values?.price,
+        }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          toast({
+            title: "Success",
+            description: response.data,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          fetchProcessResult(currentPage, user.userAuth.id);
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: error.response.data,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        console.log(error.response.data);
+      });
+  };
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+    },
+  });
+  const [diamondImages, setDiamondImages] = useState([]);
+  const fetchValuatedDiamondImages = (valuationResultId) => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-result/image/get?id=${valuationResultId}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        setDiamondImages(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  const deleteImages = async (imageId) => {
+    const timestamp = Date.now() / 1000;
+    const formData = new FormData();
+    formData.append("public_id", imageId);
+    formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY);
+    formData.append("timestamp", timestamp);
+    formData.append(
+      "signature",
+      sha1(
+        `public_id=${imageId}&timestamp=${timestamp}${
+          import.meta.env.VITE_CLOUDINARY_API_SECRET
+        }`
+      )
+    );
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${
+        import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+      }/image/destroy`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    if (res) {
+      const data = await res.json();
+      console.log(data);
+      axios
+        .delete(
           `${
             import.meta.env.VITE_REACT_APP_BASE_URL
-          }/api/valuation-result/valuate`,
-          {
-            id: selectProcessResult.valuationResultId,
-            origin: values.origin,
-            shape: values.shape,
-            carat_weight: values.caratWeight,
-            color: values.color,
-            cut: values.cut,
-            clarity: values.clarity,
-            measurements: values.measurements,
-            polish: values.polish,
-            symmetry: values.symmetry,
-            fluorescence: values.fluorescence,
-            proportions: values.proportions,
-            price: values.price,
-          }
+          }/api/valuation-result/image/delete?id=${imageId}`
         )
         .then(function (response) {
-          console.log(response);
+          navigate(0);
+          console.log(response.data);
         });
-    } catch (e) {
-      console.log(e);
     }
   };
-  useEffect(() => {
-    fetchProcessResult();
-  }, []);
-  useEffect(() => {
-    if (isValuated) {
-      fetchProcessResult();
-      setIsValuated(false);
-    }
-  }, [isValuated]);
   return (
     <>
       <Flex
         direction="column"
         alignItems="center"
         justifyContent="center"
-        h={"100vh"}
-        // paddingTop={10}
         gap={5}
       >
         <Text fontSize="4xl" fontWeight="bold">
-          Welcome: Lam Tien Hung
+          Welcome: {user.userAuth.fullname}
         </Text>
         <Text fontSize="xl">For Valuation Staff</Text>
-        <InputGroup w={"40vw"}>
-          <InputLeftElement pointerEvents={"none"}>
-            <Search2Icon color={"gray.300"} />
-          </InputLeftElement>
-          <Input name="search" placeholder="Search..." />
-        </InputGroup>
         <TableContainer whiteSpace={"wrap"}>
           <Table size={"sm"} colorScheme="blue">
             <Thead bgColor={"blue.400"}>
               <Tr>
                 <Th>No</Th>
+                <Th>ID</Th>
                 <Th>Service</Th>
-                <Th>Created Date</Th>
                 <Th>Status</Th>
                 <Th>View</Th>
               </Tr>
@@ -135,15 +220,16 @@ export default function ValuationStaffDashboard() {
               {processResult.map((item, index) => (
                 <Tr key={index}>
                   <Td>{index + 1}</Td>
+                  <Td>{item?.valuationResultId}</Td>
                   <Td>{item?.serviceName}</Td>
-                  <Td>{item?.createdDate}</Td>
-                  <Td>{item?.type}</Td>
+                  <Td>{item?.status}</Td>
                   <Td>
                     <IconButton
                       icon={<ViewIcon />}
                       bgColor={"transparent"}
                       onClick={() => {
-                        setSelectProcessResult(item);
+                        setSelectedProcessResult(item);
+                        fetchValuatedDiamondImages(item?.valuationResultId);
                         viewValuationResult.onOpen();
                       }}
                     />
@@ -157,6 +243,7 @@ export default function ValuationStaffDashboard() {
       <Modal
         isOpen={viewValuationResult.isOpen}
         onClose={viewValuationResult.onClose}
+        size={"xl"}
       >
         <ModalOverlay />
         <ModalContent>
@@ -165,33 +252,32 @@ export default function ValuationStaffDashboard() {
           <ModalBody>
             <Formik
               initialValues={{
-                origin: selectProcessResult?.origin,
-                shape: selectProcessResult?.shape,
-                caratWeight: selectProcessResult?.caratWeight,
-                color: selectProcessResult?.color,
-                cut: selectProcessResult?.cut,
-                clarity: selectProcessResult?.clarity,
-                measurements: selectProcessResult?.measurements,
-                polish: selectProcessResult?.polish,
-                symmetry: selectProcessResult?.symmetry,
-                fluorescence: selectProcessResult?.fluorescence,
-                proportions: selectProcessResult?.proportions,
-                price: selectProcessResult?.price,
+                origin: selectedProcessResult?.origin,
+                shape: selectedProcessResult?.shape,
+                carat: selectedProcessResult?.carat,
+                color: selectedProcessResult?.color,
+                cut: selectedProcessResult?.cut,
+                clarity: selectedProcessResult?.clarity,
+                measurements: selectedProcessResult?.measurements,
+                polish: selectedProcessResult?.polish,
+                symmetry: selectedProcessResult?.symmetry,
+                fluorescence: selectedProcessResult?.fluorescence,
+                diamondTable: selectedProcessResult?.diamondTable,
+                depth: selectedProcessResult?.depth,
+                lengthToWidthRatio: selectedProcessResult?.lengthToWidthRatio,
+                price: selectedProcessResult?.price,
               }}
               onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-                valuateDiamond(values).then(() => {
-                  console.log("Valuation success");
-                  setSubmitting(false);
-                  viewValuationResult.onClose();
-                  setIsValuated(true);
-                });
+                valuateDiamond(
+                  selectedProcessResult?.valuationResultId,
+                  values
+                );
+                setSubmitting(false);
+                viewValuationResult.onClose();
               }}
             >
               {({
                 values,
-                errors,
-                touched,
                 handleChange,
                 handleBlur,
                 handleSubmit,
@@ -200,220 +286,305 @@ export default function ValuationStaffDashboard() {
                 <Form onSubmit={handleSubmit}>
                   <Flex direction={"column"} gap={5}>
                     <SimpleGrid columns={2} spacing={5}>
-                      <FormControl>
-                        <FormLabel>Origin</FormLabel>
-                        <Select
-                          name="origin"
-                          placeholder="Select a origin"
-                          value={values.origin == null ? "" : values.origin}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        >
-                          <option value="Natural">Natural</option>
-                          <option value="Lab Grown">Lab Grown</option>
-                        </Select>
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Shape</FormLabel>
-                        <Select
-                          name="shape"
-                          placeholder="Select a shape"
-                          value={values.shape || ""}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        >
-                          <option value="Round">Round</option>
-                          <option value="Triangle">Triangle</option>
-                          <option value="Oval">Oval</option>
-                          <option value="Pear">Pear</option>
-                          <option value="Marquise">Marquise</option>
-                          <option value="Heart">Heart</option>
-                          <option value="Emerald">Emerald</option>
-                          <option value="Princess">Princess</option>
-                          <option value="Asscher">Asscher</option>
-                          <option value="Radiant">Radiant</option>
-                          <option value="Cushion">Cushion</option>
-                          <option value="Baguette">Baguette</option>
-                        </Select>
-                      </FormControl>
-                    </SimpleGrid>
-                    <Field name="caratWeight">
-                      {({ field, form }) => (
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Origin"
+                      ) && (
                         <FormControl>
-                          <FormLabel>Carat Weight</FormLabel>
-                          <NumberInput
-                            defaultValue={1}
-                            min={0}
-                            max={10}
-                            step={0.1}
-                            {...field}
-                            onChange={(val) => {
-                              form.setFieldValue(
-                                field.name,
-                                val == null ? 0 : val
-                              );
-                            }}
+                          <FormLabel>Origin</FormLabel>
+                          <Select
+                            name="origin"
+                            placeholder="Select a origin"
+                            value={values.origin}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                           >
-                            <NumberInputField />
-                            <NumberInputStepper>
-                              <NumberIncrementStepper />
-                              <NumberDecrementStepper />
-                            </NumberInputStepper>
-                          </NumberInput>
+                            <option value="Natural">Natural</option>
+                            <option value="Lab Grown">Lab Grown</option>
+                          </Select>
                         </FormControl>
                       )}
-                    </Field>
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Shape"
+                      ) && (
+                        <FormControl>
+                          <FormLabel>Shape</FormLabel>
+                          <Select
+                            name="shape"
+                            placeholder="Select a shape"
+                            value={values.shape}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          >
+                            <option value="Round">Round</option>
+                            <option value="Triangle">Triangle</option>
+                            <option value="Oval">Oval</option>
+                            <option value="Pear">Pear</option>
+                            <option value="Marquise">Marquise</option>
+                            <option value="Heart">Heart</option>
+                            <option value="Emerald">Emerald</option>
+                            <option value="Princess">Princess</option>
+                            <option value="Asscher">Asscher</option>
+                            <option value="Radiant">Radiant</option>
+                            <option value="Cushion">Cushion</option>
+                            <option value="Baguette">Baguette</option>
+                          </Select>
+                        </FormControl>
+                      )}
+                    </SimpleGrid>
+                    {selectedProcessResult?.serviceStatistic?.includes(
+                      "Carat"
+                    ) && (
+                      <Field name="carat">
+                        {({ field, form }) => (
+                          <FormControl>
+                            <FormLabel>Carat</FormLabel>
+                            <NumberInput
+                              defaultValue={1}
+                              min={0}
+                              max={10}
+                              step={0.1}
+                              {...field}
+                              onChange={(val) => {
+                                form.setFieldValue(field.name, val);
+                              }}
+                            >
+                              <NumberInputField />
+                              <NumberInputStepper>
+                                <NumberIncrementStepper />
+                                <NumberDecrementStepper />
+                              </NumberInputStepper>
+                            </NumberInput>
+                          </FormControl>
+                        )}
+                      </Field>
+                    )}
                     <SimpleGrid columns={2} spacing={5}>
-                      <FormControl>
-                        <FormLabel>Color</FormLabel>
-                        <Select
-                          name="color"
-                          placeholder="Select a color"
-                          value={values.color == null ? "" : values.color}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        >
-                          <option value="D">D</option>
-                          <option value="E">E</option>
-                          <option value="F">F</option>
-                          <option value="G">G</option>
-                          <option value="H">H</option>
-                          <option value="I">I</option>
-                          <option value="J">J</option>
-                          <option value="K">K</option>
-                          <option value="L">L</option>
-                          <option value="M">M</option>
-                          <option value="N">N</option>
-                        </Select>
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Cut</FormLabel>
-                        <Select
-                          name="cut"
-                          placeholder="Select a cut"
-                          value={values.cut == null ? "" : values.cut}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        >
-                          <option value="Excellent">Excellent</option>
-                          <option value="Very Good">Very Good</option>
-                          <option value="Good">Good</option>
-                          <option value="Fair">Fair</option>
-                          <option value="Poor">Poor</option>
-                        </Select>
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Clarity</FormLabel>
-                        <Select
-                          name="clarity"
-                          placeholder="Select a clarity"
-                          value={values.clarity == null ? "" : values.clarity}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        >
-                          <option value={"IF"}>IF</option>
-                          <option value={"VVS1"}>VVS1</option>
-                          <option value={"VVS2"}>VVS2</option>
-                          <option value={"VS1"}>VS1</option>
-                          <option value={"VS2"}>VS2</option>
-                          <option value={"SI1"}>SI1</option>
-                          <option value={"SI2"}>SI2</option>
-                          <option value={"I1"}>I1</option>
-                          <option value={"I2"}>I2</option>
-                          <option value={"I3"}>I3</option>
-                        </Select>
-                      </FormControl>
-                      {selectProcessResult?.serviceName === "Pro" ||
-                      selectProcessResult?.serviceName === "Premium" ? (
-                        <>
-                          <FormControl>
-                            <FormLabel>Measurement</FormLabel>
-                            <Input
-                              name="measurements"
-                              type="text"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={
-                                values.measurements == null
-                                  ? ""
-                                  : values.measurements
-                              }
-                            />
-                          </FormControl>
-                          <FormControl>
-                            <FormLabel>Polish</FormLabel>
-                            <Select
-                              name="polish"
-                              placeholder="Select a polish"
-                              value={values.polish == null ? "" : values.polish}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            >
-                              <option value="Excellent">Excellent</option>
-                              <option value="VeryGood">Very Good</option>
-                              <option value="Good">Good</option>
-                              <option value="Fair">Fair</option>
-                              <option value="Poor">Poor</option>
-                            </Select>
-                          </FormControl>
-                        </>
-                      ) : null}
-                      {selectProcessResult?.serviceName === "Premium" ? (
-                        <>
-                          <FormControl>
-                            <FormLabel>Symmetry</FormLabel>
-                            <Select
-                              name="symmetry"
-                              placeholder="Select a symmetry"
-                              value={
-                                values.symmetry == null ? "" : values.symmetry
-                              }
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            >
-                              <option value="Excellent">Excellent</option>
-                              <option value="Very Good">Very Good</option>
-                              <option value="Good">Good</option>
-                              <option value="Fair">Fair</option>
-                              <option value="Poor">Poor</option>
-                            </Select>
-                          </FormControl>
-                          <FormControl>
-                            <FormLabel>Fluorescence</FormLabel>
-                            <Select
-                              name="fluorescence"
-                              placeholder="Select a fluorescence"
-                              value={
-                                values.fluorescence == null
-                                  ? ""
-                                  : values.fluorescence
-                              }
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            >
-                              <option value="None">None</option>
-                              <option value="Faint">Faint</option>
-                              <option value="Medium">Medium</option>
-                              <option value="Strong">Strong</option>
-                              <option value="very Strong">Very Strong</option>
-                            </Select>
-                          </FormControl>
-                          <FormControl>
-                            <FormLabel>Proportion</FormLabel>
-                            <Input
-                              name="proportions"
-                              type="text"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={
-                                values.proportions == null
-                                  ? ""
-                                  : values.proportions
-                              }
-                            />
-                          </FormControl>
-                        </>
-                      ) : null}
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Color"
+                      ) && (
+                        <FormControl>
+                          <FormLabel>Color</FormLabel>
+                          <Select
+                            name="color"
+                            placeholder="Select a color"
+                            value={values.color}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          >
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                            <option value="I">I</option>
+                            <option value="J">J</option>
+                            <option value="K">K</option>
+                            <option value="L">L</option>
+                            <option value="M">M</option>
+                            <option value="N">N</option>
+                          </Select>
+                        </FormControl>
+                      )}
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Cut"
+                      ) && (
+                        <FormControl>
+                          <FormLabel>Cut</FormLabel>
+                          <Select
+                            name="cut"
+                            placeholder="Select a cut"
+                            value={values.cut}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          >
+                            <option value="Excellent">Excellent</option>
+                            <option value="Very Good">Very Good</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                            <option value="Poor">Poor</option>
+                          </Select>
+                        </FormControl>
+                      )}
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Clarity"
+                      ) && (
+                        <FormControl>
+                          <FormLabel>Clarity</FormLabel>
+                          <Select
+                            name="clarity"
+                            placeholder="Select a clarity"
+                            value={values.clarity}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          >
+                            <option value={"IF"}>IF</option>
+                            <option value={"VVS1"}>VVS1</option>
+                            <option value={"VVS2"}>VVS2</option>
+                            <option value={"VS1"}>VS1</option>
+                            <option value={"VS2"}>VS2</option>
+                            <option value={"SI1"}>SI1</option>
+                            <option value={"SI2"}>SI2</option>
+                            <option value={"I1"}>I1</option>
+                            <option value={"I2"}>I2</option>
+                            <option value={"I3"}>I3</option>
+                          </Select>
+                        </FormControl>
+                      )}
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Symmetry"
+                      ) && (
+                        <FormControl>
+                          <FormLabel>Symmetry</FormLabel>
+                          <Select
+                            name="symmetry"
+                            placeholder="Select a symmetry"
+                            value={values.symmetry}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          >
+                            <option value="Excellent">Excellent</option>
+                            <option value="Very Good">Very Good</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                            <option value="Poor">Poor</option>
+                          </Select>
+                        </FormControl>
+                      )}{" "}
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Polish"
+                      ) && (
+                        <FormControl>
+                          <FormLabel>Polish</FormLabel>
+                          <Select
+                            name="polish"
+                            placeholder="Select a polish"
+                            value={values.polish}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          >
+                            <option value="Excellent">Excellent</option>
+                            <option value="VeryGood">Very Good</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                            <option value="Poor">Poor</option>
+                          </Select>
+                        </FormControl>
+                      )}{" "}
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Fluorescence"
+                      ) && (
+                        <FormControl>
+                          <FormLabel>Fluorescence</FormLabel>
+                          <Select
+                            name="fluorescence"
+                            placeholder="Select a fluorescence"
+                            value={values.fluorescence}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          >
+                            <option value="None">None</option>
+                            <option value="Faint">Faint</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Strong">Strong</option>
+                            <option value="very Strong">Very Strong</option>
+                          </Select>
+                        </FormControl>
+                      )}
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Measurements"
+                      ) && (
+                        <FormControl>
+                          <FormLabel>Measurements</FormLabel>
+                          <Input
+                            name="measurements"
+                            type="text"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.measurements}
+                          />
+                        </FormControl>
+                      )}
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Table"
+                      ) && (
+                        <Field name="diamondTable">
+                          {({ field, form }) => (
+                            <FormControl>
+                              <FormLabel>Table</FormLabel>
+                              <NumberInput
+                                defaultValue={1}
+                                min={0}
+                                max={10}
+                                step={0.1}
+                                {...field}
+                                onChange={(val) => {
+                                  form.setFieldValue(field.name, val);
+                                }}
+                              >
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                  <NumberIncrementStepper />
+                                  <NumberDecrementStepper />
+                                </NumberInputStepper>
+                              </NumberInput>
+                            </FormControl>
+                          )}
+                        </Field>
+                      )}
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "Depth"
+                      ) && (
+                        <Field name="depth">
+                          {({ field, form }) => (
+                            <FormControl>
+                              <FormLabel>Depth</FormLabel>
+                              <NumberInput
+                                defaultValue={1}
+                                min={0}
+                                max={10}
+                                step={0.1}
+                                {...field}
+                                onChange={(val) => {
+                                  form.setFieldValue(field.name, val);
+                                }}
+                              >
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                  <NumberIncrementStepper />
+                                  <NumberDecrementStepper />
+                                </NumberInputStepper>
+                              </NumberInput>
+                            </FormControl>
+                          )}
+                        </Field>
+                      )}{" "}
+                      {selectedProcessResult?.serviceStatistic?.includes(
+                        "L/W Ratio"
+                      ) && (
+                        <Field name="lenghtToWidthRatio">
+                          {({ field, form }) => (
+                            <FormControl>
+                              <FormLabel>L/W Ratio</FormLabel>
+                              <NumberInput
+                                defaultValue={1}
+                                min={0}
+                                max={10}
+                                step={0.1}
+                                {...field}
+                                onChange={(val) => {
+                                  form.setFieldValue(field.name, val);
+                                }}
+                              >
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                  <NumberIncrementStepper />
+                                  <NumberDecrementStepper />
+                                </NumberInputStepper>
+                              </NumberInput>
+                            </FormControl>
+                          )}
+                        </Field>
+                      )}
                     </SimpleGrid>
                     <FormControl>
                       <FormLabel>Price</FormLabel>
@@ -423,7 +594,7 @@ export default function ValuationStaffDashboard() {
                           type="text"
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.price == null ? 0 : values.price}
+                          value={values.price}
                         />
                         <InputRightElement children="$" />
                       </InputGroup>
@@ -437,12 +608,43 @@ export default function ValuationStaffDashboard() {
                         Submit
                       </Button>
                     </Center>
+                    <Flex justify={"center"}>
+                      <SimpleGrid columns={4}>
+                        {diamondImages?.map((image, index) => {
+                          return (
+                            <>
+                              <Flex direction={"column"} key={image}>
+                                <AdvancedImage
+                                  key={index}
+                                  cldImg={cld
+                                    .image(image)
+                                    .resize(thumbnail().width(200).height(200))}
+                                />
+                                <Button
+                                  colorScheme="red"
+                                  onClick={() => {
+                                    deleteImages(image);
+                                  }}
+                                >
+                                  Delete
+                                </Button>
+                              </Flex>
+                            </>
+                          );
+                        })}
+                      </SimpleGrid>
+                    </Flex>
                   </Flex>
                 </Form>
               )}
             </Formik>
           </ModalBody>
           <ModalFooter justifyContent={"center"}>
+            <Flex direction={"column"}>
+              <UploadImage
+                diamondId={selectedProcessResult?.valuationResultId}
+              />
+            </Flex>
           </ModalFooter>
         </ModalContent>
       </Modal>

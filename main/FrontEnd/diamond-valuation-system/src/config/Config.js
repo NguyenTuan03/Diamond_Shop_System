@@ -3,7 +3,7 @@ const routes = {
   search: "/search",
   diamondCalculate: "/diamond-calculate",
   diamondCheck: "/diamond-check",
-  diamondCheckDetails: "/diamond-check/:certificateId",
+  diamondCheckDetails: "/diamond-check/:valuationResultId",
   diamondDetail: "/diamond-detail",
   diamondService: "/diamond-service",
   diamondValuationRequest: "/diamond-valuation-request",

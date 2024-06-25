@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("api/process-result")
 public class ProcessResultController {
-//    @Autowired
-//    private ProcessResultService processResultService;
-//
-//    @GetMapping(path = "/get")
-//    public Page<ProcessResultEntity> viewProcessResult(@RequestParam("staffId") int valuationStaff) {
-//        return processResultService.viewProcessResult(valuationStaff);
-//    }
+    @Autowired
+    private ProcessResultService processResultService;
+
+    @GetMapping(path = "/get/valuation-staff")
+    public Page<ProcessResultEntity> getAllByValuationStaffId(@RequestParam("page") int page, @RequestParam("valuationStaffId") int valuationStaffId) {
+        return processResultService.getAllByValuationStaffId(page, valuationStaffId);
+    }
 }

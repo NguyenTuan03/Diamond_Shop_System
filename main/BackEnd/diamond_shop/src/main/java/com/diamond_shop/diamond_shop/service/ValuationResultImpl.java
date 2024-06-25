@@ -1,13 +1,10 @@
 package com.diamond_shop.diamond_shop.service;
 
-import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
-import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
-import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
+import com.diamond_shop.diamond_shop.dto.CreateImageDTO;
+import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
+import com.diamond_shop.diamond_shop.entity.*;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
-import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
-import com.diamond_shop.diamond_shop.repository.ProcessResultRepository;
-import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
-import com.diamond_shop.diamond_shop.repository.ValuationResultRepository;
+import com.diamond_shop.diamond_shop.repository.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -33,37 +30,47 @@ public class ValuationResultImpl implements ValuationResultService {
     @Autowired
     private ProcessRequestRepository processRequestRepository;
 
-    //
-//    @Override
-//    public String valuateDiamond(ValuationResultDTO valuationResultDTO) {
-//        ValuationResultEntity valuationResult = valuationResultRepository.findById(valuationResultDTO.getId());
-//        valuationResult.setOrigin(valuationResultDTO.getOrigin());
-//        valuationResult.setShape(valuationResultDTO.getShape());
-//        valuationResult.setCarat(valuationResultDTO.getCarat_weight());
-//        valuationResult.setColor(valuationResultDTO.getColor());
-//        valuationResult.setCut(valuationResultDTO.getCut());
-//        valuationResult.setClarity(valuationResultDTO.getClarity());
-//        valuationResult.setMeasurements(valuationResultDTO.getMeasurements());
-//        valuationResult.setPolish(valuationResultDTO.getPolish());
-//        valuationResult.setSymmetry(valuationResultDTO.getSymmetry());
-//        valuationResult.setFluorescence(valuationResultDTO.getFluorescence());
-//        valuationResult.setProportions(valuationResultDTO.getProportions());
-//        valuationResult.setPrice(valuationResultDTO.getPrice());
-//        valuationResultRepository.save(valuationResult);
-//
-//        ProcessResultEntity processResult = processResultRepository.findByValuationResultId(valuationResultDTO.getId());
-//        processResult.setName("Valuated");
-//        processResultRepository.save(processResult);
-//
-//        ProcessRequestEntity processRequest = processRequestRepository.findById(processResult.getProcessRequestId().getId());
-//        processRequest.setName("Valuated");
-//        processRequestRepository.save(processRequest);
-//
-//        valuatedDiamondService.createValuatedDiamond(valuationResultDTO.getId());
-//
-//        return "Valuate successful!";
-//    }
-//
+    @Autowired
+    ValuationResultImageRepository valuationResultImageRepository;
+
+    @Override
+    public Optional<ValuationResultEntity> getValuationResultById(String id) {
+        return valuationResultRepository.findValuationResultById(id);
+    }
+
+    @Override
+    public String valuateDiamond(String id, ValuationResultDTO valuationResultDTO) {
+        Optional<ValuationResultEntity> valuationResult = valuationResultRepository.findById(id);
+        if (valuationResult.isPresent()) {
+            valuationResult.get().setOrigin(valuationResultDTO.getOrigin());
+            valuationResult.get().setShape(valuationResultDTO.getShape());
+            valuationResult.get().setCarat(valuationResultDTO.getCarat());
+            valuationResult.get().setColor(valuationResultDTO.getColor());
+            valuationResult.get().setCut(valuationResultDTO.getCut());
+            valuationResult.get().setClarity(valuationResultDTO.getClarity());
+            valuationResult.get().setSymmetry(valuationResultDTO.getSymmetry());
+            valuationResult.get().setPolish(valuationResultDTO.getPolish());
+            valuationResult.get().setFluorescence(valuationResultDTO.getFluorescence());
+            valuationResult.get().setMeasurements(valuationResultDTO.getMeasurements());
+            valuationResult.get().setDiamondTable(valuationResultDTO.getDiamondTable());
+            valuationResult.get().setDepth(valuationResultDTO.getDepth());
+            valuationResult.get().setLengthToWidthRatio(valuationResultDTO.getLengthToWidthRatio());
+            valuationResult.get().setPrice(valuationResultDTO.getPrice());
+            valuationResultRepository.save(valuationResult.get());
+        } else return "Valuate failed!";
+
+        ProcessResultEntity processResult = processResultRepository.findByValuationResultId(id);
+        processResult.setStatus("Valuated");
+        processResultRepository.save(processResult);
+
+        Optional<ProcessRequestEntity> processRequest = processRequestRepository.findById(processResult.getValuationResultId().getValuationRequestId().getPendingRequestId().getProcessRequestEntity().getId());
+        if (processRequest.isPresent()) {
+            processRequest.get().setStatus("Valuated");
+            processRequestRepository.save(processRequest.get());
+            return "Valuate successful!";
+        } else return "Valuate failed!";
+    }
+
     @Override
     public String createValuationResult(ProcessRequestEntity processRequest) {
         Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findById(processRequest.getPendingRequestId().getValuationRequestEntity().getId());
@@ -74,6 +81,27 @@ public class ValuationResultImpl implements ValuationResultService {
         valuationResultRepository.save(valuationResultEntity);
         return "Assigned successfully!";
     }
+
+    @Override
+    public List<String> getValuationResultImage(String id) {
+        return valuationResultImageRepository.findImageIdsByValuationResultId(id);
+    }
+
+    @Override
+    public String createValuationResultImage(CreateImageDTO createImageDTO) {
+        Optional<ValuationResultEntity> valuationResult = valuationResultRepository.findById(createImageDTO.getValuationResultId());
+        if (valuationResult.isEmpty()) return "Could not find valuation result";
+        ValuationResultImageEntity valuationResultImage = new ValuationResultImageEntity(createImageDTO.getId(), valuationResult.get());
+        valuationResultImageRepository.save(valuationResultImage);
+        return "Create image successful";
+    }
+
+    @Override
+    public String deleteValuationResultImage(String imageId) {
+        valuationResultImageRepository.deleteById(imageId);
+        return "";
+    }
+
 
     @Override
     public List<DiamondPojo> crawlLabGrownDiamond(String shape) {
