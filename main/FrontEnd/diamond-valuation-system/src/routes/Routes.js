@@ -15,7 +15,6 @@ import HomePage from "../pages/Home/Home.jsx";
 import Login from "../pages/login/Login.jsx";
 import Logout from "../pages/logout/Logout.jsx";
 import Prices from "../pages/prices/Prices.jsx";
-import Search from "../pages/Search/Search.jsx";
 import Error from "../pages/error/Error.jsx";
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
 import DashBoard from "../pages/dashboard/DashBoard.jsx";
@@ -24,15 +23,13 @@ import DashBoardPrices from "./../pages/dashboard/DashBoardPrices";
 import DashBoardAppoint from "./../pages/dashboard/DashBoardAppoint";
 import DashBoardSearch from "./../pages/dashboard/DashBoardSearch";
 import DashBoardRequest from "./../pages/dashboard/DashBoardRequest";
+import AboutUs from "../pages/aboutUs/AboutUs.jsx";
+import DashBoardSetting from "../pages/dashboard/DashBoardSetting.jsx";
 
 const ALlRoutes = [
   {
     path: routes.home,
     component: HomePage,
-  },
-  {
-    path: routes.search,
-    component: Search,
   },
   {
     path: routes.diamondCheck,
@@ -88,6 +85,10 @@ const ALlRoutes = [
     path: routes.error,
     component: Error,
     layout: null,
+  },
+  {
+    path: routes.aboutUs,
+    component: AboutUs,
   },
 
   {
@@ -156,11 +157,15 @@ const ALlRoutes = [
     path: routes.dashboardSearch,
     component: DashBoardSearch,
     layout: DashBoardLayout,
-  },
+  },  
   {
     path: routes.dashboardRequest,
     component: DashBoardRequest,
     layout: DashBoardLayout,
+  },
+  {
+    path: routes.dashboardSetting,
+    component: DashBoardSetting,
   },
 ];
 

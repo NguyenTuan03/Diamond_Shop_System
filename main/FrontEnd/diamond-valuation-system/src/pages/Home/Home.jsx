@@ -26,7 +26,15 @@ export default function Home() {
           alignItems="center"
           gap={10}
         >
-          <Flex direction="column" fontWeight="bold">
+          <Image boxSize={{ base: "100px", md: "120px", lg: "200px" }}
+          position="absolute"
+          top="27%"
+          left="50px"
+          transform="translate(-50%, -50%)"
+          zIndex={1}
+          opacity={0.5}
+          src="https://stonealgo-3.b-cdn.net/static/dist/next/images/blobs-diamond.svg"/>
+          <Flex direction="column" fontWeight="bold" zIndex={2}>
             <Text
               fontSize={{ base: "xl", md: "4xl", lg: "5xl" }}
               align={{ base: "center", md: "left", lg: "left" }}

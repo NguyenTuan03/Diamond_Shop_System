@@ -37,6 +37,7 @@ export default function SignUp({ signUp }) {
         toast({
           title: "Sign up failed.",
           description: res.data,
+          position: "top-right",
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -46,6 +47,7 @@ export default function SignUp({ signUp }) {
         toast({
           title: "Account created.",
           description: "We've created your account for you.",
+          position: "top-right",
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -55,6 +57,7 @@ export default function SignUp({ signUp }) {
       toast({
         title: "Sign up failed.",
         description: "Please try again.",
+        position: "top-right",
         status: "error",
         duration: 3000,
         isClosable: true,

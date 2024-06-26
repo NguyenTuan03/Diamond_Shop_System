@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/process-request")
+@RequestMapping("api")
 public class ProcessRequestController {
     @Autowired
     private ProcessRequestService processRequestService;
