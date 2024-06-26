@@ -11,7 +11,6 @@ import {
   } from "@chakra-ui/react";
   import React, { useContext } from "react";
   import "react-lazy-load-image-component/src/effects/blur.css";
-  import { Link as LinkReactRouterDOM } from "react-router-dom";
   import Title from "../../components/Title";
   import ScrollToTop from "react-scroll-to-top";
   import AOS from 'aos';
