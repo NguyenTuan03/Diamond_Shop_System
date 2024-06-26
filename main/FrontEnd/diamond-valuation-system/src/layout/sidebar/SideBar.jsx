@@ -30,15 +30,7 @@ export default function SideBar() {
     return (
         <div>
             <Box>
-                <Flex align={"center"} p={3} pr={0} bg={"rgb(229 231 235)"}>
-                    <WrapItem mr={3}>
-                        <Avatar
-                            name={auth.userAuth.fullname}
-                        />
-                        
-                    </WrapItem>
-                    <Text color={"#000"}>{auth.userAuth.fullname}</Text>
-                </Flex>
+              <Profile/>
                 <VStack
                     py={5}
                     pl={3}
