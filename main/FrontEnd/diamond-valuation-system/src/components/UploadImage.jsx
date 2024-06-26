@@ -48,8 +48,14 @@ export default function UploadImage({ diamondId }) {
             isClosable: true,
           });
           axios
-            .get(
-              `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/valuated-diamond-image/create?id=${data?.public_id}&diamond=${diamondId}`
+            .post(
+              `${
+                import.meta.env.VITE_REACT_APP_BASE_URL
+              }/api/valuation-result/image/create`,
+              {
+                id: data?.public_id,
+                valuationResultId: diamondId,
+              }
             )
             .then(function (response) {
               console.log(response.data);
@@ -140,7 +146,7 @@ export default function UploadImage({ diamondId }) {
             onClick={handleSubmitImages}
             isLoading={isUploading}
           >
-            Submit
+            Upload
           </Button>
         </Flex>
       )}

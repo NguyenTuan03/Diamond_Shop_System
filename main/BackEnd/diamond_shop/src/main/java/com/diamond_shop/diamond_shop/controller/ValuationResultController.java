@@ -1,13 +1,17 @@
 package com.diamond_shop.diamond_shop.controller;
 
+import com.diamond_shop.diamond_shop.dto.CreateImageDTO;
 import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
+import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -16,10 +20,39 @@ public class ValuationResultController {
     @Autowired
     private ValuationResultService valuationResultService;
 
-    @PostMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String postMethodName(@RequestBody ValuationResultDTO valuationResultDTO) {
-        //Valuation staff
-        return valuationResultService.valuateDiamond(valuationResultDTO);
+    @PutMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String valuateDiamond(@RequestParam("id") String id, @RequestBody ValuationResultDTO valuationResultDTO) {
+        return valuationResultService.valuateDiamond(id, valuationResultDTO);
+    }
+
+    @GetMapping(path = "/get")
+    public Optional<ValuationResultEntity> getValuationResult(@RequestParam("id") String id) {
+        return valuationResultService.getValuationResultById(id);
+    }
+
+    @GetMapping(path = "/customer/get")
+    public Page<ValuationResultEntity> getListValuationResultByCustomerId(@RequestParam("page") int page, @RequestParam("id") int id) {
+        return valuationResultService.getValuationResultsByCustomerId(page, id);
+    }
+
+    @GetMapping(path = "/valuation-request/get")
+    public Optional<ValuationResultEntity> getValuationResultByRequestId(@RequestParam("id") int id) {
+        return valuationResultService.getValuationResultByValuationRequestId(id);
+    }
+
+    @GetMapping(path = "/image/get")
+    public List<String> getValuationResultImage(@RequestParam("id") String id) {
+        return valuationResultService.getValuationResultImage(id);
+    }
+
+    @PostMapping(path = "/image/create")
+    public String createValuationResultImage(@RequestBody CreateImageDTO createImageDTO) {
+        return valuationResultService.createValuationResultImage(createImageDTO);
+    }
+
+    @DeleteMapping(path = "/image/delete")
+    public String deleteValuationResultImage(@RequestParam("id") String id) {
+        return valuationResultService.deleteValuationResultImage(id);
     }
 
     @GetMapping("/crawl-natural")

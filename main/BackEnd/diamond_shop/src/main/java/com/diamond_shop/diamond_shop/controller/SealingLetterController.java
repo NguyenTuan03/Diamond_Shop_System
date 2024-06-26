@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("api/sealing-letter")
 public class SealingLetterController {
-    @Autowired
-    private SealingLetterService sealingLetterService;
-
-    @GetMapping(path = "/check", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String checkSealingDate(@RequestParam("id") int id) {
-        return sealingLetterService.checkSealingDate(id);
-    }
-
-    @GetMapping(path = "/get/all")
-    public Page<SealingLetterEntity> getAllSealing(@RequestParam("page") int page) {
-        return sealingLetterService.getAllSealingLetters(page);
-    }
+//    @Autowired
+//    private SealingLetterService sealingLetterService;
+//
+//    @GetMapping(path = "/check", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public String checkSealingDate(@RequestParam("id") int id) {
+//        return sealingLetterService.checkSealingDate(id);
+//    }
+//
+//    @GetMapping(path = "/get/all")
+//    public Page<SealingLetterEntity> getAllSealing(@RequestParam("page") int page) {
+//        return sealingLetterService.getAllSealingLetters(page);
+//    }
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SealingLetterRepository extends JpaRepository<SealingLetterEntity, Integer>, PagingAndSortingRepository<SealingLetterEntity, Integer> {
-
-    @Query(value = "SELECT s FROM SealingLetterEntity s")
-    Page<SealingLetterEntity> findAll(Pageable pageable);
+//
+//    @Query(value = "SELECT s FROM SealingLetterEntity s")
+//    Page<SealingLetterEntity> findAll(Pageable pageable);
 }
