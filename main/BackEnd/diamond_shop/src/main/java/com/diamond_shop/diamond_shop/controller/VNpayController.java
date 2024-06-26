@@ -84,7 +84,7 @@ public class VNpayController {
     }
 
     @GetMapping("/create-valuation-request")
-    public String test(@RequestParam int serviceId, @RequestParam int customerId, @RequestParam int pendingRequestId, HttpServletResponse response) throws IOException {
+    public String test(@RequestParam("customerId") int customerId, @RequestParam("serviceId") int serviceId, @RequestParam("pendingRequestId") int pendingRequestId, HttpServletResponse response) throws IOException {
         System.out.println(serviceId + " " + customerId + " " + pendingRequestId);
         int paymentId = paymentService.createPayment(customerId);
         valuationRequestService.makeRequest(pendingRequestId, serviceId, paymentId);

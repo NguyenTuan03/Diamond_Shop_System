@@ -1,8 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import {
   Button,
+  Center,
   Flex,
+  GridItem,
+  Icon,
   IconButton,
   Modal,
   ModalBody,
@@ -10,6 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  SimpleGrid,
   Table,
   TableContainer,
   Tbody,
@@ -24,6 +28,9 @@ import {
 import axios from "axios";
 import { ViewIcon } from "@chakra-ui/icons";
 import ZaloChat from "../../../components/zalo/ZaloChat";
+import { GiDiamondTrophy } from "react-icons/gi";
+import { useReactToPrint } from "react-to-print";
+import ProcessRequestTable from "../table/ProcessRequestTable";
 export default function ConsultingStaffProcessRequestPage() {
   const user = useContext(UserContext);
   const toast = useToast();
@@ -47,20 +54,31 @@ export default function ConsultingStaffProcessRequestPage() {
       );
     }
   }
-  const viewProcessRequest = useDisclosure();
+  const viewValuationRequest = useDisclosure();
+  const viewValuationResult = useDisclosure();
+  const valuationResultRef = useRef();
+  const handlePrintValuationResult = useReactToPrint({
+    content: () => valuationResultRef.current,
+  });
   const [processRequest, setProcessRequest] = useState([]);
   const [selectedProcessRequest, setSelectedProcessRequest] = useState({});
   const [selectedValuationRequest, setSelectedValuationRequest] = useState({});
+  const [selectedValuationResult, setSelectedValuationResult] = useState({});
   const fetchProcessRequest = (page, consultingStaffId) => {
     axios
       .get(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/process-request/get/consulting-staff?page=${page}&consultingStaffId=${consultingStaffId}`
+        }/api/process-request/get/consulting-staff?page=${page}&id=${consultingStaffId}`
       )
       .then(function (response) {
         console.log(response.data);
         if (response.status === 200) {
+          Promise.all(
+            response.data.content.map(async (item) => {
+              await checkValuationRequestFinished(item.id);
+            })
+          );
           setProcessRequest(response.data.content);
           setTotalPages(response.data?.totalPages);
         }
@@ -93,12 +111,12 @@ export default function ConsultingStaffProcessRequestPage() {
   useEffect(() => {
     fetchProcessRequest(currentPage, user.userAuth.id);
   }, []);
-  const fetchValuationRequest = (pendingRequestId) => {
-    axios
+  const fetchValuationRequest = async (pendingRequestId) => {
+    await axios
       .get(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-request/get?pending-request-id=${pendingRequestId}`
+        }/api/valuation-request/pending-request/get?id=${pendingRequestId}`
       )
       .then(function (response) {
         console.log(response);
@@ -107,9 +125,46 @@ export default function ConsultingStaffProcessRequestPage() {
         }
       });
   };
+  const checkValuationRequestFinished = async (processRequestId) => {
+    await axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-request/process-request/check-finished?id=${processRequestId}`
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          if (response.data === "Finished request") {
+            fetchProcessRequest(currentPage, user.userAuth.id);
+            toast({
+              title: "Success",
+              description:
+                "Valuation request finished. Please contact customer to receive diamond.",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          }
+        }
+      });
+  };
+  const fetchValuationResult = (valuationRequestId) => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-result/valuation-request/get?id=${valuationRequestId}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        setSelectedValuationResult(response.data);
+      });
+  };
   return (
     <>
-      <TableContainer>
+    <ProcessRequestTable type={"consulting-staff"}/>
+      {/* <TableContainer>
         <Table size={"sm"} colorScheme="blue">
           <Thead bg={"blue.400"}>
             <Tr>
@@ -133,7 +188,7 @@ export default function ConsultingStaffProcessRequestPage() {
                     bg={"transparent"}
                     onClick={() => {
                       setSelectedProcessRequest(item);
-                      viewProcessRequest.onOpen();
+                      viewValuationRequest.onOpen();
                       fetchValuationRequest(item?.pendingRequestId);
                     }}
                   />
@@ -145,13 +200,13 @@ export default function ConsultingStaffProcessRequestPage() {
       </TableContainer>
       {pageIndicator}
       <Modal
-        isOpen={viewProcessRequest.isOpen}
-        onClose={viewProcessRequest.onClose}
+        isOpen={viewValuationRequest.isOpen}
+        onClose={viewValuationRequest.onClose}
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Process Request ID: {selectedProcessRequest?.id || "N/A"}
+            Valuation Request ID: {selectedValuationRequest?.id || "N/A"}
           </ModalHeader>
           <ModalBody>
             <Flex direction={"column"} gap={5}>
@@ -166,14 +221,6 @@ export default function ConsultingStaffProcessRequestPage() {
               <Text>
                 <strong>Customer Phone</strong>:{" "}
                 {selectedProcessRequest?.customerPhone || "N/A"}
-              </Text>
-              <Text>
-                <strong>Status</strong>:{" "}
-                {selectedProcessRequest?.status || "N/A"}
-              </Text>
-              <Text>
-                <strong>Description</strong>:{" "}
-                {selectedProcessRequest?.description || "N/A"}
               </Text>
               <Text>
                 <strong>Service Type</strong>:{" "}
@@ -206,7 +253,7 @@ export default function ConsultingStaffProcessRequestPage() {
               <>
                 <Button
                   onClick={() => {
-                    viewProcessRequest.onClose();
+                    viewValuationRequest.onClose();
                     updateProcessRequest(
                       selectedProcessRequest?.id,
                       "Contacted"
@@ -225,7 +272,7 @@ export default function ConsultingStaffProcessRequestPage() {
                 <>
                   <Button
                     onClick={() => {
-                      viewProcessRequest.onClose();
+                      viewValuationRequest.onClose();
                       updateProcessRequest(
                         selectedProcessRequest?.id,
                         "Diamond Received"
@@ -236,10 +283,202 @@ export default function ConsultingStaffProcessRequestPage() {
                   </Button>
                   <ZaloChat phone={selectedProcessRequest?.customerPhone} />
                 </>
+              )) ||
+              (selectedProcessRequest?.status === "Valuated" && (
+                <>
+                  <Button
+                    colorScheme="teal"
+                    onClick={() => {
+                      fetchValuationResult(selectedValuationRequest?.id);
+                      viewValuationResult.onOpen();
+                    }}
+                  >
+                    View
+                  </Button>
+                  <ZaloChat phone={selectedProcessRequest?.customerPhone} />
+                </>
+              )) ||
+              (selectedProcessRequest?.status === "Finished" && (
+                <>
+                  <SimpleGrid columns={2} spacing={5}>
+                    <Button
+                      colorScheme="teal"
+                      onClick={() => {
+                        fetchValuationResult(selectedValuationRequest?.id);
+                        viewValuationResult.onOpen();
+                      }}
+                    >
+                      View
+                    </Button>
+                    <ZaloChat phone={selectedProcessRequest?.customerPhone} />
+                    <Button colorScheme="blue">Cust. Received</Button>
+                    <Button colorScheme="red">Lost Receipt</Button>
+                  </SimpleGrid>
+                </>
               ))}
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <Modal
+        isOpen={viewValuationResult.isOpen}
+        onClose={viewValuationResult.onClose}
+        size={"full"}
+      >
+        <ModalOverlay />
+        <ModalContent ref={valuationResultRef} p={5}>
+          <ModalHeader>
+            <Flex direction={"row"} gap={5}>
+              <Icon as={GiDiamondTrophy} w={16} h={16} />
+              <Text fontFamily={"The Nautigal"} fontSize={"5xl"}>
+                DiamondVal
+              </Text>
+            </Flex>
+          </ModalHeader>
+          <ModalBody>
+            <Flex direction={"column"} gap={2} p={5}>
+              <Flex direction={"column"} gap={5} align={"center"}>
+                <Text fontSize={"2xl"}>
+                  <strong>Valuation Result ID</strong>:{" "}
+                  {selectedValuationResult?.id || "N/A"}
+                </Text>
+              </Flex>
+              <SimpleGrid columns={2} spacing={10}>
+                <Flex direction={"column"} gap={5} bg={"blue.100"} p={5}>
+                  <Text bg={"blue.400"} p={2}>
+                    Grading Report
+                  </Text>
+                  <Text>
+                    <strong>ID</strong>: {selectedValuationResult?.id}
+                  </Text>
+                  <Text>
+                    <strong>Valuated Date</strong>:{" "}
+                    {selectedValuationResult?.createdDate?.slice(0, 10)}
+                  </Text>
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Origin"
+                  ) && (
+                    <Text>
+                      <strong>Origin: </strong>
+                      {selectedValuationResult?.origin}
+                    </Text>
+                  )}
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Shape"
+                  ) && (
+                    <Text>
+                      <strong>Shape: </strong>
+                      {selectedValuationResult?.shape}
+                    </Text>
+                  )}
+                  <Text>
+                    <strong>Price: </strong>
+                    {selectedValuationResult?.price}
+                  </Text>
+                  <Text bg={"blue.400"} p={2}>
+                    4C Grading Result
+                  </Text>
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Carat"
+                  ) && (
+                    <Text>
+                      <strong>Carat: </strong>
+                      {selectedValuationResult?.carat}
+                    </Text>
+                  )}
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Color"
+                  ) && (
+                    <Text>
+                      <strong>Color: </strong>
+                      {selectedValuationResult?.color}
+                    </Text>
+                  )}
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Cut"
+                  ) && (
+                    <Text>
+                      <strong>Cut: </strong>
+                      {selectedValuationResult?.cut}
+                    </Text>
+                  )}
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Clarity"
+                  ) && (
+                    <Text>
+                      <strong>Clarity: </strong>
+                      {selectedValuationResult?.clarity}
+                    </Text>
+                  )}
+                </Flex>
+                <Flex direction={"column"} gap={5} bg={"blue.100"} p={5}>
+                  <Text bg={"blue.400"} p={2}>
+                    Additional Grading Information
+                  </Text>
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Symmetry"
+                  ) && (
+                    <Text>
+                      <strong>Symmetry: </strong>
+                      {selectedValuationResult?.symmetry}
+                    </Text>
+                  )}
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Polish"
+                  ) && (
+                    <Text>
+                      <strong>Polish: </strong>
+                      {selectedValuationResult?.polish}
+                    </Text>
+                  )}
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Fluorescence"
+                  ) && (
+                    <Text>
+                      <strong>Fluorescence: </strong>
+                      {selectedValuationResult?.fluorescence}
+                    </Text>
+                  )}
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Measurements"
+                  ) && (
+                    <Text>
+                      <strong>Measurements: </strong>
+                      {selectedValuationResult?.measurements}
+                    </Text>
+                  )}
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Table"
+                  ) && (
+                    <Text>
+                      <strong>Table: </strong>
+                      {selectedValuationResult?.diamondTable}
+                    </Text>
+                  )}
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "Depth"
+                  ) && (
+                    <Text>
+                      <strong>Depth: </strong>
+                      {selectedValuationResult?.depth}
+                    </Text>
+                  )}
+                  {selectedValuationResult?.serviceStatistic?.includes(
+                    "L/W Ratio"
+                  ) && (
+                    <Text>
+                      <strong>L/W Ratio: </strong>
+                      {selectedValuationResult?.lengthToWidthRatio}
+                    </Text>
+                  )}
+                </Flex>
+              </SimpleGrid>
+            </Flex>
+          </ModalBody>
+          <ModalFooter justifyContent={"space-around"}>
+            <Button onClick={handlePrintValuationResult}>Print</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal> */}
     </>
   );
 }

@@ -3,14 +3,17 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.CreateImageDTO;
 import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
 import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
+import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @CrossOrigin
@@ -29,6 +32,15 @@ public class ValuationResultController {
         return valuationResultService.getValuationResultById(id);
     }
 
+    @GetMapping(path = "/customer/get")
+    public Page<ValuationResultEntity> getListValuationResultByCustomerId(@RequestParam("page") int page, @RequestParam("id") int id) {
+        return valuationResultService.getValuationResultsByCustomerId(page, id);
+    }
+
+    @GetMapping(path = "/valuation-request/get")
+    public Optional<ValuationResultEntity> getValuationResultByRequestId(@RequestParam("id") int id) {
+        return valuationResultService.getValuationResultByValuationRequestId(id);
+    }
 
     @GetMapping(path = "/image/get")
     public List<String> getValuationResultImage(@RequestParam("id") String id) {
@@ -54,4 +66,9 @@ public class ValuationResultController {
     public List<DiamondPojo> scrapeLabGrownDiamonds(@RequestParam String shape) {
         return valuationResultService.crawlLabGrownDiamond(shape);
     }
+    @GetMapping("/crawl-detail-natural")
+    public List<DetailDiamondPojo> getMethodName(@RequestParam("carat") String carat) {
+        return valuationResultService.crawlDetailDiamond(carat);
+    }
+    
 }
