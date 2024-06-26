@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -36,10 +36,12 @@ public class AccountEntity {
     @JoinColumn(name = "role_id")
     private RoleEntity role;
 
+    @NotNull
     @Pattern(regexp = "(?!\\s)[a-zA-Z0-9]+$", message = "Invalid username")
     @Column(name = "username")
     private String username;
 
+    @NotNull
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{8,}$", message = "Invalid password")
     @Column(name = "password")
     private String password;
@@ -48,6 +50,7 @@ public class AccountEntity {
     @Column(name = "full_name")
     private String fullname;
 
+    @NotNull
     @Email(message = "Invalid email", regexp = "([a-zA-Z0-9]+)([\\_\\.\\-{1}])?([a-zA-Z0-9]+)\\@([a-zA-Z0-9]+)([\\.])([a-zA-Z\\.]+)")
     @Column(name = "email")
     private String email;
@@ -58,12 +61,6 @@ public class AccountEntity {
 
     @Column(name = "address")
     private String address;
-    
-    @OneToMany(mappedBy = "managerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<SealingLetterEntity> sealingLetterEntities = new HashSet<>();
-
-    @OneToMany(mappedBy = "managerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<CommitmentLetterEntity> commitmentLetterEntities = new HashSet<>();
 
     @OneToMany(mappedBy = "staffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessRequestEntity> processRequestEntity = new HashSet<>();
@@ -75,7 +72,7 @@ public class AccountEntity {
     private Set<ProcessResultEntity> processResultEntity = new HashSet<>();
 
     @OneToMany(mappedBy = "customerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<PaymentEntity> paymentEntity=new HashSet<>();
+    private Set<PaymentEntity> paymentEntity = new HashSet<>();
 
     public AccountEntity(RoleEntity role_id, String username, String password, String fullname, String phone_number, String email) {
         this.role = role_id;
