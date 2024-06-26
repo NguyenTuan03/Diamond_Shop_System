@@ -17,6 +17,7 @@ const routes = {
   login: "/login",
   logout: "/logout",
   error: "*",
+  aboutUs: "/aboutUs",
   // Customer's Dashboard
   dashboard: "/dashboard",
   dasboardNotification: "/dashboard/notifications",
@@ -24,6 +25,5 @@ const routes = {
   dashboardAppoint: "/dashboard/appointments",
   dashboardSearch: "/dashboard/search",
   dashboardRequest: "/dashboard/request",
-  // Admin's Dashboard
 };
 export default routes;
