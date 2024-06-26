@@ -153,7 +153,7 @@ export default function Calculate() {
 
   return (
     <>
-      <ScrollToTop smooth />
+      <ScrollToTop smooth style={{display:"flex" ,alignItems:"center", justifyContent:"center", padding:"4px"}}/>
       <Container maxW={"9xl"}>
         <Flex
           direction="column"

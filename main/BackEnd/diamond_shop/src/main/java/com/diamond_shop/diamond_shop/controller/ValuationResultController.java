@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.CreateImageDTO;
 import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
 import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
+import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @CrossOrigin
@@ -64,4 +66,9 @@ public class ValuationResultController {
     public List<DiamondPojo> scrapeLabGrownDiamonds(@RequestParam String shape) {
         return valuationResultService.crawlLabGrownDiamond(shape);
     }
+    @GetMapping("/crawl-detail-natural")
+    public List<DetailDiamondPojo> getMethodName(@RequestParam("carat") String carat) {
+        return valuationResultService.crawlDetailDiamond(carat);
+    }
+    
 }
