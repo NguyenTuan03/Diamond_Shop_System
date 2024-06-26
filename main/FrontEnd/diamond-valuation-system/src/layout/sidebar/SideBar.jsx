@@ -1,23 +1,29 @@
 import {
-
-    Avatar,
-    Box,
-    Flex,
-    StackDivider,
-    Text,
-    VStack,
-    WrapItem,
+  Avatar,
+  Box,
+  Flex,
+  StackDivider,
+  Text,
+  VStack,
+  WrapItem,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { IoHomeOutline } from "react-icons/io5";
-import { IoIosNotificationsOutline, IoMdSearch } from "react-icons/io";
+import {
+  IoHomeOutline,
+  IoNewspaperOutline,
+  IoDiamondSharp,
+} from "react-icons/io5";
+import { IoIosNotificationsOutline, IoMdSearch, IoMdAdd } from "react-icons/io";
 import { CiCalendar, CiBellOn, CiSettings } from "react-icons/ci";
 import { PiCalculatorThin } from "react-icons/pi";
+import { VscServerProcess } from "react-icons/vsc";
+import { BsNewspaper } from "react-icons/bs";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import routes from "../../config/Config";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
+import Profile from "../../components/Profile";
 export default function SideBar() {
     const auth = useContext(UserContext);
     console.log(auth);
