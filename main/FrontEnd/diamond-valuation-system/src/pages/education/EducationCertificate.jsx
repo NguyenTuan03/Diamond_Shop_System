@@ -841,5 +841,3 @@ export default function EducationCertificate() {
     </>
   );
 }
-
-

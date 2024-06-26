@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Image,
   Flex,
@@ -14,6 +14,7 @@ import { Search2Icon } from "@chakra-ui/icons";
 import { IoDiamond } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import routes from "../../config/Config";
+
 export default function Home() {
   const bgColor = useColorModeValue("white", "black");
   return (
@@ -26,7 +27,15 @@ export default function Home() {
           alignItems="center"
           gap={10}
         >
-          <Flex direction="column" fontWeight="bold">
+          <Image boxSize={{ base: "100px", md: "120px", lg: "200px" }}
+          position="absolute"
+          top="27%"
+          left="50px"
+          transform="translate(-50%, -50%)"
+          zIndex={1}
+          opacity={0.5}
+          src="https://stonealgo-3.b-cdn.net/static/dist/next/images/blobs-diamond.svg"/>
+          <Flex direction="column" fontWeight="bold" zIndex={2}>
             <Text
               fontSize={{ base: "xl", md: "4xl", lg: "5xl" }}
               align={{ base: "center", md: "left", lg: "left" }}
