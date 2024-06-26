@@ -33,12 +33,13 @@ import { useReactToPrint } from "react-to-print";
 import ZaloChat from "../../../components/zalo/ZaloChat";
 import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
-export default function ProcessRequestTable({ type }) {
+export default function ProcessRequestTable() {
   const toast = useToast();
   const user = useContext(UserContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const [processRequest, setProcessRequest] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
   const [selectedProcessRequest, setSelectedProcessRequest] = useState({});
   const [selectedValuationRequest, setSelectedValuationRequest] = useState({});
   const [selectedValuationResult, setSelectedValuationResult] = useState({});
@@ -48,25 +49,35 @@ export default function ProcessRequestTable({ type }) {
   const handlePrintValuationResult = useReactToPrint({
     content: () => valuationResultRef.current,
   });
-  const fetchProcessRequest = (page, consultingStaffId) => {
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/process-request/get/${type}?page=${page}&id=${consultingStaffId}`
-      )
-      .then(function (response) {
-        console.log(response.data);
-        if (response.status === 200) {
-          Promise.all(
-            response.data.content.map(async (item) => {
-              await checkValuationRequestFinished(item.id);
-            })
-          );
-          setProcessRequest(response.data.content);
-          setTotalPages(response.data?.totalPages);
-        }
-      });
+  const fetchProcessRequest = (page, id) => {
+    let url = "";
+    if (user.userAuth.roleid === 2) {
+      url = `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/process-request/get/all?page=${page}`;
+    } else if (user.userAuth.roleid === 3) {
+      url = `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/process-request/get/consulting-staff?page=${page}&id=${id}`;
+    } else if (user.userAuth.roleid === 5) {
+      url = `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/process-request/get/customer?page=${page}&id=${id}`;
+    }
+    axios.get(url).then(function (response) {
+      console.log(response.data);
+      if (response.status === 200) {
+        Promise.all(
+          response.data.content.map(async (item) => {
+            await checkValuationRequestFinished(item.id, setIsChecked);
+            await checkValuationRequestSealed(item.id, setIsChecked);
+          })
+        );
+
+        setProcessRequest(response.data.content);
+        setTotalPages(response.data?.totalPages);
+      }
+    });
   };
   const updateProcessRequest = (processRequestId, status) => {
     axios
@@ -92,7 +103,10 @@ export default function ProcessRequestTable({ type }) {
         }
       });
   };
-  const checkValuationRequestFinished = async (processRequestId) => {
+  const checkValuationRequestFinished = async (
+    processRequestId,
+    setIsChecked
+  ) => {
     await axios
       .get(
         `${
@@ -103,7 +117,7 @@ export default function ProcessRequestTable({ type }) {
         if (response.status === 200) {
           console.log(response.data);
           if (response.data === "Finished request") {
-            fetchProcessRequest(currentPage, user.userAuth.id);
+            setIsChecked(true);
             toast({
               title: "Success",
               description:
@@ -116,9 +130,42 @@ export default function ProcessRequestTable({ type }) {
         }
       });
   };
+  const checkValuationRequestSealed = async (
+    processRequestId,
+    setIsChecked
+  ) => {
+    await axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-request/process-request/check-sealed?id=${processRequestId}`
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          if (response.data === "Sealed request") {
+            setIsChecked(true);
+            toast({
+              title: "Success",
+              description:
+                "Valuation request sealed. Please contact customer to receive diamond.",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          }
+        }
+      });
+  };
   useEffect(() => {
     fetchProcessRequest(currentPage, user.userAuth.id);
   }, []);
+  useEffect(() => {
+    if (isChecked) {
+      fetchProcessRequest(currentPage, user.userAuth.id);
+      setIsChecked(false);
+    }
+  }, [isChecked]);
   const fetchValuationRequest = (pendingRequestId) => {
     axios
       .get(
@@ -143,6 +190,36 @@ export default function ProcessRequestTable({ type }) {
       .then(function (response) {
         console.log(response.data);
         setSelectedValuationResult(response.data);
+      });
+  };
+  const createSealingLetter = (valuationRequestId) => {
+    axios
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/sealing-letter/create?valuationRequestId=${valuationRequestId}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        if (response.status === 200) {
+          if (response.data.includes("successful")) {
+            toast({
+              title: "Success",
+              description: response.data,
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          }else if(response.data.includes("already exists")){
+            toast({
+              title: "Failed",
+              description: response.data,
+              status: "warning",
+              duration: 3000,
+              isClosable: true,
+            });
+          }
+        }
       });
   };
   return (
@@ -194,22 +271,42 @@ export default function ProcessRequestTable({ type }) {
         <ModalContent>
           <ModalHeader>
             <ModalCloseButton />
-            Process Request ID: {selectedProcessRequest?.id || "N/A"}
+            Valuation Request ID: {selectedProcessRequest?.id || "N/A"}
           </ModalHeader>
           <ModalBody>
             <Flex direction={"column"} gap={5}>
-              <Text>
-                <strong>Customer Name</strong>:{" "}
-                {selectedProcessRequest?.customerName || "N/A"}
-              </Text>
-              <Text>
-                <strong>Customer Email</strong>:{" "}
-                {selectedProcessRequest?.customerEmail || "N/A"}
-              </Text>
-              <Text>
-                <strong>Customer Phone</strong>:{" "}
-                {selectedProcessRequest?.customerPhone || "N/A"}
-              </Text>
+              {(user.userAuth.roleid === 2 || user.userAuth.roleid === 3) && (
+                <>
+                  <Text>
+                    <strong>Customer Name</strong>:{" "}
+                    {selectedProcessRequest?.customerName || "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>Customer Email</strong>:{" "}
+                    {selectedProcessRequest?.customerEmail || "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>Customer Phone</strong>:{" "}
+                    {selectedProcessRequest?.customerPhone || "N/A"}
+                  </Text>
+                </>
+              )}
+              {(user.userAuth.roleid === 2 || user.userAuth.roleid === 5) && (
+                <>
+                  <Text>
+                    <strong>Staff Name</strong>:{" "}
+                    {selectedProcessRequest?.consultingStaffName || "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>Staff Email</strong>:{" "}
+                    {selectedProcessRequest?.consultingStaffEmail || "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>Staff Phone</strong>:{" "}
+                    {selectedProcessRequest?.consultingStaffPhone || "N/A"}
+                  </Text>
+                </>
+              )}
               <Text>
                 <strong>Service Type</strong>:{" "}
                 {selectedValuationRequest?.serviceName || "N/A"}
@@ -236,60 +333,61 @@ export default function ProcessRequestTable({ type }) {
               </Text>
             </Flex>
           </ModalBody>
-          {(type === "consulting-staff" && (
+          {(user.userAuth.roleid === 2 && (
             <ModalFooter justifyContent={"space-around"}>
-              {(selectedProcessRequest?.status === "Not resolved yet" && (
-                <>
-                  <Button
-                    onClick={() => {
-                      viewValuationRequest.onClose();
-                      updateProcessRequest(
-                        selectedProcessRequest?.id,
-                        "Contacted"
-                      );
-                    }}
-                  >
-                    Contacted
-                  </Button>
-                  <ZaloChat phone={selectedProcessRequest?.customerPhone} />
-                </>
-              )) ||
-                (selectedProcessRequest?.status === "Contacted" && (
-                  <ZaloChat phone={selectedProcessRequest?.customerPhone} />
-                )) ||
-                (selectedProcessRequest?.status === "Paid" && (
+              {selectedProcessRequest?.status === "Sealed" && (
+                <Button
+                  onClick={() => {
+                    createSealingLetter(selectedValuationRequest?.id);
+                  }}
+                >
+                  Create sealing letter
+                </Button>
+              )}
+            </ModalFooter>
+          )) ||
+            (user.userAuth.roleid === 3 && (
+              <ModalFooter justifyContent={"space-around"}>
+                {(selectedProcessRequest?.status === "Not resolved yet" && (
                   <>
                     <Button
                       onClick={() => {
                         viewValuationRequest.onClose();
                         updateProcessRequest(
                           selectedProcessRequest?.id,
-                          "Diamond Received"
+                          "Contacted"
                         );
                       }}
                     >
-                      Diamond Received
+                      Contacted
                     </Button>
                     <ZaloChat phone={selectedProcessRequest?.customerPhone} />
                   </>
                 )) ||
-                (selectedProcessRequest?.status === "Valuated" && (
-                  <>
-                    <Button
-                      colorScheme="teal"
-                      onClick={() => {
-                        fetchValuationResult(selectedValuationRequest?.id);
-                        viewValuationResult.onOpen();
-                      }}
-                    >
-                      View
-                    </Button>
+                  (selectedProcessRequest?.status === "Contacted" && (
                     <ZaloChat phone={selectedProcessRequest?.customerPhone} />
-                  </>
-                )) ||
-                (selectedProcessRequest?.status === "Finished" && (
-                  <>
-                    <SimpleGrid columns={2} spacing={5}>
+                  )) ||
+                  (selectedProcessRequest?.status === "Paid" && (
+                    <>
+                      <Button
+                        onClick={() => {
+                          viewValuationRequest.onClose();
+                          updateProcessRequest(
+                            selectedProcessRequest?.id,
+                            "Diamond Received"
+                          );
+                        }}
+                      >
+                        Diamond Received
+                      </Button>
+                      <ZaloChat phone={selectedProcessRequest?.customerPhone} />
+                    </>
+                  )) ||
+                  (selectedProcessRequest?.status === "Diamond Received" && (
+                    <ZaloChat phone={selectedProcessRequest?.customerPhone} />
+                  )) ||
+                  (selectedProcessRequest?.status === "Valuated" && (
+                    <>
                       <Button
                         colorScheme="teal"
                         onClick={() => {
@@ -300,14 +398,47 @@ export default function ProcessRequestTable({ type }) {
                         View
                       </Button>
                       <ZaloChat phone={selectedProcessRequest?.customerPhone} />
-                      <Button colorScheme="blue">Cust. Received</Button>
-                      <Button colorScheme="red">Lost Receipt</Button>
-                    </SimpleGrid>
-                  </>
-                ))}
-            </ModalFooter>
-          )) ||
-            (type === "customer" && (
+                    </>
+                  )) ||
+                  (selectedProcessRequest?.status === "Finished" && (
+                    <>
+                      <SimpleGrid columns={2} spacing={5}>
+                        <Button
+                          colorScheme="teal"
+                          onClick={() => {
+                            fetchValuationResult(selectedValuationRequest?.id);
+                            viewValuationResult.onOpen();
+                          }}
+                        >
+                          View
+                        </Button>
+                        <ZaloChat
+                          phone={selectedProcessRequest?.customerPhone}
+                        />
+                        <Button
+                          colorScheme="blue"
+                          onClick={() => {
+                            updateProcessRequest(
+                              selectedProcessRequest?.id,
+                              "Done"
+                            );
+                          }}
+                        >
+                          Cust. Received
+                        </Button>
+                        <Button colorScheme="red">Lost Receipt</Button>
+                      </SimpleGrid>
+                    </>
+                  )) ||
+                  (selectedProcessRequest?.status === "Done" && (
+                    <ZaloChat phone={selectedProcessRequest?.customerPhone} />
+                  )) ||
+                  (selectedProcessRequest?.status === "Sealed" && (
+                    <ZaloChat phone={selectedProcessRequest?.customerPhone} />
+                  ))}
+              </ModalFooter>
+            )) ||
+            (user.userAuth.roleid === 5 && (
               <ModalFooter justifyContent={"space-around"}>
                 {(selectedProcessRequest?.status === "Not resolved yet" && (
                   <ZaloChat
@@ -356,7 +487,7 @@ export default function ProcessRequestTable({ type }) {
             ))}
         </ModalContent>
       </Modal>
-      {(type === "consulting-staff" && (
+      {(user.userAuth.roleid === 3 && (
         <Modal
           isOpen={viewValuationResult.isOpen}
           onClose={viewValuationResult.onClose}
@@ -518,7 +649,7 @@ export default function ProcessRequestTable({ type }) {
           </ModalContent>
         </Modal>
       )) ||
-        (type === "customer" && (
+        (user.userAuth.roleid === 5 && (
           <Modal
             isOpen={viewValuationResult.isOpen}
             onClose={viewValuationResult.onClose}

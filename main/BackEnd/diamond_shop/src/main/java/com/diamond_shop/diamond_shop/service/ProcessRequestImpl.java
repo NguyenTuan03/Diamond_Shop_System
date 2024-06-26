@@ -32,6 +32,13 @@ public class ProcessRequestImpl implements ProcessRequestService {
 
 
     @Override
+    public Page<ProcessRequestEntity> viewAllProcessRequests(int page) {
+        int pageSize = 5;
+        int pageNumber = --page;
+        return processRequestRepository.findAllProcessResults(PageRequest.of(pageNumber, pageSize));
+    }
+
+    @Override
     public Page<ProcessRequestEntity> viewProcessRequestsByConsultingStaffId(int page, int consultingStaff) {
         int pageSize = 5;
         int pageNumber = --page;
@@ -78,6 +85,11 @@ public class ProcessRequestImpl implements ProcessRequestService {
             processResultService.processResult(processRequest);
             processRequest.setStatus(updateProcessRequestDTO.getStatus());
             processRequestRepository.save(processRequest);
+        } else if (updateProcessRequestDTO.getStatus().equals("Done")) {
+            processRequest.setStatus(updateProcessRequestDTO.getStatus());
+            processRequestRepository.save(processRequest);
+        } else if (updateProcessRequestDTO.getStatus().equals("Lost Receipt")) {
+
         }
         return "Update process request successfully!";
     }

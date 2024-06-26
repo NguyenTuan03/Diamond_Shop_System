@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 
 
 public interface ProcessRequestService {
+    Page<ProcessRequestEntity> viewAllProcessRequests(int page);
     Page<ProcessRequestEntity> viewProcessRequestsByConsultingStaffId(int page, int consultingStaff);
     Page<ProcessRequestEntity> viewProcessRequestsByCustomerId(int page, int customerId);
     String createProcessRequest(ReceivePendingRequestDTO receivePendingRequestDTO);
