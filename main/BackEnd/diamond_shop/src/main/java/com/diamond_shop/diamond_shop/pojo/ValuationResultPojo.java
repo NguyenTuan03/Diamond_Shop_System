@@ -2,7 +2,6 @@ package com.diamond_shop.diamond_shop.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -10,22 +9,24 @@ import java.util.Date;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class ValuatedDiamondPojo {
+public class ValuationResultPojo {
     private String id;
     private Date createdDate;
+    private String serviceName;
+    private String serviceStatistic;
     private String origin;
     private String shape;
-    private BigDecimal carat_weight;
+    private BigDecimal carat;
     private String color;
     private String cut;
     private String clarity;
-    private String measurements;
-    private String polish;
     private String symmetry;
+    private String polish;
     private String fluorescence;
-    private String proportions;
+    private String measurements;
+    private BigDecimal diamondTable;
+    private BigDecimal depth;
+    private BigDecimal lengthToWidthRatio;
     private BigDecimal price;
-//    private List<ValuatedDiamondImageEntity> images;
 }

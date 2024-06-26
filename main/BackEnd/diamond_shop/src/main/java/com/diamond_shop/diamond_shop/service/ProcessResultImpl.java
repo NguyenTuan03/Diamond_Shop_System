@@ -6,6 +6,8 @@ import com.diamond_shop.diamond_shop.repository.ProcessResultRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
 import com.diamond_shop.diamond_shop.repository.ValuationResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,13 +30,12 @@ public class ProcessResultImpl implements ProcessResultService {
     @Autowired
     private ValuationResultRepository valuationResultRepository;
 
-    //
-//
-//    @Override
-//    public Page<ProcessResultEntity> viewProcessResult(int valuationStaff) {
-//        return processResultRepository.findByStaffId(PageRequest.of(0, 5), valuationStaff);
-//    }
-//
+    @Override
+    public Page<ProcessResultEntity> getAllByValuationStaffId(int page, int valuationStaffId) {
+        int pageSize = 5, pageNumber = --page;
+        return processResultRepository.findAllByValuationStaffId(PageRequest.of(pageNumber, pageSize), valuationStaffId);
+    }
+
     @Override
     public String processResult(ProcessRequestEntity p) {
         RoleEntity roleEntity = roleRepository.findById(4).orElse(null);
@@ -55,6 +56,7 @@ public class ProcessResultImpl implements ProcessResultService {
         processResultRepository.save(processResult);
         return "Task assigned successfully!";
     }
+
     public AccountEntity getLeastOccupiedValuationStaff(List<AccountEntity> valuationStaff) {
         if (valuationStaff.isEmpty()) return null;
 
