@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -31,10 +29,6 @@ public class ValuationRequestEntity {
     private PendingRequestsEntity pendingRequestId;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "service_id")
-    private ServiceEntity serviceId;
-
-    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "payment_id")
     private PaymentEntity paymentId;
 
@@ -52,9 +46,16 @@ public class ValuationRequestEntity {
     @OneToOne(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuationResultEntity valuationResult;
 
+    @OneToOne(mappedBy = "valuationRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private SealingLetterEntity sealingLetter;
+
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    private ServiceEntity serviceId;
+
     public ValuationRequestEntity(PendingRequestsEntity pendingRequestId, ServiceEntity serviceId,
-            PaymentEntity paymentId, @NotNull(message = "Created date is mandatory") Date createdDate, Date finishDate,
-            @NotNull(message = "Sealing date is mandatory") Date sealingDate) {
+                                  PaymentEntity paymentId, @NotNull(message = "Created date is mandatory") Date createdDate, Date finishDate,
+                                  @NotNull(message = "Sealing date is mandatory") Date sealingDate) {
         this.pendingRequestId = pendingRequestId;
         this.serviceId = serviceId;
         this.paymentId = paymentId;
@@ -62,5 +63,5 @@ public class ValuationRequestEntity {
         this.finishDate = finishDate;
         this.sealingDate = sealingDate;
     }
-    
+
 }
