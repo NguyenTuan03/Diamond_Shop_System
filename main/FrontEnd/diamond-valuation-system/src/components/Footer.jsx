@@ -294,7 +294,7 @@ export default function Footer() {
               <Text fontWeight={"bold"} fontSize={"lg"}>
                 Company
               </Text>
-              <Link reloadDocument to={routes.educationCarat}>
+              <Link reloadDocument to={routes.aboutUs}>
                 About us
               </Link>
               <Link reloadDocument to={routes.educationCertificate}>

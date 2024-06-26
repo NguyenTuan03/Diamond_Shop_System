@@ -24,6 +24,7 @@ import DashBoardPrices from "./../pages/dashboard/DashBoardPrices";
 import DashBoardAppoint from "./../pages/dashboard/DashBoardAppoint";
 import DashBoardSearch from "./../pages/dashboard/DashBoardSearch";
 import DashBoardRequest from "./../pages/dashboard/DashBoardRequest";
+import AboutUs from "../pages/aboutUs/AboutUs.jsx";
 
 const ALlRoutes = [
   {
@@ -88,6 +89,10 @@ const ALlRoutes = [
     path: routes.error,
     component: Error,
     layout: null,
+  },
+  {
+    path: routes.aboutUs,
+    component: AboutUs,
   },
 
   {
