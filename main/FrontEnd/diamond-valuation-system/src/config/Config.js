@@ -1,6 +1,5 @@
 const routes = {
     home: "/",
-    search: "/search",
     diamondCalculate: "/diamond-calculate",
     diamondCheck: "/diamond-check",
     diamondCheckDetails: "/diamond-check/:valuationResultId",

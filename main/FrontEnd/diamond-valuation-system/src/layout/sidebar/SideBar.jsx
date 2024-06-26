@@ -28,8 +28,8 @@ export default function SideBar() {
                     <WrapItem mr={3}>
                         <Avatar
                             name={auth.userAuth.fullname}
-                            src='https://bit.ly/tioluwani-kolawole'
                         />
+                        
                     </WrapItem>
                     <Text color={"#000"}>{auth.userAuth.fullname}</Text>
                 </Flex>
@@ -139,23 +139,6 @@ export default function SideBar() {
                                 <Text ml={3}>Calculate</Text>
                             </Flex>
                         </Link>
-                        <Link to={routes.search}>
-                            <Flex
-                                pl={2}
-                                _hover={{
-                                    background: "rgb(55 65 81)",
-                                    color: "#fff",
-                                }}
-                                cursor="pointer"
-                                borderRadius={3}
-                                alignItems={"center"}
-                                h="40px"
-                                color={"#000"}
-                            >
-                                <IoMdSearch />
-                                <Text ml={3}>Search</Text>
-                            </Flex>
-                        </Link> 
                         <Link to={routes.diamondCheck}>
                             <Flex
                                 pl={2}

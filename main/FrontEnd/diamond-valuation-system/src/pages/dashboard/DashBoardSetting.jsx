@@ -9,16 +9,17 @@ import {
     useBreakpointValue,
     Button,
   } from "@chakra-ui/react";
-  import React from "react";
+  import React, { useContext } from "react";
   import "react-lazy-load-image-component/src/effects/blur.css";
   import { Link as LinkReactRouterDOM } from "react-router-dom";
   import Title from "../../components/Title";
   import ScrollToTop from "react-scroll-to-top";
   import AOS from 'aos';
   import 'aos/dist/aos.css';
+import { UserContext } from "../../components/GlobalContext/AuthContext";
   
-  export default function EducationCertificate() {
-  
+  export default function DashBoardSetting() {
+    const auth = useContext(UserContext);
     const bgColor = useColorModeValue("white", "black");
     const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
     AOS.init();
@@ -40,8 +41,8 @@ import {
               width={"80vw"}
             />
             
-            <Text class="pt-4 lg:pt-0 text-indigo-500 font-semibold">
-              Welcome: email
+            <Text display={"flex"}>
+              Welcome: {auth.userAuth.fullname}
             </Text>
           </Flex>
           <Divider m={"20px 0 20px 0"} />
@@ -53,7 +54,7 @@ import {
                 The following email addresses are associated with your account:
               </Text>
               <Text fontSize={{ xs: '14px', md: '16px' }}>
-                Email:
+                Email: {auth.userAuth.email}
               </Text>
             </Box>
             <Box bg='white' border='2px dashed grey' borderRadius='4px' p={4} color='#000' width='100%' minWidth={{md:1000}} sx={{ mt: 5, mb: 5 }}>
@@ -66,7 +67,7 @@ import {
               <Text fontSize={{ xs: '14px', md: '16px' }}>
               Please note: this action cannot be undone and all data associated with this account will be lost forever.
               </Text>
-              <Button bg='red' color='#fff'>
+              <Button bg='red' color='#fff' mt={"20px"}>
                 Delete
               </Button>
             </Box>
