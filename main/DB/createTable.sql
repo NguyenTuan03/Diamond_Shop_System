@@ -85,6 +85,7 @@ CREATE TABLE valuation_results(
 	depth DECIMAL(3,1),
 	length_to_width_ratio DECIMAL(3,1),
 	price DECIMAL(10,2)
+	FORGEIN KEY (valuation_request_id) REFERENCES valuation_requests(id)
 )
 
 

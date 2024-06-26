@@ -22,28 +22,12 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { ViewIcon } from "@chakra-ui/icons";
+import PageIndicator from "../../../components/PageIndicator";
 export default function CustomerPendingRequest() {
   const user = useContext(UserContext);
   const toast = useToast();
-  const pageIndicator = [];
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
-  if (totalPages !== null) {
-    for (let i = 1; i <= totalPages; i++) {
-      pageIndicator.push(
-        <Button
-          key={i}
-          colorScheme="teal"
-          variant={"outline"}
-          onClick={() => {
-            setCurrentPage(i);
-          }}
-        >
-          {i}
-        </Button>
-      );
-    }
-  }
   const viewPendingRequest = useDisclosure();
   const [pendingRequest, setPendingRequest] = useState([]);
   const [selectedPendingRequest, setSelectedPendingRequest] = useState({});
@@ -100,7 +84,7 @@ export default function CustomerPendingRequest() {
           </Tbody>
         </Table>
       </TableContainer>
-      {pageIndicator}
+      <PageIndicator totalPages={totalPages} setCurrentPage={setCurrentPage} />
       <Modal
         isOpen={viewPendingRequest.isOpen}
         onClose={viewPendingRequest.onClose}

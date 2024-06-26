@@ -12,10 +12,10 @@ import org.springframework.data.domain.Page;
 public interface ValuationRequestService {
     String makeRequest(int pendingId, int serviceId, int paymentId);
     Optional<ValuationRequestEntity> getValuationRequestByPendingRequestId(int pendingId);
+
+    //    Page<ValuationRequestEntity> viewRequest(String search, int pageId, String filter);
 //
-//    Page<ValuationRequestEntity> viewRequest(String search, int pageId, String filter);
-//
-//    String checkFinishDate(int valuationRequestId);
+    String checkFinishDateByProcessRequestId(int processRequestId);
 //
 //    List<ValuationRequestDTO> viewCustomerRequestId(int id);
 }

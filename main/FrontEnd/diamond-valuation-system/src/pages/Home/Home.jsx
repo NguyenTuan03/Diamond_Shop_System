@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Image,
   Flex,
@@ -14,7 +14,6 @@ import { Search2Icon } from "@chakra-ui/icons";
 import { IoDiamond } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import routes from "../../config/Config";
-
 export default function Home() {
   const bgColor = useColorModeValue("white", "black");
   return (

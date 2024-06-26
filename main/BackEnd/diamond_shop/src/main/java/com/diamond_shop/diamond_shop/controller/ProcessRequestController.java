@@ -26,12 +26,12 @@ public class ProcessRequestController {
     ValuationReceiptService valuationReceiptService;
 
     @GetMapping(path = "/get/consulting-staff")
-    public Page<ProcessRequestEntity> viewProcessRequestsByStaff(@RequestParam("page") int page, @RequestParam("consultingStaffId") int consultingStaffId) {
+    public Page<ProcessRequestEntity> viewProcessRequestsByStaff(@RequestParam("page") int page, @RequestParam("id") int consultingStaffId) {
         return processRequestService.viewProcessRequestsByConsultingStaffId(page, consultingStaffId);
     }
 
     @GetMapping(path = "/get/customer")
-    public Page<ProcessRequestEntity> viewProcessRequestsByCustomer(@RequestParam("page") int page, @RequestParam("customerId") int customerId) {
+    public Page<ProcessRequestEntity> viewProcessRequestsByCustomer(@RequestParam("page") int page, @RequestParam("id") int customerId) {
         return processRequestService.viewProcessRequestsByCustomerId(page, customerId);
     }
 

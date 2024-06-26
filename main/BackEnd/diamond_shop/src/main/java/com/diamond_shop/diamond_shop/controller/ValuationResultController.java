@@ -6,6 +6,7 @@ import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,15 @@ public class ValuationResultController {
         return valuationResultService.getValuationResultById(id);
     }
 
+    @GetMapping(path = "/customer/get")
+    public Page<ValuationResultEntity> getListValuationResultByCustomerId(@RequestParam("page") int page, @RequestParam("id") int id) {
+        return valuationResultService.getValuationResultsByCustomerId(page, id);
+    }
+
+    @GetMapping(path = "/valuation-request/get")
+    public Optional<ValuationResultEntity> getValuationResultByRequestId(@RequestParam("id") int id) {
+        return valuationResultService.getValuationResultByValuationRequestId(id);
+    }
 
     @GetMapping(path = "/image/get")
     public List<String> getValuationResultImage(@RequestParam("id") String id) {

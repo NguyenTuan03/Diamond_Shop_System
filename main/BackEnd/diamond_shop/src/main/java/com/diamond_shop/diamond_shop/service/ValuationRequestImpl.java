@@ -1,9 +1,6 @@
 package com.diamond_shop.diamond_shop.service;
 
-import com.diamond_shop.diamond_shop.entity.PaymentEntity;
-import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
-import com.diamond_shop.diamond_shop.entity.ServiceEntity;
-import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
+import com.diamond_shop.diamond_shop.entity.*;
 import com.diamond_shop.diamond_shop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +19,8 @@ public class ValuationRequestImpl implements ValuationRequestService {
     private ServiceRepository serviceRepository;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    ProcessRequestRepository processRequestRepository;
 
     @Autowired
     ProcessResultRepository processResultRepository;
@@ -63,43 +62,24 @@ public class ValuationRequestImpl implements ValuationRequestService {
     public Optional<ValuationRequestEntity> getValuationRequestByPendingRequestId(int pendingId) {
         return valuationRequestRepository.findByPendingRequestId(pendingId);
     }
-//
-//    @Override
-//    public Page<ValuationRequestEntity> viewRequest(String search, int pageId, String filter) {
-//        int pageSize = 5;
-//        int pageNumber = --pageId;
-//        if (search.isEmpty() && filter.isEmpty())
-//            return valuationRequestRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("id")));
-//        else if (!search.isEmpty() && filter.isEmpty())
-//            return valuationRequestRepository.searchNonFilter(PageRequest.of(pageNumber, pageSize, Sort.by("id")), search);
-//        else {
-//            switch (filter) {
-//                case "customerName":
-//                    return valuationRequestRepository.searchCustomerName(PageRequest.of(pageNumber, pageSize, Sort.by(filter)), search);
-//                case "serviceName":
-//                    return valuationRequestRepository.searchServiceName(PageRequest.of(pageNumber, pageSize, Sort.by(filter)), search);
-//                case "description":
-//                    return valuationRequestRepository.searchDescription(PageRequest.of(pageNumber, pageSize, Sort.by(filter)), search);
-//            }
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    public String checkFinishDate(int valuationRequestId) {
-//        ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
-//        if (valuationRequest == null)
-//            return "Not found valuation request";
-//        Date currentDate = new Date();
-//        if (currentDate.after(valuationRequest.getFinishDate())) {
-//            ProcessRequestEntity processRequest = processRequestRepository.findByValuationRequestId(valuationRequestId);
-//            if (!processRequest.getName().equals("Finished") && !processRequest.getName().equals("Customer Received")) {
-//                processRequest.setName("Finished");
-//                processRequestRepository.save(processRequest);
-//                return "Finish request";
-//            } else return "Already finished request";
-//        } else return "Not finish";
-//    }
+
+    @Override
+    public String checkFinishDateByProcessRequestId(int processRequestId) {
+        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findByProcessRequestId(processRequestId);
+        if (valuationRequest.isEmpty())
+            return "Valuation request not found";
+        Date currentDate = new Date();
+        if (currentDate.after(valuationRequest.get().getFinishDate())) {
+            Optional<ProcessRequestEntity> processRequest = processRequestRepository.findById(processRequestId);
+            if (processRequest.isEmpty())
+                return "Process request not found";
+            if (!processRequest.get().getStatus().equals("Finished") && !processRequest.get().getStatus().equals("Customer Received")) {
+                processRequest.get().setStatus("Finished");
+                processRequestRepository.save(processRequest.get());
+                return "Finished request";
+            } else return "Already finished request";
+        } else return "Not finish";
+    }
 //
 //    @Override
 //    public List<ValuationRequestDTO> viewCustomerRequestId(int id) {
