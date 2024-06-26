@@ -1,25 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import SideBar from "./sidebar/SideBar";
 import { Box, Flex } from "@chakra-ui/react";
 import SideBarAdmin from "./sidebar/SideBarAdmin";
 import SideBarManager from "./sidebar/SideBarManager";
 import SideBarConsultingStaff from "./sidebar/SideBarConsultingStaff";
 import SideBarValuationStaff from "./sidebar/SideBarValuationStaff";
+import { UserContext } from "../components/GlobalContext/AuthContext";
 
 export default function DashBoardLayout({ children }) {
-    let users = {
-        role: 5, // Test dashboard role
-    };
+    const user = useContext(UserContext);
     return (
         <Flex width={"100%"} height={"100vh"} bg={"rgb(243 244 246)"}>
             <Box w="256px">
-                {users.role === 1 && <SideBarAdmin />}
-                {users.role === 2 && <SideBarManager />}
-                {/* {users.role === 3 && <SideBarConsultingStaff />} */}
-                {users.role === 4 && <SideBarValuationStaff />}
-                {users.role === 5 && <SideBar />}
+                {user.userAuth.roleid === 1 && <SideBarAdmin />}
+                {user.userAuth.roleid === 2 && <SideBarManager />}
+                {user.userAuth.roleid === 3 && <SideBarConsultingStaff />}
+                {user.userAuth.roleid === 4 && <SideBarValuationStaff />}
+                {user.userAuth.roleid === 5 && <SideBar />}
             </Box>
-            <Box flex="1" bg="#fff" px={5} pt={5} mt={5}>
+            <Box flex="1" bg="#fff" px={5} pt={"120px"}>
                 {children}
             </Box>
         </Flex>

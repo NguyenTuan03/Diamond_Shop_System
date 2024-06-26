@@ -28,8 +28,8 @@ export default function SideBar() {
                     <WrapItem mr={3}>
                         <Avatar
                             name={auth.userAuth.fullname}
-                            src='https://bit.ly/tioluwani-kolawole'
                         />
+                        
                     </WrapItem>
                     <Text color={"#000"}>{auth.userAuth.fullname}</Text>
                 </Flex>
@@ -75,23 +75,6 @@ export default function SideBar() {
                             <Text ml={3}>Notifications</Text>
                         </Flex>
                     </Link>
-                    <Link to={routes.dashboardPrices}>
-                        <Flex
-                            pl={2}
-                            _hover={{
-                                background: "rgb(55 65 81)",
-                                color: "#fff",
-                            }}
-                            cursor="pointer"
-                            borderRadius={3}
-                            alignItems={"center"}
-                            h="40px"
-                            color={"#000"}
-                        >
-                            <CiBellOn />
-                            <Text ml={3}>Price Alerts</Text>
-                        </Flex>
-                    </Link>
                     <Link to={routes.dashboardAppoint}>
                         <Flex
                             pl={2}
@@ -109,23 +92,6 @@ export default function SideBar() {
                             <Text ml={3}>Appointments</Text>
                         </Flex>
                     </Link>
-                    <Link to={routes.dashboardSearch}>
-                        <Flex
-                            pl={2}
-                            _hover={{
-                                background: "rgb(55 65 81)",
-                                color: "#fff",
-                            }}
-                            cursor="pointer"
-                            borderRadius={3}
-                            alignItems={"center"}
-                            h="40px"
-                            color={"#000"}
-                        >
-                            <IoMdSearch />
-                            <Text ml={3}>Recent searches</Text>
-                        </Flex>
-                    </Link>
                 </VStack>
                 <Box borderTop={"2px solid #000"}>
                     <VStack
@@ -139,66 +105,57 @@ export default function SideBar() {
                         bg={"rgb(243 244 246)"}
                         borderTopColor={"#000"}
                     >
-                        <Flex
-                            pl={2}
-                            _hover={{
-                                background: "rgb(55 65 81)",
-                                color: "#fff",
-                            }}
-                            cursor="pointer"
-                            borderRadius={3}
-                            alignItems={"center"}
-                            h="40px"
-                            color={"#000"}
-                        >
-                            <CiSettings />
-                            <Text ml={3}>Setting</Text>
-                        </Flex>
-                        <Flex
-                            pl={2}
-                            _hover={{
-                                background: "rgb(55 65 81)",
-                                color: "#fff",
-                            }}
-                            cursor="pointer"
-                            borderRadius={3}
-                            alignItems={"center"}
-                            h="40px"
-                            color={"#000"}
-                        >
-                            <PiCalculatorThin />
-                            <Text ml={3}>Calculate</Text>
-                        </Flex>
-                        <Flex
-                            pl={2}
-                            _hover={{
-                                background: "rgb(55 65 81)",
-                                color: "#fff",
-                            }}
-                            cursor="pointer"
-                            borderRadius={3}
-                            alignItems={"center"}
-                            h="40px"
-                            color={"#000"}
-                        >
-                            <IoMdSearch />
-                            <Text ml={3}>Search</Text>
-                        </Flex>
-                        <Flex
-                            pl={2}
-                            _hover={{
-                                background: "rgb(55 65 81)",
-                                color: "#fff",
-                            }}
-                            cursor="pointer"
-                            borderRadius={3}
-                            alignItems={"center"}
-                            h="40px"
-                            color={"#000"}
-                        >
-                            <MdOutlineRemoveRedEye />
-                            <Text ml={3}>Diamond Check</Text>
-                        </Flex>
+                        <Link to={routes.dashboardSetting}>
+                            <Flex
+                                pl={2}
+                                _hover={{
+                                    background: "rgb(55 65 81)",
+                                    color: "#fff",
+                                }}
+                                cursor="pointer"
+                                borderRadius={3}
+                                alignItems={"center"}
+                                h="40px"
+                                color={"#000"}
+                            >
+                                <CiSettings />
+                                <Text ml={3}>Setting</Text>
+                            </Flex>
+                        </Link>
+                        <Link to={routes.diamondCalculate}>
+                            <Flex
+                                pl={2}
+                                _hover={{
+                                    background: "rgb(55 65 81)",
+                                    color: "#fff",
+                                }}
+                                cursor="pointer"
+                                borderRadius={3}
+                                alignItems={"center"}
+                                h="40px"
+                                color={"#000"}
+                            >
+                                <PiCalculatorThin />
+                                <Text ml={3}>Calculate</Text>
+                            </Flex>
+                        </Link>
+                        <Link to={routes.diamondCheck}>
+                            <Flex
+                                pl={2}
+                                _hover={{
+                                    background: "rgb(55 65 81)",
+                                    color: "#fff",
+                                }}
+                                cursor="pointer"
+                                borderRadius={3}
+                                alignItems={"center"}
+                                h="40px"
+                                color={"#000"}
+                            >
+                                <MdOutlineRemoveRedEye />
+                                <Text ml={3}>Diamond Check</Text>
+                            </Flex>
+                        </Link>
                     </VStack>
                 </Box>
             </Box>

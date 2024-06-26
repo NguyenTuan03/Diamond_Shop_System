@@ -7,7 +7,7 @@ import {
   VStack,
   WrapItem,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoIosNotificationsOutline, IoMdSearch } from "react-icons/io";
 import { CiCalendar, CiBellOn, CiSettings } from "react-icons/ci";
@@ -15,8 +15,10 @@ import { PiCalculatorThin } from "react-icons/pi";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import routes from "../../config/Config";
+import { UserContext } from "../../components/GlobalContext/AuthContext";
 export default function SideBarConsultingStaff() {
   const nav = useNavigate();
+  const auth = useContext(UserContext);
   return (
     <div>
             <Box>
@@ -28,7 +30,7 @@ export default function SideBarConsultingStaff() {
                             src="https://bit.ly/dan-abramov"
                         />
                     </WrapItem>
-                    <Text color={"#000"}>Nguyen ANh TUan</Text>
+                    <Text color={"#000"}>{auth.userAuth.fullname}</Text>
                 </Flex>
                 <VStack
                     py={5}
