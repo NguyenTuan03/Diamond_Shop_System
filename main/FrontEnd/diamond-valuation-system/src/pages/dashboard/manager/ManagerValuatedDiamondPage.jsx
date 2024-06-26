@@ -20,7 +20,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
-import UploadImage from "../../components/UploadImage";
+import UploadImage from "../../../components/UploadImage";
 import axios from "axios";
 export default function ManagerValuatedDiamondPage() {
   const [valuatedDiamond, setValuatedDiamond] = useState([]);

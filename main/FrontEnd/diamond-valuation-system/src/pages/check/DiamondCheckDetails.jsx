@@ -9,6 +9,7 @@ import {
   Text,
   UnorderedList,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Cloudinary } from "@cloudinary/url-gen/index";
@@ -18,45 +19,45 @@ import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 export default function DiamondCheckDetails() {
-  const { certificateId } = useParams();
+  const toast = useToast();
+  const { valuationResultId } = useParams();
   const cld = new Cloudinary({
     cloud: {
-      cloudName: "drmnbl51j",
+      cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
     },
   });
-  const location = useLocation();
   const bgColor = useColorModeValue("white", "black");
-  const diamondId = location.state?.diamondId;
   const [diamond, setDiamond] = useState({});
   const [diamondImages, setDiamondImages] = useState([]);
-  const formattedDate = new Date(diamond?.createdDate).toLocaleDateString();
-  let checkId = null;
-  if (diamondId === undefined) checkId = certificateId;
-  else checkId = diamondId;
 
-  const fetchValuatedDiamond = () => {
+  const fetchValuationResult = (id) => {
     axios
       .get(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuated-diamond/get?id=${checkId}`
+        }/api/valuation-result/get?id=${id}`
       )
       .then(function (response) {
-        // console.log(response.data);
-        if (response.data === null) {
-        } else {
-          setDiamond(response.data);
-          console.log(diamond);
-        }
+        console.log(response.data);
+        setDiamond(response.data);
       })
       .catch(function (error) {
         console.log(error);
+        toast({
+          title: "Error",
+          description: "Diamond not found",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
-  const fetchValuatedDiamondImages = () => {
+  const fetchValuatedDiamondImages = (valuationResultId) => {
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/valuated-diamond-image/get?diamondId=${checkId}`
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-result/image/get?id=${valuationResultId}`
       )
       .then(function (response) {
         console.log(response.data);
@@ -67,17 +68,18 @@ export default function DiamondCheckDetails() {
       });
   };
   useEffect(() => {
-    console.log(certificateId);
-    fetchValuatedDiamond();
-    fetchValuatedDiamondImages();
+    console.log(valuationResultId);
+    fetchValuationResult(valuationResultId);
+    fetchValuatedDiamondImages(valuationResultId);
+    console.log(diamondImages)
   }, []);
   return (
     <Flex
-      direction={{ base: "column", md: "row", lg: "row" }}
+      direction="column"
       alignItems="center"
       justifyContent="center"
       height={{ base: "", md: "100vh", lg: "100vh" }}
-      gap={{ base: 10, md: 15, lg: 20 }}
+      gap={5}
       p={10}
       bg={bgColor}
     >
@@ -109,7 +111,7 @@ export default function DiamondCheckDetails() {
           <Badge colorScheme="green">{diamond?.origin} Diamond</Badge>
         </Flex>
         <Text fontSize="sm" color={"gray"}>
-          Valuated Date: {formattedDate}
+          Valuated Date: {diamond?.createdDate?.slice(0, 10) || "N/A"}
         </Text>
         <UnorderedList>
           <ListItem>
@@ -118,12 +120,6 @@ export default function DiamondCheckDetails() {
               ${diamond?.price}
             </Text>
           </ListItem>
-          {/* <ListItem>
-            Estimate Range:{" "}
-            <Text display={"inline"} color={"blue.400"} fontWeight={"bold"}>
-              $5,563 - $8,929
-            </Text> 
-          </ListItem> */}
         </UnorderedList>
         <Grid
           templateColumns="repeat(4, 1fr)"
@@ -135,42 +131,18 @@ export default function DiamondCheckDetails() {
         >
           <GridItem>
             <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
-              Price
-            </Text>
-            <Text fontSize="sm" fontWeight={"bold"}>
-              ${diamond?.price || "0"}
-            </Text>
-          </GridItem>
-          <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
-              Cut
-            </Text>
-            <Text fontSize="sm" fontWeight={"bold"}>
-              {diamond?.cut || "N/A"}
-            </Text>
-          </GridItem>
-          <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
-              Origin
-            </Text>
-            <Text fontSize="sm" fontWeight={"bold"}>
-              {diamond?.origin || "N/A"}
-            </Text>
-          </GridItem>
-          <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
-              Measurement
-            </Text>
-            <Text fontSize="sm" fontWeight={"bold"}>
-              {diamond?.measurements || "N/A"}
-            </Text>
-          </GridItem>
-          <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
               Shape
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
               {diamond?.shape || "N/A"}
+            </Text>
+          </GridItem>
+          <GridItem>
+            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+              Carat
+            </Text>
+            <Text fontSize="sm" fontWeight={"bold"}>
+              {diamond?.carat || "0"} ct.
             </Text>
           </GridItem>
           <GridItem>
@@ -183,26 +155,10 @@ export default function DiamondCheckDetails() {
           </GridItem>
           <GridItem>
             <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
-              Fluorescence
+              Cut
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              {diamond?.fluorescence || "N/A"}
-            </Text>
-          </GridItem>
-          <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
-              Polish
-            </Text>
-            <Text fontSize="sm" fontWeight={"bold"}>
-              {diamond?.polish || "N/A"}
-            </Text>
-          </GridItem>
-          <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
-              Carat
-            </Text>
-            <Text fontSize="sm" fontWeight={"bold"}>
-              {diamond?.carat_weight || "0"} ct.
+              {diamond?.cut || "N/A"}
             </Text>
           </GridItem>
           <GridItem>
@@ -223,10 +179,50 @@ export default function DiamondCheckDetails() {
           </GridItem>
           <GridItem>
             <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
-              Proportions
+              Polish
             </Text>
             <Text fontSize="sm" fontWeight={"bold"}>
-              {diamond?.proportions || "N/A"}
+              {diamond?.polish || "N/A"}
+            </Text>
+          </GridItem>
+          <GridItem>
+            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+              Fluorescence
+            </Text>
+            <Text fontSize="sm" fontWeight={"bold"}>
+              {diamond?.fluorescence || "N/A"}
+            </Text>
+          </GridItem>
+          <GridItem>
+            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+              Measurement
+            </Text>
+            <Text fontSize="sm" fontWeight={"bold"}>
+              {diamond?.measurements || "N/A"}
+            </Text>
+          </GridItem>
+          <GridItem>
+            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+              Table
+            </Text>
+            <Text fontSize="sm" fontWeight={"bold"}>
+              {diamond?.diamondTable || "N/A"}
+            </Text>
+          </GridItem>
+          <GridItem>
+            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+              Depth
+            </Text>
+            <Text fontSize="sm" fontWeight={"bold"}>
+              {diamond?.depth || "N/A"}
+            </Text>
+          </GridItem>
+          <GridItem>
+            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+              Lenght to Width Ratio
+            </Text>
+            <Text fontSize="sm" fontWeight={"bold"}>
+              {diamond?.lengthToWidthRatio || "N/A"}
             </Text>
           </GridItem>
         </Grid>

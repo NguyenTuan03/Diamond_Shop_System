@@ -39,7 +39,7 @@ public class ValuationRequestEntity {
     private PaymentEntity paymentId;
 
     @NotNull(message = "Created date is mandatory")
-    @Column(name = "create_date")
+    @Column(name = "created_date")
     private Date createdDate;
 
     @Column(name = "finish_date")
@@ -48,13 +48,9 @@ public class ValuationRequestEntity {
     @NotNull(message = "Sealing date is mandatory")
     @Column(name = "sealing_date")
     private Date sealingDate;
-//Link with FK here
 
     @OneToOne(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuationResultEntity valuationResult;
-
-    @OneToOne(mappedBy = "valuationRequestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ValuationReceiptEntity valuationReceipt;
 
     public ValuationRequestEntity(PendingRequestsEntity pendingRequestId, ServiceEntity serviceId,
             PaymentEntity paymentId, @NotNull(message = "Created date is mandatory") Date createdDate, Date finishDate,

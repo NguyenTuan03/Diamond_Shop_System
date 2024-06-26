@@ -26,3 +26,4 @@ public class ValuationReceiptController {
        return valuationReceiptService.findByValuationRequestId(valuationRequestId);
    }
 }
+

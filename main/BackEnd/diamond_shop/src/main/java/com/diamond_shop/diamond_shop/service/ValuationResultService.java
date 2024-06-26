@@ -1,18 +1,31 @@
 package com.diamond_shop.diamond_shop.service;
 
-import java.util.List;
-
+import com.diamond_shop.diamond_shop.dto.CreateImageDTO;
 import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
+import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
+import com.diamond_shop.diamond_shop.entity.ValuationResultImageEntity;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface ValuationResultService {
 
-//    String valuateDiamond(ValuationResultDTO valuationResultDTO);
+    Optional<ValuationResultEntity> getValuationResultById(String id);
 
-//    String assignForValuationStaff(ProcessRequestEntity processRequest);
+    String valuateDiamond(String id, ValuationResultDTO valuationResultDTO);
 
-   List<DiamondPojo> crawlNaturalDiamond(String shape);
+    String createValuationResult(ProcessRequestEntity processRequest);
 
-   List<DiamondPojo> crawlLabGrownDiamond(String shape);
+    List<String> getValuationResultImage(String id);
+
+    String createValuationResultImage(CreateImageDTO createImageDTO);
+
+    String deleteValuationResultImage(String imageId);
+
+    List<DiamondPojo> crawlNaturalDiamond(String shape);
+
+    List<DiamondPojo> crawlLabGrownDiamond(String shape);
 }

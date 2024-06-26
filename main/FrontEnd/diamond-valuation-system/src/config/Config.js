@@ -3,7 +3,7 @@ const routes = {
   search: "/search",
   diamondCalculate: "/diamond-calculate",
   diamondCheck: "/diamond-check",
-  diamondCheckDetails: "/diamond-check/:certificateId",
+  diamondCheckDetails: "/diamond-check/:valuationResultId",
   diamondDetail: "/diamond-detail",
   diamondService: "/diamond-service",
   diamondValuationRequest: "/diamond-valuation-request",
@@ -17,13 +17,6 @@ const routes = {
   login: "/login",
   logout: "/logout",
   error: "*",
-  // ConsultingStaff's DashBoard
-  consulting_dashboard: "/consulting-staff-dashboard",
-  consulting_dasboardNotification: "/consulting-staff-dashboard/notifications",
-  consulting_dashboardPrices: "/consulting-staff-dashboard/prices",
-  consulting_dashboardAppoint: "/consulting-staff-dashboard/appointments",
-  consulting_dashboardSearch: "/consulting-staff-dashboard/search",
-  consulting_dashboardRequest: "/consulting-staff-dashboard/request",
   // Customer's Dashboard
   dashboard: "/dashboard",
   dasboardNotification: "/dashboard/notifications",

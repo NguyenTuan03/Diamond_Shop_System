@@ -1,5 +1,6 @@
 package com.diamond_shop.diamond_shop.service;
 
+import com.diamond_shop.diamond_shop.entity.ServiceEntity;
 import com.diamond_shop.diamond_shop.pojo.ServiceResultPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.ServiceRepository;
@@ -17,8 +18,8 @@ public class DiamondImpl implements DiamondService {
 //
 //    @Autowired
 //    private AccountRepository accountRepository;
-//    @Autowired
-//    private ServiceRepository serviceRepository;
+    @Autowired
+    private ServiceRepository serviceRepository;
 //
 //    @Override
 //    public ResponseEntity<String> fetchDiamondCalculate(String gradingLab, String carat, String shape, String color, String clarity, String cut) {
@@ -37,12 +38,10 @@ public class DiamondImpl implements DiamondService {
 //        return response;
 //    }
 //
-//    @Override
-//    public List<ServiceResultPojo> getAllServices() {
-//        List<ServiceResultPojo> services = serviceRepository.searchAllServices();
-//        System.out.println(services);
-//        return services;
-//    }
+    @Override
+    public List<ServiceResultPojo> getAllServices() {
+        return serviceRepository.getAllServices();
+    }
 //
 //    private String builderQueryString(Map<String, String> params) {
 //        StringBuilder stringBuilder = new StringBuilder();

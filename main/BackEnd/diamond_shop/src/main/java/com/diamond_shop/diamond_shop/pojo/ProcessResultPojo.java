@@ -11,21 +11,23 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 public class ProcessResultPojo {
-    private int valuationResultId;
+    private String valuationResultId;
     private String valuationStaffName;
     private String serviceName;
-    private String type;
-    private Date createdDate;
+    private String serviceStatistic;
+    private String status;
     private String origin;
     private String shape;
-    private BigDecimal caratWeight;
+    private BigDecimal carat;
     private String color;
     private String cut;
     private String clarity;
-    private String measurements;
-    private String polish;
     private String symmetry;
+    private String polish;
     private String fluorescence;
-    private String proportions;
+    private String measurements;
+    private BigDecimal diamondTable;
+    private BigDecimal depth;
+    private BigDecimal lengthToWidthRatio;
     private BigDecimal price;
 }
