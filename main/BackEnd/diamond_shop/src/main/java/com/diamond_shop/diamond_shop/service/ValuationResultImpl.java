@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.service;
 import com.diamond_shop.diamond_shop.dto.CreateImageDTO;
 import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
 import com.diamond_shop.diamond_shop.entity.*;
+import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.repository.*;
 import org.jsoup.Jsoup;
@@ -417,5 +418,47 @@ public class ValuationResultImpl implements ValuationResultService {
             }
         }
         return diamonds;
+    }
+
+    @Override
+    public List<DetailDiamondPojo> crawlDetailDiamond(String carat) {
+        String url = "https://www.stonealgo.com/diamond-prices/" + carat + "-carat-diamond-prices/";
+        List<DetailDiamondPojo> diamondPrices = new ArrayList<>();
+
+        try {
+            Document doc = Jsoup.connect(url).get();
+            Elements xAxisElements = doc.select("apexcharts-xaxis-texts-g text > title");
+            List<String> dates = new ArrayList<>();
+            for (Element element : xAxisElements) {
+                String date = element.text();
+                if (!date.isEmpty()) {
+                    dates.add(date);
+                }
+            }
+
+            Elements yAxisElements = doc.select("apexcharts-yaxis-texts-g text > title");
+            List<Double> prices = new ArrayList<>();
+            for (Element element : yAxisElements) {
+                String priceText = element.text().replace("%", "");
+                if (!priceText.isEmpty()) {
+                    try {
+                        double price = Double.parseDouble(priceText);
+                        prices.add(price);
+                    } catch (NumberFormatException e) {
+                        
+                    }
+                }
+            }
+
+            for (int i = 0; i < Math.min(dates.size(), prices.size()); i++) {
+                DetailDiamondPojo diamondPrice = new DetailDiamondPojo(prices.get(i), dates.get(i));
+                diamondPrices.add(diamondPrice);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return diamondPrices;
     }
 }
