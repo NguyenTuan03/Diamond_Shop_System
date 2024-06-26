@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ValuationResultRepository extends JpaRepository<ValuationResultEntity, Integer> {
+public interface ValuationResultRepository extends JpaRepository<ValuationResultEntity, String> {
 
 //    @Query("SELECT p FROM ValuationResultEntity p WHERE p.id=:id")
 //    ValuationResultEntity findById(@Param("id") int id);
