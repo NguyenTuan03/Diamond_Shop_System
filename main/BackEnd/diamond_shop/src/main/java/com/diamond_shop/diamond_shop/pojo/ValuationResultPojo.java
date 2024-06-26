@@ -13,6 +13,8 @@ import java.util.Date;
 public class ValuationResultPojo {
     private String id;
     private Date createdDate;
+    private String serviceName;
+    private String serviceStatistic;
     private String origin;
     private String shape;
     private BigDecimal carat;

@@ -5,6 +5,7 @@ import com.diamond_shop.diamond_shop.service.PaymentService;
 import com.diamond_shop.diamond_shop.service.ProcessRequestService;
 import com.diamond_shop.diamond_shop.service.ValuationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -16,14 +17,9 @@ import java.util.Optional;
 public class ValuationRequestController {
     @Autowired
     private ValuationRequestService valuationRequestService;
-    @Autowired
-    private ProcessRequestService processRequestService;
 
-    @Autowired
-    private PaymentService paymentService;
-
-    @GetMapping(path = "/get")
-    public Optional<ValuationRequestEntity> getValuationRequestByPendingRequestId(@RequestParam("pending-request-id") int pendingRequestId) {
+    @GetMapping(path = "/pending-request/get")
+    public Optional<ValuationRequestEntity> getValuationRequestByPendingRequestId(@RequestParam("id") int pendingRequestId) {
         return valuationRequestService.getValuationRequestByPendingRequestId(pendingRequestId);
     }
 
@@ -37,10 +33,10 @@ public class ValuationRequestController {
     //     return valuationRequestService.viewRequest(search, page, filter);
     // }
 
-    // @GetMapping(path = "/check-finished", produces = MediaType.APPLICATION_JSON_VALUE)
-    // public String checkFinishDate(@RequestParam("id") int id) {
-    //     return valuationRequestService.checkFinishDate(id);
-    // }
+     @GetMapping(path = "/process-request/check-finished", produces = MediaType.APPLICATION_JSON_VALUE)
+     public String checkFinishDateByProcessRequestId(@RequestParam("id") int id) {
+         return valuationRequestService.checkFinishDateByProcessRequestId(id);
+     }
 
     // @GetMapping(path = "/valuated-diamond")
     // public Optional<ValuatedDiamondEntity> getValuatedDiamond(@RequestParam("id") int id) {

@@ -15,6 +15,10 @@ public interface ValuationResultService {
 
     Optional<ValuationResultEntity> getValuationResultById(String id);
 
+    Page<ValuationResultEntity> getValuationResultsByCustomerId(int page, int customerId);
+
+    Optional<ValuationResultEntity> getValuationResultByValuationRequestId(int valuationRequestId);
+
     String valuateDiamond(String id, ValuationResultDTO valuationResultDTO);
 
     String createValuationResult(ProcessRequestEntity processRequest);
