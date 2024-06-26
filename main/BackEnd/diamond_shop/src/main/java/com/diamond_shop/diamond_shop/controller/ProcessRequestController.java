@@ -2,7 +2,6 @@ package com.diamond_shop.diamond_shop.controller;
 
 import com.diamond_shop.diamond_shop.dto.ReceivePendingRequestDTO;
 import com.diamond_shop.diamond_shop.dto.UpdateProcessRequestDTO;
-import com.diamond_shop.diamond_shop.dto.UpdateRequestDTO;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class ProcessRequestController {
     @Autowired
     private ProcessRequestService processRequestService;
-    @Autowired
-    private PendingRequestService pendingRequestService;
-    @Autowired
-    private ValuationResultService valuationResultService;
-    @Autowired
-    private ProcessResultService processResultService;
 
     @Autowired
     ValuationReceiptService valuationReceiptService;
+
+    @GetMapping(path = "/get/all")
+    public Page<ProcessRequestEntity> viewAllProcessRequest(@RequestParam("page") int page) {
+        return processRequestService.viewAllProcessRequests(page);
+    }
 
     @GetMapping(path = "/get/consulting-staff")
     public Page<ProcessRequestEntity> viewProcessRequestsByStaff(@RequestParam("page") int page, @RequestParam("id") int consultingStaffId) {

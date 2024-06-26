@@ -30,6 +30,22 @@ public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEn
             "p.pendingRequestId.customerId.fullname," +
             "p.pendingRequestId.customerId.email," +
             "p.pendingRequestId.customerId.phone_number) " +
+            "FROM ProcessRequestEntity as p")
+    Page<ProcessRequestEntity> findAllProcessResults(Pageable pageable);
+
+    @Query(value = "SELECT " +
+            "NEW com.diamond_shop.diamond_shop.pojo.ProcessRequestPojo(" +
+            "p.id, " +
+            "p.status," +
+            "p.pendingRequestId.description, " +
+            "p.pendingRequestId.id," +
+            "p.staffId.id," +
+            "p.staffId.fullname, " +
+            "p.staffId.phone_number," +
+            "p.pendingRequestId.customerId.id," +
+            "p.pendingRequestId.customerId.fullname," +
+            "p.pendingRequestId.customerId.email," +
+            "p.pendingRequestId.customerId.phone_number) " +
             "FROM ProcessRequestEntity as p " +
             "WHERE p.staffId.id=:consultingStaffId")
     Page<ProcessRequestEntity> findProcessRequestsByConsultingStaffId(Pageable pageable, @Param("consultingStaffId") int consultingStaffId);
