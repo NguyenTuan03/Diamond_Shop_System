@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ValuationResultRepository extends JpaRepository<ValuationResultEntity, Integer> {
+public interface ValuationResultRepository extends JpaRepository<ValuationResultEntity, String> {
 
     @Query("SELECT v FROM ValuationResultEntity v WHERE v.id=:id")
     Optional<ValuationResultEntity> findById(@Param("id") String id);
