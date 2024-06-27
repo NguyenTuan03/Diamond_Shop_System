@@ -2,10 +2,11 @@ package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.entity.SealingLetterEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
-import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
 import com.diamond_shop.diamond_shop.repository.SealingLetterRepository;
 import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,27 +18,21 @@ public class SealingLetterImpl implements SealingLetterService {
     @Autowired
     SealingLetterRepository sealingLetterRepository;
 
-    //    @Autowired
-//    RoleRepository roleRepository;
-//
-//    @Autowired
-//    AccountRepository accountRepository;
-//
     @Autowired
     ValuationRequestRepository valuationRequestRepository;
-    @Autowired
-    private ProcessRequestRepository processRequestRepository;
 
-    //
-//    @Autowired
-//    ProcessRequestRepository processRequestRepository;
-//
-//    @Override
-//    public Page<SealingLetterEntity> getAllSealingLetters(int page) {
-//        int pageNumber = --page, pageSize = 5;
-//        return sealingLetterRepository.findAll(PageRequest.of(pageNumber, pageSize));
-//    }
-//
+    @Override
+    public Page<SealingLetterEntity> getAllSealingLetters(int page) {
+        int pageNumber = --page, pageSize = 5;
+        return sealingLetterRepository.findAll(PageRequest.of(pageNumber, pageSize));
+    }
+
+    @Override
+    public Page<SealingLetterEntity> getAllSealingLettersByCustomerId(int page, int customerId) {
+        int pageNumber = --page, pageSize = 5;
+        return sealingLetterRepository.findAllByCustomerId(PageRequest.of(pageNumber, pageSize), customerId);
+    }
+
     @Override
     public String createSealingLetter(int valuationRequestId) {
         Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findById(valuationRequestId);
@@ -52,22 +47,4 @@ public class SealingLetterImpl implements SealingLetterService {
         sealingLetterRepository.save(sealingLetter);
         return "Create sealing letter successful";
     }
-//
-//    @Override
-//    public String checkSealingDate(int valuationRequestId) {
-//        ValuationRequestEntity valuationRequest = valuationRequestRepository.findById(valuationRequestId);
-//        if (valuationRequest == null)
-//            return "Not found valuation request";
-//
-//        Date currentDate = new Date();
-//        if (currentDate.after(valuationRequest.getSealingDate())) {
-//            ProcessRequestEntity processRequest = processRequestRepository.findByValuationRequestId(valuationRequestId);
-//            if (!processRequest.getName().equals("Overdue") && !processRequest.getName().equals("Finished") && !processRequest.getName().equals("Customer Received")) {
-//                processRequest.setName("Overdue");
-//                processRequestRepository.save(processRequest);
-//                createSealingLetter(valuationRequestId);
-//                return "Create sealing letter";
-//            } else return "Already created sealing letter";
-//        } else return "Sealing date not overdue";
-//    }
 }
