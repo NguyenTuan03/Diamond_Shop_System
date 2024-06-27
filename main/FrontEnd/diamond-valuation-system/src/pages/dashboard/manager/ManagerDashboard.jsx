@@ -1,8 +1,9 @@
 import { Flex, Select, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
-import ManagerSealingLetterPage from "./ManagerSealingLetterPage";
-import ManagerValuatedDiamondPage from "./ManagerValuatedDiamondPage";
-export default function ManagerPage() {
+import PendingRequestTable from "../table/PendingRequestTable";
+import ProcessRequestTable from "../table/ProcessRequestTable";
+import SealingLetterTable from "../table/SealingLetterTable";
+export default function ManagerDashboard() {
   const [filter, setFilter] = useState("");
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
@@ -21,11 +22,13 @@ export default function ManagerPage() {
         </Text>
         <Text fontSize="xl">For Manager</Text>
         <Select w={"200px"} placeholder="Filter" onChange={handleFilterChange}>
+          <option value="pending">Pending Request</option>
+          <option value="process">Process Request</option>
           <option value="sealing-letter">Sealing Letter</option>
-          <option value="valuated-diamond">Valuated Diamond</option>
         </Select>
-        {(filter === "sealing-letter" && <ManagerSealingLetterPage />) ||
-          (filter === "valuated-diamond" && <ManagerValuatedDiamondPage />)}
+        {(filter === "pending" && <PendingRequestTable />) ||
+          (filter === "process" && <ProcessRequestTable />) ||
+          (filter === "sealing-letter" && <SealingLetterTable />)}
       </Flex>
     </>
   );

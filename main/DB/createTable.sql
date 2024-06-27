@@ -107,21 +107,17 @@ CREATE TABLE process_results(
 CREATE TABLE sealing_letters(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	valuation_request_id BIGINT,
-	manager_id BIGINT,
 	created_date DATETIME,
 	content NVARCHAR(255),
 	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id),
-	FOREIGN KEY (manager_id) REFERENCES users(id)
 )
 
 CREATE TABLE commiment_letters(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	valuation_request_id BIGINT,
-	manager_id BIGINT,
 	created_date DATETIME,
 	content NVARCHAR(255),
 	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id),
-	FOREIGN KEY (manager_id) REFERENCES users(id)
 )
 
 INSERT INTO roles(name)

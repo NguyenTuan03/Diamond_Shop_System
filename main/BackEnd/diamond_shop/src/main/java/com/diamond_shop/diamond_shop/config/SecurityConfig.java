@@ -19,15 +19,11 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/api/account/save").permitAll()
-                                .requestMatchers("/api/admin/get").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/diamond/calculate").permitAll()
-                                .requestMatchers("/api/pending-request/").permitAll()
-                                .requestMatchers("/api/sealing-letter/").permitAll()
-                                .requestMatchers("/api/process-sealing/").permitAll()
-                                .requestMatchers("/api/valuation-result/").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/api/valuation-result/").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/api/").permitAll()
+                                .requestMatchers(HttpMethod.PATCH, "/api/").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/api/").permitAll()
                                 .requestMatchers("https://diamondval.vercel.app").permitAll()
                                 .anyRequest().permitAll() // Allow access without authentication to all requests
                 )

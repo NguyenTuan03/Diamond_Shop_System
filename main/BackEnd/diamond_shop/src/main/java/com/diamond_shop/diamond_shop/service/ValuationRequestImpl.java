@@ -24,6 +24,8 @@ public class ValuationRequestImpl implements ValuationRequestService {
 
     @Autowired
     ProcessResultRepository processResultRepository;
+    @Autowired
+    SealingLetterService sealingLetterService;
 
     @Override
     public String makeRequest(int pendingId, int serviceId, int paymentId) {
@@ -73,26 +75,35 @@ public class ValuationRequestImpl implements ValuationRequestService {
             Optional<ProcessRequestEntity> processRequest = processRequestRepository.findById(processRequestId);
             if (processRequest.isEmpty())
                 return "Process request not found";
-            if (!processRequest.get().getStatus().equals("Finished") && !processRequest.get().getStatus().equals("Customer Received")) {
+            if (!processRequest.get().getStatus().equals("Finished")
+                    && !processRequest.get().getStatus().equals("Done")
+                    && !processRequest.get().getStatus().equals("Sealed")) {
                 processRequest.get().setStatus("Finished");
                 processRequestRepository.save(processRequest.get());
                 return "Finished request";
             } else return "Already finished request";
         } else return "Not finish";
     }
-//
-//    @Override
-//    public List<ValuationRequestDTO> viewCustomerRequestId(int id) {
-//        List<ValuationRequestEntity> valuationRequestEntities = valuationRequestRepository.findByCustomerId(id);
-//        return valuationRequestEntities.stream()
-//            .map(entity -> new ValuationRequestDTO(
-//                entity.getCustomer().getUsername(),
-//                entity.getServiceId().getId(),
-//                entity.getCreatedDate(),
-//                entity.getDescription()
-//            ))
-//            .collect(Collectors.toList());
-//    }
 
+    @Override
+    public String checkSealedDateByProcessRequestId(int processRequestId) {
+        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findByProcessRequestId(processRequestId);
+        if (valuationRequest.isEmpty())
+            return "Valuation request not found";
 
+        Date currentDate = new Date();
+        if (currentDate.after(valuationRequest.get().getSealingDate())) {
+            Optional<ProcessRequestEntity> processRequest = processRequestRepository.findById(processRequestId);
+            if (processRequest.isEmpty())
+                return "Process request not found";
+            if (!processRequest.get().getStatus().equals("Sealed")
+                    && !processRequest.get().getStatus().equals("Finished")
+                    && !processRequest.get().getStatus().equals("Done")) {
+                processRequest.get().setStatus("Sealed");
+                processRequestRepository.save(processRequest.get());
+//                sealingLetterService.createSealingLetter(valuationRequest.get());
+                return "Sealed request";
+            } else return "Already sealed request";
+        } else return "Not get sealed date yet";
+    }
 }   

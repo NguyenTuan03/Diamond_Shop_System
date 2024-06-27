@@ -30,10 +30,6 @@ public class SealingLetterEntity {
     @JoinColumn(name = "Valuation_request_id")
     private ValuationRequestEntity valuationRequest;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private AccountEntity managerId;
-
     @NotNull(message = "Created date is mandatory")
     @Column(name = "created_date")
     private Date createdDate;
@@ -41,9 +37,9 @@ public class SealingLetterEntity {
     @Column(name = "content")
     private String content;
 
-    public SealingLetterEntity(Date createdDate, String content, ValuationRequestEntity valuationRequest) {
-        this.createdDate = createdDate;
+    public SealingLetterEntity(String content, Date createdDate, ValuationRequestEntity valuationRequest) {
         this.content = content;
+        this.createdDate = createdDate;
         this.valuationRequest = valuationRequest;
     }
 }
