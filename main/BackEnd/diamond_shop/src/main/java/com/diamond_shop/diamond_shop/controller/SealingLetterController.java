@@ -15,12 +15,16 @@ public class SealingLetterController {
 
     @GetMapping("/get/all")
     public Page<SealingLetterEntity> getAllSealingLetters(@RequestParam("page") int page) {
-        return null;
+        return sealingLetterService.getAllSealingLetters(page);
+    }
+
+    @GetMapping("/customer/get")
+    public Page<SealingLetterEntity> getAllSealingLettersByCustomerId(@RequestParam("page") int page, @RequestParam("id") int customerId) {
+        return sealingLetterService.getAllSealingLettersByCustomerId(page, customerId);
     }
 
     @PostMapping("/create")
     public String createSealingLetterByValuationRequestId(@RequestParam int valuationRequestId) {
         return sealingLetterService.createSealingLetter(valuationRequestId);
     }
-
 }
