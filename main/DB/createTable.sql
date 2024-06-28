@@ -11,7 +11,8 @@ CREATE TABLE users(
 	full_name NVARCHAR(50),
 	email NVARCHAR(50) NOT NULL,
 	phone_number NVARCHAR(10),
-	address NVARCHAR(255)
+	address NVARCHAR(255),
+	isActive BOOLEAN DEFAULT TRUE,
 	FOREIGN KEY (role_id) REFERENCES roles(id)
 )
 
@@ -20,7 +21,7 @@ CREATE TABLE pending_requests(
 	customer_id BIGINT,
 	description NVARCHAR(255),
 	created_date DATETIME,
-	FOREIGN KEY (customer_id) REFERENCES users(id)
+	FOREIGN KEY (customer_id) REFERENCES users(id) on DELETE SET NULL
 )
 
 CREATE TABLE process_requests(
@@ -37,7 +38,7 @@ CREATE TABLE payments(
 	customer_id BIGINT,
 	created_date DATETIME,
 	type NVARCHAR(20)
-	FOREIGN KEY (customer_id) REFERENCES users(id)
+	FOREIGN KEY (customer_id) REFERENCES users(id) on DELETE SET NULL
 )
 
 CREATE TABLE service_statistics(
