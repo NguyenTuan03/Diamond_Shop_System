@@ -25,8 +25,7 @@ import { useReactToPrint } from "react-to-print";
 
 export default function ReceiptModal({
   viewReceipt,
-  selectedProcessRequest,
-  selectedValuationRequest,
+  selectedValuationReceipt,
 }) {
   const receiptRef = useRef();
   const handlePrintReceipt = useReactToPrint({
@@ -61,7 +60,7 @@ export default function ReceiptModal({
               </Text>
               <Text>
                 <strong>Date</strong>:{" "}
-                {selectedValuationRequest?.createdDate?.slice(0, 10) || "N/A"}
+                {selectedValuationReceipt?.createdDate?.slice(0, 10) || "N/A"}
               </Text>
               <Text>
                 <strong>RE</strong>: Diamond Valuation Receipt
@@ -72,14 +71,11 @@ export default function ReceiptModal({
                   <Text fontWeight={"bold"}>Customer side (Send diamond)</Text>
                   <UnorderedList spacing={2}>
                     <ListItem>
-                      Name: {selectedProcessRequest?.customerName || "N/A"}
+                      Name: {selectedValuationReceipt?.customerName || "N/A"}
                     </ListItem>
                     <ListItem>
                       Phone Number:{" "}
-                      {selectedProcessRequest?.customerPhone || "N/A"}
-                    </ListItem>
-                    <ListItem>
-                      Address: {selectedProcessRequest?.address || "N/A"}
+                      {selectedValuationReceipt?.customerPhone || "N/A"}
                     </ListItem>
                   </UnorderedList>
                 </Flex>
@@ -90,14 +86,11 @@ export default function ReceiptModal({
                   <UnorderedList spacing={2}>
                     <ListItem>
                       Name:{" "}
-                      {selectedProcessRequest?.consultingStaffName || "N/A"}
+                      {selectedValuationReceipt?.consultingStaffName || "N/A"}
                     </ListItem>
                     <ListItem>
                       Phone Number:{" "}
-                      {selectedProcessRequest?.consultingStaffPhone || "N/A"}
-                    </ListItem>
-                    <ListItem>
-                      Address: {selectedProcessRequest?.address || "N/A"}
+                      {selectedValuationReceipt?.consultingStaffPhone || "N/A"}
                     </ListItem>
                   </UnorderedList>
                 </Flex>
@@ -120,7 +113,7 @@ export default function ReceiptModal({
                       <Td>1</Td>
                       <Td>Diamond</Td>
                       <Td>1</Td>
-                      <Td>{selectedProcessRequest?.description || "N/A"}</Td>
+                      <Td>{selectedValuationReceipt?.description || "N/A"}</Td>
                     </Tr>
                   </Tbody>
                 </Table>
