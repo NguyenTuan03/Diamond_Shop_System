@@ -23,6 +23,9 @@ export default function ValuationRequestModal({
   fetchValuationResult,
   viewValuationResult,
   viewReceipt,
+  createReceipt,
+  fetchValuationReceipt,
+  createCommitment,
 }) {
   const user = useContext(UserContext);
   return (
@@ -139,6 +142,7 @@ export default function ValuationRequestModal({
                           selectedProcessRequest?.id,
                           "Diamond Received"
                         );
+                        createReceipt(selectedValuationRequest?.id);
                       }}
                     >
                       Diamond Received
@@ -151,6 +155,7 @@ export default function ValuationRequestModal({
                     <Button
                       onClick={() => {
                         viewReceipt.onOpen();
+                        fetchValuationReceipt(selectedValuationRequest?.id);
                       }}
                     >
                       Receipt
@@ -196,7 +201,14 @@ export default function ValuationRequestModal({
                       >
                         Cust. Received
                       </Button>
-                      <Button colorScheme="red">Lost Receipt</Button>
+                      <Button
+                        colorScheme="red"
+                        onClick={() => {
+                          createCommitment(selectedValuationRequest?.id);
+                        }}
+                      >
+                        Lost Receipt
+                      </Button>
                     </SimpleGrid>
                   </>
                 )) ||
