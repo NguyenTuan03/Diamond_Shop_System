@@ -85,9 +85,15 @@ CREATE TABLE valuation_results(
 	depth DECIMAL(3,1),
 	length_to_width_ratio DECIMAL(3,1),
 	price DECIMAL(10,2)
-	FORGEIN KEY (valuation_request_id) REFERENCES valuation_requests(id)
+	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id)
 )
 
+CREATE TABLE valuation_receipts(
+	id BIGINT PRIMARY KEY IDENTITY(1,1),
+	valuation_request_id BIGINT,
+	created_date DATETIME,
+	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id)
+)
 
 CREATE TABLE valuation_result_images(
 	id NVARCHAR(255) PRIMARY KEY,
