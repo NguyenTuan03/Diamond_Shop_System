@@ -1,10 +1,7 @@
 import React from "react";
-import { Button } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 
-export default function PageIndicator({
-  totalPages,
-  setCurrentPage,
-}) {
+export default function PageIndicator({ totalPages, setCurrentPage }) {
   const pageIndicator = [];
   if (totalPages !== null) {
     for (let i = 1; i <= totalPages; i++) {
@@ -22,5 +19,9 @@ export default function PageIndicator({
       );
     }
   }
-  return <>{pageIndicator}</>;
+  return (
+    <>
+      <Flex gap={5}>{pageIndicator}</Flex>
+    </>
+  );
 }

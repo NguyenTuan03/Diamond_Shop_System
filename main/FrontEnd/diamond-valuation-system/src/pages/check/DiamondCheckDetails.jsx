@@ -40,7 +40,7 @@ export default function DiamondCheckDetails() {
       )
       .then(function (response) {
         if (response.data === null) {
-          navigate("/");
+          navigate("/error");
         }
         console.log(response.data);
         setDiamond(response.data);
