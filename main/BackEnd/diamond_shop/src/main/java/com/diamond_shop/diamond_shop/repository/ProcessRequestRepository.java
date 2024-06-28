@@ -13,9 +13,6 @@ import java.util.Optional;
 @Repository
 public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEntity, Integer> {
 
-    //    @Query(value = "SELECT p FROM ProcessRequestEntity p WHERE p.id=:id")
-//    ProcessRequestEntity findById(@Param("id") int id);
-//
     @Query(value = "SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ProcessRequestPojo(" +
             "p.id, " +
@@ -66,27 +63,15 @@ public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEn
             "WHERE p.pendingRequestId.customerId.id=:customerId")
     Page<ProcessRequestEntity> findProcessRequestsByCustomerId(Pageable pageable, @Param("customerId") int customerId);
 
-    //    @Query("SELECT p FROM ProcessRequestEntity p WHERE p.staffId.id = :staffId AND p.pendingRequestId.id = :pendingRequestId")
-//    Optional<ProcessRequestEntity> findByStaffIdAndValuationRequestId(Pageable pageable, @Param("staffId") int staffId, @Param("pendingRequestId") int pendingRequestId);
-//
-//    @Query("SELECT p FROM ProcessRequestEntity p WHERE p.staffId.id = :staffId AND p.staffId.role.id = :roleId")
-//    ProcessRequestEntity findByStaffAndRole(@Param("staffId") int staffId, @Param("roleId") int roleId);
-//
     @Query("SELECT p FROM ProcessRequestEntity p WHERE p.staffId.id=:staffId AND p.pendingRequestId.id=:pendingRequestId")
     ProcessRequestEntity findByStaffIdAndValuationRequestId(@Param("staffId") int staffId, @Param("pendingRequestId") int pendingRequestId);
 
     @Query("SELECT p FROM ProcessRequestEntity p WHERE p.pendingRequestId.id=:pendingRequestId")
     ProcessRequestEntity findByPendingRequestId(@Param("pendingRequestId") int pendingRequestId);
 
-    //
-//    @Query(value = "SELECT s FROM ProcessRequestEntity s")
-//    List<ProcessRequestEntity> getAll();
-//
-//    @Query(value = "SELECT p FROM ProcessRequestEntity p WHERE p.staffId=:staffId")
-//    Optional<ProcessRequestEntity> findByStaffId(@Param("staffId") int staffId);
-//
     @Query(value = "SELECT COUNT (p.staffId) FROM ProcessRequestEntity p WHERE p.staffId.id=:staffId")
     long countByStaffId(@Param("staffId") int staffId);
+
     @Query(value = "SELECT p " +
             "FROM ProcessRequestEntity p " +
             "WHERE p.pendingRequestId.valuationRequestEntity.id=:id")

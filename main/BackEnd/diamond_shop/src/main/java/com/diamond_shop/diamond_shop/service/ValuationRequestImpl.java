@@ -101,7 +101,6 @@ public class ValuationRequestImpl implements ValuationRequestService {
                     && !processRequest.get().getStatus().equals("Done")) {
                 processRequest.get().setStatus("Sealed");
                 processRequestRepository.save(processRequest.get());
-//                sealingLetterService.createSealingLetter(valuationRequest.get());
                 return "Sealed request";
             } else return "Already sealed request";
         } else return "Not get sealed date yet";

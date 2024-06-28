@@ -12,7 +12,6 @@ import React, { useContext, useEffect } from "react";
 import Title from "../../components/Title";
 import { Form, Formik } from "formik";
 import axios from "axios";
-import routes from "../../config/Config";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
@@ -46,6 +45,7 @@ export default function DiamondValuationRequest() {
                     status: "error",
                     position: "top-right",
                     duration: 3000,
+                    position: "top-right",
                     isClosable: true,
                   });
                   setSubmitting(false);
@@ -55,6 +55,7 @@ export default function DiamondValuationRequest() {
                     status: "warning",
                     position: "top-right",
                     duration: 3000,
+                    position: "top-right",
                     isClosable: true,
                   });
                   setSubmitting(false);

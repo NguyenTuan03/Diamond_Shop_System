@@ -62,6 +62,9 @@ export default function SealingLetterTable() {
   useEffect(() => {
     fetchSealingLetter(currentPage, user.userAuth.id);
   }, []);
+  useEffect(() => {
+    fetchSealingLetter(currentPage, user.userAuth.id);
+  }, [currentPage]);
   return (
     <>
       {sealingLetter.length === 0 ? (

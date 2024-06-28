@@ -90,9 +90,4 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "FROM ValuationResultEntity as v " +
             "WHERE v.valuationRequestId.id=:valuationRequestId")
     Optional<ValuationResultEntity> getValuationResultByValuationRequestId(@Param("valuationRequestId") int valuationRequestId);
-
-    //
-//    @Modifying
-//    @Query("DELETE FROM ValuationResultEntity v WHERE v.id IN :ids")
-//    void deleteByIds(@Param("ids") List<Integer> ids);
 }
