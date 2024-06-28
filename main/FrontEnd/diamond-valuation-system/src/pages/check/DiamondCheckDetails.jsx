@@ -15,10 +15,11 @@ import React, { useEffect, useState } from "react";
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage } from "@cloudinary/react";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 export default function DiamondCheckDetails() {
+  const navigate = useNavigate();
   const toast = useToast();
   const { valuationResultId } = useParams();
   const cld = new Cloudinary({
@@ -38,6 +39,9 @@ export default function DiamondCheckDetails() {
         }/api/valuation-result/get?id=${id}`
       )
       .then(function (response) {
+        if (response.data === null) {
+          navigate("/");
+        }
         console.log(response.data);
         setDiamond(response.data);
       })
@@ -71,7 +75,7 @@ export default function DiamondCheckDetails() {
     console.log(valuationResultId);
     fetchValuationResult(valuationResultId);
     fetchValuatedDiamondImages(valuationResultId);
-    console.log(diamondImages)
+    console.log(diamondImages);
   }, []);
   return (
     <Flex

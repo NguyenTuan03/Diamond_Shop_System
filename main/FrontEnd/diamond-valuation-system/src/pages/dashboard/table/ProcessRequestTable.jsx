@@ -11,7 +11,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
-import { GiDiamondTrophy } from "react-icons/gi";
 
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
@@ -30,6 +29,7 @@ export default function ProcessRequestTable() {
   const [selectedProcessRequest, setSelectedProcessRequest] = useState({});
   const [selectedValuationRequest, setSelectedValuationRequest] = useState({});
   const [selectedValuationResult, setSelectedValuationResult] = useState({});
+  const [selectedValuationReceipt, setSelectedValuationReceipt] = useState({});
   const viewValuationRequest = useDisclosure();
   const viewValuationResult = useDisclosure();
   const viewReceipt = useDisclosure();
@@ -206,6 +206,80 @@ export default function ProcessRequestTable() {
         }
       });
   };
+  const createReceipt = (valuationRequestId) => {
+    axios
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-receipt/create?valuationRequestId=${valuationRequestId}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        if (response.status === 200) {
+          if (response.data.includes("successful")) {
+            toast({
+              title: "Success",
+              description: response.data,
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          } else if (response.data.includes("already exists")) {
+            toast({
+              title: "Failed",
+              description: response.data,
+              status: "warning",
+              duration: 3000,
+              isClosable: true,
+            });
+          }
+        }
+      });
+  };
+  const fetchValuationReceipt = (valuationRequestId) => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-receipt/valuation-request/get?id=${valuationRequestId}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        if (response.status === 200) {
+          setSelectedValuationReceipt(response.data);
+        }
+      });
+  };
+  const createCommitment = (valuationRequestId) => {
+    axios
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/commitment/create?valuationRequestId=${valuationRequestId}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        if (response.status === 200) {
+          if (response.data.includes("successful")) {
+            toast({
+              title: "Success",
+              description: response.data,
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          } else if (response.data.includes("already exists")) {
+            toast({
+              title: "Failed",
+              description: response.data,
+              status: "warning",
+              duration: 3000,
+              isClosable: true,
+            });
+          }
+        }
+      });
+  };
   return (
     <>
       {processRequest.length === 0 ? (
@@ -256,6 +330,9 @@ export default function ProcessRequestTable() {
         fetchValuationResult={fetchValuationResult}
         viewValuationResult={viewValuationResult}
         viewReceipt={viewReceipt}
+        createReceipt={createReceipt}
+        fetchValuationReceipt={fetchValuationReceipt}
+        createCommitment={createCommitment}
       />
       <ValuationResultModal
         viewValuationResult={viewValuationResult}
@@ -263,8 +340,7 @@ export default function ProcessRequestTable() {
       />
       <ReceiptModal
         viewReceipt={viewReceipt}
-        selectedProcessRequest={selectedProcessRequest}
-        selectedValuationRequest={selectedValuationRequest}
+        selectedValuationReceipt={selectedValuationReceipt}
       />
     </>
   );

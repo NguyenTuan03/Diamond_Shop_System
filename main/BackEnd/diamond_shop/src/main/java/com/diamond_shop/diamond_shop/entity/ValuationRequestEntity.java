@@ -49,6 +49,9 @@ public class ValuationRequestEntity {
     @OneToOne(mappedBy = "valuationRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private SealingLetterEntity sealingLetter;
 
+    @OneToOne(mappedBy = "valuationRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ValuationReceiptEntity valuationReceipt;
+
     @ManyToOne
     @JoinColumn(name = "service_id")
     private ServiceEntity serviceId;
