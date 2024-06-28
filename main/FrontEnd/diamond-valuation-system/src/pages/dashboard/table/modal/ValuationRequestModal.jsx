@@ -14,6 +14,8 @@ import {
 import React, { useContext } from "react";
 import { UserContext } from "../../../../components/GlobalContext/AuthContext";
 import ZaloChat from "../../../../components/zalo/ZaloChat";
+import { Link } from "react-router-dom";
+import routes from "../../../../config/Config";
 export default function ValuationRequestModal({
   viewValuationRequest,
   selectedValuationRequest,

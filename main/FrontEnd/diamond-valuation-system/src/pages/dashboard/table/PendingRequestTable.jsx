@@ -17,6 +17,7 @@ import {
   Text,
   Button,
   ModalFooter,
+  useToast,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 import React, { useContext, useEffect, useState } from "react";
@@ -31,6 +32,7 @@ export default function PendingRequestTable() {
   const viewPendingRequest = useDisclosure();
   const [pendingRequest, setPendingRequest] = useState([]);
   const [selectedPendingRequest, setSelectedPendingRequest] = useState({});
+  const toast = useToast();
   const fetchPendingRequest = (page, id) => {
     let url = "";
     if (user.userAuth.roleid === 3 || user.userAuth.roleid === 2) {
@@ -71,6 +73,7 @@ export default function PendingRequestTable() {
           toast({
             title: response.data,
             status: "success",
+            position: "top-right",
             duration: 3000,
             isClosable: true,
           });
@@ -80,6 +83,7 @@ export default function PendingRequestTable() {
         toast({
           title: error.response.data,
           status: "error",
+          position: "top-right",
           duration: 3000,
           isClosable: true,
         });

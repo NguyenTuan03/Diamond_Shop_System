@@ -162,7 +162,7 @@ export default function SignUp({ signUp }) {
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isReqsuired
+                  isRequired
                   isInvalid={
                     errors.phoneNumber &&
                     touched.phoneNumber &&
