@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import { Flex, Select, Text } from "@chakra-ui/react";
-import CustomerPendingRequest from "./CustomerPendingRequest";
-import CustomerProcessRequest from "./CustomerProcessRequest";
+import PendingRequestTable from "../table/PendingRequestTable";
+import ProcessRequestTable from "../table/ProcessRequestTable";
+import SealingLetterTable from "../table/SealingLetterTable";
 
 export default function CustomerDashboard() {
   const user = useContext(UserContext);
@@ -30,9 +31,11 @@ export default function CustomerDashboard() {
         >
           <option value="pending">Pending Request</option>
           <option value="process">Process Request</option>
+          <option value="sealing-letter">Sealing Letter</option>
         </Select>
-        {(filter === "pending" && <CustomerPendingRequest />) ||
-          (filter === "process" && <CustomerProcessRequest />)}
+        {(filter === "pending" && <PendingRequestTable />) ||
+          (filter === "process" && <ProcessRequestTable />) ||
+          (filter === "sealing-letter" && <SealingLetterTable />)}
       </Flex>
     </>
   );

@@ -1,6 +1,5 @@
 package com.diamond_shop.diamond_shop.controller;
 
-import com.diamond_shop.diamond_shop.entity.ServiceEntity;
 import com.diamond_shop.diamond_shop.pojo.ServiceResultPojo;
 import com.diamond_shop.diamond_shop.service.DiamondService;
 import org.springframework.beans.factory.annotation.Autowired;

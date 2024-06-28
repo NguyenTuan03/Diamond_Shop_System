@@ -1,7 +1,11 @@
 package com.diamond_shop.diamond_shop.service;
 
-public interface ValuationReceiptService {
-//    String createReceipt(int valuationRequestId);
+import com.diamond_shop.diamond_shop.entity.ValuationReceiptEntity;
 
-//    Optional<ValuationReceiptEntity> findByValuationRequestId(int valuationRequestId);
+import java.util.Optional;
+
+public interface ValuationReceiptService {
+    String createReceipt(int valuationRequestId);
+
+    Optional<ValuationReceiptEntity> findByValuationRequestId(int valuationRequestId);
 }
