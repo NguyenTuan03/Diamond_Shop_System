@@ -33,7 +33,6 @@ export default function PendingRequestTable() {
   const viewPendingRequest = useDisclosure();
   const [pendingRequest, setPendingRequest] = useState([]);
   const [selectedPendingRequest, setSelectedPendingRequest] = useState({});
-  const toast = useToast();
   const fetchPendingRequest = (page, id) => {
     let url = "";
     if (user.userAuth.roleid === 3 || user.userAuth.roleid === 2) {
