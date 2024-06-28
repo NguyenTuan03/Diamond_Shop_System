@@ -39,6 +39,10 @@ export default function CommitmentTable() {
   useEffect(() => {
     fetchCommitment(currentPage);
   }, []);
+  useEffect(() => {
+    fetchCommitment(currentPage);
+  }, [currentPage]);
+
   return (
     <>
       <TableContainer>
@@ -56,9 +60,11 @@ export default function CommitmentTable() {
             {commitment.map((item, index) => (
               <Tr key={index}>
                 <Td>{index + 1}</Td>
-                <Td>{item?.valuationRequestId||"N/A"}</Td>
-                {user.userAuth.roleid === 2 && <Td>{item?.customerName||"N/A"}</Td>}
-                <Td>{item?.createdDate?.slice(0,10)||"N/A"}</Td>
+                <Td>{item?.valuationRequestId || "N/A"}</Td>
+                {user.userAuth.roleid === 2 && (
+                  <Td>{item?.customerName || "N/A"}</Td>
+                )}
+                <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
                 <Td>
                   <IconButton
                     icon={<ViewIcon />}

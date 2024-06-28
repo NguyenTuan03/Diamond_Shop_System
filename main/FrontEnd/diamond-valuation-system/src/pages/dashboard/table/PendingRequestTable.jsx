@@ -17,6 +17,7 @@ import {
   Text,
   Button,
   ModalFooter,
+  useToast,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 import React, { useContext, useEffect, useState } from "react";
@@ -25,6 +26,7 @@ import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
 
 export default function PendingRequestTable() {
+  const toast = useToast();
   const user = useContext(UserContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
@@ -88,42 +90,55 @@ export default function PendingRequestTable() {
   useEffect(() => {
     fetchPendingRequest(currentPage, user.userAuth.id);
   }, []);
+  useEffect(() => {
+    fetchPendingRequest(currentPage, user.userAuth.id);
+  }, [currentPage]);
   return (
     <>
-      <TableContainer>
-        <Table size={"sm"} colorScheme="blue">
-          <Thead bg={"blue.400"}>
-            <Tr>
-              <Th>No</Th>
-              <Th>Customer Name</Th>
-              <Th>Description</Th>
-              <Th>Created Date</Th>
-              <Th>View</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {pendingRequest.map((item, index) => (
-              <Tr key={index}>
-                <Td>{index + 1}</Td>
-                <Td>{item?.customerName || "N/A"}</Td>
-                <Td>{item?.description || "N/A"}</Td>
-                <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
-                <Td>
-                  <IconButton
-                    icon={<ViewIcon />}
-                    bgColor={"transparent"}
-                    onClick={() => {
-                      setSelectedPendingRequest(item);
-                      viewPendingRequest.onOpen();
-                    }}
-                  />
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-      <PageIndicator totalPages={totalPages} setCurrentPage={setCurrentPage} />
+      {pendingRequest.length === 0 ? (
+        <>No pending request to solve</>
+      ) : (
+        <>
+          <TableContainer>
+            <Table size={"sm"} colorScheme="blue">
+              <Thead bg={"blue.400"}>
+                <Tr>
+                  <Th>No</Th>
+                  <Th>Customer Name</Th>
+                  <Th>Description</Th>
+                  <Th>Created Date</Th>
+                  <Th>View</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {pendingRequest.map((item, index) => (
+                  <Tr key={index}>
+                    <Td>{index + 1}</Td>
+                    <Td>{item?.customerName || "N/A"}</Td>
+                    <Td>{item?.description || "N/A"}</Td>
+                    <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
+                    <Td>
+                      <IconButton
+                        icon={<ViewIcon />}
+                        bgColor={"transparent"}
+                        onClick={() => {
+                          setSelectedPendingRequest(item);
+                          viewPendingRequest.onOpen();
+                        }}
+                      />
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+          <PageIndicator
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />  
+        </>
+      )}
+
       <Modal
         isOpen={viewPendingRequest.isOpen}
         onClose={viewPendingRequest.onClose}

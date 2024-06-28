@@ -150,6 +150,9 @@ export default function ProcessRequestTable() {
       setIsChecked(false);
     }
   }, [isChecked]);
+  useEffect(() => {
+    fetchProcessRequest(currentPage, user.userAuth.id);
+  }, [currentPage]);
   const fetchValuationRequest = (pendingRequestId) => {
     axios
       .get(

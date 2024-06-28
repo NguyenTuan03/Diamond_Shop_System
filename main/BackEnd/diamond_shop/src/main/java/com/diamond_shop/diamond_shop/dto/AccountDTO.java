@@ -1,5 +1,6 @@
 package com.diamond_shop.diamond_shop.dto;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

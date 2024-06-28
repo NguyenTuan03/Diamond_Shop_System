@@ -20,10 +20,7 @@ public class ProcessResultImpl implements ProcessResultService {
 
     @Autowired
     private AccountRepository accountRepository;
-    //
-//    @Autowired
-//    private ProcessRequestRepository processRequestRepository;
-//
+
     @Autowired
     private ProcessResultRepository processResultRepository;
     //

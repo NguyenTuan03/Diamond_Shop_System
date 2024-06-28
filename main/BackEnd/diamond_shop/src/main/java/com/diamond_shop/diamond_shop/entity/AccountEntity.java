@@ -37,12 +37,12 @@ public class AccountEntity {
     private RoleEntity role;
 
     @NotNull
-    @Pattern(regexp = "(?!\\s)[a-zA-Z0-9]+$", message = "Invalid username")
+    @Pattern(regexp = "(?!\\s)[a-zA-Z0-9_]+$", message = "Invalid username")
     @Column(name = "username")
     private String username;
 
     @NotNull
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{8,}$", message = "Invalid password")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{8,}+$", message = "Invalid password")
     @Column(name = "password")
     private String password;
 
