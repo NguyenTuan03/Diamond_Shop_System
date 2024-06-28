@@ -253,8 +253,11 @@ export default function Header() {
                                     bg={colorMode}
                                 >
                                     <Avatar
-                                        name={auth.userAuth.fullname || auth.userAuthGoogle.name}
-                                        src={auth.userAuthGoogle.picture}
+                                        name={
+                                            auth.userAuth.fullname ||
+                                            auth.userAuth.name
+                                        }
+                                        src={auth.userAuth.picture}
                                     />
                                 </MenuButton>
                                 <MenuList>

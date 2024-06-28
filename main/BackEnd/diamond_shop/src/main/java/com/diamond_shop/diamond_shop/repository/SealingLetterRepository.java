@@ -12,9 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface SealingLetterRepository extends JpaRepository<SealingLetterEntity, Integer> {
-//
-//    @Query(value = "SELECT s FROM SealingLetterEntity s")
-//    Page<SealingLetterEntity> findAll(Pageable pageable);
 
     @Query(value = "SELECT s " +
             "FROM SealingLetterEntity s " +

@@ -36,7 +36,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
-import React, { useContext, useEffect, useState, } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import UploadImage from "../../../components/UploadImage";
@@ -44,29 +44,13 @@ import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage } from "@cloudinary/react";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
+import PageIndicator from "../../../components/PageIndicator";
 export default function ValuationStaffDashboard() {
   const navigate = useNavigate();
   const toast = useToast();
   const user = useContext(UserContext);
-  const pageIndicator = [];
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
-  if (totalPages !== null) {
-    for (let i = 1; i <= totalPages; i++) {
-      pageIndicator.push(
-        <Button
-          key={i}
-          colorScheme="teal"
-          variant={"outline"}
-          onClick={() => {
-            setCurrentPage(i);
-          }}
-        >
-          {i}
-        </Button>
-      );
-    }
-  }
   const viewValuationResult = useDisclosure();
   const [processResult, setProcessResult] = useState([]);
   const [selectedProcessResult, setSelectedProcessResult] = useState({});
@@ -88,6 +72,9 @@ export default function ValuationStaffDashboard() {
   useEffect(() => {
     fetchProcessResult(currentPage, user.userAuth.id);
   }, []);
+  useEffect(() => {
+    fetchProcessResult(currentPage, user.userAuth.id);
+  }, [currentPage]);
   const valuateDiamond = (id, values) => {
     axios
       .put(
@@ -239,7 +226,12 @@ export default function ValuationStaffDashboard() {
             </Tbody>
           </Table>
         </TableContainer>
+        <PageIndicator
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+        />
       </Flex>
+
       <Modal
         isOpen={viewValuationResult.isOpen}
         onClose={viewValuationResult.onClose}

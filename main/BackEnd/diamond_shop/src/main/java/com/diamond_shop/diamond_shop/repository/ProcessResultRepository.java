@@ -11,12 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProcessResultRepository extends JpaRepository<ProcessResultEntity, Integer> {
-    //    // @Query("SELECT p FROM ProcessResultEntity p WHERE p.valuationStaffId.id = :staffId AND p.ProcessRequestId.id = :processRequestId")
-//    // Optional<ProcessResultEntity> findByStaffIdAndProcessRequestId(@Param("staffId") int staffId, @Param("processRequestId") int processRequestId);
-//
-//    @Query("SELECT p FROM ProcessResultEntity p WHERE p.ProcessRequestId.id = :processRequestId")
-//    ProcessResultEntity findByProcessRequestId(@Param("processRequestId") int processRequestId);
-//
+
     @Query(value = "SELECT COUNT (p.valuationStaffId) " +
             "FROM ProcessResultEntity p " +
             "WHERE p.valuationStaffId.id=:staffId")

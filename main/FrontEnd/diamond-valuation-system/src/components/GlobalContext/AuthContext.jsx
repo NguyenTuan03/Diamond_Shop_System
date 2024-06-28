@@ -44,9 +44,18 @@ export default function AuthContext({ children }) {
             console.log(err);
         }
     };
-
+    const loginUser = (userData) => {
+        setUserAuth(userData);
+        localStorage.setItem("user", JSON.stringify(userData)); 
+    };
+    const logoutUser = () => {
+        setUser({});
+        localStorage.removeItem("user"); 
+    };
     const value = {
         userAuth,
+        loginUser,
+        logoutUser,
         deleteAccount,
     };
 
