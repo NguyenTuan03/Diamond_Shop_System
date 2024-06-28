@@ -1,49 +1,92 @@
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import {
-  Button,
-  IconButton,
   Table,
   TableContainer,
   Tbody,
-  Td,
   Th,
   Thead,
   Tr,
+  Td,
+  IconButton,
   useDisclosure,
-  useToast,
   Modal,
-  ModalBody,
+  ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalOverlay,
+  ModalBody,
   Flex,
   Text,
+  Button,
+  ModalFooter,
+  useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { ViewIcon } from "@chakra-ui/icons";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../../components/GlobalContext/AuthContext";
+import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
-export default function CustomerPendingRequest() {
+
+export default function PendingRequestTable() {
   const user = useContext(UserContext);
-  const toast = useToast();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const viewPendingRequest = useDisclosure();
   const [pendingRequest, setPendingRequest] = useState([]);
   const [selectedPendingRequest, setSelectedPendingRequest] = useState({});
-  const fetchPendingRequest = (page, customerId) => {
+  const toast = useToast();
+  const fetchPendingRequest = (page, id) => {
+    let url = "";
+    if (user.userAuth.roleid === 3 || user.userAuth.roleid === 2) {
+      url = `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/pending-request/get/all?page=${page}`;
+    } else if (user.userAuth.roleid === 5) {
+      url = `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/pending-request/customer/get?page=${page}&id=${id}`;
+    }
+    axios.get(url).then(function (response) {
+      console.log(response.data);
+      if (response.status === 200) {
+        setPendingRequest(response.data.content);
+        setTotalPages(response.data?.totalPages);
+      }
+    });
+  };
+  const receivePendingRequest = (consultingStaffId, pendingRequestId) => {
     axios
-      .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/pending-request/get?page=${page}&customerId=${customerId}`
+      .post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/process-request/create`,
+        {
+          pendingRequestId: pendingRequestId,
+          consultingStaffId: consultingStaffId,
+        }
       )
       .then(function (response) {
-        console.log(response.data);
-        if (response.status === 200) {
-          setPendingRequest(response.data.content);
-          setTotalPages(response.data?.totalPages);
+        if (response.data === "Have already received !") {
+          toast({
+            title: response.data,
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: response.data,
+            status: "success",
+            position: "top-right",
+            duration: 3000,
+            isClosable: true,
+          });
         }
+      })
+      .catch(function (error) {
+        toast({
+          title: error.response.data,
+          status: "error",
+          position: "top-right",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
   useEffect(() => {
@@ -118,6 +161,22 @@ export default function CustomerPendingRequest() {
               </Text>
             </Flex>
           </ModalBody>
+          {user.userAuth.roleid === 3 && (
+            <ModalFooter justifyContent={"space-around"}>
+              <Button
+                colorScheme="teal"
+                onClick={() => {
+                  receivePendingRequest(
+                    user?.userAuth?.id,
+                    selectedPendingRequest?.id
+                  );
+                  viewPendingRequest.onClose();
+                }}
+              >
+                Receive
+              </Button>
+            </ModalFooter>
+          )}
         </ModalContent>
       </Modal>
     </>

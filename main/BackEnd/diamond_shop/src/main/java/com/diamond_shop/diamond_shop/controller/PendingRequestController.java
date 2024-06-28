@@ -19,8 +19,8 @@ public class PendingRequestController {
         return pendingRequestService.getAllPendingRequests(page);
     }
 
-    @GetMapping(path = "/get")
-    public Page<PendingRequestsEntity> getPendingRequestsByCustomerId(@RequestParam("page") int page, @RequestParam("customerId") int customerId) {
+    @GetMapping(path = "/customer/get")
+    public Page<PendingRequestsEntity> getPendingRequestsByCustomerId(@RequestParam("page") int page, @RequestParam("id") int customerId) {
         return pendingRequestService.getAllByCustomerId(page, customerId);
     }
 

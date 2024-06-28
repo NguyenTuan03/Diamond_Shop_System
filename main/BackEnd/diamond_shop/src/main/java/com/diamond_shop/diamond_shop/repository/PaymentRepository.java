@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.PaymentEntity;
-import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<PaymentEntity, Integer>{

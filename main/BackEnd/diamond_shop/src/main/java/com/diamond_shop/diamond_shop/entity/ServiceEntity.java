@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -40,17 +41,17 @@ public class ServiceEntity {
     @JoinColumn(name = "service_statistic_id")
     private ServiceStatisticEntity statistic_id;
 
-    @OneToOne(mappedBy = "serviceId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ValuationRequestEntity valuationRequestEntity;
+    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ValuationRequestEntity> valuationRequestEntities = new HashSet<>();
 
     public ServiceEntity(int id) {
         this.id = id;
     }
 
     public ServiceEntity(int id, @NotNull(message = "Service name is mandatory") String name,
-            @NotNull(message = "Service price is mandatory") int price,
-            @NotNull(message = "Service valuation time is mandatory") int time,
-            ServiceStatisticEntity statistic_id) {
+                         @NotNull(message = "Service price is mandatory") int price,
+                         @NotNull(message = "Service valuation time is mandatory") int time,
+                         ServiceStatisticEntity statistic_id) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -58,6 +59,5 @@ public class ServiceEntity {
         this.statistic_id = statistic_id;
     }
 
-    
 
 }

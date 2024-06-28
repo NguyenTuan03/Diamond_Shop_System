@@ -28,14 +28,16 @@ public class CommitmentLetterEntity {
     @JoinColumn(name = "valuation_request_id")
     private ValuationRequestEntity valuationRequest;
     
-    @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private AccountEntity managerId;
-    
     @NotNull(message = "Created date is mandatory")
     @Column(name = "created_date")
     private Date createdDate;
 
     @Column(name = "content")
     private String content;
+
+    public CommitmentLetterEntity(String content, Date createdDate, ValuationRequestEntity valuationRequest) {
+        this.content = content;
+        this.createdDate = createdDate;
+        this.valuationRequest = valuationRequest;
+    }
 }

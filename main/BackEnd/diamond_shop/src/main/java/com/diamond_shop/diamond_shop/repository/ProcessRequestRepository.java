@@ -5,18 +5,33 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEntity, Integer>, PagingAndSortingRepository<ProcessRequestEntity, Integer> {
+public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEntity, Integer> {
 
     //    @Query(value = "SELECT p FROM ProcessRequestEntity p WHERE p.id=:id")
 //    ProcessRequestEntity findById(@Param("id") int id);
 //
+    @Query(value = "SELECT " +
+            "NEW com.diamond_shop.diamond_shop.pojo.ProcessRequestPojo(" +
+            "p.id, " +
+            "p.status," +
+            "p.pendingRequestId.description, " +
+            "p.pendingRequestId.id," +
+            "p.staffId.id," +
+            "p.staffId.fullname, " +
+            "p.staffId.phone_number," +
+            "p.pendingRequestId.customerId.id," +
+            "p.pendingRequestId.customerId.fullname," +
+            "p.pendingRequestId.customerId.email," +
+            "p.pendingRequestId.customerId.phone_number) " +
+            "FROM ProcessRequestEntity as p")
+    Page<ProcessRequestEntity> findAllProcessResults(Pageable pageable);
+
     @Query(value = "SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ProcessRequestPojo(" +
             "p.id, " +
