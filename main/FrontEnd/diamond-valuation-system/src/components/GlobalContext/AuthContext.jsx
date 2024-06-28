@@ -5,9 +5,7 @@ import { useToast } from "@chakra-ui/react";
 export const UserContext = createContext();
 
 export default function AuthContext({ children }) {
-    const [userAuth, setUserAuth] = useState(
-        JSON.parse(localStorage.getItem("user")) ?? ""
-    );
+    const [userAuth, setUserAuth] = useState(JSON.parse(localStorage.getItem("user")) ?? "");
     const toast = useToast();
 
     const deleteAccount = async () => {
@@ -44,9 +42,18 @@ export default function AuthContext({ children }) {
             console.log(err);
         }
     };
-
+    const loginUser = (userData) => {
+        setUserAuth(userData);
+        localStorage.setItem("user", JSON.stringify(userData)); 
+    };
+    const logoutUser = () => {
+        setUser({});
+        localStorage.removeItem("user"); 
+    };
     const value = {
         userAuth,
+        loginUser,
+        logoutUser,
         deleteAccount,
     };
 

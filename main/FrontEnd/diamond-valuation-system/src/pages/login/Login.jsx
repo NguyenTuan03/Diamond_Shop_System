@@ -89,11 +89,6 @@ export default function Login({ signIn, signUp }) {
         console.log(decoded);
         document.getElementById("buttonDiv").hidden = true;
     };
-    const handleLogOut = () => {
-        auth.logoutUser();
-        window.location.reload();
-        document.getElementById("buttonDiv").hidden = false;
-    };
     useEffect(() => {
         if (signIn.isOpen) {
             const timer = setTimeout(() => {
@@ -122,7 +117,7 @@ export default function Login({ signIn, signUp }) {
                         </ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
-                            <Formik
+                            <Formik 
                                 initialValues={{ username: "", password: "" }}
                                 onSubmit={(values, { setSubmitting }) => {
                                     setTimeout(() => {
@@ -192,7 +187,9 @@ export default function Login({ signIn, signUp }) {
                                 w={"100%"}
                                 gap={3}
                             >
+                              <Text>
                                 <div id="buttonDiv"></div>
+                              </Text>
                                 <Text fontSize={"sm"} display={"flex"}>
                                     <div>
                                         Don't have an account?{" "}
