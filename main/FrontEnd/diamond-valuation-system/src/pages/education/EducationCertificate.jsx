@@ -580,3 +580,5 @@ export default function EducationCertificate() {
     </Flex>
   );
 }
+
+

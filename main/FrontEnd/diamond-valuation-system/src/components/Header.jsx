@@ -29,174 +29,159 @@ export default function Header() {
   const modalSignIn = useDisclosure();
   const modalSignUp = useDisclosure();
   return (
-    <>
-      <Flex
-        position={"fixed"}
-        top={"0px"}
-        left={"0px"}
-        width={"100vw"}
-        height="70px"
-        zIndex={1}
-        direction={"row"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        bg={"white"}
-        boxShadow="2xl"
-        p={5}
-      >
-        <Link to={routes.home}>
-          <Flex direction={"row"} alignItems={"center"}>
-            <GiDiamondTrophy size={30} />
-            <Text fontSize={"lg"} fontWeight={"bold"} m={"10px "}>
-              DIAMONDVAL
-            </Text>
+      <Container marginBottom={"70px"}>
+        <ToastContainer />
+        <Flex
+          position={"fixed"}
+          top={"0px"}
+          left={"0px"}
+          width={"100vw"}
+          height="70px"
+          zIndex={1}
+          direction={"row"}
+          align={"center"}
+          bg={bgColor}
+          style={{
+            boxShadow: `0px 0px 15px 0px gray`,
+            backdropFilter: "blur(20px)",
+          }}
+          p={5}
+        >
+          <Flex
+            flex={1}
+            display={{ base: "flex", md: "flex", lg: "none" }}
+            onClick={onToggle}
+          >
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                icon={<HamburgerIcon />}
+                variant={"outline"}
+                transition="all 0.2s"
+                borderRadius="md"
+                borderWidth="1px"
+                _focus={{ boxShadow: "outline" }}
+              />
+              <MenuList>
+                <MenuItem>
+                  <Link to={routes.diamondCheck}>Diamond Check</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link to={routes.diamondCalculate}>Valuation</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link to={routes.prices}>Price</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link to={routes.educationCut}>Education</Link>
+                </MenuItem>
+              </MenuList>
+            </Menu>
           </Flex>
-        </Link>
-        <Flex dir="row" gap={20}>
-          <Link to={routes.search}>
-            <Text fontSize={"lg"} fontWeight={"bold"}>
-              Search
-            </Text>
-          </Link>
-          <Link to={routes.diamondCheck}>
-            <Text fontSize={"lg"} fontWeight={"bold"}>
-              Diamond Check
-            </Text>
-          </Link>
-          <Link to={routes.calculate}>
-            <Text fontSize={"lg"} fontWeight={"bold"}>
-              Valuation
-            </Text>
-          </Link>
-          <Link to={routes.prices}>
-            <Text fontSize={"lg"} fontWeight={"bold"}>
-              Price
-            </Text>
-          </Link>
-          <Menu>
-            <MenuButton
-              transition="all 0.2s"
-              borderRadius="md"
-              borderWidth="1px"
-              _focus={{ boxShadow: "outline" }}
-            >
-              <Link to={"/"}>
-                <Flex direction={"row"} gap={2} alignItems={"center"}>
-                  <Text fontSize={"lg"} fontWeight={"bold"}>
-                    Education
-                  </Text>
-                  <ChevronDownIcon />
-                </Flex>
-              </Link>
-            </MenuButton>
-            <MenuList>
-              <Link to={routes.educationCertificate}>
-                <MenuItem>Diamond Certification</MenuItem>
-              </Link>
-              <Link to={routes.educationShape}>
-                <MenuItem>Shape</MenuItem>
-              </Link>
-              <Link to={routes.educationCarat}>
-                <MenuItem>Carat Weight</MenuItem>
-              </Link>
-              <Link to={routes.educationColor}>
-                <MenuItem>Diamond Color</MenuItem>
-              </Link>
-              <Link to={routes.educationCut}>
-                <MenuItem>Cut Quality</MenuItem>
-              </Link>
-              <Link to={routes.educationClarity}>
-                <MenuItem>Diamond Clarity</MenuItem>
-              </Link>
-            </MenuList>
-          </Menu>
-        </Flex>
-        <Button colorScheme="blue" onClick={modalSignIn.onOpen}>
-          Sign in
-        </Button>
-      </Flex>
-      <Modal isOpen={modalSignIn.isOpen} onClose={modalSignIn.onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Text fontSize={"ls"}>Sign in to DiamondVal</Text>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Formik
-              initialValues={{ username: "", password: "" }}
-              onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
-                  setSubmitting(false);
-                }, 400);
-              }}
-            >
-              {({
-                values,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-              }) => (
-                <Form onSubmit={handleSubmit}>
-                  <FormControl isRequired>
-                    <FormLabel>Username</FormLabel>
-                    <Input
-                      name="username"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.username}
-                    />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Password</FormLabel>
-                    <Input
-                      name="password"
-                      type="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password}
-                    />
-                  </FormControl>
-                  <Flex
-                    direction={"row"}
-                    alignItems={"center"}
-                    justifyContent={"space-between"}
-                    m={"10px"}
-                  >
-                    <Text fontSize={"sm"}>Forgot password</Text>
-                    <Button
-                      type="submit"
-                      colorScheme="blue"
-                      disabled={isSubmitting}
-                    >
-                      Sign in
-                    </Button>
-                  </Flex>
-                </Form>
-              )}
-            </Formik>
-            <GoogleLogin />
-          </ModalBody>
-          <ModalFooter>
+          <Link to={routes.home}>
             <Flex
               direction={"row"}
+              flex={{ base: 6, md: 1, lg: 1 }}
               alignItems={"center"}
-              justifyContent={"center"}
-              gap={2}
+              justify={{ base: "center", md: "start", lg: "start" }}
             >
-              <Text fontSize={"sm"}>Don't have an account? </Text>
-              <Link>
-                <Text
-                  fontSize={"sm"}
-                  onClick={() => {
-                    modalSignUp.onOpen();
-                    modalSignIn.onClose();
-                  }}
-                >
-                  Sign up
+              <Icon
+                as={GiDiamondTrophy}
+                w={{ base: 5, md: 8, lg: 10 }}
+                h={{ base: 5, md: 8, lg: 10 }}
+              />
+              <Text
+                fontFamily={"The Nautigal"}
+                fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}
+                fontWeight={"bold"}
+                m={"10px "}
+              >
+                DiamondVal
+              </Text>
+            </Flex>
+          </Link>
+          <Flex
+            display={{ base: "none", md: "none", lg: "flex" }}
+            flex={6}
+            direction="row"
+            alignItems={"center"}
+            justify={"center"}
+            gap={20}
+          >
+            <Link to={routes.diamondCheck}>
+              <Text fontSize={"lg"} fontWeight={"bold"}>
+                Diamond Check
+              </Text>
+            </Link>
+            <Link to={routes.diamondCalculate}>
+              <Text fontSize={"lg"} fontWeight={"bold"}>
+                Valuation
+              </Text>
+            </Link>
+            <Link to={routes.prices}>
+              <Text fontSize={"lg"} fontWeight={"bold"}>
+                Price
+              </Text>
+            </Link>
+            <Menu>
+              <MenuButton
+                transition="all 0.2s"
+                borderRadius="md"
+                borderWidth="1px"
+                _focus={{ boxShadow: "outline" }}
+              >
+                <Link to={"/"}>
+                  <Flex direction={"row"} gap={2} alignItems={"center"}>
+                    <Text fontSize={"lg"} fontWeight={"bold"}>
+                      Education
+                    </Text>
+                    <ChevronDownIcon />
+                  </Flex>
+                </Link>
+              </MenuButton>
+              <MenuList>
+                <Link to={routes.educationCertificate}>
+                  <MenuItem>Diamond Certification</MenuItem>
+                </Link>
+                <Link to={routes.educationShape}>
+                  <MenuItem>Shape</MenuItem>
+                </Link>
+                <Link to={routes.educationCarat}>
+                  <MenuItem>Carat Weight</MenuItem>
+                </Link>
+                <Link to={routes.educationColor}>
+                  <MenuItem>Diamond Color</MenuItem>
+                </Link>
+                <Link to={routes.educationCut}>
+                  <MenuItem>Cut Quality</MenuItem>
+                </Link>
+                <Link to={routes.educationClarity}>
+                  <MenuItem>Diamond Clarity</MenuItem>
+                </Link>
+              </MenuList>
+            </Menu>
+          </Flex>
+          {console.log(auth.userAuth)}
+          <Flex
+            direction="row"
+            flex={1}
+            gap={{ base: 2, md: 3, lg: 5 }}
+            alignItems={"center"}
+            justify={{ base: "center", md: "end", lg: "end" }}
+          >
+            <IconButton
+              size={{ base: "xs", md: "sm", lg: "md" }}
+              icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+              onClick={changeColorMode}
+            />
+            {!auth.userAuth ? (
+              <Button
+                colorScheme="blue"
+                size={{ base: "xs", md: "sm", lg: "md" }}
+                onClick={modalSignIn.onOpen}
+              >
+                <Text fontSize={{ base: "xs", md: "sm", lg: "md" }}>
+                  Sign in
                 </Text>
               </Link>
             </Flex>
