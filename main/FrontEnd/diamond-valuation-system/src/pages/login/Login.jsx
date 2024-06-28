@@ -5,6 +5,8 @@ import {
     FormControl,
     FormLabel,
     Input,
+    InputGroup,
+    InputRightElement,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -22,11 +24,14 @@ import "react-toastify/dist/ReactToastify.css";
 import SignUp from "../signUp/SignUp";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import { jwtDecode } from "jwt-decode";
-
+import { FiEye } from "react-icons/fi";
+import { IoEyeOffOutline } from "react-icons/io5";
 export default function Login({ signIn, signUp }) {
     const [isLoading, setIsLoading] = useState(false);
     const auth = useContext(UserContext);
     const [isLogin, setIsLogin] = useState(false);
+    const [show, setShow] = useState(false)
+    const handleShowPassWord = () => setShow(!show)
     async function fetchApi(username, password) {
         setIsLoading(true);
         try {
@@ -149,13 +154,20 @@ export default function Login({ signIn, signUp }) {
                                         </FormControl>
                                         <FormControl isRequired>
                                             <FormLabel>Password</FormLabel>
-                                            <Input
-                                                name="password"
-                                                type="password"
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                value={values.password}
-                                            />
+                                            <InputGroup>
+                                              <Input
+                                                  name="password"
+                                                  type={show ? 'text' : 'password'}
+                                                  onChange={handleChange}
+                                                  onBlur={handleBlur}
+                                                  value={values.password}
+                                              />
+                                              <InputRightElement>
+                                                <Text onClick={handleShowPassWord} cursor={"pointer"}> 
+                                                  {show ? <IoEyeOffOutline /> : <FiEye />}
+                                                </Text>
+                                              </InputRightElement>
+                                            </InputGroup>
                                         </FormControl>
                                         <Flex
                                             direction={"row"}
