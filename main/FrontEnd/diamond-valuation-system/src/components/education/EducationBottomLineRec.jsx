@@ -9,42 +9,32 @@ export default function EducationBottomLineRec({
 }) {
   return (
     <Box border={"1px solid"} borderColor={"gray"} p={10} m={"20px 0 20px 0"}>
-      <Text fontSize={{ base: "lg", md: "xl", lg: "2xl" }} fontWeight={"bold"}>
+      <Text fontSize="2xl" fontWeight={"bold"}>
         Bottom Line Recommendation:
       </Text>
-      <Text fontSize={{ base: "sm", md: "md", lg: "lg" }} m={"20px 0 20px 0"}>
+      <Text fontSize="lg" m={"20px 0 20px 0"}>
         {content}
       </Text>
-      <Flex
-        direction={{ base: "column", md: "row", lg: "row" }}
-        justifyContent={"space-between"}
-        m={"50px 0 0 0"}
-      >
+      <Flex direction={"row"} justifyContent={"space-between"} m={"50px 0 0 0"}>
         <Flex direction={"column"}>
-          <Text
-            fontSize={{ base: "sm", md: "md", lg: "lg" }}
-            fontWeight={"bold"}
-          >
+          <Text fontSize="lg" fontWeight={"bold"}>
             WHAT TO LOOK FOR
           </Text>
           {whatToLookFor.map((item, index) => (
             <Flex key={index} direction={"row"} p={4} gap={2}>
               <FaCheck color="green" size={50} />
-              <Text fontSize={{ base: "sm", md: "md", lg: "lg" }}>{item}</Text>
+              <Text fontSize={"lg"}>{item}</Text>
             </Flex>
           ))}
         </Flex>
         <Flex direction={"column"}>
-          <Text
-            fontSize={{ base: "sm", md: "md", lg: "lg" }}
-            fontWeight={"bold"}
-          >
+          <Text fontSize="lg" fontWeight={"bold"}>
             WHAT TO AVOID
           </Text>
           {whatToAvoid.map((item, index) => (
             <Flex key={index} direction={"row"} p={4} gap={2}>
               <GrClose color={"red"} size={50} />
-              <Text fontSize={{ base: "sm", md: "md", lg: "lg" }}>{item}</Text>
+              <Text fontSize={"lg"}>{item}</Text>
             </Flex>
           ))}
         </Flex>

@@ -1,64 +1,33 @@
 import {
   Button,
   Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
   Menu,
   useDisclosure,
   MenuButton,
   MenuList,
   MenuItem,
-  Avatar,
-  IconButton,
-  useColorMode,
-  useColorModeValue,
-  Container,
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import {
-  ChevronDownIcon,
-  HamburgerIcon,
-  Icon,
-  MoonIcon,
-  SunIcon,
-} from "@chakra-ui/icons";
+import { Form, Formik } from "formik";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { GoogleLogin } from "@react-oauth/google";
 import { GiDiamondTrophy } from "react-icons/gi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import routes from "../config/Config";
-import Login from "../pages/login/Login";
-import { useContext } from "react";
-import { UserContext } from "./GlobalContext/AuthContext";
-import { Bounce, ToastContainer, toast } from "react-toastify";
 export default function Header() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onToggle } = useDisclosure();
-  const bgColor = useColorModeValue("white", "black");
   const modalSignIn = useDisclosure();
   const modalSignUp = useDisclosure();
-  const auth = useContext(UserContext);
-  const nav = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setTimeout(() => {
-      window.location.reload();
-    }, [200]);
-    toast.success("Logout Successful", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
-  };
-  const changeColorMode = () => {
-    toggleColorMode();
-    // document.querySelector("._container_tczam_16").style.backgroundColor =
-    //   colorMode === "light" ? "black" : "white";
-    // document.querySelector("._wrapper_tczam_7").style.backgroundColor =
-    //   colorMode === "light" ? "black" : "white";
-  };
   return (
       <Container marginBottom={"70px"}>
         <ToastContainer />
@@ -214,30 +183,208 @@ export default function Header() {
                 <Text fontSize={{ base: "xs", md: "sm", lg: "md" }}>
                   Sign in
                 </Text>
-              </Button>
-            ) : (
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                  bg={colorMode}
-                >
-                  <Avatar
-                    name={auth.userAuth.fullname}
-                    // src="https://bit.ly/broken-link"
-                  />
-                </MenuButton>
-                <MenuList>
-                  <MenuItem onClick={() => nav("/dashboard")}>
-                    Dash board
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>Log out</MenuItem>
-                </MenuList>
-              </Menu>
-            )}
-          </Flex>
-        </Flex>
-        <Login signIn={modalSignIn} signUp={modalSignUp} />
-      </Container>
+              </Link>
+            </Flex>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={modalSignUp.isOpen} onClose={modalSignUp.onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <Text fontSize={"ls"}>Sign up to DiamondVal</Text>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Formik
+              initialValues={{
+                username: "",
+                fullName: "",
+                email: "",
+                phoneNumber: "",
+                address: "",
+                password: "",
+                confirmPassword: "",
+              }}
+              validate={(values) => {
+                const errors = {};
+                if (values.username.length < 6) {
+                  errors.username = "Must be at least 6 characters";
+                }
+                if (values.email) {
+                  if (
+                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
+                      values.email
+                    )
+                  ) {
+                    errors.email = "Invalid email address";
+                  }
+                }
+                if (values.phoneNumber) {
+                  if (values.phoneNumber.length < 10) {
+                    errors.phoneNumber = "Invalid phone number";
+                  } else if (
+                    !/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/.test(
+                      values.phoneNumber
+                    )
+                  ) {
+                    errors.phoneNumber = "Invalid phone number";
+                  }
+                }
+                if (values.password.length < 8) {
+                  errors.password = "Must be at least 8 characters";
+                }
+                if (values.confirmPassword !== values.password) {
+                  errors.confirmPassword = "Password does not match";
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                setTimeout(() => {
+                  alert(JSON.stringify(values, null, 2));
+                  setSubmitting(false);
+                }, 400);
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+              }) => (
+                <Form onSubmit={handleSubmit}>
+                  <FormControl
+                    isRequired
+                    isInvalid={
+                      errors.username && touched.username && errors.username
+                    }
+                  >
+                    <FormLabel>Username</FormLabel>
+                    <Input
+                      name="username"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.username}
+                    />
+                    <FormErrorMessage>
+                      {errors.username && touched.username && errors.username}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl isRequired>
+                    <FormLabel>Full name</FormLabel>
+                    <Input
+                      name="fullName"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.fullName}
+                    />
+                  </FormControl>
+                  <FormControl
+                    isInvalid={errors.email && touched.email && errors.email}
+                  >
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      name="email"
+                      type="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                    />
+                    <FormErrorMessage>
+                      {errors.email && touched.email && errors.email}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isInvalid={
+                      errors.phoneNumber &&
+                      touched.phoneNumber &&
+                      errors.phoneNumber
+                    }
+                  >
+                    <FormLabel>Phone number</FormLabel>
+                    <Input
+                      name="phoneNumber"
+                      type="tel"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.phoneNumber}
+                    />
+                    <FormErrorMessage>
+                      {errors.phoneNumber &&
+                        touched.phoneNumber &&
+                        errors.phoneNumber}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Address</FormLabel>
+                    <Input
+                      name="address"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.address}
+                    />
+                  </FormControl>
+                  <FormControl
+                    isRequired
+                    isInvalid={
+                      errors.password && touched.password && errors.password
+                    }
+                  >
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                      name="password"
+                      type="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                    />
+                    <FormErrorMessage>
+                      {errors.password && touched.password && errors.password}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isRequired
+                    isInvalid={
+                      errors.confirmPassword &&
+                      touched.confirmPassword &&
+                      errors.confirmPassword
+                    }
+                  >
+                    <FormLabel>Confirm password</FormLabel>
+                    <Input
+                      name="confirmPassword"
+                      type="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.confirmPassword}
+                    />
+                    <FormErrorMessage>
+                      {errors.confirmPassword &&
+                        touched.confirmPassword &&
+                        errors.confirmPassword}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <Button
+                    type="submit"
+                    colorScheme="blue"
+                    w={"inherit"}
+                    m={"10px 0 0 0"}
+                    disabled={isSubmitting}
+                  >
+                    Sign up
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }

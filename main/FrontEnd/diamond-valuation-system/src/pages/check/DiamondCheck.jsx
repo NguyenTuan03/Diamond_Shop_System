@@ -1,22 +1,7 @@
-import {
-  Button,
-  Container,
-  Flex,
-  FormControl,
-  Input,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Button, Flex, Image, Input, Text } from "@chakra-ui/react";
 import React from "react";
-import "react-lazy-load-image-component/src/effects/blur.css";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import axios from "axios";
-import { Form, Formik } from "formik";
-import routes from "../../config/Config";
-import { useNavigate } from "react-router-dom";
+
 export default function DiamondCheck() {
-  const navigate = useNavigate();
-  const bgColor = useColorModeValue("white", "black");
   return (
     <Container maxW="100vw">
       <Flex
@@ -93,12 +78,11 @@ export default function DiamondCheck() {
             )}
           </Formik>
         </Flex>
-        <LazyLoadImage
-          width={"300px"}
-          src="../images/diamond-check.png"
-          effect="blur"
-        />
       </Flex>
-    </Container>
+      <Image
+        src="https://stonealgo-3.b-cdn.net/static/dist/img/dd_2.webp"
+        w={"350px"}
+      />
+    </Flex>
   );
 }

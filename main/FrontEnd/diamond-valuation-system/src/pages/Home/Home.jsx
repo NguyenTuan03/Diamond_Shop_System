@@ -15,7 +15,6 @@ import { IoDiamond } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import routes from "../../config/Config";
 export default function Home() {
-  const bgColor = useColorModeValue("white", "black");
   return (
     <>
       <Container maxW="100vw">
