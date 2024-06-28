@@ -16,6 +16,8 @@ public interface AccountService {
 
     String createAccount(AccountDTO accountDTO);
 
+    String deleteHardAccount(int id);
+
     String updateAccount(AccountDTO accountDTO);
 
     void deleteAccount(int id);
