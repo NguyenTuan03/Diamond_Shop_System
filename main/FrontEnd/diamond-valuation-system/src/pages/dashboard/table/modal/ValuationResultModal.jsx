@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
+  ModalCloseButton,
   ModalHeader,
   ModalOverlay,
   SimpleGrid,
