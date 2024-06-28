@@ -10,33 +10,30 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "sealing_letters")
+@Table(name = "valuation_receipts")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class SealingLetterEntity {
+public class ValuationReceiptEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
     @OneToOne
-    @JoinColumn(name = "Valuation_request_id")
+    @JoinColumn(name = "valuation_request_id")
     private ValuationRequestEntity valuationRequest;
 
     @NotNull(message = "Created date is mandatory")
     @Column(name = "created_date")
     private Date createdDate;
 
-    @Column(name = "content")
-    private String content;
-
-    public SealingLetterEntity(String content, Date createdDate, ValuationRequestEntity valuationRequest) {
-        this.content = content;
-        this.createdDate = createdDate;
+    public ValuationReceiptEntity(ValuationRequestEntity valuationRequest, Date createdDate) {
         this.valuationRequest = valuationRequest;
+        this.createdDate = createdDate;
     }
 }

@@ -192,7 +192,7 @@ public class ValuationResultImpl implements ValuationResultService {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         } else {
             try {
@@ -264,7 +264,7 @@ public class ValuationResultImpl implements ValuationResultService {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
         return diamonds;
@@ -343,7 +343,7 @@ public class ValuationResultImpl implements ValuationResultService {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         } else {
             try {
@@ -414,7 +414,7 @@ public class ValuationResultImpl implements ValuationResultService {
                     diamonds.add(diamond);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
         return diamonds;
@@ -445,7 +445,7 @@ public class ValuationResultImpl implements ValuationResultService {
                         double price = Double.parseDouble(priceText);
                         prices.add(price);
                     } catch (NumberFormatException e) {
-                        
+                        System.out.println(e.getMessage());
                     }
                 }
             }
@@ -456,7 +456,7 @@ public class ValuationResultImpl implements ValuationResultService {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         return diamondPrices;
