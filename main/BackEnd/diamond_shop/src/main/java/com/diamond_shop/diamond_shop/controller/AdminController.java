@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/api/admin")
 public class AdminController {
+
     @Autowired
     private AccountService accountService;
 
@@ -23,11 +24,13 @@ public class AdminController {
     public String createAccount(@RequestBody AccountDTO account) {
         return accountService.createAccount(account);
     }
+
     @PostMapping(path = "/update")
     public String updateAccount(@RequestBody AccountDTO account) {
         System.out.println(account);
         return accountService.updateAccount(account);
     }
+
     @PostMapping(path = "/delete")
     public void deleteAccount(@RequestBody AccountDTO account) {
         System.out.println(account.getId());

@@ -157,7 +157,7 @@ public class AccountImpl implements AccountService {
         if (acc1 != null) {
             String password = loginDTO.getPassword();
             String encodedPassword = acc1.getPassword();
-            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
             if (isPwdRight) {
                 Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
                 if (account.isPresent()) {
