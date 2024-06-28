@@ -212,7 +212,7 @@ export default function Login({ signIn, signUp }) {
                     </ModalContent>
                 </Modal>
             )}
-            <SignUp signUp={signUp} />
+            <SignUp signUp={signUp} signIn={signIn} />
         </>
     );
 }

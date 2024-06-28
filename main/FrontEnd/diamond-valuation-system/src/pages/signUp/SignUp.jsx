@@ -18,11 +18,12 @@ import {
   InputGroup,
   InputLeftAddon,
   FormHelperText,
+  Stack,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { validateSignUp } from "../../utils/ValidateSignUp";
 import Http from "../../utils/Http";
-export default function SignUp({ signUp }) {
+export default function SignUp({ signUp, signIn }) {
   const toast = useToast();
   async function signUpApi(username, fullname, email, phonenumber, password) {
     try {
@@ -68,7 +69,7 @@ export default function SignUp({ signUp }) {
   return (
     <Modal isOpen={signUp.isOpen} onClose={signUp.onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent pb={"30px"}>
         <ModalHeader>
           <Text fontSize={"ls"}>Sign up to DiamondVal</Text>
         </ModalHeader>
@@ -227,15 +228,25 @@ export default function SignUp({ signUp }) {
                       errors.confirmPassword}
                   </FormErrorMessage>
                 </FormControl>
-                <Button
-                  type="submit"
-                  colorScheme="blue"
-                  w={"inherit"}
-                  m={"10px 0 0 0"}
-                  disabled={isSubmitting}
-                >
-                  Sign up
-                </Button>
+                <Stack direction={"row"} justifyContent={"space-between"} mt={"20px"} alignItems={"center"}>
+                  <Button
+                    type="submit"
+                    colorScheme="blue"
+                    w={"inherit"}                    
+                    disabled={isSubmitting}
+                  >
+                    Sign up
+                  </Button>
+                  <Button
+                    onClick={() => {
+                        signIn.onOpen();
+                        signUp.onClose();
+                    }}
+                    colorScheme="blue"
+                  >
+                    Sign In
+                  </Button>
+                </Stack>
               </Form>
             )}
           </Formik>
