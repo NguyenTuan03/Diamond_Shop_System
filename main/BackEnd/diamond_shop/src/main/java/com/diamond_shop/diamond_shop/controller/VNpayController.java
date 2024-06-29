@@ -1,6 +1,7 @@
 package com.diamond_shop.diamond_shop.controller;
 
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
+import com.diamond_shop.diamond_shop.pojo.VNpayBillPojo;
 import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
 import com.diamond_shop.diamond_shop.service.PaymentService;
 import com.diamond_shop.diamond_shop.service.VNPayService;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -87,13 +89,21 @@ public class VNpayController {
 
     @GetMapping("/create-valuation-request")
     public String test(@RequestParam("customerId") int customerId, @RequestParam("serviceId") int serviceId, @RequestParam("pendingRequestId") int pendingRequestId, HttpServletResponse response) throws IOException {
-        System.out.println(serviceId + " " + customerId + " " + pendingRequestId);
         int paymentId = paymentService.createPayment(customerId);
+
         valuationRequestService.makeRequest(pendingRequestId, serviceId, paymentId);
+
         ProcessRequestEntity processRequest = processRequestRepository.findByPendingRequestId(pendingRequestId);
         processRequest.setStatus("Paid");
         processRequestRepository.save(processRequest);
+
+        
         response.sendRedirect("http://localhost:5173/");
         return "<3";
     }
+    @GetMapping("/get")
+    public List<VNpayBillPojo> getCustomerBill(@RequestParam("customerId") int customerId, @RequestParam("serviceId") int serviceId) {
+        return paymentService.getTransaction(customerId, serviceId);
+    }
+    
 }
