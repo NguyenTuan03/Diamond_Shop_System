@@ -7,6 +7,7 @@ import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.RoleEntity;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -57,12 +58,12 @@ public class AccountImpl implements AccountService {
         RoleEntity role = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
         AccountEntity account = new AccountEntity(
-            role, 
-            accountDTO.getUsername(), 
-            encodedPassword, 
-            accountDTO.getFullname(), 
-            updatePhoneNumber,
-            accountDTO.getEmail()
+                role,
+                accountDTO.getUsername(),
+                encodedPassword,
+                accountDTO.getFullname(),
+                updatePhoneNumber,
+                accountDTO.getEmail()
         );
         accountRepository.save(account);
         return account.getUsername();
