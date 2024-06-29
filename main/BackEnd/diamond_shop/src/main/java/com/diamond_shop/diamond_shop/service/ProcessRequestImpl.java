@@ -8,28 +8,27 @@ import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PendingRepository;
 import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProcessRequestImpl implements ProcessRequestService {
-    @Autowired
-    private ProcessRequestRepository processRequestRepository;
+    private final ProcessRequestRepository processRequestRepository;
+    private final AccountRepository accountRepository;
+    private final PendingRepository pendingRepository;
+    private final ValuationResultService valuationResultService;
+    private final ProcessResultService processResultService;
 
-    @Autowired
-    private PendingRepository pendingRepository;
-
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    ValuationResultService valuationResultService;
-
-    @Autowired
-    ProcessResultService processResultService;
-
+    public ProcessRequestImpl(
+            ProcessRequestRepository processRequestRepository,
+            AccountRepository accountRepository, PendingRepository pendingRepository, ValuationResultService valuationResultService, ProcessResultService processResultService) {
+        this.processRequestRepository = processRequestRepository;
+        this.accountRepository = accountRepository;
+        this.pendingRepository = pendingRepository;
+        this.valuationResultService = valuationResultService;
+        this.processResultService = processResultService;
+    }
 
     @Override
     public Page<ProcessRequestEntity> viewAllProcessRequests(int page) {

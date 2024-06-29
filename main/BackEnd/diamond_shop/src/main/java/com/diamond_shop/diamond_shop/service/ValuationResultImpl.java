@@ -10,7 +10,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,17 +23,25 @@ import java.util.Optional;
 
 @Service
 public class ValuationResultImpl implements ValuationResultService {
-    @Autowired
-    ValuationResultRepository valuationResultRepository;
-    @Autowired
-    ValuationRequestRepository valuationRequestRepository;
-    @Autowired
-    private ProcessResultRepository processResultRepository;
-    @Autowired
-    private ProcessRequestRepository processRequestRepository;
+    private final ValuationResultRepository valuationResultRepository;
+    private final ProcessResultRepository processResultRepository;
+    private final ProcessRequestRepository processRequestRepository;
+    private final ValuationRequestRepository valuationRequestRepository;
+    private final ValuationResultImageRepository valuationResultImageRepository;
 
-    @Autowired
-    ValuationResultImageRepository valuationResultImageRepository;
+    public ValuationResultImpl(
+            ValuationResultRepository valuationResultRepository,
+            ProcessResultRepository processResultRepository,
+            ProcessRequestRepository processRequestRepository,
+            ValuationRequestRepository valuationRequestRepository,
+            ValuationResultImageRepository valuationResultImageRepository) {
+        this.valuationResultRepository = valuationResultRepository;
+        this.processResultRepository = processResultRepository;
+        this.processRequestRepository = processRequestRepository;
+        this.valuationRequestRepository = valuationRequestRepository;
+        this.valuationResultImageRepository = valuationResultImageRepository;
+
+    }
 
     @Override
     public Optional<ValuationResultEntity> getValuationResultById(String id) {

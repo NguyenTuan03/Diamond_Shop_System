@@ -5,7 +5,6 @@ import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PendingRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -14,11 +13,13 @@ import java.util.Date;
 
 @Service
 public class PendingRequestImpl implements PendingRequestService {
-    @Autowired
-    private AccountRepository accountRepository;
+    private final PendingRepository pendingRepository;
+    private final AccountRepository accountRepository;
 
-    @Autowired
-    private PendingRepository pendingRepository;
+    public PendingRequestImpl(PendingRepository pendingRepository, AccountRepository accountRepository) {
+        this.pendingRepository = pendingRepository;
+        this.accountRepository = accountRepository;
+    }
 
     @Override
     public Page<PendingRequestsEntity> getAllPendingRequests(int page) {
