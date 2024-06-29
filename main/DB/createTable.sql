@@ -12,7 +12,7 @@ CREATE TABLE users(
 	email NVARCHAR(50) NOT NULL,
 	phone_number NVARCHAR(10),
 	address NVARCHAR(255),
-	isActive BOOLEAN DEFAULT TRUE,
+	isActive BIT,
 	FOREIGN KEY (role_id) REFERENCES roles(id)
 )
 
