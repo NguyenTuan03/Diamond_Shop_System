@@ -1,3 +1,6 @@
+create database diamond
+use diamond
+
 CREATE TABLE roles(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	name NVARCHAR(25)
@@ -107,7 +110,7 @@ CREATE TABLE process_results(
 	valuation_staff_id BIGINT,
 	valuation_result_id NVARCHAR(50),
 	status NVARCHAR(25)
-	FOREIGN KEY (valuation_staff_id) REFERENCES users(id),
+	FOREIGN KEY (valuation_staff_id) REFERENCES users(id) ON DELETE SET NULL,
 	FOREIGN KEY (valuation_result_id) REFERENCES valuation_results(id)
 )
 
@@ -116,7 +119,7 @@ CREATE TABLE sealing_letters(
 	valuation_request_id BIGINT,
 	created_date DATETIME,
 	content NVARCHAR(255),
-	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id),
+	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id) ON DELETE SET NULL, 
 )
 
 CREATE TABLE commiment_letters(
@@ -124,7 +127,7 @@ CREATE TABLE commiment_letters(
 	valuation_request_id BIGINT,
 	created_date DATETIME,
 	content NVARCHAR(255),
-	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id),
+	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id) ON DELETE SET NULL,
 )
 
 INSERT INTO roles(name)
@@ -143,3 +146,11 @@ INSERT INTO service_statistics(
     'Origin, Shape, Carat Weight, Color, Cut, Clarity, Measurement, Polish, Symmetry, Fluorescence, Proportion')
 
 INSERT INTO Services(Name, Price, Time, service_statistic_id) VALUES('Normal', 200000, 30, 1),('Pro', 500000, 20, 2), ('Premium',1000000, 10, 3)
+
+INSERT INTO users(role_id, username, password, full_name, email, phone_number, address,isActive)
+VALUES
+(5, 'tuan','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni',"NguyenTuan",'tuan@gmail.com','0905038319','HCM',1),
+(3, 'consulting001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni',"NguyenTuan",'tu@gmail.com','0905038311','HCM',1),
+(4, 'valuation001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni',"NguyenTuan",'tun@gmail.com','0906038319','HCM',1),
+(2, 'manager','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni',"NguyenTuan",'un@gmail.com','0905038314','HCM',1),
+(5, 'admin','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni',"NguyenTuan",'n@gmail.com','0905038315','HCM',1)
