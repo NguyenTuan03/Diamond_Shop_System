@@ -1,6 +1,8 @@
 package com.diamond_shop.diamond_shop.repository;
 
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
+import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -46,4 +48,7 @@ public interface PendingRepository extends JpaRepository<PendingRequestsEntity, 
             "ON pe.id=pr.pendingRequestId.id" +
             ")")
     Page<PendingRequestsEntity> findAllByCustomerId(Pageable pageable, @Param("customerId") int customerId);
+
+    @Query("SELECT p FROM PendingRequestsEntity p WHERE p.customerId.id=:customerId")
+    ProcessRequestEntity findByCustomerId(@Param("customerId") int customerId);
 }

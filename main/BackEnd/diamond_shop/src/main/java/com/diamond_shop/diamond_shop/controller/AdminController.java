@@ -3,7 +3,6 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/admin")
 public class AdminController {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
+
+    public AdminController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @GetMapping(path = "/get")
     public Page<AccountEntity> getAllAccounts(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter) {

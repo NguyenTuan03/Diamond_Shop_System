@@ -2,7 +2,6 @@ package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.entity.*;
 import com.diamond_shop.diamond_shop.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -11,21 +10,24 @@ import java.util.Optional;
 
 @Service
 public class ValuationRequestImpl implements ValuationRequestService {
-    @Autowired
-    private ValuationRequestRepository valuationRequestRepository;
-    @Autowired
-    private PendingRepository pendingRepository;
-    @Autowired
-    private ServiceRepository serviceRepository;
-    @Autowired
-    private PaymentRepository paymentRepository;
-    @Autowired
-    ProcessRequestRepository processRequestRepository;
+    private final PendingRepository pendingRepository;
+    private final PaymentRepository paymentRepository;
+    private final ServiceRepository serviceRepository;
+    private final ValuationRequestRepository valuationRequestRepository;
+    private final ProcessRequestRepository processRequestRepository;
 
-    @Autowired
-    ProcessResultRepository processResultRepository;
-    @Autowired
-    SealingLetterService sealingLetterService;
+    public ValuationRequestImpl(
+            PendingRepository pendingRepository,
+            PaymentRepository paymentRepository,
+            ServiceRepository serviceRepository,
+            ValuationRequestRepository valuationRequestRepository,
+            ProcessRequestRepository processRequestRepository) {
+        this.pendingRepository = pendingRepository;
+        this.paymentRepository = paymentRepository;
+        this.serviceRepository = serviceRepository;
+        this.valuationRequestRepository = valuationRequestRepository;
+        this.processRequestRepository = processRequestRepository;
+    }
 
     @Override
     public String makeRequest(int pendingId, int serviceId, int paymentId) {

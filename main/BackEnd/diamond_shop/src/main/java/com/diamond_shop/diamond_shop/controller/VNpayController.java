@@ -7,7 +7,6 @@ import com.diamond_shop.diamond_shop.service.VNPayService;
 import com.diamond_shop.diamond_shop.service.ValuationRequestService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,26 +21,26 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/vnpay")
 public class VNpayController {
-    @Autowired
-    private ValuationRequestService valuationRequestService;
+    private final ValuationRequestService valuationRequestService;
 
-    @Autowired
-    private PaymentService paymentService;
+    private final PaymentService paymentService;
 
-    @Autowired
-    ProcessRequestRepository processRequestRepository;
+    private final ProcessRequestRepository processRequestRepository;
 
-    private String vnp_TmnCode = "S9K655Q6";
+    public VNpayController(
+            ValuationRequestService valuationRequestService,
+            PaymentService paymentService,
+            ProcessRequestRepository processRequestRepository) {
+        this.valuationRequestService = valuationRequestService;
+        this.paymentService = paymentService;
+        this.processRequestRepository = processRequestRepository;
+    }
 
-    private String vnp_HashSecret = "3TGCDR6WEYHTMWFWWY1FMMMG8MVRVL9F";
+    private final String success_Url = "http://localhost:5173";
 
-    private String vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+    private final String failed_Url = "http://localhost:5173/diamond-service";
 
-    private String success_Url = "http://localhost:5173";
-
-    private String failed_Url = "http://localhost:5173/diamond-service";
-
-    private String return_Url = "http://localhost:8081/api/vnpay/payment_return";
+    private final String return_Url = "http://localhost:8081/api/vnpay/payment_return";
 
     @GetMapping("/create")
     public String createPayment(
@@ -59,6 +58,7 @@ public class VNpayController {
         String vnpTxnRef = String.valueOf(System.currentTimeMillis());
         vnpParams.put("vnp_Version", "2.1.0");
         vnpParams.put("vnp_Command", "pay");
+        String vnp_TmnCode = "S9K655Q6";
         vnpParams.put("vnp_TmnCode", vnp_TmnCode);
         vnpParams.put("vnp_Amount", String.valueOf(amount * 100));
         vnpParams.put("vnp_CurrCode", "VND");
@@ -75,11 +75,13 @@ public class VNpayController {
         String expireDate = LocalDateTime.now().plusMinutes(15).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         vnpParams.put("vnp_ExpireDate", expireDate);
 
+        String vnp_HashSecret = "3TGCDR6WEYHTMWFWWY1FMMMG8MVRVL9F";
         String secureHash = VNPayService.generateSecureHash(vnp_HashSecret, vnpParams);
         vnpParams.put("vnp_SecureHash", secureHash);
 
         String queryString = VNPayService.createQueryString(vnpParams);
 
+        String vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         return vnp_Url + "?" + queryString;
     }
 

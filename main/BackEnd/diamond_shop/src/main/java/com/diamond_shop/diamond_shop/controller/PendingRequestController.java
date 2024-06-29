@@ -3,7 +3,6 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.PendingRequestDTO;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
 import com.diamond_shop.diamond_shop.service.PendingRequestService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,8 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/api/pending-request")
 public class PendingRequestController {
-    @Autowired
-    private PendingRequestService pendingRequestService;
+    private final PendingRequestService pendingRequestService;
+
+    public PendingRequestController(PendingRequestService pendingRequestService) {
+        this.pendingRequestService = pendingRequestService;
+    }
 
     @GetMapping(path = "/get/all")
     public Page<PendingRequestsEntity> getAllPendingRequests(@RequestParam("page") int page) {
