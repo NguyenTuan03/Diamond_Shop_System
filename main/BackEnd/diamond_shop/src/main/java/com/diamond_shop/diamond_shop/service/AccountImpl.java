@@ -12,9 +12,6 @@ import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PendingRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
-import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -25,16 +22,18 @@ import java.util.Optional;
 
 @Service
 public class AccountImpl implements AccountService {
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private PendingRepository pendingRepository;
-    @Autowired
-    private ValuationRequestRepository valuationRequestRepository;
+
+    private final AccountRepository accountRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public AccountImpl(AccountRepository accountRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.accountRepository = accountRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+
     @Override
     public Page<AccountEntity> getAllAccountsById(String search, int pageId, String filter) {
         int pageSize = 5;
@@ -66,12 +65,12 @@ public class AccountImpl implements AccountService {
         RoleEntity role = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
         AccountEntity account = new AccountEntity(
-            role, 
-            accountDTO.getUsername(), 
-            encodedPassword, 
-            accountDTO.getFullname(), 
-            updatePhoneNumber,
-            accountDTO.getEmail()
+                role,
+                accountDTO.getUsername(),
+                encodedPassword,
+                accountDTO.getFullname(),
+                updatePhoneNumber,
+                accountDTO.getEmail()
         );
         accountRepository.save(account);
         return account.getUsername();
