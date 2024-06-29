@@ -2,6 +2,7 @@ package com.diamond_shop.diamond_shop.service;
 
 
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
+import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
@@ -15,6 +16,8 @@ public interface AccountService {
 
     String createAccount(AccountDTO accountDTO);
 
+    String deleteHardAccount(int id);
+
     String updateAccount(AccountDTO accountDTO);
 
     void deleteAccount(int id);
@@ -24,4 +27,5 @@ public interface AccountService {
     String updatePhoneNumber(String phoneNumber);
 
     String checkDuplicateAccount(String type, int id, String username, String email, String phoneNumber);
+
 }
