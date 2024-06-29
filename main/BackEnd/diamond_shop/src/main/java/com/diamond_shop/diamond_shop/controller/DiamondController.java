@@ -3,7 +3,6 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.DiamondCheckRequestDTO;
 import com.diamond_shop.diamond_shop.service.DiamondService;
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("api/diamond")
 public class DiamondController {
-    @Autowired
-    private DiamondService diamondService;
-//
+    private final DiamondService diamondService;
+
+    public DiamondController(DiamondService diamondService) {
+        this.diamondService = diamondService;
+    }
+
     @PostMapping(value = "/calculate", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getDiamondAttr(@RequestBody DiamondCheckRequestDTO request) {
         String gradingLab = request.getGradingLab();

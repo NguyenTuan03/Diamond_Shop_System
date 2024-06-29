@@ -5,7 +5,6 @@ import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
 import com.diamond_shop.diamond_shop.service.AccountService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/account")
 public class Api {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
+
+    public Api(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @GetMapping(path = "/welcome")
     public String welcome() {

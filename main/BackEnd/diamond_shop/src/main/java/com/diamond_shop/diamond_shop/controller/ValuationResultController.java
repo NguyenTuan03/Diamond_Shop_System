@@ -6,7 +6,6 @@ import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +18,11 @@ import java.util.Optional;
 @CrossOrigin
 @RequestMapping("api/valuation-result")
 public class ValuationResultController {
-    @Autowired
-    private ValuationResultService valuationResultService;
+    private final ValuationResultService valuationResultService;
+
+    public ValuationResultController(ValuationResultService valuationResultService) {
+        this.valuationResultService = valuationResultService;
+    }
 
     @PutMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
     public String valuateDiamond(@RequestParam("id") String id, @RequestBody ValuationResultDTO valuationResultDTO) {
@@ -66,9 +68,10 @@ public class ValuationResultController {
     public List<DiamondPojo> scrapeLabGrownDiamonds(@RequestParam String shape) {
         return valuationResultService.crawlLabGrownDiamond(shape);
     }
+
     @GetMapping("/crawl-detail-natural")
     public List<DetailDiamondPojo> getMethodName(@RequestParam("carat") String carat) {
         return valuationResultService.crawlDetailDiamond(carat);
     }
-    
+
 }
