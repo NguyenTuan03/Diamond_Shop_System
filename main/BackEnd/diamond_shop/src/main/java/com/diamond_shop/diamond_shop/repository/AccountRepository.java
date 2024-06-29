@@ -2,18 +2,20 @@ package com.diamond_shop.diamond_shop.repository;
 
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.RoleEntity;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@org.springframework.stereotype.Repository
+@Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, Integer> {
 
     @Query(value = "SELECT a FROM AccountEntity a")

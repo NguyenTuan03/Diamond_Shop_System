@@ -2,7 +2,6 @@ package com.diamond_shop.diamond_shop.controller;
 
 import com.diamond_shop.diamond_shop.entity.ProcessResultEntity;
 import com.diamond_shop.diamond_shop.service.ProcessResultService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("api/process-result")
 public class ProcessResultController {
-    @Autowired
-    private ProcessResultService processResultService;
+    private final ProcessResultService processResultService;
+
+    public ProcessResultController(ProcessResultService processResultService) {
+        this.processResultService = processResultService;
+    }
 
     @GetMapping(path = "/get/valuation-staff")
     public Page<ProcessResultEntity> getAllByValuationStaffId(@RequestParam("page") int page, @RequestParam("valuationStaffId") int valuationStaffId) {

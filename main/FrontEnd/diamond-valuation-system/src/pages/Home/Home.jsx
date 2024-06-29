@@ -71,7 +71,7 @@ export default function Home() {
                     Search all diamonds
                   </Button>
                 </Link>
-                <Link to={routes.diamondService}>
+                <Link to={routes.diamondValuationRequest}>
                   <Button
                     size={{ base: "sm", md: "md", lg: "lg" }}
                     color="#7B68EE"

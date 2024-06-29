@@ -5,7 +5,9 @@ import { useToast } from "@chakra-ui/react";
 export const UserContext = createContext();
 
 export default function AuthContext({ children }) {
-    const [userAuth, setUserAuth] = useState(JSON.parse(localStorage.getItem("user")) ?? "");
+    const [userAuth, setUserAuth] = useState(
+        JSON.parse(localStorage.getItem("user")) ?? ""
+    );
     const toast = useToast();
 
     const deleteAccount = async () => {
