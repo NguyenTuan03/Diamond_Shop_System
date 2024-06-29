@@ -262,7 +262,8 @@ export default function ValuationRequestModal({
                   />
                 )) ||
                 ((selectedProcessRequest?.status === "Valuated" ||
-                  selectedProcessRequest?.status === "Finished") && (
+                  selectedProcessRequest?.status === "Finished" ||
+                  selectedProcessRequest?.status === "Done") && (
                   <>
                     <Button
                       colorScheme="teal"
