@@ -196,14 +196,7 @@ public class AccountImpl implements AccountService {
 
     @Override
     public String deleteHardAccount(int id) {
-        // ProcessRequestEntity pendingRequestsEntity = pendingRepository.findByCustomerId(id);
-        // Optional<ValuationRequestEntity> valuationRequestEntity = valuationRequestRepository.findByPendingRequestId(pendingRequestsEntity.getId());
-        // valuationRequestRepository.deleteById(id);
-        // pendingRepository.deleteById(id);
-        // accountRepository.deleteById(id);
-
+        accountRepository.deleteById(id);
         return "Successful";
     }
-
-    
 }
