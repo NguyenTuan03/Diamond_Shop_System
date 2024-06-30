@@ -36,7 +36,10 @@ CREATE TABLE payments(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	customer_id BIGINT,
 	created_date DATETIME,
-	type NVARCHAR(20)
+	bank NVARCHAR(20),
+	amount int,
+	transaction_no NVARCHAR(255),
+	order_info NVARCHAR(255),
 	FOREIGN KEY (customer_id) REFERENCES users(id)
 )
 
