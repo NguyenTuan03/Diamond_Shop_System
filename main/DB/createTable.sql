@@ -157,3 +157,5 @@ VALUES
 (4, 'valuation001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tun@gmail.com','0906038319','HCM',1),
 (2, 'manager','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','un@gmail.com','0905038314','HCM',1),
 (1, 'admin','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','n@gmail.com','0905038315','HCM',1)
+
+-- All Pass Tuan@2011
