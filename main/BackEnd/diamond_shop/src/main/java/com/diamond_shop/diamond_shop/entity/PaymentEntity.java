@@ -35,16 +35,28 @@ public class PaymentEntity {
     @Column(name = "created_date")
     private Date createdDate;
     
-    @Column(name = "type")
-    private String type;
+    @Column(name = "bank")
+    private String bank;
+
+    @Column(name = "amount")
+    private int amount;
     
+    @Column(name = "transaction_no")
+    private String transaction;
+
+    @Column(name = "order_info")
+    private String orderInfo;
+
     @OneToOne(mappedBy = "paymentId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ValuationRequestEntity valuationRequestEntity;
 
-    public PaymentEntity(AccountEntity customerId, Date createdDate, String type) {
+    public PaymentEntity(AccountEntity customerId, Date createdDate, String bank, int amount, String transaction,
+            String orderInfo) {
         this.customerId = customerId;
         this.createdDate = createdDate;
-        this.type = type;
+        this.bank = bank;
+        this.amount = amount;
+        this.transaction = transaction;
+        this.orderInfo = orderInfo;
     }
-
 }
