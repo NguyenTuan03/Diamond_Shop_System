@@ -78,23 +78,43 @@ export default function SideBar() {
             </Link>
           )}
           {auth.userAuth.roleid === 5 && (
-            <Link to={routes.dashboardAppoint}>
-              <Flex
-                pl={2}
-                _hover={{
-                  background: "rgb(55 65 81)",
-                  color: "#fff",
-                }}
-                cursor="pointer"
-                borderRadius={3}
-                alignItems={"center"}
-                h="40px"
-                color={"#000"}
-              >
-                <CiCalendar />
-                <Text ml={3}>Appointments</Text>
-              </Flex>
-            </Link>
+            <VStack alignItems={"flex-start"}>
+              <Link to={routes.dashboardAppoint} style={{width:"100%"}}>
+                <Flex
+                  pl={2}
+                  _hover={{
+                    background: "rgb(55 65 81)",
+                    color: "#fff",
+                  }}
+                  cursor="pointer"
+                  borderRadius={3}
+                  alignItems={"center"}
+                  h="40px"
+                  color={"#000"}
+                >
+                  <CiCalendar />
+                  <Text ml={3}>Appointments</Text>
+                </Flex>
+              </Link>
+              <Link to={routes.dashboardTransaction} style={{width:"100%"}}>
+                <Flex
+                  pl={2}
+                  _hover={{
+                    background: "rgb(55 65 81)",
+                    color: "#fff",
+                  }}
+                  cursor="pointer"
+                  borderRadius={3}
+                  alignItems={"center"}
+                  h="40px"
+                  color={"#000"}
+                >
+                  <CiCalendar />
+                  <Text ml={3}>Payment history</Text>
+                </Flex>
+              </Link>   
+            </VStack>
+            
           )}
           {auth.userAuth.roleid === 2 && (
             <>
