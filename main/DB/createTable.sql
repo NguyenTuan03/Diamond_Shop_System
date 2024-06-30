@@ -40,8 +40,11 @@ CREATE TABLE payments(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	customer_id BIGINT,
 	created_date DATETIME,
-	type NVARCHAR(20)
-	FOREIGN KEY (customer_id) REFERENCES users(id) on DELETE SET NULL
+	bank NVARCHAR(20),
+	amount int,
+	transaction_no NVARCHAR(255),
+	order_info NVARCHAR(255),
+	FOREIGN KEY (customer_id) REFERENCES users(id)
 )
 
 CREATE TABLE service_statistics(
@@ -149,8 +152,8 @@ INSERT INTO Services(Name, Price, Time, service_statistic_id) VALUES('Normal', 2
 
 INSERT INTO users(role_id, username, password, full_name, email, phone_number, address,isActive)
 VALUES
-(5, 'tuan','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni',"NguyenTuan",'tuan@gmail.com','0905038319','HCM',1),
-(3, 'consulting001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni',"NguyenTuan",'tu@gmail.com','0905038311','HCM',1),
-(4, 'valuation001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni',"NguyenTuan",'tun@gmail.com','0906038319','HCM',1),
-(2, 'manager','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni',"NguyenTuan",'un@gmail.com','0905038314','HCM',1),
-(5, 'admin','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni',"NguyenTuan",'n@gmail.com','0905038315','HCM',1)
+(5, 'tuan','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tuan@gmail.com','0905038319','HCM',1),
+(3, 'consulting001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tu@gmail.com','0905038311','HCM',1),
+(4, 'valuation001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tun@gmail.com','0906038319','HCM',1),
+(2, 'manager','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','un@gmail.com','0905038314','HCM',1),
+(1, 'admin','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','n@gmail.com','0905038315','HCM',1)
