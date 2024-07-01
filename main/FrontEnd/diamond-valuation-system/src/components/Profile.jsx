@@ -5,15 +5,20 @@ export default function Profile() {
     const auth = useContext(UserContext);
   return (
     <>
-      <Flex align={"center"} p={3} pr={0} bg={"rgb(229 231 235)"}>
-        <WrapItem mr={3}>
-          <Avatar
-            name={auth.userAuth.fullname}
-            src="https://bit.ly/tioluwani-kolawole"
-          />
-        </WrapItem>
-        <Text color={"#000"}>{auth.userAuth.fullname}</Text>
-      </Flex>
+      <Flex
+    direction="column"
+    align="center"
+    mt="8"
+  >
+    <Avatar size="md" name={auth.userAuth.fullname}
+            src="https://bit.ly/tioluwani-kolawole" />
+    <Text mt="4" fontSize="xl">
+    {auth.userAuth.fullname}
+    </Text>
+    
+  </Flex>
     </>
+
+    
   );
 }
