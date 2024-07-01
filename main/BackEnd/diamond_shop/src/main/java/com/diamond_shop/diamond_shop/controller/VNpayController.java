@@ -1,6 +1,8 @@
 package com.diamond_shop.diamond_shop.controller;
 
+import com.diamond_shop.diamond_shop.entity.PaymentEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
+import com.diamond_shop.diamond_shop.pojo.VNpayBillPojo;
 import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
 import com.diamond_shop.diamond_shop.service.PaymentService;
 import com.diamond_shop.diamond_shop.service.VNPayService;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -113,5 +116,9 @@ public class VNpayController {
             response.sendRedirect(home_Url+"?"+ VNPayService.createQueryString(params));
             return "Fail";
         }        
+    }
+    @GetMapping(path = "/get")
+    public List<VNpayBillPojo> getTransaction(@RequestParam("id") int id) {
+        return paymentService.getTransaction(id);
     }
 }
