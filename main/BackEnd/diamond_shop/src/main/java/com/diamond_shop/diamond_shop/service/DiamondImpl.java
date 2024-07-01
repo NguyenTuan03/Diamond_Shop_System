@@ -32,8 +32,7 @@ public class DiamondImpl implements DiamondService {
         params.put("cert", gradingLab);
         String finalUrl = fetchUrl.concat(builderQueryString(params));
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(finalUrl, String.class);
-        return response;
+        return restTemplate.getForEntity(finalUrl, String.class);
     }
 
     @Override
