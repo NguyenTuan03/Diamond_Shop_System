@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProcessRequestImpl implements ProcessRequestService {
+
     private final ProcessRequestRepository processRequestRepository;
     private final AccountRepository accountRepository;
     private final PendingRepository pendingRepository;
@@ -76,19 +77,20 @@ public class ProcessRequestImpl implements ProcessRequestService {
         ProcessRequestEntity processRequest = processRequestRepository.findById(id).orElse(null);
         if (processRequest == null)
             return "Cannot found this process request with id: " + id;
-        if (updateProcessRequestDTO.getStatus().equals("Contacted")) {
-            processRequest.setStatus(updateProcessRequestDTO.getStatus());
-            processRequestRepository.save(processRequest);
-        } else if (updateProcessRequestDTO.getStatus().equals("Diamond Received")) {
-            valuationResultService.createValuationResult(processRequest);
-            processResultService.processResult(processRequest);
-            processRequest.setStatus(updateProcessRequestDTO.getStatus());
-            processRequestRepository.save(processRequest);
-        } else if (updateProcessRequestDTO.getStatus().equals("Done")) {
-            processRequest.setStatus(updateProcessRequestDTO.getStatus());
-            processRequestRepository.save(processRequest);
-        } else if (updateProcessRequestDTO.getStatus().equals("Lost Receipt")) {
+        switch (updateProcessRequestDTO.getStatus()) {
+            case "Contacted", "Done" -> {
+                processRequest.setStatus(updateProcessRequestDTO.getStatus());
+                processRequestRepository.save(processRequest);
+            }
+            case "Diamond Received" -> {
+                valuationResultService.createValuationResult(processRequest);
+                processResultService.processResult(processRequest);
+                processRequest.setStatus(updateProcessRequestDTO.getStatus());
+                processRequestRepository.save(processRequest);
+            }
+            case "Lost Receipt" -> {
 
+            }
         }
         return "Update process request successfully!";
     }
