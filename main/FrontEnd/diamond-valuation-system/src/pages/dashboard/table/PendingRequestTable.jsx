@@ -73,6 +73,7 @@ export default function PendingRequestTable() {
           toast({
             title: response.data,
             status: "success",
+            position: "top-right",
             duration: 3000,
             isClosable: true,
           });
@@ -82,6 +83,7 @@ export default function PendingRequestTable() {
         toast({
           title: error.response.data,
           status: "error",
+          position: "top-right",
           duration: 3000,
           isClosable: true,
         });

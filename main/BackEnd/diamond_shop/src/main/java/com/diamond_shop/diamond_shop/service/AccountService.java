@@ -15,6 +15,8 @@ public interface AccountService {
 
     String createAccount(AccountDTO accountDTO);
 
+    String deleteHardAccount(int id);
+
     String updateAccount(AccountDTO accountDTO);
 
     void deleteAccount(int id);
@@ -24,4 +26,5 @@ public interface AccountService {
     String updatePhoneNumber(String phoneNumber);
 
     String checkDuplicateAccount(String type, int id, String username, String email, String phoneNumber);
+
 }
