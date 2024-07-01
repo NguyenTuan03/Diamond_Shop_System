@@ -1,43 +1,80 @@
 import { IoIosCreate } from "react-icons/io";
-import { Box, Button, StackDivider, Text, VStack } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
+import {
+    Box,
+    Button,
+    StackDivider,
+    Text,
+    Table,
+    TableContainer,
+    Thead,
+    Tr,
+    Th,
+    Tbody,
+    Td,
+    Skeleton,
+} from "@chakra-ui/react";
+import React, { useContext, useEffect, useState } from "react";
 import { viewCustomerRequest } from "../../service/ViewRequest";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
-
 export default function DashBoardAppoint() {
     const user = useContext(UserContext);
+    const [request, SetRequest] = useState([]);
     useEffect(() => {
-        const fetchApi = async(id) => {
-            const result = await viewCustomerRequest(id);
-            console.log(result);
-        }
+        const fetchApi = async (id) => {
+            try {
+                const result = await viewCustomerRequest(1, id);
+                SetRequest(result.content)
+            } catch (error) {
+                console.log(error);
+            }
+        };
         fetchApi(user.userAuth.id);
-    },[])
+    }, []);
     return (
         <div>
-            <Box bg="rgb(67 56 202)" w="100%" pl={1} color="white">
-                <Text py={3} fontSize="lg" pl={"20px"}>
-                    APPOINTMENTS
-                </Text>
-                <VStack
-                    pl={4}
-                    background={"rgb(239 246 255)"}
-                    divider={<StackDivider borderColor="gray.200" />}
-                    spacing={1}
-                    align="stretch"
-                    justifyContent={"center"}
-                >
-                    <Box lineHeight={"40px"} h="40px" color={"#000"}>
-                        There's one appointment
+            <Text py={3} fontSize="lg">
+                APPOINTMENTS
+            </Text>
+            {
+                request.length === 0 ? (
+                    <Box>
+                        There's no API available
                     </Box>
-                    <Box lineHeight={"40px"} h="40px" color={"#000"}>
-                        There's one appointment
-                    </Box>
-                    <Box lineHeight={"40px"} h="40px" color={"#000"}>
-                        There's one appointment
-                    </Box>
-                </VStack>
-            </Box>
+                ) : (
+                    <TableContainer>
+                        <Table variant="simple">
+                            <Thead>
+                                <Tr>
+                                    <Th>#</Th>
+                                    <Th>Customer</Th>
+                                    <Th>Date</Th>
+                                    <Th>Email</Th>
+                                    <Th>Phone</Th>
+                                    <Th>Description</Th>
+                                    <Th>Status</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {
+                                    request.map((req,i) => {
+                                        return (
+                                            <Tr key={i}>
+                                                <Td>{i+1}</Td>
+                                                <Td>{req.customerName}</Td>
+                                                <Td>{req.createdDate}</Td>
+                                                <Td>{req.customerEmail}</Td>
+                                                <Td>{req.customerPhone}</Td>
+                                                <Td>{req.description}</Td>
+                                                <Td>Contacting...</Td>
+                                            </Tr>
+                                        )
+                                    })
+                                }
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
+                )
+            }
         </div>
     );
 }

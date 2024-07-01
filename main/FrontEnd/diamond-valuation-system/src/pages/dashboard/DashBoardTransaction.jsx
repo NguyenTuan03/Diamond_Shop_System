@@ -1,33 +1,82 @@
-import { Table, TableCaption, TableContainer, Thead,Tr,Th,Tbody,Td } from "@chakra-ui/react";
-import React from "react";
-
+import { Table, TableContainer, Thead,Tr,Th,Tbody,Td, Skeleton } from "@chakra-ui/react";
+import React, { useContext, useEffect, useState } from "react";
+import { getCustomerTransaction } from "../../service/GetCustomerTransaction";
+import { UserContext } from './../../components/GlobalContext/AuthContext';
+import { format } from 'date-fns';
 export default function DashBoardTransaction() {
+    const [transaction, setTransaction] = useState([]);
+    const auth = useContext(UserContext);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {        
+        const fetchApi = async (id) => {
+            try {
+                const result = await getCustomerTransaction(id);
+                setTransaction(result);
+                setLoading(false);
+                console.log(result);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchApi(auth.userAuth.id);
+    },[])
     return (
         <TableContainer>
             <Table variant="simple">
                 <Thead>
                     <Tr>
-                        <Th>To convert</Th>
-                        <Th>into</Th>
-                        <Th isNumeric>multiply by</Th>
+                        <Th>#</Th>
+                        <Th>Transaction No</Th>
+                        <Th>Name</Th>
+                        <Th>Bank</Th>
+                        <Th>Amount</Th>
+                        <Th>Date</Th>
+                        <Th>Description</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
-                    <Tr>
-                        <Td>inches</Td>
-                        <Td>millimetres (mm)</Td>
-                        <Td isNumeric>25.4</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>feet</Td>
-                        <Td>centimetres (cm)</Td>
-                        <Td isNumeric>30.48</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>yards</Td>
-                        <Td>metres (m)</Td>
-                        <Td isNumeric>0.91444</Td>
-                    </Tr>
+                    {
+                        loading && (
+                            <>
+                            <Tr>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                            </Tr>
+                            <Tr>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                                <Td><Skeleton height='20px' /></Td>
+                            </Tr>
+                            </>
+                        )
+                    }
+                    {
+                        transaction && (
+                            transaction.map((transaction,index) => {
+                                return (
+                                    <Tr key={index}>
+                                        <Td>{index+1}</Td>
+                                        <Td>{transaction.transaction}</Td>
+                                        <Td>{transaction.customername}</Td>
+                                        <Td>{transaction.bank}</Td>
+                                        <Td>{new Intl.NumberFormat('vi-VN').format(transaction.amount)}</Td>
+                                        <Td>{format(new Date(transaction.date), 'dd/MM/yyyy HH:mm:ss')}</Td>
+                                        <Td>{transaction.order_info}</Td>
+                                    </Tr>
+                                )
+                            })
+
+                        ) 
+                    }
                 </Tbody>
             </Table>
         </TableContainer>

@@ -16,7 +16,7 @@ import {
     AlertDialogCloseButton,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
-import { Link as LinkReactRouterDOM } from "react-router-dom";
+
 import Title from "../../components/Title";
 import ScrollToTop from "react-scroll-to-top";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
@@ -26,6 +26,7 @@ export default function DashBoardSetting() {
     const bgColor = useColorModeValue("white", "black");
     const toast = useToast();
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpenUpdate, setIsOpenUpdate] = useState(false);
 
     const onClose = () => setIsOpen(false);
     const cancelRef = React.useRef();
@@ -125,10 +126,10 @@ export default function DashBoardSetting() {
                         </Text>
 
                         <Button
-                            bg="blue    "
+                            bg="blue"
                             color="#fff"
                             mt={"20px"}
-                            onClick={() => setIsOpen(true)}
+                            onClick={() => setIsOpenUpdate(true)}
                         >
                             Update Account
                         </Button>

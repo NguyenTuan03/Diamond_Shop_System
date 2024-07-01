@@ -1,13 +1,11 @@
 import Http from "../utils/Http";
-export const viewCustomerRequest = async (page, id) => {
+export const getCustomerTransaction = async (id) => {
     try {
-        const res = await Http.httpRequest.get("api/pending-request/customer/get", {
+        const res = await Http.httpRequest.get("api/vnpay/get", {
             params: {
-                page,
                 id
             }
-        }) 
-                
+        })      
         return res.data
     } catch (error) {
         console.error('API call error:', error.response ? error.response.data : error.message);
