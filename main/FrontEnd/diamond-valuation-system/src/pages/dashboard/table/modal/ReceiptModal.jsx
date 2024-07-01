@@ -9,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  SimpleGrid,
   Table,
   TableContainer,
   Tbody,
@@ -65,36 +66,63 @@ export default function ReceiptModal({
               <Text>
                 <strong>RE</strong>: Diamond Valuation Receipt
               </Text>
-              <Text>We include: </Text>
-              <Flex gap={10}>
+              <Flex justify={"space-between"} p={5}>
                 <Flex direction={"column"} align={"start"} gap={5}>
-                  <Text fontWeight={"bold"}>Customer side (Send diamond)</Text>
-                  <UnorderedList spacing={2}>
-                    <ListItem>
-                      Name: {selectedValuationReceipt?.customerName || "N/A"}
-                    </ListItem>
-                    <ListItem>
-                      Phone Number:{" "}
-                      {selectedValuationReceipt?.customerPhone || "N/A"}
-                    </ListItem>
-                  </UnorderedList>
+                  <Text>Information: </Text>
+                  <SimpleGrid columns={2} spacing={5}>
+                    <Text>
+                      Paid date:{" "}
+                      {selectedValuationReceipt?.paymentDate?.slice(0, 10)}
+                    </Text>
+                    <Text>Bank: {selectedValuationReceipt?.bank}</Text>
+                    <Text>
+                      Transaction No: {selectedValuationReceipt?.transactionNo}
+                    </Text>
+                    <Text>Amount: {selectedValuationReceipt?.amount} vnd</Text>
+                    <Text>
+                      Order info: {selectedValuationReceipt?.orderInfo}
+                    </Text>
+                  </SimpleGrid>
                 </Flex>
                 <Flex direction={"column"} align={"start"} gap={5}>
-                  <Text fontWeight={"bold"}>
-                    Company side (Receive diamond)
-                  </Text>
-                  <UnorderedList spacing={2}>
-                    <ListItem>
-                      Name:{" "}
-                      {selectedValuationReceipt?.consultingStaffName || "N/A"}
-                    </ListItem>
-                    <ListItem>
-                      Phone Number:{" "}
-                      {selectedValuationReceipt?.consultingStaffPhone || "N/A"}
-                    </ListItem>
-                  </UnorderedList>
+                  <Text>We include: </Text>
+                  <Flex gap={10}>
+                    <Flex direction={"column"} align={"start"} gap={5}>
+                      <Text fontWeight={"bold"}>
+                        Customer side (Send diamond)
+                      </Text>
+                      <UnorderedList spacing={2}>
+                        <ListItem>
+                          Name:{" "}
+                          {selectedValuationReceipt?.customerName || "N/A"}
+                        </ListItem>
+                        <ListItem>
+                          Phone Number:{" "}
+                          {selectedValuationReceipt?.customerPhone || "N/A"}
+                        </ListItem>
+                      </UnorderedList>
+                    </Flex>
+                    <Flex direction={"column"} align={"start"} gap={5}>
+                      <Text fontWeight={"bold"}>
+                        Company side (Receive diamond)
+                      </Text>
+                      <UnorderedList spacing={2}>
+                        <ListItem>
+                          Name:{" "}
+                          {selectedValuationReceipt?.consultingStaffName ||
+                            "N/A"}
+                        </ListItem>
+                        <ListItem>
+                          Phone Number:{" "}
+                          {selectedValuationReceipt?.consultingStaffPhone ||
+                            "N/A"}
+                        </ListItem>
+                      </UnorderedList>
+                    </Flex>
+                  </Flex>
                 </Flex>
               </Flex>
+
               <Text>
                 Both are agree to about give and receive the diamond below
               </Text>
