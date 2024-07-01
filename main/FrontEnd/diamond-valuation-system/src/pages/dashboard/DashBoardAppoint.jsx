@@ -1,4 +1,4 @@
-import { Box, Button, StackDivider, Text, VStack, HStack, Image, SimpleGrid } from "@chakra-ui/react";
+import { Box, Button, StackDivider, Text, VStack, HStack, Image, SimpleGrid, Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { viewCustomerRequest } from "../../service/ViewRequest";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
@@ -8,6 +8,7 @@ export default function DashBoard() {
     const [appointments, setAppointments] = useState([]);
     const [savedDiamonds, setSavedDiamonds] = useState([]);
     const [priceAlerts, setPriceAlerts] = useState([]);
+    const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
         const fetchApi = async (id) => {
@@ -15,13 +16,14 @@ export default function DashBoard() {
             setAppointments(result.appointments || []);
             setSavedDiamonds(result.savedDiamonds || []);
             setPriceAlerts(result.priceAlerts || []);
+            setTransactions(result.transactions || []);
         };
         fetchApi(user.userAuth.id);
     }, [user.userAuth.id]);
 
     return (
         <Box>
-            <Box Box bg="rgb(67 56 202)" w="100%" pl={1} color="white" mb={5}>
+            <Box Box bg=" gray.800" w="100%" pl={1} color="white" mb={5}>
             <Text py={3} fontSize="lg" pl={"20px"}>
                         APPOINTMENTS
                     </Text>
@@ -46,8 +48,52 @@ export default function DashBoard() {
                         )}
                     </VStack>
                 </Box>
+                <Box Box bg="gray.800" w="100%" pl={1} color="black" mb={5} boxShadow="sm" borderRadius="md">
+                <Text bg="gray.800" w="100%" py={3} fontSize="lg" pl={"20px"}  color="white" borderBottom="1px solid" borderColor="gray.200">
+                    Transaction History
+                </Text>
+                <Box overflowX="auto">
+                    <Table variant="simple" bg="gray.200">
+                        <Thead>
+                            <Tr>
+                                <Th>Services</Th>
+                                <Th>Date</Th>
+                                <Th>Invoice ID</Th>
+                                <Th>Amount</Th>
+                                <Th>Status</Th>
+                                <Th>Action</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            
+                                <Tr >
+                                    <Td>
+                                        <HStack >
+                                            
+                                            <Box>
+                                                <Text  >Check Diamond</Text>
+                                                <Text fontSize="sm" color="gray.500">ID: 25014287</Text>
+                                            </Box>
+                                        </HStack>
+                                    </Td>
+                                    <Td>
+                                        <Text  >21 March 2021</Text>
+                                        <Text fontSize="sm" color="gray.500">At 6:45 PM</Text>
+                                    </Td>
+                                    <Td>OP01214784</Td>
+                                    <Td  >$250 USD</Td>
+                                    <Td color="green" >Receive</Td>
+                                    <Td>
+                                        <Button size="sm" bg="gray.300">Details</Button>
+                                    </Td>
+                                </Tr>
+                            
+                        </Tbody>
+                    </Table>
+                </Box>
+            </Box>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                <Box Box bg="rgb(67 56 202)" w="100%" pl={1} color="white">
+                <Box Box bg=" gray.800" w="100%" pl={1} color="white">
                     <Text py={3} fontSize="lg" pl={"20px"}>
                         SAVED DIAMONDS
                     </Text>
@@ -72,7 +118,7 @@ export default function DashBoard() {
                         )}
                     </VStack>
                 </Box>
-                <Box bg="rgb(67 56 202)" w="100%" pl={1} color="white">
+                <Box bg=" gray.800" w="100%" pl={1} color="white">
                 <Text py={3} fontSize="lg" pl={"20px"}>
                     RECENT DIAMONDS
                 </Text>
@@ -92,11 +138,11 @@ export default function DashBoard() {
                             borderRadius="full"
                         />
                         <Box>
-                            <Text fontWeight="bold" color="blue.600">Round · 0.33 Carat · J Color</Text>
-                            <Text fontWeight="bold" color="blue.600">VS1 Clarity · None Fluor</Text>
-                            <Text fontWeight="bold" color="#222">GIA 2486742135</Text>
+                            <Text   color="blue.600">Round · 0.33 Carat · J Color</Text>
+                            <Text   color="blue.600">VS1 Clarity · None Fluor</Text>
+                            <Text   color="#222">GIA 2486742135</Text>
                         </Box>
-                        <Button colorScheme="blue" size="sm" ml="auto">View</Button>
+                        <Button bg="gray.300" size="sm" ml="auto">View</Button>
                     </HStack>
                     <HStack spacing={4} py={2} align="center">
                         <Image
@@ -106,11 +152,11 @@ export default function DashBoard() {
                             borderRadius="full"
                         />
                         <Box>
-                            <Text fontWeight="bold" color="blue.600">Princess · 0.32 Carat · G Color</Text>
-                            <Text fontWeight="bold" color="blue.600">VS2 Clarity · None Fluor</Text>
-                            <Text fontWeight="bold" color="#222">GIA 2487868429</Text>
+                            <Text   color="blue.600">Princess · 0.32 Carat · G Color</Text>
+                            <Text   color="blue.600">VS2 Clarity · None Fluor</Text>
+                            <Text   color="#222">GIA 2487868429</Text>
                         </Box>
-                        <Button colorScheme="blue" size="sm" ml="auto">View</Button>
+                        <Button bg="gray.300" size="sm" ml="auto">View</Button>
                     </HStack>
                     <HStack spacing={4} py={2} align="center">
                         <Image
@@ -120,11 +166,11 @@ export default function DashBoard() {
                             borderRadius="full"
                         />
                         <Box>
-                            <Text fontWeight="bold" color="blue.600">Round · 0.33 Carat · I Color</Text>
-                            <Text fontWeight="bold" color="blue.600">VS2 Clarity · None Fluor</Text>
-                            <Text fontWeight="bold" color="#222">GIA 6481087541</Text>
+                            <Text   color="blue.600">Round · 0.33 Carat · I Color</Text>
+                            <Text   color="blue.600">VS2 Clarity · None Fluor</Text>
+                            <Text   color="#222">GIA 6481087541</Text>
                         </Box>
-                        <Button colorScheme="blue" size="sm" ml="auto">View</Button>
+                        <Button bg="gray.300" size="sm" ml="auto">View</Button>
                     </HStack>
                     <HStack spacing={4} py={2} align="center">
                         <Image
@@ -134,11 +180,11 @@ export default function DashBoard() {
                             borderRadius="full"
                         />
                         <Box>
-                            <Text fontWeight="bold" color="blue.600">Princess · 0.31 Carat · H Color</Text>
-                            <Text fontWeight="bold" color="blue.600">VS2 Clarity · None Fluor</Text>
-                            <Text fontWeight="bold" color="#222">GIA 6491064518</Text>
+                            <Text   color="blue.600">Princess · 0.31 Carat · H Color</Text>
+                            <Text   color="blue.600">VS2 Clarity · None Fluor</Text>
+                            <Text   color="#222">GIA 6491064518</Text>
                         </Box>
-                        <Button colorScheme="blue" size="sm" ml="auto">View</Button>
+                        <Button bg="gray.300" size="sm" ml="auto">View</Button>
                     </HStack>
                 </VStack>
                 <Button 
@@ -158,7 +204,7 @@ export default function DashBoard() {
 
             
 
-            <Box Box bg="rgb(67 56 202)" w="100%" pl={1} color="white" mt={5}>
+            <Box Box bg=" gray.800" w="100%" pl={1} color="white" mt={5}>
             <Text py={3} fontSize="lg" pl={"20px"}>
                     PRICE ALERTS
                 </Text>
