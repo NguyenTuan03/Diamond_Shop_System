@@ -10,4 +10,8 @@ public interface PendingRequestService {
     Page<PendingRequestsEntity> getAllByCustomerId(int page, int customerId);
 
     int makePendingRequest(PendingRequestDTO pendingRequestDTO);
+
+    String cancelPendingRequest(int pendingRequestId);
+
+    String checkCustomerPendingRequest(int customerId);
 }

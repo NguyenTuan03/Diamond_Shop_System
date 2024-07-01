@@ -2,13 +2,15 @@ package com.diamond_shop.diamond_shop.repository;
 
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PendingRepository extends JpaRepository<PendingRequestsEntity, Integer> {
@@ -50,5 +52,6 @@ public interface PendingRepository extends JpaRepository<PendingRequestsEntity, 
     Page<PendingRequestsEntity> findAllByCustomerId(Pageable pageable, @Param("customerId") int customerId);
 
     @Query("SELECT p FROM PendingRequestsEntity p WHERE p.customerId.id=:customerId")
-    ProcessRequestEntity findByCustomerId(@Param("customerId") int customerId);
+    List<PendingRequestsEntity> findByCustomerId(@Param("customerId") int customerId);
+
 }
