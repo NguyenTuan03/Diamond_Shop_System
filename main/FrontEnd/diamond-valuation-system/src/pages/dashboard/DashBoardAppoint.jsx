@@ -50,7 +50,7 @@ export default function DashBoard() {
                 </Box>
                 <Box Box bg="gray.800" w="100%" pl={1} color="black" mb={5} boxShadow="sm" borderRadius="md">
                 <Text bg="gray.800" w="100%" py={3} fontSize="lg" pl={"20px"}  color="white" borderBottom="1px solid" borderColor="gray.200">
-                    Transaction History
+                    TRANSACTION HISTORY
                 </Text>
                 <Box overflowX="auto">
                     <Table variant="simple" bg="gray.200">
