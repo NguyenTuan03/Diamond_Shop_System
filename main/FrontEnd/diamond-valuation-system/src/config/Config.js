@@ -25,6 +25,7 @@ const routes = {
     dashboardSearch: "/dashboard/search",
     dashboardRequest: "/dashboard/request",
     dashboardSetting: "/dashboard/setting",
+    dashboardTransaction: "/dashboard/transaction"
     // Admin's Dashboard
 };
 export default routes;

@@ -32,4 +32,14 @@ public class PendingRequestController {
             return "Successful. Our team will contact you soon !";
         else return "Please login first !";
     }
+
+    @DeleteMapping(path = "/delete")
+    public String cancelPendingRequest(@RequestParam int id) {
+        return pendingRequestService.cancelPendingRequest(id);
+    }
+
+    @GetMapping(path = "/customer/check")
+    public String checkCustomerPendingRequest(@RequestParam("id") int customerId) {
+        return pendingRequestService.checkCustomerPendingRequest(customerId);
+    }
 }

@@ -25,6 +25,7 @@ import DashBoardSearch from "./../pages/dashboard/DashBoardSearch";
 import DashBoardRequest from "./../pages/dashboard/DashBoardRequest";
 import AboutUs from "../pages/aboutUs/AboutUs.jsx";
 import DashBoardSetting from "../pages/dashboard/DashBoardSetting.jsx";
+import DashBoardTransaction from "../pages/dashboard/DashBoardTransaction.jsx";
 
 const ALlRoutes = [
   {
@@ -151,6 +152,11 @@ const ALlRoutes = [
   {
     path: routes.dashboardAppoint,
     component: DashBoardAppoint,
+    layout: DashBoardLayout,
+  },
+  {
+    path: routes.dashboardTransaction,
+    component: DashBoardTransaction,
     layout: DashBoardLayout,
   },
   {

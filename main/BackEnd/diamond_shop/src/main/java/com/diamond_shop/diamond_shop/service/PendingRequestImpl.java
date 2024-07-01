@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PendingRequestImpl implements PendingRequestService {
@@ -49,5 +50,22 @@ public class PendingRequestImpl implements PendingRequestService {
         );
         pendingRepository.save(pendingRequestsEntity);
         return pendingRequestsEntity.getId();
+    }
+
+    @Override
+    public String cancelPendingRequest(int pendingRequestId) {
+        PendingRequestsEntity pendingRequest = pendingRepository.findById(pendingRequestId).orElse(null);
+        if (pendingRequest == null)
+            return "Cannot found pending request with id " + pendingRequestId;
+        pendingRepository.delete(pendingRequest);
+        return "Cancel successful";
+    }
+
+    @Override
+    public String checkCustomerPendingRequest(int customerId) {
+        List<PendingRequestsEntity> pendingRequests = pendingRepository.findByCustomerId(customerId);
+        if (!pendingRequests.isEmpty())
+            return "You has already make a request";
+        return "";
     }
 }
