@@ -13,7 +13,8 @@ import lombok.Setter;
 public class VNpayBillPojo {
     private String Customername;
     private Date date;
-    private String type;
+    private String bank;
     private int amount;
-    private String service;
+    private String transaction;
+    private String order_info;
 }
