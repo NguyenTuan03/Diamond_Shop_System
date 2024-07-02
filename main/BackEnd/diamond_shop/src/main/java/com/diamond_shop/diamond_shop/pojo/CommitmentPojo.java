@@ -15,5 +15,9 @@ public class CommitmentPojo {
     int valuationRequestId;
     String customerName;
     int paymentId;
-    Date dateOfPurchase;
+    Date paymentDate;
+    String bank;
+    int amount;
+    String transactionNo;
+    String orderInfo;
 }
