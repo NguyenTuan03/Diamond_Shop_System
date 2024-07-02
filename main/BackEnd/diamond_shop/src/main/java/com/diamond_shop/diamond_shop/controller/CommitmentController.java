@@ -25,4 +25,9 @@ public class CommitmentController {
     public Page<CommitmentLetterEntity> getAll(@RequestParam("page") int page) {
         return commitmentImpl.findAll(page);
     }
+
+    @GetMapping(path = "/customer/get/all")
+    public Page<CommitmentLetterEntity> getAllByCustomerId(@RequestParam("page") int page, @RequestParam("id") int customerId) {
+        return commitmentImpl.findAllByCustomerId(page, customerId);
+    }
 }
