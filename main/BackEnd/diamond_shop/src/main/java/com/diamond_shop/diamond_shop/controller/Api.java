@@ -35,10 +35,11 @@ public class Api {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<?> loginCustomer(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<?> loginCustomer(@Valid @RequestBody LoginDTO loginDTO) {
         LoginMessageDTO loginResponse = accountService.loginAccount(loginDTO);
         return ResponseEntity.ok(loginResponse);
     }
+
     @DeleteMapping(path = "/delete")
     public String deleteCustomer(@RequestParam("id") int id) {
         return accountService.deleteHardAccount(id);
