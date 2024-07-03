@@ -66,7 +66,8 @@ public class AccountImpl implements AccountService {
                 encodedPassword,
                 accountDTO.getFullname(),
                 updatePhoneNumber,
-                accountDTO.getEmail()
+                accountDTO.getEmail(),
+                true
         );
         accountRepository.save(account);
         return account.getUsername();
@@ -81,7 +82,16 @@ public class AccountImpl implements AccountService {
 
         RoleEntity role = roleRepository.findById(accountDTO.getRoleid()).orElseThrow(() -> new RuntimeException("Role not found"));
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
-        AccountEntity account = new AccountEntity(role, accountDTO.getUsername(), encodedPassword, accountDTO.getFullname(), accountDTO.getEmail(), updatePhoneNumber, accountDTO.getAddress());
+        AccountEntity account = new AccountEntity (
+            role, 
+            accountDTO.getUsername(), 
+            encodedPassword, 
+            accountDTO.getFullname(), 
+            accountDTO.getEmail(), 
+            updatePhoneNumber, 
+            accountDTO.getAddress(),
+            true
+        );
         accountRepository.save(account);
         return account.getUsername();
     }
@@ -149,9 +159,17 @@ public class AccountImpl implements AccountService {
         return "";
     }
 
+    
     @Override
-    public void deleteAccount(int id) {
+    public String restoreAccount(int id) {
+        accountRepository.restoreAccount(id);
+        return "Successful!";
+    }
+
+    @Override
+    public String deleteSoftAccount(int id) {
         accountRepository.deleteById(id);
+        return "Delete successful";
     }
 
     @Override
@@ -194,5 +212,27 @@ public class AccountImpl implements AccountService {
     public String deleteHardAccount(int id) {
         accountRepository.deleteById(id);
         return "Successful";
+    }
+
+
+    @Override
+    public Page<AccountEntity> getAllDeletedAccountsById(String search, int pageId, String filter) {
+        int pageSize = 5;
+        int pageNumber = --pageId;
+        if (search.isEmpty() && filter.isEmpty())
+            return accountRepository.findAllByisActive(PageRequest.of(pageNumber, pageSize, Sort.by("role")));
+        else if (!search.isEmpty() && filter.isEmpty())
+            return accountRepository.searchNonFilter(PageRequest.of(pageNumber, pageSize, Sort.by("role")), search);
+        else {
+            switch (filter) {
+                case "fullname":
+                    return accountRepository.searchFullName(PageRequest.of(pageNumber, pageSize, Sort.by(filter)), search);
+                case "email":
+                    return accountRepository.searchEmail(PageRequest.of(pageNumber, pageSize, Sort.by(filter)), search);
+                case "phone_number":
+                    return accountRepository.searchPhoneNumber(PageRequest.of(pageNumber, pageSize, Sort.by(filter)), search);
+            }
+        }
+        return accountRepository.findAllByisActive(PageRequest.of(pageNumber, pageSize, Sort.by("role")));
     }
 }

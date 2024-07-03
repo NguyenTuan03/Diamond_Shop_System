@@ -22,6 +22,11 @@ public class AdminController {
         return accountService.getAllAccountsById(search, page, filter);
     }
 
+    @GetMapping(path = "/getDeletedAccounts")
+    public Page<AccountEntity> getAllAccountsNotActive(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter) {
+        return accountService.getAllDeletedAccountsById(search, page, filter);
+    }
+
     @PostMapping(path = "/create")
     public String createAccount(@RequestBody AccountDTO account) {
         return accountService.createAccount(account);
@@ -33,9 +38,13 @@ public class AdminController {
         return accountService.updateAccount(account);
     }
 
+    @PostMapping(path = "/restoreAccount")
+    public String restoreAccount(@RequestParam("id") int id) {
+        return accountService.restoreAccount(id);
+    }
+
     @PostMapping(path = "/delete")
-    public void deleteAccount(@RequestBody AccountDTO account) {
-        System.out.println(account.getId());
-        accountService.deleteAccount(account.getId());
+    public void deleteAccount(@RequestParam("id") int id) {
+        accountService.deleteSoftAccount(id);
     }
 }

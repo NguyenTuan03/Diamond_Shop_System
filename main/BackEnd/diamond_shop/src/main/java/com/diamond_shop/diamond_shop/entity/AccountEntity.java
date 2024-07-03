@@ -51,6 +51,9 @@ public class AccountEntity {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "is_active")
+    private Boolean is_active;
+
     @OneToMany(mappedBy = "staffId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProcessRequestEntity> processRequestEntity = new HashSet<>();
 
@@ -63,13 +66,14 @@ public class AccountEntity {
     @OneToMany(mappedBy = "customerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<PaymentEntity> paymentEntity = new HashSet<>();
 
-    public AccountEntity(RoleEntity role_id, String username, String password, String fullname, String phone_number, String email) {
+    public AccountEntity(RoleEntity role_id, String username, String password, String fullname, String phone_number, String email, Boolean isActive) {
         this.role = role_id;
         this.username = username;
         this.password = password;
         this.fullname = fullname;
         this.phone_number = phone_number;
         this.email = email;
+        this.is_active = isActive;
     }
 
     public AccountEntity(int id, String username, String fullname, String phone_number, String password) {
@@ -80,7 +84,7 @@ public class AccountEntity {
         this.password = password;
     }
 
-    public AccountEntity(RoleEntity role, String username, String password, String fullname, String email, String phonenumber, String address) {
+    public AccountEntity(RoleEntity role, String username, String password, String fullname, String email, String phonenumber, String address, Boolean isActive) {
         this.role = role;
         this.username = username;
         this.password = password;
@@ -88,6 +92,7 @@ public class AccountEntity {
         this.email = email;
         this.phone_number = phonenumber;
         this.address = address;
+        this.is_active = isActive;
     }
 
     public AccountEntity(String username, String password) {

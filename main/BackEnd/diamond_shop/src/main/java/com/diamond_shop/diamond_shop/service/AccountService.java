@@ -11,15 +11,19 @@ public interface AccountService {
 
     Page<AccountEntity> getAllAccountsById(String search, int pageId, String filter);
 
+    Page<AccountEntity> getAllDeletedAccountsById(String search, int pageId, String filter);
+
     String addAccount(AccountDTO accountDTO);
 
     String createAccount(AccountDTO accountDTO);
 
     String deleteHardAccount(int id);
 
+    String deleteSoftAccount(int id);
+    
     String updateAccount(AccountDTO accountDTO);
 
-    void deleteAccount(int id);
+    String restoreAccount(int id);
 
     LoginMessageDTO loginAccount(LoginDTO loginDTO);
 
