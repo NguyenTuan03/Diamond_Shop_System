@@ -3,6 +3,7 @@ import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
 import {
+  Box,
   Button,
   Center,
   Flex,
@@ -66,22 +67,22 @@ export default function SealingLetterTable() {
       {sealingLetter.length === 0 ? (
         <>No sealing letter to show</>
       ) : (
-        <>
-          <TableContainer>
-            <Table size={"sm"} colorScheme="blue">
-              <Thead bg={"blue.400"}>
+        <Box p={5}>
+          <TableContainer shadow="md" borderRadius="md" bg="white" >
+            <Table size={"md"} colorScheme="blue">
+              <Thead bg={"blue.500"}>
                 <Tr>
-                  <Th>No</Th>
-                  <Th>Request ID</Th>
-                  {user.userAuth.roleid === 2 && <Th>Customer Name</Th>}
-                  <Th>Created Date</Th>
-                  <Th>Sealing Date</Th>
-                  <Th>View</Th>
+                  <Th color="white">No</Th>
+                  <Th color="white">Request ID</Th>
+                  {user.userAuth.roleid === 2 && <Th color="white">Customer Name</Th>}
+                  <Th color="white">Created Date</Th>
+                  <Th color="white">Sealing Date</Th>
+                  <Th color="white">View</Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {sealingLetter.map((item, index) => (
-                  <Tr key={index}>
+                  <Tr key={index} _hover={{ bg: "gray.100" }}>
                     <Td>{index + 1}</Td>
                     <Td>{item?.valuationRequestId || "N/A"}</Td>
                     {user.userAuth.roleid === 2 && (
@@ -97,6 +98,7 @@ export default function SealingLetterTable() {
                           setSelectedSealingLetter(item);
                           viewSealingLetter.onOpen();
                         }}
+                        _hover={{ bg: "gray.100" }}
                       />
                     </Td>
                   </Tr>
@@ -104,11 +106,13 @@ export default function SealingLetterTable() {
               </Tbody>
             </Table>
           </TableContainer>
-          <PageIndicator
+          <Flex mt={4} justifyContent="center">
+        <PageIndicator
             totalPages={totalPages}
             setCurrentPage={setCurrentPage}
           />
-        </>
+          </Flex>
+        </Box>
       )}
       <Modal
         isOpen={viewSealingLetter.isOpen}

@@ -18,6 +18,7 @@ import {
   Button,
   ModalFooter,
   useToast,
+  Box,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 import React, { useContext, useEffect, useState } from "react";
@@ -132,21 +133,21 @@ export default function PendingRequestTable() {
       {pendingRequest.length === 0 ? (
         <>No pending request to solve</>
       ) : (
-        <>
-          <TableContainer>
-            <Table size={"sm"} colorScheme="blue">
-              <Thead bg={"blue.400"}>
+        <Box p={5}>
+          <TableContainer shadow="md" borderRadius="md" bg="white" >
+            <Table size={"md"} colorScheme="blue">
+              <Thead bg={"blue.500"}>
                 <Tr>
-                  <Th>No</Th>
-                  <Th>Customer Name</Th>
-                  <Th>Description</Th>
-                  <Th>Created Date</Th>
-                  <Th>View</Th>
+                  <Th color="white">No</Th>
+                  <Th color="white">Customer Name</Th>
+                  <Th color="white">Description</Th>
+                  <Th color="white">Created Date</Th>
+                  <Th color="white">View</Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {pendingRequest.map((item, index) => (
-                  <Tr key={index}>
+                  <Tr key={index} _hover={{ bg: "gray.100" }}>
                     <Td>{index + 1}</Td>
                     <Td>{item?.customerName || "N/A"}</Td>
                     <Td>{item?.description || "N/A"}</Td>
@@ -159,6 +160,7 @@ export default function PendingRequestTable() {
                           setSelectedPendingRequest(item);
                           viewPendingRequest.onOpen();
                         }}
+                        _hover={{ bg: "gray.100" }}
                       />
                     </Td>
                   </Tr>
@@ -166,11 +168,14 @@ export default function PendingRequestTable() {
               </Tbody>
             </Table>
           </TableContainer>
-          <PageIndicator
+        <Flex mt={4} justifyContent="center">
+        <PageIndicator
             totalPages={totalPages}
             setCurrentPage={setCurrentPage}
           />
-        </>
+          </Flex>
+          
+        </Box>
       )}
 
       <Modal

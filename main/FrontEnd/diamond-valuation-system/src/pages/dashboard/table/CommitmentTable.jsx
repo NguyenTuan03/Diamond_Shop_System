@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import PageIndicator from "../../../components/PageIndicator";
 import {
+  Box,
   Button,
   Center,
   Flex,
@@ -66,21 +67,21 @@ export default function CommitmentTable() {
       {commitment.length === 0 ? (
         <>No commitment to show</>
       ) : (
-        <>
-          <TableContainer>
-            <Table size={"sm"} colorScheme="blue">
-              <Thead bg={"blue.400"}>
+        <Box p={5}>
+          <TableContainer shadow="md" borderRadius="md" bg="white" >
+            <Table size={"md"} colorScheme="blue">
+              <Thead bg={"blue.500"}>
                 <Tr>
-                  <Th>No</Th>
-                  <Th>Request ID</Th>
-                  {user.userAuth.roleid === 2 && <Th>Customer Name</Th>}
-                  <Th>Created Date</Th>
-                  <Th>View</Th>
+                  <Th color="white">No</Th>
+                  <Th color="white">Request ID</Th>
+                  {user.userAuth.roleid === 2 && <Th color="white">Customer Name</Th>}
+                  <Th color="white">Created Date</Th>
+                  <Th color="white">View</Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {commitment.map((item, index) => (
-                  <Tr key={index}>
+                  <Tr key={index} _hover={{ bg: "gray.100" }}>
                     <Td>{index + 1}</Td>
                     <Td>{item?.valuationRequestId || "N/A"}</Td>
                     {user.userAuth.roleid === 2 && (
@@ -95,6 +96,7 @@ export default function CommitmentTable() {
                           setSelectedCommitment(item);
                           viewCommitment.onOpen();
                         }}
+                        _hover={{ bg: "gray.100" }}
                       />
                     </Td>
                   </Tr>
@@ -102,11 +104,13 @@ export default function CommitmentTable() {
               </Tbody>
             </Table>
           </TableContainer>
-          <PageIndicator
+          <Flex mt={4} justifyContent="center">
+        <PageIndicator
             totalPages={totalPages}
             setCurrentPage={setCurrentPage}
           />
-        </>
+          </Flex>
+        </Box>
       )}
       <Modal isOpen={viewCommitment.isOpen} onClose={viewCommitment.onClose}>
         <ModalOverlay />
