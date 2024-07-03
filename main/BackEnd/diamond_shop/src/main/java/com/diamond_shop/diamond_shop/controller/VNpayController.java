@@ -118,7 +118,8 @@ public class VNpayController {
         }        
     }
     @GetMapping(path = "/get")
-    public List<VNpayBillPojo> getTransaction(@RequestParam("id") int id) {
+    public List<VNpayBillPojo> getTransaction(@RequestParam("id") int id, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return paymentService.getTransaction(id);
     }
 }
