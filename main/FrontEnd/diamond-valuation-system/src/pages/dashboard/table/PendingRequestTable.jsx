@@ -89,45 +89,6 @@ export default function PendingRequestTable() {
         });
       });
   };
-  const cancelPendingRequest = (pendingRequestId) => {
-    axios
-      .delete(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/pending-request/delete?id=${pendingRequestId}`
-      )
-      .then(function (response) {
-        if (response.status === 200) {
-          if (response.data.includes("successful")) {
-            toast({
-              title: response.data,
-              status: "success",
-              position: "top-right",
-              duration: 3000,
-              isClosable: true,
-            });
-            fetchPendingRequest(currentPage, user.userAuth.id);
-          } else {
-            toast({
-              title: response.data,
-              status: "warning",
-              position: "top-right",
-              duration: 3000,
-              isClosable: true,
-            });
-          }
-        }
-      })
-      .catch(function (error) {
-        toast({
-          title: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  };
   useEffect(() => {
     fetchPendingRequest(currentPage, user.userAuth.id);
   }, []);
@@ -176,7 +137,7 @@ export default function PendingRequestTable() {
           <PageIndicator
             totalPages={totalPages}
             setCurrentPage={setCurrentPage}
-          />
+          />  
         </>
       )}
 
@@ -213,7 +174,7 @@ export default function PendingRequestTable() {
               </Text>
             </Flex>
           </ModalBody>
-          {(user.userAuth.roleid === 3 && (
+          {user.userAuth.roleid === 3 && (
             <ModalFooter justifyContent={"space-around"}>
               <Button
                 colorScheme="teal"
@@ -228,20 +189,7 @@ export default function PendingRequestTable() {
                 Receive
               </Button>
             </ModalFooter>
-          )) ||
-            (user.userAuth.roleid === 5 && (
-              <ModalFooter justifyContent={"space-around"}>
-                <Button
-                  colorScheme="red"
-                  onClick={() => {
-                    cancelPendingRequest(selectedPendingRequest?.id);
-                    viewPendingRequest.onClose();
-                  }}
-                >
-                  Cancel
-                </Button>
-              </ModalFooter>
-            ))}
+          )}
         </ModalContent>
       </Modal>
     </>
