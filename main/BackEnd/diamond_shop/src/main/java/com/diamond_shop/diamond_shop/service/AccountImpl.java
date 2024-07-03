@@ -1,24 +1,20 @@
 package com.diamond_shop.diamond_shop.service;
 
-import com.diamond_shop.diamond_shop.dto.AccountDTO;
-import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
-import com.diamond_shop.diamond_shop.dto.LoginDTO;
-import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
-import com.diamond_shop.diamond_shop.entity.AccountEntity;
-import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
-import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
-import com.diamond_shop.diamond_shop.entity.RoleEntity;
-import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
-import com.diamond_shop.diamond_shop.repository.AccountRepository;
-import com.diamond_shop.diamond_shop.repository.PendingRepository;
-import com.diamond_shop.diamond_shop.repository.RoleRepository;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.diamond_shop.diamond_shop.dto.AccountDTO;
+import com.diamond_shop.diamond_shop.dto.LoginDTO;
+import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
+import com.diamond_shop.diamond_shop.entity.AccountEntity;
+import com.diamond_shop.diamond_shop.entity.RoleEntity;
+import com.diamond_shop.diamond_shop.repository.AccountRepository;
+import com.diamond_shop.diamond_shop.repository.RoleRepository;
 
 @Service
 public class AccountImpl implements AccountService {
