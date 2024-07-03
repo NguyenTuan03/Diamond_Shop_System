@@ -29,7 +29,6 @@ import {
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 import { GiDiamondTrophy } from "react-icons/gi";
-import { useReactToPrint } from "react-to-print";
 
 export default function SealingLetterTable() {
   const user = useContext(UserContext);
@@ -38,10 +37,7 @@ export default function SealingLetterTable() {
   const viewSealingLetter = useDisclosure();
   const [sealingLetter, setSealingLetter] = useState([]);
   const [selectedSealingLetter, setSelectedSealingLetter] = useState({});
-  const sealingLetterRef = useRef();
-  const handlePrintSealingLetter = useReactToPrint({
-    content: () => sealingLetterRef.current,
-  });
+
   const fetchSealingLetter = async (page, id) => {
     let url = "";
     if (user.userAuth.roleid === 2) {
@@ -120,7 +116,7 @@ export default function SealingLetterTable() {
         size={"full"}
       >
         <ModalOverlay />
-        <ModalContent ref={sealingLetterRef}>
+        <ModalContent>
           <ModalHeader>
             <Flex gap={5}>
               <Icon as={GiDiamondTrophy} w={16} h={16} />
@@ -188,7 +184,13 @@ export default function SealingLetterTable() {
           </ModalBody>
           <ModalFooter>
             {user.userAuth.roleid === 2 && (
-              <Button onClick={handlePrintSealingLetter}></Button>
+              <Button
+                onClick={() => {
+                  window.print();
+                }}
+              >
+                Print
+              </Button>
             )}
           </ModalFooter>
         </ModalContent>

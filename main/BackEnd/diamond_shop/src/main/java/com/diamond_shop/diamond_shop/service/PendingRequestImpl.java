@@ -65,7 +65,7 @@ public class PendingRequestImpl implements PendingRequestService {
     public String checkCustomerPendingRequest(int customerId) {
         List<PendingRequestsEntity> pendingRequests = pendingRepository.findByCustomerId(customerId);
         if (!pendingRequests.isEmpty())
-            return "You has already make a request";
+            return "You has already made a request";
         return "";
     }
 }

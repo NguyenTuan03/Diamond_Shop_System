@@ -35,7 +35,6 @@ export default function EducationCertificate() {
           direction="column"
           alignItems="center"
           justifyContent="center"
-          bg={bgColor}
           paddingTop={10}
         >
           <Title
