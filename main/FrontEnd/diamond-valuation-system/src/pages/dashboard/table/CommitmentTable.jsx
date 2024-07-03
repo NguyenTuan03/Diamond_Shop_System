@@ -149,20 +149,18 @@ export default function CommitmentTable() {
               </Text>
             </Flex>
           </ModalBody>
-          {user.userAuth.roleid === 2 && (
-            <Center>
-              <ModalFooter>
-                <Button
-                  colorScheme="teal"
-                  onClick={() => {
-                    viewPrintCommitment.onOpen();
-                  }}
-                >
-                  View
-                </Button>
-              </ModalFooter>
-            </Center>
-          )}
+          <Center>
+            <ModalFooter>
+              <Button
+                colorScheme="teal"
+                onClick={() => {
+                  viewPrintCommitment.onOpen();
+                }}
+              >
+                View
+              </Button>
+            </ModalFooter>
+          </Center>
         </ModalContent>
       </Modal>
       <Modal

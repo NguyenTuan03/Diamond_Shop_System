@@ -15,8 +15,6 @@ import {
   useColorModeValue,
   useDisclosure,
   Container,
-  useBreakpointValue,
-  Grid,
   SimpleGrid,
 } from "@chakra-ui/react";
 import { IoDiamond, IoDiamondOutline } from "react-icons/io5";
@@ -53,7 +51,7 @@ export default function Calculate() {
 
   const [gradingLab, setGradingLab] = useState("AGS");
   const [carat, setCarat] = useState(1);
-  const [shape, setShape] = useState("ROUND");
+  const [shape, setShape] = useState("ROUND");  
   const [color, setColor] = useState("D");
   const [cut, setCut] = useState("POOR");
   const [clarity, setClarity] = useState("IF");

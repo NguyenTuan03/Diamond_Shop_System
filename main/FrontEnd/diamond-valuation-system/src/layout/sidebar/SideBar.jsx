@@ -1,14 +1,11 @@
 import React, { useContext } from "react";
 import {
-  Avatar,
   Box,
   Flex,
   VStack,
   Text,
-  IconButton,
   Divider,
   Spacer,
-  Button,
   useColorModeValue,
   useBreakpointValue,
 } from "@chakra-ui/react";
@@ -17,8 +14,8 @@ import {
   IoNewspaperOutline,
   IoDiamondSharp,
 } from "react-icons/io5";
-import { IoIosNotificationsOutline, IoMdSearch, IoMdAdd } from "react-icons/io";
-import { CiCalendar, CiBellOn, CiSettings } from "react-icons/ci";
+import { IoIosNotificationsOutline, IoMdSearch } from "react-icons/io";
+import { CiCalendar, CiSettings } from "react-icons/ci";
 import { PiCalculatorThin } from "react-icons/pi";
 import { VscServerProcess } from "react-icons/vsc";
 import { BsNewspaper } from "react-icons/bs";
@@ -48,7 +45,7 @@ const menuItems = [
     icon: IoNewspaperOutline,
     label: "Sealing Letter",
   },
-  {
+  { 
     roleid: [2],
     path: "#",
     icon: IoDiamondSharp,
@@ -105,7 +102,7 @@ const generalMenuItems = [
 
 const SideBar = () => {
   const auth = useContext(UserContext);
-  const bg = useColorModeValue("gray.800", "gray.700");
+  const bg = useColorModeValue("gray.800", "black");
   const color = useColorModeValue("white", "gray.200");
   const hoverBg = useColorModeValue("purple.700", "purple.600");
 
@@ -170,7 +167,9 @@ const SideBar = () => {
       <Divider my="8" borderColor="gray.600" />
       <VStack spacing="2" align="stretch">
         {generalMenuItems
-          .filter((item) => !item.roleid || item.roleid.includes(auth.userAuth.roleid))
+          .filter(
+            (item) => !item.roleid || item.roleid.includes(auth.userAuth.roleid)
+          )
           .map(renderMenuItem)}
       </VStack>
     </Box>

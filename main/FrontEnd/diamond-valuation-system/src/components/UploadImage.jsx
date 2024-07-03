@@ -9,9 +9,11 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 export default function UploadImage({ diamondId }) {
+  const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUpLoading] = useState(false);
   const toast = useToast();
@@ -59,6 +61,9 @@ export default function UploadImage({ diamondId }) {
             )
             .then(function (response) {
               console.log(response.data);
+              setTimeout(() => {
+                navigate(0);
+              }, 1000);
             });
         }
       }
