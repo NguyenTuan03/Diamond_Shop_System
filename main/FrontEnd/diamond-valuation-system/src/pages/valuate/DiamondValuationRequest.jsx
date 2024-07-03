@@ -43,7 +43,6 @@ export default function DiamondValuationRequest() {
                   toast({
                     title: "Please login first !",
                     status: "error",
-                    position: "top-right",
                     duration: 3000,
                     position: "top-right",
                     isClosable: true,
@@ -53,7 +52,6 @@ export default function DiamondValuationRequest() {
                   toast({
                     title: "Just customer can make a request !",
                     status: "warning",
-                    position: "top-right",
                     duration: 3000,
                     position: "top-right",
                     isClosable: true,

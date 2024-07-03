@@ -1,6 +1,5 @@
 package com.diamond_shop.diamond_shop.controller;
 
-import com.diamond_shop.diamond_shop.entity.PaymentEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.pojo.VNpayBillPojo;
 import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;

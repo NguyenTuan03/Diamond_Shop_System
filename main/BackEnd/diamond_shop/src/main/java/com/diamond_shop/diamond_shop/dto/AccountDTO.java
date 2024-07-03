@@ -24,7 +24,7 @@ public class AccountDTO {
     @NotNull
     @Email(message = "Invalid email", regexp = "([a-zA-Z0-9]+)([\\_\\.\\-{1}])?([a-zA-Z0-9]+)\\@([a-zA-Z0-9]+)([\\.])([a-zA-Z\\.]+)")
     private String email;
-    @Pattern(regexp = "^0?([35789]+([0-9]{7})\\b)", message = "Invalid phone number")
+    @Pattern(regexp = "^0?([35789]+([0-9]{8})\\b)", message = "Invalid phone number")
     private String phonenumber;
     @NotNull
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{8,}$", message = "Invalid password")
