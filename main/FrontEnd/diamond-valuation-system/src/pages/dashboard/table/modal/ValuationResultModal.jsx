@@ -22,10 +22,6 @@ export default function ValuationResultModal({
   selectedValuationResult,
 }) {
   const user = useContext(UserContext);
-  const valuationResultRef = useRef();
-  const handlePrintValuationResult = useReactToPrint({
-    content: () => valuationResultRef.current,
-  });
   return (
     <>
       {(user.userAuth.roleid === 3 && (
@@ -35,7 +31,7 @@ export default function ValuationResultModal({
           size={"full"}
         >
           <ModalOverlay />
-          <ModalContent ref={valuationResultRef} p={5}>
+          <ModalContent p={5}>
             <ModalHeader>
               <Flex direction={"row"} gap={5}>
                 <Icon as={GiDiamondTrophy} w={16} h={16} />
@@ -185,7 +181,9 @@ export default function ValuationResultModal({
               </Flex>
             </ModalBody>
             <ModalFooter justifyContent={"space-around"}>
-              <Button onClick={handlePrintValuationResult}>Print</Button>
+              <Button onClick={()=>{
+                window.print();
+              }}>Print</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
