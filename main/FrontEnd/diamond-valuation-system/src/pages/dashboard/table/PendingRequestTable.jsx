@@ -137,7 +137,7 @@ export default function PendingRequestTable() {
           <PageIndicator
             totalPages={totalPages}
             setCurrentPage={setCurrentPage}
-          />  
+          />
         </>
       )}
 
