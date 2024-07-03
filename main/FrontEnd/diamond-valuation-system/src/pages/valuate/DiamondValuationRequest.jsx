@@ -17,6 +17,57 @@ export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
   const bgColor = useColorModeValue("white", "black");
   const toast = useToast();
+  const createPendingRequest = async (
+    customerId,
+    description,
+    setSubmitting
+  ) => {
+    await axios
+      .post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/pending-request/create`,
+        {
+          customerId: customerId,
+          description: description,
+        }
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          setSubmitting(false);
+          toast({
+            title: response.data,
+            status: "success",
+            position: "top-right",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
+      });
+  };
+  const checkCustomerPendingRequest = async (
+    customerId,
+    description,
+    setSubmitting
+  ) => {
+    await axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/pending-request/customer/check?id=${customerId}`
+      )
+      .then(function (response) {
+        if (response.data.includes("already")) {
+          setSubmitting(false);
+          toast({
+            title: response.data,
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          createPendingRequest(customerId, description, setSubmitting);
+        }
+      });
+  };
   return (
     <>
       <Flex
@@ -37,7 +88,7 @@ export default function DiamondValuationRequest() {
         <Center mt={5} mb={5}>
           <Formik
             initialValues={{ description: "" }}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
               try {
                 if (localStorage.getItem("user") === null) {
                   toast({
@@ -58,28 +109,11 @@ export default function DiamondValuationRequest() {
                   });
                   setSubmitting(false);
                 } else {
-                  axios
-                    .post(
-                      `${
-                        import.meta.env.VITE_REACT_APP_BASE_URL
-                      }/api/pending-request/create`,
-                      {
-                        customerId: user.userAuth.id,
-                        description: values.description,
-                      }
-                    )
-                    .then(function (response) {
-                      if (response.status === 200) {
-                        setSubmitting(false);
-                        toast({
-                          title: response.data,
-                          status: "success",
-                          position: "top-right",
-                          duration: 3000,
-                          isClosable: true,
-                        });
-                      }
-                    });
+                  checkCustomerPendingRequest(
+                    user.userAuth.id,
+                    values.description,
+                    setSubmitting
+                  );
                 }
               } catch (e) {
                 console.log(e);

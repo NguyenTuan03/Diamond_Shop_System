@@ -24,8 +24,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
+import { useNavigate } from "react-router-dom";
 
 export default function PendingRequestTable() {
+  const navigate = useNavigate();
   const toast = useToast();
   const user = useContext(UserContext);
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,6 +89,36 @@ export default function PendingRequestTable() {
           duration: 3000,
           isClosable: true,
         });
+      });
+  };
+  const cancelPendingRequest = (pendingRequestId) => {
+    axios
+      .delete(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/pending-request/delete?id=${pendingRequestId}`
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          if (response.data.includes("successful")) {
+            navigate(0);
+            toast({
+              title: response.data,
+              status: "success",
+              position: "top-right",
+              duration: 3000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              title: response.data,
+              status: "error",
+              position: "top-right",
+              duration: 3000,
+              isClosable: true,
+            });
+          }
+        }
       });
   };
   useEffect(() => {
@@ -174,22 +206,35 @@ export default function PendingRequestTable() {
               </Text>
             </Flex>
           </ModalBody>
-          {user.userAuth.roleid === 3 && (
+          {(user.userAuth.roleid === 5 && (
             <ModalFooter justifyContent={"space-around"}>
               <Button
-                colorScheme="teal"
+                colorScheme="red"
                 onClick={() => {
-                  receivePendingRequest(
-                    user?.userAuth?.id,
-                    selectedPendingRequest?.id
-                  );
+                  cancelPendingRequest(selectedPendingRequest?.id);
                   viewPendingRequest.onClose();
                 }}
               >
-                Receive
+                Cancel
               </Button>
             </ModalFooter>
-          )}
+          )) ||
+            (user.userAuth.roleid === 3 && (
+              <ModalFooter justifyContent={"space-around"}>
+                <Button
+                  colorScheme="teal"
+                  onClick={() => {
+                    receivePendingRequest(
+                      user?.userAuth?.id,
+                      selectedPendingRequest?.id
+                    );
+                    viewPendingRequest.onClose();
+                  }}
+                >
+                  Receive
+                </Button>
+              </ModalFooter>
+            ))}
         </ModalContent>
       </Modal>
     </>
