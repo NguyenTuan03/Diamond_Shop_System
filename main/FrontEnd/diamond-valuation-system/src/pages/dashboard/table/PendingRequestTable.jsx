@@ -101,7 +101,6 @@ export default function PendingRequestTable() {
       .then(function (response) {
         if (response.status === 200) {
           if (response.data.includes("successful")) {
-            navigate(0);
             toast({
               title: response.data,
               status: "success",
@@ -109,6 +108,9 @@ export default function PendingRequestTable() {
               duration: 3000,
               isClosable: true,
             });
+            setTimeout(() => {
+              navigate(0);
+            }, 1000);
           } else {
             toast({
               title: response.data,
@@ -130,7 +132,7 @@ export default function PendingRequestTable() {
   return (
     <>
       {pendingRequest.length === 0 ? (
-        <>No pending request to solve</>
+        <>No pending request to show</>
       ) : (
         <>
           <TableContainer>

@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.PendingRequestDTO;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
 import com.diamond_shop.diamond_shop.service.PendingRequestService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class PendingRequestController {
     }
 
     @PostMapping(path = "/create")
-    public String createPendingRequest(@RequestBody PendingRequestDTO pendingRequestDTO) {
+    public String createPendingRequest(@Valid @RequestBody PendingRequestDTO pendingRequestDTO) {
         if (pendingRequestService.makePendingRequest(pendingRequestDTO) != 0)
             return "Successful. Our team will contact you soon !";
         else return "Please login first !";

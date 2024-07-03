@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.DiamondCheckRequestDTO;
 import com.diamond_shop.diamond_shop.service.DiamondService;
 import com.google.gson.Gson;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class DiamondController {
     }
 
     @PostMapping(value = "/calculate", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getDiamondAttr(@RequestBody DiamondCheckRequestDTO request) {
+    public ResponseEntity<String> getDiamondAttr(@Valid @RequestBody DiamondCheckRequestDTO request) {
         String gradingLab = request.getGradingLab();
         String carat = request.getCarat();
         String shape = request.getShape();
