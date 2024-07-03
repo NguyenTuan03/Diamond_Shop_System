@@ -31,6 +31,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -46,6 +47,7 @@ import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
 import PageIndicator from "../../../components/PageIndicator";
 export default function ValuationStaffDashboard() {
+  const bgColor=useColorModeValue("white","gray.800")
   const navigate = useNavigate();
   const toast = useToast();
   const user = useContext(UserContext);
@@ -175,7 +177,16 @@ export default function ValuationStaffDashboard() {
           }/api/valuation-result/image/delete?id=${imageId}`
         )
         .then(function (response) {
-          navigate(0);
+          toast({
+            title: "Success",
+            description: response.data,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          setTimeout(() => {
+            navigate(0);
+          }, 1000);
           console.log(response.data);
         });
     }
@@ -183,6 +194,7 @@ export default function ValuationStaffDashboard() {
   return (
     <>
       <Flex
+        bg={bgColor}
         direction="column"
         alignItems="center"
         justifyContent="center"

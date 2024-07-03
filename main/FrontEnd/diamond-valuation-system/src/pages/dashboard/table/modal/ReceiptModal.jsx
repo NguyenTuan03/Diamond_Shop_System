@@ -28,10 +28,6 @@ export default function ReceiptModal({
   viewReceipt,
   selectedValuationReceipt,
 }) {
-  const receiptRef = useRef();
-  const handlePrintReceipt = useReactToPrint({
-    content: () => receiptRef.current,
-  });
   return (
     <>
       <Modal
@@ -40,7 +36,7 @@ export default function ReceiptModal({
         size={"full"}
       >
         <ModalOverlay />
-        <ModalContent ref={receiptRef}>
+        <ModalContent>
           <ModalHeader>
             <Flex gap={5}>
               <Icon as={GiDiamondTrophy} w={16} h={16} />
@@ -169,7 +165,13 @@ export default function ReceiptModal({
           </ModalBody>
           <ModalFooter>
             <Flex justify={"flex-end"} p={5}>
-              <Button onClick={handlePrintReceipt}>Print</Button>
+              <Button
+                onClick={() => {
+                  window.print();
+                }}
+              >
+                Print
+              </Button>
             </Flex>
           </ModalFooter>
         </ModalContent>
