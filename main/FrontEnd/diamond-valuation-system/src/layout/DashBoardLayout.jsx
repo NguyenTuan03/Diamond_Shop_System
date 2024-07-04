@@ -1,17 +1,23 @@
 import React, { useContext } from "react";
 import SideBar from "./sidebar/SideBar";
-import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
+import { Box, Container, Flex, useColorModeValue } from "@chakra-ui/react";
+import Logout from "../pages/logout/Logout";
 
 export default function DashBoardLayout({ children }) {
   const bgColor = useColorModeValue("white", "gray.800");
   return (
-    <Flex width={"100vw"} height={"100vh"} bg={bgColor} overflowY={"hidden"}>
-      <Box w="256px">
-        <SideBar />
-      </Box>
-      <Box flex="1" bg={bgColor} px={5} pt={"120px"}>
-        {children}
-      </Box>
-    </Flex>
+    <>
+      <Flex position={"fixed"} top={5} right={5}>
+        <Logout />
+      </Flex>
+      <Flex width={"100vw"} height={"100vh"} bg={bgColor} overflowY={"hidden"}>
+        <Box w="256px">
+          <SideBar />
+        </Box>
+        <Box flex="1" bg={bgColor} px={5} pt={"120px"}>
+          {children}
+        </Box>
+      </Flex>
+    </>
   );
 }
