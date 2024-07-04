@@ -28,7 +28,6 @@ public class DiamondController {
         String clarity = request.getClarity();
         String cut = request.getCut();
         ResponseEntity<String> result = diamondService.fetchDiamondCalculate(gradingLab, carat, shape, color, clarity, cut);
-        System.out.println(result);
         Gson gson = new Gson();
         return ResponseEntity.ok(gson.toJson(result));
     }

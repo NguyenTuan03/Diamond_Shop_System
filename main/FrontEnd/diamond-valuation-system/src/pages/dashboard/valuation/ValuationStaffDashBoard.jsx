@@ -47,7 +47,7 @@ import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
 import PageIndicator from "../../../components/PageIndicator";
 export default function ValuationStaffDashboard() {
-  const bgColor=useColorModeValue("white","gray.800")
+  const bgColor = useColorModeValue("white", "gray.800");
   const navigate = useNavigate();
   const toast = useToast();
   const user = useContext(UserContext);
@@ -193,17 +193,12 @@ export default function ValuationStaffDashboard() {
   };
   return (
     <>
-      <Flex
-        bg={bgColor}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        gap={5}
-      >
-        <Text fontSize="4xl" fontWeight="bold">
-          Welcome: {user.userAuth.fullname}
-        </Text>
-        <Text fontSize="xl">For Valuation Staff</Text>
+      <Flex direction="column" gap={10}>
+        <Center>
+          <Text fontSize="4xl" fontWeight="bold">
+            Valuation Diamond
+          </Text>
+        </Center>
         <TableContainer whiteSpace={"wrap"}>
           <Table size={"sm"} colorScheme="blue">
             <Thead bgColor={"blue.400"}>
@@ -238,10 +233,12 @@ export default function ValuationStaffDashboard() {
             </Tbody>
           </Table>
         </TableContainer>
-        <PageIndicator
-          totalPages={totalPages}
-          setCurrentPage={setCurrentPage}
-        />
+        <Center>
+          <PageIndicator
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
+        </Center>
       </Flex>
 
       <Modal

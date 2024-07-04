@@ -63,53 +63,62 @@ export default function SealingLetterTable() {
   }, [currentPage]);
   return (
     <>
-      {sealingLetter.length === 0 ? (
-        <>No sealing letter to show</>
-      ) : (
-        <>
-          <TableContainer>
-            <Table size={"sm"} colorScheme="blue">
-              <Thead bg={"blue.400"}>
-                <Tr>
-                  <Th>No</Th>
-                  <Th>Request ID</Th>
-                  {user.userAuth.roleid === 2 && <Th>Customer Name</Th>}
-                  <Th>Created Date</Th>
-                  <Th>Sealing Date</Th>
-                  <Th>View</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {sealingLetter.map((item, index) => (
-                  <Tr key={index}>
-                    <Td>{index + 1}</Td>
-                    <Td>{item?.valuationRequestId || "N/A"}</Td>
-                    {user.userAuth.roleid === 2 && (
-                      <Td>{item?.customerName || "N/A"}</Td>
-                    )}
-                    <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
-                    <Td>{item?.sealingDate?.slice(0, 10) || "N/A"}</Td>
-                    <Td>
-                      <IconButton
-                        icon={<ViewIcon />}
-                        bg={"transparent"}
-                        onClick={() => {
-                          setSelectedSealingLetter(item);
-                          viewSealingLetter.onOpen();
-                        }}
-                      />
-                    </Td>
+      <Flex direction={"column"} gap={10}>
+        {sealingLetter.length === 0 ? (
+          <>No sealing letter to show</>
+        ) : (
+          <>
+            <Center>
+              <Text fontSize={"4xl"} fontWeight={"bold"}>
+                Sealing Letter
+              </Text>
+            </Center>
+            <TableContainer>
+              <Table size={"sm"} colorScheme="blue">
+                <Thead bg={"blue.400"}>
+                  <Tr>
+                    <Th>No</Th>
+                    <Th>Request ID</Th>
+                    {user.userAuth.roleid === 2 && <Th>Customer Name</Th>}
+                    <Th>Created Date</Th>
+                    <Th>Sealing Date</Th>
+                    <Th>View</Th>
                   </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-          <PageIndicator
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-          />
-        </>
-      )}
+                </Thead>
+                <Tbody>
+                  {sealingLetter.map((item, index) => (
+                    <Tr key={index}>
+                      <Td>{index + 1}</Td>
+                      <Td>{item?.valuationRequestId || "N/A"}</Td>
+                      {user.userAuth.roleid === 2 && (
+                        <Td>{item?.customerName || "N/A"}</Td>
+                      )}
+                      <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
+                      <Td>{item?.sealingDate?.slice(0, 10) || "N/A"}</Td>
+                      <Td>
+                        <IconButton
+                          icon={<ViewIcon />}
+                          bg={"transparent"}
+                          onClick={() => {
+                            setSelectedSealingLetter(item);
+                            viewSealingLetter.onOpen();
+                          }}
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+            <Center>
+              <PageIndicator
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+              />
+            </Center>
+          </>
+        )}
+      </Flex>
       <Modal
         isOpen={viewSealingLetter.isOpen}
         onClose={viewSealingLetter.onClose}

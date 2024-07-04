@@ -19,6 +19,7 @@ import { CiCalendar, CiSettings } from "react-icons/ci";
 import { PiCalculatorThin } from "react-icons/pi";
 import { VscServerProcess } from "react-icons/vsc";
 import { BsNewspaper } from "react-icons/bs";
+import {RiBookMarkedFill} from "react-icons/ri";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import { Link } from "react-router-dom";
@@ -34,38 +35,44 @@ const menuItems = [
     label: "Notifications",
   },
   {
-    roleid: [5],
+    roleid: [],
     path: routes.dashboardAppoint,
     icon: CiCalendar,
     label: "Appointments",
   },
   {
-    roleid: [2],
-    path: "#",
+    roleid: [2, 5],
+    path: routes.sealingLetter,
     icon: IoNewspaperOutline,
     label: "Sealing Letter",
   },
-  { 
+  {
+    roleid: [2, 5],
+    path: routes.commitment,
+    icon: RiBookMarkedFill,
+    label: "Commitment",
+  },
+  {
     roleid: [2],
     path: "#",
     icon: IoDiamondSharp,
     label: "Valuated Diamond",
   },
   {
-    roleid: [3],
-    path: "#",
+    roleid: [2,3, 5],
+    path: routes.pendingRequest,
     icon: IoNewspaperOutline,
     label: "Pending Request",
   },
   {
-    roleid: [3],
-    path: "#",
+    roleid: [2,3, 5],
+    path: routes.processRequest,
     icon: VscServerProcess,
     label: "Process Request",
   },
   {
     roleid: [4],
-    path: "#",
+    path: routes.valuationDiamond,
     icon: BsNewspaper,
     label: "Valuation Diamond",
   },
