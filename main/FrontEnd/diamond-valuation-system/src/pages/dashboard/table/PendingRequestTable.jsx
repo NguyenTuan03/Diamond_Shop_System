@@ -19,6 +19,8 @@ import {
   ModalFooter,
   useToast,
   Center,
+  Skeleton,
+  Stack,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 import React, { useContext, useEffect, useState } from "react";
@@ -26,6 +28,7 @@ import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
 import { useNavigate } from "react-router-dom";
+import { set } from "date-fns";
 
 export default function PendingRequestTable() {
   const navigate = useNavigate();
@@ -34,9 +37,11 @@ export default function PendingRequestTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const viewPendingRequest = useDisclosure();
+  const [isLoadedPendingRequest, setIsLoadedPendingRequest] = useState(false);
   const [pendingRequest, setPendingRequest] = useState([]);
   const [selectedPendingRequest, setSelectedPendingRequest] = useState({});
   const fetchPendingRequest = (page, id) => {
+    setIsLoadedPendingRequest(true);
     let url = "";
     if (user.userAuth.roleid === 3 || user.userAuth.roleid === 2) {
       url = `${
@@ -52,6 +57,7 @@ export default function PendingRequestTable() {
       if (response.status === 200) {
         setPendingRequest(response.data.content);
         setTotalPages(response.data?.totalPages);
+        setIsLoadedPendingRequest(false);
       }
     });
   };
@@ -110,7 +116,7 @@ export default function PendingRequestTable() {
               isClosable: true,
             });
             setTimeout(() => {
-              navigate(0);
+              fetchPendingRequest(currentPage, user.userAuth.id);
             }, 1000);
           } else {
             toast({
@@ -133,15 +139,15 @@ export default function PendingRequestTable() {
   return (
     <>
       <Flex direction={"column"} gap={10}>
-        {pendingRequest.length === 0 ? (
-          <>No pending request to show</>
+        <Center>
+          <Text fontSize="4xl" fontWeight="bold">
+            Pending Request
+          </Text>
+        </Center>
+        {totalPages === 0 ? (
+          <Center>No pending request to show</Center>
         ) : (
-          <>
-            <Center>
-              <Text fontSize="4xl" fontWeight="bold">
-                Pending Request
-              </Text>
-            </Center>
+          <Skeleton isLoaded={pendingRequest.length > 0} height={"200px"}>
             <TableContainer>
               <Table size={"sm"} colorScheme="blue">
                 <Thead bg={"blue.400"}>
@@ -179,14 +185,14 @@ export default function PendingRequestTable() {
                 </Tbody>
               </Table>
             </TableContainer>
-            <Center>
-              <PageIndicator
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage}
-              />
-            </Center>
-          </>
+          </Skeleton>
         )}
+        <Center>
+          <PageIndicator
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
+        </Center>
       </Flex>
 
       <Modal

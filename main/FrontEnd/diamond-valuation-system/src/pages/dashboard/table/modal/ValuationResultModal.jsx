@@ -15,7 +15,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { GiDiamondTrophy } from "react-icons/gi";
-import { useReactToPrint } from "react-to-print";
 
 export default function ValuationResultModal({
   viewValuationResult,
