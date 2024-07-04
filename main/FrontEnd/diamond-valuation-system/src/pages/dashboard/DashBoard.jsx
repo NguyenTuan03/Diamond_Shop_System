@@ -1,13 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function DashBoard() {
   const user = useContext(UserContext);
-  const navigate=useNavigate();
-  if(localStorage.getItem("user")===null){
-    navigate(-1)
-  }
   return (
     <>
         {/* {(user.userAuth.roleid === 1 && <AdminPage />) ||
