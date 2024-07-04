@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
-import AdminPage from "../admin/AdminPage";
-import ValuationStaffDashboard from "./valuation/ValuationStaffDashBoard";
-import ConsultingStaffDashboard from "./consulting/ConsultingStaffDashboard";
-import CustomerDashboard from "./customer/CustomerDashboard";
-import ManagerDashboard from "./manager/ManagerDashboard";
+import { useNavigate } from "react-router-dom";
 
 export default function DashBoard() {
   const user = useContext(UserContext);
+  const navigate=useNavigate();
+  if(localStorage.getItem("user")===null){
+    navigate(-1)
+  }
   return (
     <>
         {/* {(user.userAuth.roleid === 1 && <AdminPage />) ||
