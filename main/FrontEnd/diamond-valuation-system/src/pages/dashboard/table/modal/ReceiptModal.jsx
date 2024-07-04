@@ -19,9 +19,8 @@ import {
   Tr,
   UnorderedList,
 } from "@chakra-ui/react";
-import React, { useRef } from "react";
+import React from "react";
 import { GiDiamondTrophy } from "react-icons/gi";
-import { useReactToPrint } from "react-to-print";
 
 export default function ReceiptModal({
   viewReceipt,

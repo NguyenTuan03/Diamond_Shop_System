@@ -14,6 +14,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Skeleton,
   Table,
   TableContainer,
   Tbody,
@@ -64,15 +65,15 @@ export default function CommitmentTable() {
   return (
     <>
       <Flex direction={"column"} gap={10}>
-        {commitment.length === 0 ? (
-          <>No commitment to show</>
+        <Center>
+          <Text fontSize={"4xl"} fontWeight={"bold"}>
+            Commitment
+          </Text>
+        </Center>
+        {totalPages === 0 ? (
+          <Center>No commitment to show</Center>
         ) : (
-          <>
-            <Center>
-              <Text fontSize={"4xl"} fontWeight={"bold"}>
-                Commitment
-              </Text>
-            </Center>
+          <Skeleton isLoaded={commitment.length > 0} height={"200px"}>
             <TableContainer>
               <Table size={"sm"} colorScheme="blue">
                 <Thead bg={"blue.400"}>
@@ -108,14 +109,14 @@ export default function CommitmentTable() {
                 </Tbody>
               </Table>
             </TableContainer>
-            <Center>
-              <PageIndicator
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage}
-              />
-            </Center>
-          </>
+          </Skeleton>
         )}
+        <Center>
+          <PageIndicator
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
+        </Center>
       </Flex>
       <Modal isOpen={viewCommitment.isOpen} onClose={viewCommitment.onClose}>
         <ModalOverlay />

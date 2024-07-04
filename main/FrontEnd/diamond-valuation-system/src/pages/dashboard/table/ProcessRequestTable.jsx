@@ -12,6 +12,7 @@ import {
   Flex,
   Text,
   Center,
+  Skeleton,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 
@@ -293,15 +294,15 @@ export default function ProcessRequestTable() {
   return (
     <>
       <Flex direction={"column"} gap={10}>
-        {processRequest.length === 0 ? (
-          <>No request to show</>
+        <Center>
+          <Text fontSize={"4xl"} fontWeight={"bold"}>
+            Process Request
+          </Text>
+        </Center>
+        {totalPages === 0 ? (
+          <Center>No process request to show</Center>
         ) : (
-          <>
-            <Center>
-              <Text fontSize={"4xl"} fontWeight={"bold"}>
-                Process Request
-              </Text>
-            </Center>
+          <Skeleton isLoaded={processRequest.length > 0} height={"200px"}>
             <TableContainer>
               <Table size={"sm"} colorScheme="blue">
                 <Thead bg={"blue.400"}>
@@ -336,7 +337,7 @@ export default function ProcessRequestTable() {
                 </Tbody>
               </Table>
             </TableContainer>
-          </>
+          </Skeleton>
         )}
         <Center>
           <PageIndicator

@@ -11,11 +11,11 @@ import {
   ListItem,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Skeleton,
   Table,
   TableContainer,
   Tbody,
@@ -64,15 +64,15 @@ export default function SealingLetterTable() {
   return (
     <>
       <Flex direction={"column"} gap={10}>
-        {sealingLetter.length === 0 ? (
-          <>No sealing letter to show</>
+        <Center>
+          <Text fontSize={"4xl"} fontWeight={"bold"}>
+            Sealing Letter
+          </Text>
+        </Center>
+        {totalPages === 0 ? (
+          <Center>No sealing letter to show</Center>
         ) : (
-          <>
-            <Center>
-              <Text fontSize={"4xl"} fontWeight={"bold"}>
-                Sealing Letter
-              </Text>
-            </Center>
+          <Skeleton isLoaded={sealingLetter.length > 0} height={"200px"}>
             <TableContainer>
               <Table size={"sm"} colorScheme="blue">
                 <Thead bg={"blue.400"}>
@@ -110,14 +110,14 @@ export default function SealingLetterTable() {
                 </Tbody>
               </Table>
             </TableContainer>
-            <Center>
-              <PageIndicator
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage}
-              />
-            </Center>
-          </>
+          </Skeleton>
         )}
+        <Center>
+          <PageIndicator
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
+        </Center>
       </Flex>
       <Modal
         isOpen={viewSealingLetter.isOpen}

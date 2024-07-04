@@ -8,6 +8,7 @@ import com.diamond_shop.diamond_shop.service.VNPayService;
 import com.diamond_shop.diamond_shop.service.ValuationRequestService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +40,8 @@ public class VNpayController {
     }
 
     private final String home_Url = "http://localhost:5173/";
+    @Value("${frontend_url}")
+    String frontendUrl;
 
     @GetMapping("/create")
     public String createPayment(
@@ -64,7 +67,8 @@ public class VNpayController {
         vnpParams.put("vnp_OrderInfo", orderInfo);
         vnpParams.put("vnp_OrderType", orderType);
         vnpParams.put("vnp_Locale", "vn");
-        vnpParams.put("vnp_ReturnUrl", "http://localhost:8081/api/vnpay/create-valuation-request" + "?customerId=" + customerId + "&serviceId=" + serviceId + "&pendingRequestId=" + pendingRequestId);
+
+        vnpParams.put("vnp_ReturnUrl", frontendUrl + "/api/vnpay/create-valuation-request" + "?customerId=" + customerId + "&serviceId=" + serviceId + "&pendingRequestId=" + pendingRequestId);
         String clientIpAddress = VNPayService.getClientIpAddress(request);
         vnpParams.put("vnp_IpAddr", clientIpAddress);
         String createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -85,14 +89,14 @@ public class VNpayController {
 
     @GetMapping("/create-valuation-request")
     public String returnPayment(
-        @RequestParam Map<String, String> params,
-        @RequestParam("customerId") int customerId, 
-        @RequestParam("serviceId") int serviceId, 
-        @RequestParam("pendingRequestId") int pendingRequestId, 
-        HttpServletResponse response,
-        HttpServletRequest request) throws IOException {
-        
-        String status =  request.getParameter("vnp_ResponseCode");
+            @RequestParam Map<String, String> params,
+            @RequestParam("customerId") int customerId,
+            @RequestParam("serviceId") int serviceId,
+            @RequestParam("pendingRequestId") int pendingRequestId,
+            HttpServletResponse response,
+            HttpServletRequest request) throws IOException {
+
+        String status = request.getParameter("vnp_ResponseCode");
         String created_date = request.getParameter("vnp_PayDate");
         String bank = request.getParameter("vnp_BankCode");
         String amount = request.getParameter("vnp_Amount");
@@ -101,21 +105,21 @@ public class VNpayController {
 
         if ("00".equals(status)) {
             int paymentId = paymentService.createPayment(customerId, created_date, bank, amount, transactionNo, orderInfo);
-    
+
             valuationRequestService.makeRequest(pendingRequestId, serviceId, paymentId);
-    
+
             ProcessRequestEntity processRequest = processRequestRepository.findByPendingRequestId(pendingRequestId);
             processRequest.setStatus("Paid");
             processRequestRepository.save(processRequest);
-    
+
             response.sendRedirect("http://localhost:5173/?" + VNPayService.createQueryString(params));
             return "success";
-        }
-        else {
-            response.sendRedirect(home_Url+"?"+ VNPayService.createQueryString(params));
+        } else {
+            response.sendRedirect(home_Url + "?" + VNPayService.createQueryString(params));
             return "Fail";
-        }        
+        }
     }
+
     @GetMapping(path = "/get")
     public List<VNpayBillPojo> getTransaction(@RequestParam("id") int id) {
         return paymentService.getTransaction(id);
