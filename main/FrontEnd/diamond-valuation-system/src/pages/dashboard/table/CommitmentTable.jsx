@@ -63,51 +63,60 @@ export default function CommitmentTable() {
 
   return (
     <>
-      {commitment.length === 0 ? (
-        <>No commitment to show</>
-      ) : (
-        <>
-          <TableContainer>
-            <Table size={"sm"} colorScheme="blue">
-              <Thead bg={"blue.400"}>
-                <Tr>
-                  <Th>No</Th>
-                  <Th>Request ID</Th>
-                  {user.userAuth.roleid === 2 && <Th>Customer Name</Th>}
-                  <Th>Created Date</Th>
-                  <Th>View</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {commitment.map((item, index) => (
-                  <Tr key={index}>
-                    <Td>{index + 1}</Td>
-                    <Td>{item?.valuationRequestId || "N/A"}</Td>
-                    {user.userAuth.roleid === 2 && (
-                      <Td>{item?.customerName || "N/A"}</Td>
-                    )}
-                    <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
-                    <Td>
-                      <IconButton
-                        icon={<ViewIcon />}
-                        bg={"transparent"}
-                        onClick={() => {
-                          setSelectedCommitment(item);
-                          viewCommitment.onOpen();
-                        }}
-                      />
-                    </Td>
+      <Flex direction={"column"} gap={10}>
+        {commitment.length === 0 ? (
+          <>No commitment to show</>
+        ) : (
+          <>
+            <Center>
+              <Text fontSize={"4xl"} fontWeight={"bold"}>
+                Commitment
+              </Text>
+            </Center>
+            <TableContainer>
+              <Table size={"sm"} colorScheme="blue">
+                <Thead bg={"blue.400"}>
+                  <Tr>
+                    <Th>No</Th>
+                    <Th>Request ID</Th>
+                    {user.userAuth.roleid === 2 && <Th>Customer Name</Th>}
+                    <Th>Created Date</Th>
+                    <Th>View</Th>
                   </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-          <PageIndicator
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-          />
-        </>
-      )}
+                </Thead>
+                <Tbody>
+                  {commitment.map((item, index) => (
+                    <Tr key={index}>
+                      <Td>{index + 1}</Td>
+                      <Td>{item?.valuationRequestId || "N/A"}</Td>
+                      {user.userAuth.roleid === 2 && (
+                        <Td>{item?.customerName || "N/A"}</Td>
+                      )}
+                      <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
+                      <Td>
+                        <IconButton
+                          icon={<ViewIcon />}
+                          bg={"transparent"}
+                          onClick={() => {
+                            setSelectedCommitment(item);
+                            viewCommitment.onOpen();
+                          }}
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+            <Center>
+              <PageIndicator
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+              />
+            </Center>
+          </>
+        )}
+      </Flex>
       <Modal isOpen={viewCommitment.isOpen} onClose={viewCommitment.onClose}>
         <ModalOverlay />
         <ModalContent>

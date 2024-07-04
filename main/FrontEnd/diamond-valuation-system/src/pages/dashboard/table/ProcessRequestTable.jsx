@@ -9,6 +9,9 @@ import {
   IconButton,
   useDisclosure,
   useToast,
+  Flex,
+  Text,
+  Center,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 
@@ -147,7 +150,7 @@ export default function ProcessRequestTable() {
   useEffect(() => {
     fetchProcessRequest(currentPage, user.userAuth.id);
   }, [currentPage]);
-  
+
   useEffect(() => {
     if (isChecked) {
       fetchProcessRequest(currentPage, user.userAuth.id);
@@ -289,45 +292,59 @@ export default function ProcessRequestTable() {
   };
   return (
     <>
-      {processRequest.length === 0 ? (
-        <>No request to show</>
-      ) : (
-        <TableContainer>
-          <Table size={"sm"} colorScheme="blue">
-            <Thead bg={"blue.400"}>
-              <Tr>
-                <Th>No</Th>
-                <Th>Customer Name</Th>
-                <Th>Description</Th>
-                <Th>Status</Th>
-                <Th>View</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {processRequest.map((item, index) => (
-                <Tr key={index}>
-                  <Td>{index + 1}</Td>
-                  <Td>{item?.customerName || "N/A"}</Td>
-                  <Td>{item?.description || "N/A"}</Td>
-                  <Td>{item?.status || "N/A"}</Td>
-                  <Td>
-                    <IconButton
-                      icon={<ViewIcon />}
-                      bg={"transparent"}
-                      onClick={() => {
-                        setSelectedProcessRequest(item);
-                        viewValuationRequest.onOpen();
-                        fetchValuationRequest(item?.pendingRequestId);
-                      }}
-                    />
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      )}
-      <PageIndicator totalPages={totalPages} setCurrentPage={setCurrentPage} />
+      <Flex direction={"column"} gap={10}>
+        {processRequest.length === 0 ? (
+          <>No request to show</>
+        ) : (
+          <>
+            <Center>
+              <Text fontSize={"4xl"} fontWeight={"bold"}>
+                Process Request
+              </Text>
+            </Center>
+            <TableContainer>
+              <Table size={"sm"} colorScheme="blue">
+                <Thead bg={"blue.400"}>
+                  <Tr>
+                    <Th>No</Th>
+                    <Th>Customer Name</Th>
+                    <Th>Description</Th>
+                    <Th>Status</Th>
+                    <Th>View</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {processRequest.map((item, index) => (
+                    <Tr key={index}>
+                      <Td>{index + 1}</Td>
+                      <Td>{item?.customerName || "N/A"}</Td>
+                      <Td>{item?.description || "N/A"}</Td>
+                      <Td>{item?.status || "N/A"}</Td>
+                      <Td>
+                        <IconButton
+                          icon={<ViewIcon />}
+                          bg={"transparent"}
+                          onClick={() => {
+                            setSelectedProcessRequest(item);
+                            viewValuationRequest.onOpen();
+                            fetchValuationRequest(item?.pendingRequestId);
+                          }}
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+        <Center>
+          <PageIndicator
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
+        </Center>
+      </Flex>
       <ValuationRequestModal
         viewValuationRequest={viewValuationRequest}
         selectedValuationRequest={selectedValuationRequest}

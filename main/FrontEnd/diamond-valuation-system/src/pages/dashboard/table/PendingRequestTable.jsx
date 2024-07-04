@@ -18,6 +18,7 @@ import {
   Button,
   ModalFooter,
   useToast,
+  Center,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 import React, { useContext, useEffect, useState } from "react";
@@ -131,49 +132,62 @@ export default function PendingRequestTable() {
   }, [currentPage]);
   return (
     <>
-      {pendingRequest.length === 0 ? (
-        <>No pending request to show</>
-      ) : (
-        <>
-          <TableContainer>
-            <Table size={"sm"} colorScheme="blue">
-              <Thead bg={"blue.400"}>
-                <Tr>
-                  <Th>No</Th>
-                  <Th>Customer Name</Th>
-                  <Th>Description</Th>
-                  <Th>Created Date</Th>
-                  <Th>View</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {pendingRequest.map((item, index) => (
-                  <Tr key={index}>
-                    <Td>{index + 1}</Td>
-                    <Td>{item?.customerName || "N/A"}</Td>
-                    <Td>{item?.description || "N/A"}</Td>
-                    <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
-                    <Td>
-                      <IconButton
-                        icon={<ViewIcon />}
-                        bgColor={"transparent"}
-                        onClick={() => {
-                          setSelectedPendingRequest(item);
-                          viewPendingRequest.onOpen();
-                        }}
-                      />
-                    </Td>
+      <Flex direction={"column"} gap={10}>
+        {pendingRequest.length === 0 ? (
+          <>No pending request to show</>
+        ) : (
+          <>
+            <Center>
+              <Text fontSize="4xl" fontWeight="bold">
+                Pending Request
+              </Text>
+            </Center>
+            <TableContainer>
+              <Table size={"sm"} colorScheme="blue">
+                <Thead bg={"blue.400"}>
+                  <Tr>
+                    <Th>No</Th>
+                    <Th>Customer Name</Th>
+                    <Th>Email</Th>
+                    <Th>Phone Number</Th>
+                    <Th>Description</Th>
+                    <Th>Created Date</Th>
+                    <Th>View</Th>
                   </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-          <PageIndicator
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-          />
-        </>
-      )}
+                </Thead>
+                <Tbody>
+                  {pendingRequest.map((item, index) => (
+                    <Tr key={index}>
+                      <Td>{index + 1}</Td>
+                      <Td>{item?.customerName || "N/A"}</Td>
+                      <Td>{item?.customerEmail || "N/A"}</Td>
+                      <Td>{item?.customerPhone || "N/A"}</Td>
+                      <Td>{item?.description || "N/A"}</Td>
+                      <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
+                      <Td>
+                        <IconButton
+                          icon={<ViewIcon />}
+                          bgColor={"transparent"}
+                          onClick={() => {
+                            setSelectedPendingRequest(item);
+                            viewPendingRequest.onOpen();
+                          }}
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+            <Center>
+              <PageIndicator
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+              />
+            </Center>
+          </>
+        )}
+      </Flex>
 
       <Modal
         isOpen={viewPendingRequest.isOpen}

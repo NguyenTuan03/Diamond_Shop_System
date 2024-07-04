@@ -26,6 +26,12 @@ import DashBoardRequest from "./../pages/dashboard/DashBoardRequest";
 import AboutUs from "../pages/aboutUs/AboutUs.jsx";
 import DashBoardSetting from "../pages/dashboard/DashBoardSetting.jsx";
 import DashBoardTransaction from "../pages/dashboard/DashBoardTransaction.jsx";
+import PendingRequestTable from "../pages/dashboard/table/PendingRequestTable.jsx";
+import { layout } from "@chakra-ui/react";
+import ProcessRequestTable from "../pages/dashboard/table/ProcessRequestTable.jsx";
+import SealingLetterTable from "../pages/dashboard/table/SealingLetterTable.jsx";
+import CommitmentTable from "../pages/dashboard/table/CommitmentTable.jsx";
+import ValuationStaffDashboard from "../pages/dashboard/valuation/ValuationStaffDashBoard.jsx";
 
 const ALlRoutes = [
   {
@@ -163,7 +169,7 @@ const ALlRoutes = [
     path: routes.dashboardSearch,
     component: DashBoardSearch,
     layout: DashBoardLayout,
-  },  
+  },
   {
     path: routes.dashboardRequest,
     component: DashBoardRequest,
@@ -173,6 +179,31 @@ const ALlRoutes = [
     path: routes.dashboardSetting,
     component: DashBoardSetting,
   },
+  {
+    path: routes.pendingRequest,
+    component: PendingRequestTable,
+    layout: DashBoardLayout,
+  },
+  {
+    path: routes.processRequest,
+    component: ProcessRequestTable,
+    layout: DashBoardLayout,
+  },
+  {
+    path: routes.sealingLetter,
+    component: SealingLetterTable,
+    layout: DashBoardLayout,
+  },
+  {
+    path: routes.commitment,
+    component:CommitmentTable,
+    layout: DashBoardLayout,
+  },
+  {
+    path:routes.valuationDiamond,
+    component:ValuationStaffDashboard,
+    layout:DashBoardLayout
+  }
 ];
 
 export { ALlRoutes };
