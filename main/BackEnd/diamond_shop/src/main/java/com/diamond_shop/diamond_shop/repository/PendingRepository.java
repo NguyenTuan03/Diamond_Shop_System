@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface PendingRepository extends JpaRepository<PendingRequestsEntity, Integer> {
@@ -24,7 +23,7 @@ public interface PendingRepository extends JpaRepository<PendingRequestsEntity, 
             "p.customerId.email," +
             "p.customerId.phone_number) " +
             "FROM PendingRequestsEntity as p " +
-            "WHERE p.id " +
+            "WHERE p.customerId.is_active=true AND p.id " +
             "NOT IN ( " +
             "SELECT pe.id " +
             "FROM PendingRequestsEntity pe " +
@@ -42,7 +41,7 @@ public interface PendingRepository extends JpaRepository<PendingRequestsEntity, 
             "p.customerId.email," +
             "p.customerId.phone_number) " +
             "FROM PendingRequestsEntity as p " +
-            "WHERE p.customerId.id=:customerId " +
+            "WHERE p.customerId.is_active=true AND p.customerId.id=:customerId " +
             "AND p.id NOT IN ( " +
             " SELECT pe.id " +
             "FROM PendingRequestsEntity pe " +
@@ -53,7 +52,7 @@ public interface PendingRepository extends JpaRepository<PendingRequestsEntity, 
 
     @Query("SELECT p " +
             "FROM PendingRequestsEntity p " +
-            "WHERE p.customerId.id=:customerId " +
+            "WHERE p.customerId.is_active=true AND p.customerId.id=:customerId " +
             "AND p.id " +
             "NOT IN " +
             "(SELECT pe.id " +
