@@ -32,6 +32,7 @@ import ProcessRequestTable from "../pages/dashboard/table/ProcessRequestTable.js
 import SealingLetterTable from "../pages/dashboard/table/SealingLetterTable.jsx";
 import CommitmentTable from "../pages/dashboard/table/CommitmentTable.jsx";
 import ValuationStaffDashboard from "../pages/dashboard/valuation/ValuationStaffDashBoard.jsx";
+import AdminPage from "../pages/admin/AdminPage.jsx";
 
 const ALlRoutes = [
   {
@@ -178,6 +179,11 @@ const ALlRoutes = [
   {
     path: routes.dashboardSetting,
     component: DashBoardSetting,
+  },
+  {
+    path:routes.manageAccount,
+    component:AdminPage,
+    layout:DashBoardLayout
   },
   {
     path: routes.pendingRequest,

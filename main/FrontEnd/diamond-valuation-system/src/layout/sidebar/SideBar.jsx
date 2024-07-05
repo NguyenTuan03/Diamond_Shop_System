@@ -19,9 +19,10 @@ import { CiCalendar, CiSettings } from "react-icons/ci";
 import { PiCalculatorThin } from "react-icons/pi";
 import { VscServerProcess } from "react-icons/vsc";
 import { BsNewspaper } from "react-icons/bs";
-import {RiBookMarkedFill} from "react-icons/ri";
+import { RiBookMarkedFill } from "react-icons/ri";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
+import { MdManageAccounts } from "react-icons/md";
 import { Link } from "react-router-dom";
 import routes from "../../config/Config";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
@@ -39,6 +40,12 @@ const menuItems = [
     path: routes.dashboardAppoint,
     icon: CiCalendar,
     label: "Appointments",
+  },
+  {
+    roleid: [1],
+    path: routes.manageAccount,
+    icon: MdManageAccounts,
+    label: "Manage Account",
   },
   {
     roleid: [2, 5],
@@ -59,13 +66,13 @@ const menuItems = [
     label: "Valuated Diamond",
   },
   {
-    roleid: [2,3, 5],
+    roleid: [2, 3, 5],
     path: routes.pendingRequest,
     icon: IoNewspaperOutline,
     label: "Pending Request",
   },
   {
-    roleid: [2,3, 5],
+    roleid: [2, 3, 5],
     path: routes.processRequest,
     icon: VscServerProcess,
     label: "Process Request",

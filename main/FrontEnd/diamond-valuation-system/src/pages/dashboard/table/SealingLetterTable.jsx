@@ -77,7 +77,7 @@ export default function SealingLetterTable() {
               <Table size={"sm"} colorScheme="blue">
                 <Thead bg={"blue.400"}>
                   <Tr>
-                    <Th>No</Th>
+                    <Th>ID</Th>
                     <Th>Request ID</Th>
                     {user.userAuth.roleid === 2 && <Th>Customer Name</Th>}
                     <Th>Created Date</Th>
@@ -88,7 +88,7 @@ export default function SealingLetterTable() {
                 <Tbody>
                   {sealingLetter.map((item, index) => (
                     <Tr key={index}>
-                      <Td>{index + 1}</Td>
+                      <Td>{item?.id}</Td>
                       <Td>{item?.valuationRequestId || "N/A"}</Td>
                       {user.userAuth.roleid === 2 && (
                         <Td>{item?.customerName || "N/A"}</Td>
@@ -110,14 +110,14 @@ export default function SealingLetterTable() {
                 </Tbody>
               </Table>
             </TableContainer>
+            <Center m={"50px 0 0 0"}>
+              <PageIndicator
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+              />
+            </Center>
           </Skeleton>
         )}
-        <Center>
-          <PageIndicator
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-          />
-        </Center>
       </Flex>
       <Modal
         isOpen={viewSealingLetter.isOpen}

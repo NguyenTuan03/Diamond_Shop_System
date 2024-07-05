@@ -130,9 +130,9 @@ export default function PendingRequestTable() {
         }
       });
   };
-  useEffect(() => {
-    fetchPendingRequest(currentPage, user.userAuth.id);
-  }, []);
+  // useEffect(() => {
+  //   fetchPendingRequest(currentPage, user.userAuth.id);
+  // }, []);
   useEffect(() => {
     fetchPendingRequest(currentPage, user.userAuth.id);
   }, [currentPage]);
@@ -152,7 +152,7 @@ export default function PendingRequestTable() {
               <Table size={"sm"} colorScheme="blue">
                 <Thead bg={"blue.400"}>
                   <Tr>
-                    <Th>No</Th>
+                    <Th>ID</Th>
                     <Th>Customer Name</Th>
                     <Th>Email</Th>
                     <Th>Phone Number</Th>
@@ -164,7 +164,7 @@ export default function PendingRequestTable() {
                 <Tbody>
                   {pendingRequest.map((item, index) => (
                     <Tr key={index}>
-                      <Td>{index + 1}</Td>
+                      <Td>{item?.id}</Td>
                       <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.customerEmail || "N/A"}</Td>
                       <Td>{item?.customerPhone || "N/A"}</Td>
@@ -185,14 +185,14 @@ export default function PendingRequestTable() {
                 </Tbody>
               </Table>
             </TableContainer>
+            <Center m={"50px 0 0 0"}>
+              <PageIndicator
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+              />
+            </Center>
           </Skeleton>
         )}
-        <Center>
-          <PageIndicator
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-          />
-        </Center>
       </Flex>
 
       <Modal
