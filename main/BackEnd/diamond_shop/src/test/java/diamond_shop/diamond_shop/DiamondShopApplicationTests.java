@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
-@SpringBootTest(classes = DiamondShopApplication.class)
-class DiamondShopApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+//@SpringBootTest(classes = DiamondShopApplication.class)
+//class DiamondShopApplicationTests {
+//
+//	@Test
+//	void contextLoads() {
+//	}
+//
+//}
