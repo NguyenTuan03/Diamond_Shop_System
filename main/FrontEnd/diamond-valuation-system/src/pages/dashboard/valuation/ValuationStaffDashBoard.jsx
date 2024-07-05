@@ -33,6 +33,7 @@ import {
   Tr,
   useColorModeValue,
   useDisclosure,
+  Skeleton,
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -199,48 +200,49 @@ export default function ValuationStaffDashboard() {
             Valuation Diamond
           </Text>
         </Center>
-        <TableContainer whiteSpace={"wrap"}>
-          <Table size={"sm"} colorScheme="blue">
-            <Thead bgColor={"blue.400"}>
-              <Tr>
-                <Th>No</Th>
-                <Th>ID</Th>
-                <Th>Service</Th>
-                <Th>Status</Th>
-                <Th>View</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {processResult.map((item, index) => (
-                <Tr key={index}>
-                  <Td>{index + 1}</Td>
-                  <Td>{item?.valuationResultId}</Td>
-                  <Td>{item?.serviceName}</Td>
-                  <Td>{item?.status}</Td>
-                  <Td>
-                    <IconButton
-                      icon={<ViewIcon />}
-                      bgColor={"transparent"}
-                      onClick={() => {
-                        setSelectedProcessResult(item);
-                        fetchValuatedDiamondImages(item?.valuationResultId);
-                        viewValuationResult.onOpen();
-                      }}
-                    />
-                  </Td>
+        <Skeleton isLoaded={processResult.length > 0} height={"200px"}>
+          <TableContainer whiteSpace={"wrap"}>
+            <Table size={"sm"} colorScheme="blue">
+              <Thead bgColor={"blue.400"}>
+                <Tr>
+                  <Th>No</Th>
+                  <Th>ID</Th>
+                  <Th>Service</Th>
+                  <Th>Status</Th>
+                  <Th>View</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-        <Center>
-          <PageIndicator
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-          />
-        </Center>
+              </Thead>
+              <Tbody>
+                {processResult.map((item, index) => (
+                  <Tr key={index}>
+                    <Td>{index + 1}</Td>
+                    <Td>{item?.valuationResultId}</Td>
+                    <Td>{item?.serviceName}</Td>
+                    <Td>{item?.status}</Td>
+                    <Td>
+                      <IconButton
+                        icon={<ViewIcon />}
+                        bgColor={"transparent"}
+                        onClick={() => {
+                          setSelectedProcessResult(item);
+                          fetchValuatedDiamondImages(item?.valuationResultId);
+                          viewValuationResult.onOpen();
+                        }}
+                      />
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+          <Center>
+            <PageIndicator
+              totalPages={totalPages}
+              setCurrentPage={setCurrentPage}
+            />
+          </Center>
+        </Skeleton>
       </Flex>
-
       <Modal
         isOpen={viewValuationResult.isOpen}
         onClose={viewValuationResult.onClose}

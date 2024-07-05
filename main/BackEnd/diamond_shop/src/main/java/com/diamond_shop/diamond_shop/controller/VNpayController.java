@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +41,10 @@ public class VNpayController {
         this.processRequestRepository = processRequestRepository;
     }
 
-    private final String home_Url = "http://localhost:5173/";
     @Value("${frontend_url}")
     String frontendUrl;
+    @Value("${backend_url}")
+    String backendUrl;
 
     @GetMapping("/create")
     public String createPayment(
@@ -68,14 +71,16 @@ public class VNpayController {
         vnpParams.put("vnp_OrderType", orderType);
         vnpParams.put("vnp_Locale", "vn");
 
-        vnpParams.put("vnp_ReturnUrl", frontendUrl + "/api/vnpay/create-valuation-request" + "?customerId=" + customerId + "&serviceId=" + serviceId + "&pendingRequestId=" + pendingRequestId);
+        vnpParams.put("vnp_ReturnUrl", backendUrl + "/api/vnpay/create-valuation-request" + "?customerId=" + customerId + "&serviceId=" + serviceId + "&pendingRequestId=" + pendingRequestId);
         String clientIpAddress = VNPayService.getClientIpAddress(request);
         vnpParams.put("vnp_IpAddr", clientIpAddress);
         String createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         vnpParams.put("vnp_CreateDate", createDate);
 
-        String expireDate = LocalDateTime.now().plusMinutes(15).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        vnpParams.put("vnp_ExpireDate", expireDate);
+        System.out.println(LocalDateTime.now());
+        ZonedDateTime expireDateUTC = LocalDateTime.now().plusMinutes(15).atZone(ZoneId.of("UTC"));
+        vnpParams.put("vnp_ExpireDate", expireDateUTC.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        System.out.println(expireDateUTC);
 
         String vnp_HashSecret = "3TGCDR6WEYHTMWFWWY1FMMMG8MVRVL9F";
         String secureHash = VNPayService.generateSecureHash(vnp_HashSecret, vnpParams);
@@ -112,10 +117,10 @@ public class VNpayController {
             processRequest.setStatus("Paid");
             processRequestRepository.save(processRequest);
 
-            response.sendRedirect("http://localhost:5173/?" + VNPayService.createQueryString(params));
+            response.sendRedirect(frontendUrl + "/?" + VNPayService.createQueryString(params));
             return "success";
         } else {
-            response.sendRedirect(home_Url + "?" + VNPayService.createQueryString(params));
+            response.sendRedirect(frontendUrl + "/?" + VNPayService.createQueryString(params));
             return "Fail";
         }
     }

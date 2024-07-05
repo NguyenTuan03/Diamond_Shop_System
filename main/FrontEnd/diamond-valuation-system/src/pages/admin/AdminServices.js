@@ -86,6 +86,8 @@ export const createAccount = async (
 export const updateAccount = async (
   id,
   roleid,
+  username,
+  password,
   fullname,
   email,
   phonenumber,
@@ -93,11 +95,13 @@ export const updateAccount = async (
   toast
 ) => {
   try {
-    const res = await axios.post(
+    const res = await axios.put(
       `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/admin/update`,
       {
         id: id,
         roleid: roleid,
+        username: username,
+        password: password,
         fullname: fullname,
         email: email,
         phonenumber: phonenumber,
@@ -136,9 +140,9 @@ export const updateAccount = async (
 export const deleteAccount = async (id, setIsDeleted, toast) => {
   try {
     await axios
-      .post(`${import.meta.env.VITE_REACT_APP_BASE_URL}/api/admin/delete`, {
-        id: id,
-      })
+      .delete(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/admin/delete?id=${id}`
+      )
       .then(function (response) {
         setIsDeleted(true);
         toast({

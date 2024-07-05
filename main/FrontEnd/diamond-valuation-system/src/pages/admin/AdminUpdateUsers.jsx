@@ -38,6 +38,8 @@ export default function AdminUpdateUsers({
           <Formik
             initialValues={{
               role: updateAcc?.roleId || "",
+              username: updateAcc?.username,
+              password: "A1@aaaaaaa",
               fullName: updateAcc?.fullName,
               email: updateAcc?.email,
               phoneNumber: updateAcc?.phoneNumber || "",
@@ -50,6 +52,8 @@ export default function AdminUpdateUsers({
               updateAccount(
                 updateAcc.id,
                 values.role,
+                values.username,
+                values.password,
                 values.fullName,
                 values.email,
                 values.phoneNumber,

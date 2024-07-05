@@ -4,19 +4,17 @@ import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.service.AccountService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
     private final AccountService accountService;
-
-    public AdminController(AccountService accountService) {
-        this.accountService = accountService;
-    }
 
     @GetMapping(path = "/get")
     public Page<AccountEntity> getAllAccounts(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter) {
@@ -28,13 +26,13 @@ public class AdminController {
         return accountService.createAccount(account);
     }
 
-    @PostMapping(path = "/update")
+    @PutMapping(path = "/update")
     public String updateAccount(@Valid @RequestBody AccountDTO account) {
         return accountService.updateAccount(account);
     }
 
-    @PostMapping(path = "/delete")
-    public void deleteAccount(@Valid @RequestBody AccountDTO account) {
-        accountService.deleteAccount(account.getId());
+    @DeleteMapping(path = "/delete")
+    public void deleteAccount(@RequestParam("id") int id) {
+        accountService.deleteAccount(id);
     }
 }
