@@ -2,10 +2,12 @@ package com.diamond_shop.diamond_shop.service;
 
 
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
+import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
-import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
+import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 
 public interface AccountService {
 
@@ -25,7 +27,11 @@ public interface AccountService {
 
     String restoreAccount(int id);
 
-    LoginMessageDTO loginAccount(LoginDTO loginDTO);
+    ResponseEntity<?> loginAccount(LoginDTO loginDTO);
+
+    ResponseEntity<?> forgotPassword(ForgetPasswordDTO forgetPasswordDTO);
+
+    ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO);
 
     String updatePhoneNumber(String phoneNumber);
 

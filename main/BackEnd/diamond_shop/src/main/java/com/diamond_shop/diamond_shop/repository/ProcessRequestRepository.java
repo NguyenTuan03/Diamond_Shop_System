@@ -26,7 +26,7 @@ public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEn
             "p.pendingRequestId.customerId.fullname," +
             "p.pendingRequestId.customerId.email," +
             "p.pendingRequestId.customerId.phone_number) " +
-            "FROM ProcessRequestEntity as p" +
+            "FROM ProcessRequestEntity as p " +
             "Where p.staffId.is_active=true")
     Page<ProcessRequestEntity> findAllProcessResults(Pageable pageable);
 

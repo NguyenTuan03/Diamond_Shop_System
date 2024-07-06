@@ -1,18 +1,25 @@
 package com.diamond_shop.diamond_shop.service;
 
-import java.util.Optional;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.core.Authentication;
+import com.diamond_shop.diamond_shop.config.JWTUtil;
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
+import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
-import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
+import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.RoleEntity;
+import com.diamond_shop.diamond_shop.pojo.LoginPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
 
@@ -22,13 +29,18 @@ public class AccountImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
+    @Autowired
+    private JWTUtil JWTUtil;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    
     public AccountImpl(AccountRepository accountRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
 
     @Override
     public Page<AccountEntity> getAllAccountsById(String search, int pageId, String filter) {
@@ -54,14 +66,13 @@ public class AccountImpl implements AccountService {
     @Override
     public String addAccount(AccountDTO accountDTO) {
         String updatePhoneNumber = updatePhoneNumber(accountDTO.getPhonenumber());
-
         String errorMessage = checkDuplicateAccount("add", accountDTO.getId(), accountDTO.getUsername(), "", updatePhoneNumber);
         if (!errorMessage.isEmpty()) return errorMessage;
 
-        RoleEntity role = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
-        AccountEntity account = new AccountEntity(
-                role,
+        RoleEntity roleEntity = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
+        AccountEntity accountEntity = new AccountEntity(   
+                roleEntity,
                 accountDTO.getUsername(),
                 encodedPassword,
                 accountDTO.getFullname(),
@@ -69,8 +80,9 @@ public class AccountImpl implements AccountService {
                 accountDTO.getEmail(),
                 true
         );
-        accountRepository.save(account);
-        return account.getUsername();
+
+        accountRepository.save(accountEntity);
+        return "User registered successfully!";
     }
 
     @Override
@@ -173,33 +185,89 @@ public class AccountImpl implements AccountService {
     }
 
     @Override
-    public LoginMessageDTO loginAccount(LoginDTO loginDTO) {
-        AccountDTO acc2 = new AccountDTO();
-        AccountEntity acc1 = accountRepository.findByUserName(loginDTO.getUsername());
-        if (acc1 != null) {
-            String password = loginDTO.getPassword();
-            String encodedPassword = acc1.getPassword();
-            boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-            if (isPwdRight) {
-                Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
-                if (account.isPresent()) {
-                    acc2.setId(acc1.getId());
-                    acc2.setRoleid(acc1.getRole().getId());
-                    acc2.setFullname(acc1.getFullname());
-                    acc2.setUsername(acc1.getUsername());
-                    acc2.setPhonenumber(acc1.getPhone_number());
-                    return new LoginMessageDTO("Login Success", true, acc2);
-                } else {
-                    return new LoginMessageDTO("Login Failed", false);
-                }
-            } else {
-                return new LoginMessageDTO("Password Not Match", false);
-            }
-        } else {
-            return new LoginMessageDTO("Not exits", false);
-        }
+    public ResponseEntity<?> loginAccount(LoginDTO loginDTO) {
+        // AccountDTO acc2 = new AccountDTO();
+        // AccountEntity acc1 = accountRepository.findByUserName(loginDTO.getUsername());
+        // if (acc1 != null) {
+        //     String password = loginDTO.getPassword();
+        //     String encodedPassword = acc1.getPassword();
+        //     boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+        //     if (isPwdRight) {
+        //         Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
+        //         if (account.isPresent()) {
+        //             acc2.setId(acc1.getId());
+        //             acc2.setRoleid(acc1.getRole().getId());
+        //             acc2.setFullname(acc1.getFullname());
+        //             acc2.setUsername(acc1.getUsername());
+        //             acc2.setPhonenumber(acc1.getPhone_number());
+        //             return new LoginMessageDTO("Login Success", true, acc2);
+        //         } else {
+        //             return new LoginMessageDTO("Login Failed", false);
+        //         }
+        //     } else {
+        //         return new LoginMessageDTO("Password Not Match", false);
+        //     }
+        // } else {
+        //     return new LoginMessageDTO("Not exits", false);
+        // }
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDTO.getUsername(),
+                        loginDTO.getPassword()
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = JWTUtil.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        return ResponseEntity.ok(
+                new LoginPojo(
+                        jwt,
+                        userDetails.getId(),
+                        userDetails.getUsername(),
+                        userDetails.getEmail(),
+                        userDetails.getAuthorities()
+                )
+        );
     }
 
+    
+    @Override
+    public ResponseEntity<?> forgotPassword(ForgetPasswordDTO forgetPasswordDTO) {
+        AccountEntity accountEntity = accountRepository.findByEmail(forgetPasswordDTO.getEmail());
+        if (accountEntity == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");
+        }
+
+        String token = JWTUtil.generateResetToken(accountEntity.getUsername());
+        emailService.sendResetTokenEmail(accountEntity.getEmail(), token);
+
+        return ResponseEntity.ok("Reset password email sent");
+    }
+
+
+    @Override
+    public ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO) {
+        String token = resetPasswordRequestDTO.getToken();
+        String newPassword = resetPasswordRequestDTO.getNewPassword();
+    
+        if (!JWTUtil.validateJwtToken(token)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
+        }
+    
+        String username = JWTUtil.getUserNameFromJwtToken(token);
+        AccountEntity accountEntity = accountRepository.findByUserName(username);
+        if (accountEntity == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    
+        accountEntity.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(accountEntity);
+
+        return ResponseEntity.ok("Password updated successfully");
+    }
     @Override
     public String updatePhoneNumber(String phoneNumber) {
         if (phoneNumber.length() == 9 && !phoneNumber.startsWith("0")) {
