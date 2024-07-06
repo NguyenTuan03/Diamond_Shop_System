@@ -51,7 +51,7 @@ const menuItems = [
     icon: CiCalendar,
     label: "Appointments",
   },
-  {
+    { 
     roleid: [1],
     path: routes.manageAccount,
     icon: MdManageAccounts,
