@@ -145,7 +145,9 @@ export default function ValuationStaffDashboard() {
         console.log(error);
       });
   };
+  const [isDeleted, setIsDeleted] = useState(false);
   const deleteImages = async (imageId) => {
+    setIsDeleted(true);
     const timestamp = Date.now() / 1000;
     const formData = new FormData();
     formData.append("public_id", imageId);
@@ -178,6 +180,7 @@ export default function ValuationStaffDashboard() {
           }/api/valuation-result/image/delete?id=${imageId}`
         )
         .then(function (response) {
+          setIsDeleted(false);
           toast({
             title: "Success",
             description: response.data,
@@ -276,7 +279,6 @@ export default function ValuationStaffDashboard() {
                   values
                 );
                 setSubmitting(false);
-                viewValuationResult.onClose();
               }}
             >
               {({
@@ -607,6 +609,7 @@ export default function ValuationStaffDashboard() {
                         type="submit"
                         colorScheme="blue"
                         isLoading={isSubmitting}
+                        isDisabled={isSubmitting}
                       >
                         Submit
                       </Button>
@@ -624,6 +627,8 @@ export default function ValuationStaffDashboard() {
                                     .resize(thumbnail().width(200).height(200))}
                                 />
                                 <Button
+                                  isDisabled={isDeleted}
+                                  isLoading={isDeleted}
                                   colorScheme="red"
                                   onClick={() => {
                                     deleteImages(image);

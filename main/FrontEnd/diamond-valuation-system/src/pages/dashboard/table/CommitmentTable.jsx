@@ -122,53 +122,59 @@ export default function CommitmentTable() {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Commitment ID: {selectedCommitment?.id || "N/A"}
+            <Skeleton isLoaded={selectedCommitment !== null}>
+              Commitment ID: {selectedCommitment?.id || "N/A"}
+            </Skeleton>
           </ModalHeader>
           <ModalBody>
-            <Flex direction={"column"} gap={5}>
-              <Text>
-                <strong>Created Date</strong>:{" "}
-                {selectedCommitment?.createdDate?.slice(0, 10) || "N/A"}
-              </Text>
-              <Text>
-                <strong>Request ID</strong>:{" "}
-                {selectedCommitment?.valuationRequestId || "N/A"}
-              </Text>
-              <Text>
-                <strong>Customer Name</strong>:{" "}
-                {selectedCommitment?.customerName || "N/A"}
-              </Text>
-              <Text>
-                <strong>Transaction No</strong>:{" "}
-                {selectedCommitment?.transactionNo || "N/A"}
-              </Text>
-              <Text>
-                <strong>Date of purchase</strong>:{" "}
-                {selectedCommitment?.paymentDate?.slice(0, 16) || "N/A"}
-              </Text>
-              <Text>
-                <strong>Bank</strong>: {selectedCommitment?.bank || "N/A"}
-              </Text>
-              <Text>
-                <strong>Amount</strong>: {selectedCommitment?.amount || "N/A"}{" "}
-                vnd
-              </Text>
-              <Text>
-                <strong>Order Info</strong>{" "}
-                {selectedCommitment?.orderInfo || "N/A"}
-              </Text>
-            </Flex>
+            <Skeleton isLoaded={selectedCommitment !== null}>
+              <Flex direction={"column"} gap={5}>
+                <Text>
+                  <strong>Created Date</strong>:{" "}
+                  {selectedCommitment?.createdDate?.slice(0, 10) || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Request ID</strong>:{" "}
+                  {selectedCommitment?.valuationRequestId || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Customer Name</strong>:{" "}
+                  {selectedCommitment?.customerName || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Transaction No</strong>:{" "}
+                  {selectedCommitment?.transactionNo || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Date of purchase</strong>:{" "}
+                  {selectedCommitment?.paymentDate?.slice(0, 16) || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Bank</strong>: {selectedCommitment?.bank || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Amount</strong>: {selectedCommitment?.amount || "N/A"}{" "}
+                  vnd
+                </Text>
+                <Text>
+                  <strong>Order Info</strong>{" "}
+                  {selectedCommitment?.orderInfo || "N/A"}
+                </Text>
+              </Flex>
+            </Skeleton>
           </ModalBody>
           <Center>
             <ModalFooter>
-              <Button
-                colorScheme="teal"
-                onClick={() => {
-                  viewPrintCommitment.onOpen();
-                }}
-              >
-                View
-              </Button>
+              <Skeleton isLoaded={selectedCommitment !== null}>
+                <Button
+                  colorScheme="teal"
+                  onClick={() => {
+                    viewPrintCommitment.onOpen();
+                  }}
+                >
+                  View
+                </Button>
+              </Skeleton>
             </ModalFooter>
           </Center>
         </ModalContent>
