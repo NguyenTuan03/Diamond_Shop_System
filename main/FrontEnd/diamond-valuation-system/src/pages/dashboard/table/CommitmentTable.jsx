@@ -15,6 +15,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Skeleton,
   Table,
   TableContainer,
   Tbody,
@@ -64,105 +65,117 @@ export default function CommitmentTable() {
 
   return (
     <>
-      {commitment.length === 0 ? (
-        <>No commitment to show</>
-      ) : (
-        <Box p={5}>
-          <TableContainer shadow="md" borderRadius="md" bg="white" >
-            <Table size={"md"} colorScheme="blue">
-              <Thead bg={"blue.500"}>
-                <Tr>
-                  <Th color="white">No</Th>
-                  <Th color="white">Request ID</Th>
-                  {user.userAuth.roleid === 2 && <Th color="white">Customer Name</Th>}
-                  <Th color="white">Created Date</Th>
-                  <Th color="white">View</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {commitment.map((item, index) => (
-                  <Tr key={index} _hover={{ bg: "gray.100" }}>
-                    <Td>{index + 1}</Td>
-                    <Td>{item?.valuationRequestId || "N/A"}</Td>
-                    {user.userAuth.roleid === 2 && (
-                      <Td>{item?.customerName || "N/A"}</Td>
-                    )}
-                    <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
-                    <Td>
-                      <IconButton
-                        icon={<ViewIcon />}
-                        bg={"transparent"}
-                        onClick={() => {
-                          setSelectedCommitment(item);
-                          viewCommitment.onOpen();
-                        }}
-                        _hover={{ bg: "gray.100" }}
-                      />
-                    </Td>
+      <Flex direction={"column"} gap={10}>
+        <Center>
+          <Text fontSize={"4xl"} fontWeight={"bold"}>
+            Commitment
+          </Text>
+        </Center>
+        {totalPages === 0 ? (
+          <Center>No commitment to show</Center>
+        ) : (
+          <Skeleton isLoaded={commitment.length > 0} height={"200px"}>
+          <TableContainer shadow="md" borderRadius="md">
+              <Table size={"sm"} colorScheme="blue">
+                <Thead bg={"blue.500"}>
+                  <Tr>
+                    <Th>ID</Th>
+                    <Th>Request ID</Th>
+                    {user.userAuth.roleid === 2 && <Th>Customer Name</Th>}
+                    <Th>Created Date</Th>
+                    <Th>View</Th>
                   </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-          <Flex mt={4} justifyContent="center">
-        <PageIndicator
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-          />
-          </Flex>
-        </Box>
-      )}
+                </Thead>
+                <Tbody>
+                  {commitment.map((item, index) => (
+                    <Tr key={index} _hover={{bg:"gray.100"}}>
+                      <Td>{item?.id}</Td>
+                      <Td>{item?.valuationRequestId || "N/A"}</Td>
+                      {user.userAuth.roleid === 2 && (
+                        <Td>{item?.customerName || "N/A"}</Td>
+                      )}
+                      <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
+                      <Td>
+                        <IconButton
+                          icon={<ViewIcon />}
+                          bg={"transparent"}
+                          onClick={() => {
+                            setSelectedCommitment(item);
+                            viewCommitment.onOpen();
+                          }}
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+            <Center m={"50px 0 0 0"}>
+              <PageIndicator
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+              />
+            </Center>
+          </Skeleton>
+        )}
+      </Flex>
       <Modal isOpen={viewCommitment.isOpen} onClose={viewCommitment.onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Commitment ID: {selectedCommitment?.id || "N/A"}
+            <Skeleton isLoaded={selectedCommitment !== null}>
+              Commitment ID: {selectedCommitment?.id || "N/A"}
+            </Skeleton>
           </ModalHeader>
           <ModalBody>
-            <Flex direction={"column"} gap={5}>
-              <Text>
-                <strong>Created Date</strong>:{" "}
-                {selectedCommitment?.createdDate?.slice(0, 10) || "N/A"}
-              </Text>
-              <Text>
-                <strong>Request ID</strong>:{" "}
-                {selectedCommitment?.valuationRequestId || "N/A"}
-              </Text>
-              <Text>
-                <strong>Customer Name</strong>:{" "}
-                {selectedCommitment?.customerName || "N/A"}
-              </Text>
-              <Text>
-                <strong>Transaction No</strong>:{" "}
-                {selectedCommitment?.transactionNo || "N/A"}
-              </Text>
-              <Text>
-                <strong>Date of purchase</strong>:{" "}
-                {selectedCommitment?.paymentDate?.slice(0, 16) || "N/A"}
-              </Text>
-              <Text>
-                <strong>Bank</strong>: {selectedCommitment?.bank || "N/A"}
-              </Text>
-              <Text>
-                <strong>Amount</strong>: {selectedCommitment?.amount || "N/A"}{" "}
-                vnd
-              </Text>
-              <Text>
-                <strong>Order Info</strong>{" "}
-                {selectedCommitment?.orderInfo || "N/A"}
-              </Text>
-            </Flex>
+            <Skeleton isLoaded={selectedCommitment !== null}>
+              <Flex direction={"column"} gap={5}>
+                <Text>
+                  <strong>Created Date</strong>:{" "}
+                  {selectedCommitment?.createdDate?.slice(0, 10) || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Request ID</strong>:{" "}
+                  {selectedCommitment?.valuationRequestId || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Customer Name</strong>:{" "}
+                  {selectedCommitment?.customerName || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Transaction No</strong>:{" "}
+                  {selectedCommitment?.transactionNo || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Date of purchase</strong>:{" "}
+                  {selectedCommitment?.paymentDate?.slice(0, 16) || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Bank</strong>: {selectedCommitment?.bank || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Amount</strong>: {selectedCommitment?.amount || "N/A"}{" "}
+                  vnd
+                </Text>
+                <Text>
+                  <strong>Order Info</strong>{" "}
+                  {selectedCommitment?.orderInfo || "N/A"}
+                </Text>
+              </Flex>
+            </Skeleton>
           </ModalBody>
           <Center>
             <ModalFooter>
-              <Button
-                colorScheme="teal"
-                onClick={() => {
-                  viewPrintCommitment.onOpen();
-                }}
-              >
-                View
-              </Button>
+              <Skeleton isLoaded={selectedCommitment !== null}>
+                <Button
+                  colorScheme="teal"
+                  onClick={() => {
+                    viewPrintCommitment.onOpen();
+                  }}
+                >
+                  View
+                </Button>
+              </Skeleton>
             </ModalFooter>
           </Center>
         </ModalContent>

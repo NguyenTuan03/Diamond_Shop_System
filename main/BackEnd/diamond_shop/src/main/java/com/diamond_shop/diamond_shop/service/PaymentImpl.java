@@ -6,7 +6,6 @@ import com.diamond_shop.diamond_shop.entity.PaymentEntity;
 import com.diamond_shop.diamond_shop.pojo.VNpayBillPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PaymentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -17,10 +16,8 @@ import java.util.List;
 
 @Service
 public class PaymentImpl implements PaymentService {
-    @Autowired
-    private PaymentRepository paymentRepository;
-    @Autowired
-    private AccountRepository accountRepository;
+    private final PaymentRepository paymentRepository;
+    private final AccountRepository accountRepository;
 
     public PaymentImpl(PaymentRepository paymentRepository, AccountRepository accountRepository) {
         this.paymentRepository = paymentRepository;
@@ -44,7 +41,7 @@ public class PaymentImpl implements PaymentService {
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
-        int amountInt = Integer.parseInt(amount) / 1000;
+        int amountInt = Integer.parseInt(amount) / 100;
 
         if (accountEntity == null) {
             throw new IllegalArgumentException("User not found with id: " + userid);
@@ -79,5 +76,5 @@ public class PaymentImpl implements PaymentService {
             result.add(pojo);
         }
         return result;
-    }   
+    }
 }

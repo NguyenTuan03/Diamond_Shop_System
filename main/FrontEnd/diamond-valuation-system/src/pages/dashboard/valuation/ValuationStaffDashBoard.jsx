@@ -33,6 +33,7 @@ import {
   Tr,
   useColorModeValue,
   useDisclosure,
+  Skeleton,
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -47,7 +48,7 @@ import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
 import PageIndicator from "../../../components/PageIndicator";
 export default function ValuationStaffDashboard() {
-  const bgColor=useColorModeValue("white","gray.800")
+  const bgColor = useColorModeValue("white", "gray.800");
   const navigate = useNavigate();
   const toast = useToast();
   const user = useContext(UserContext);
@@ -144,7 +145,9 @@ export default function ValuationStaffDashboard() {
         console.log(error);
       });
   };
+  const [isDeleted, setIsDeleted] = useState(false);
   const deleteImages = async (imageId) => {
+    setIsDeleted(true);
     const timestamp = Date.now() / 1000;
     const formData = new FormData();
     formData.append("public_id", imageId);
@@ -177,6 +180,7 @@ export default function ValuationStaffDashboard() {
           }/api/valuation-result/image/delete?id=${imageId}`
         )
         .then(function (response) {
+          setIsDeleted(false);
           toast({
             title: "Success",
             description: response.data,
@@ -193,57 +197,55 @@ export default function ValuationStaffDashboard() {
   };
   return (
     <>
-      <Flex
-        bg={bgColor}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        gap={5}
-      >
-        <Text fontSize="4xl" fontWeight="bold">
-          Welcome: {user.userAuth.fullname}
-        </Text>
-        <Text fontSize="xl">For Valuation Staff</Text>
-        <TableContainer whiteSpace={"wrap"}>
-          <Table size={"sm"} colorScheme="blue">
-            <Thead bgColor={"blue.400"}>
-              <Tr>
-                <Th>No</Th>
-                <Th>ID</Th>
-                <Th>Service</Th>
-                <Th>Status</Th>
-                <Th>View</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {processResult.map((item, index) => (
-                <Tr key={index}>
-                  <Td>{index + 1}</Td>
-                  <Td>{item?.valuationResultId}</Td>
-                  <Td>{item?.serviceName}</Td>
-                  <Td>{item?.status}</Td>
-                  <Td>
-                    <IconButton
-                      icon={<ViewIcon />}
-                      bgColor={"transparent"}
-                      onClick={() => {
-                        setSelectedProcessResult(item);
-                        fetchValuatedDiamondImages(item?.valuationResultId);
-                        viewValuationResult.onOpen();
-                      }}
-                    />
-                  </Td>
+      <Flex direction="column" gap={10}>
+        <Center>
+          <Text fontSize="4xl" fontWeight="bold">
+            Valuation Diamond
+          </Text>
+        </Center>
+        <Skeleton isLoaded={processResult.length > 0} height={"200px"}>
+          <TableContainer whiteSpace={"wrap"}>
+            <Table size={"sm"} colorScheme="blue">
+              <Thead bgColor={"blue.400"}>
+                <Tr>
+                  <Th>No</Th>
+                  <Th>ID</Th>
+                  <Th>Service</Th>
+                  <Th>Status</Th>
+                  <Th>View</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-        <PageIndicator
-          totalPages={totalPages}
-          setCurrentPage={setCurrentPage}
-        />
+              </Thead>
+              <Tbody>
+                {processResult.map((item, index) => (
+                  <Tr key={index}>
+                    <Td>{index + 1}</Td>
+                    <Td>{item?.valuationResultId}</Td>
+                    <Td>{item?.serviceName}</Td>
+                    <Td>{item?.status}</Td>
+                    <Td>
+                      <IconButton
+                        icon={<ViewIcon />}
+                        bgColor={"transparent"}
+                        onClick={() => {
+                          setSelectedProcessResult(item);
+                          fetchValuatedDiamondImages(item?.valuationResultId);
+                          viewValuationResult.onOpen();
+                        }}
+                      />
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+          <Center>
+            <PageIndicator
+              totalPages={totalPages}
+              setCurrentPage={setCurrentPage}
+            />
+          </Center>
+        </Skeleton>
       </Flex>
-
       <Modal
         isOpen={viewValuationResult.isOpen}
         onClose={viewValuationResult.onClose}
@@ -277,7 +279,6 @@ export default function ValuationStaffDashboard() {
                   values
                 );
                 setSubmitting(false);
-                viewValuationResult.onClose();
               }}
             >
               {({
@@ -608,6 +609,7 @@ export default function ValuationStaffDashboard() {
                         type="submit"
                         colorScheme="blue"
                         isLoading={isSubmitting}
+                        isDisabled={isSubmitting}
                       >
                         Submit
                       </Button>
@@ -625,6 +627,8 @@ export default function ValuationStaffDashboard() {
                                     .resize(thumbnail().width(200).height(200))}
                                 />
                                 <Button
+                                  isDisabled={isDeleted}
+                                  isLoading={isDeleted}
                                   colorScheme="red"
                                   onClick={() => {
                                     deleteImages(image);

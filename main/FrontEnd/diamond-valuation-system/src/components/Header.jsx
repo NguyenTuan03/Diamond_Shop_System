@@ -55,10 +55,6 @@ export default function Header() {
   };
   const changeColorMode = () => {
     toggleColorMode();
-    // document.querySelector("._container_tczam_16").style.backgroundColor =
-    //   colorMode === "light" ? "black" : "white";
-    // document.querySelector("._wrapper_tczam_7").style.backgroundColor =
-    //   colorMode === "light" ? "black" : "white";
   };
   return (
     <>

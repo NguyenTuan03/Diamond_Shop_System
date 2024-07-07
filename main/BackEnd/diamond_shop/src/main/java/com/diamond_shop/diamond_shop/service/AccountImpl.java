@@ -90,14 +90,7 @@ public class AccountImpl implements AccountService {
         String errorMessage = "";
         boolean isUsernameExist = false, isEmailExist = false, isPhoneNumberExist = false;
         switch (type) {
-            case "add":
-                isUsernameExist = accountRepository.findByUserName(username) != null;
-                if (isUsernameExist) errorMessage += "Username, ";
-                isPhoneNumberExist = accountRepository.findByPhoneNumber(phoneNumber) != null;
-                if (isPhoneNumberExist) errorMessage += "Phone number ";
-                if (isUsernameExist || isPhoneNumberExist) errorMessage += "already exist";
-                else return errorMessage;
-            case "create":
+            case "add", "create":
                 isUsernameExist = accountRepository.findByUserName(username) != null;
                 if (isUsernameExist) errorMessage += "Username, ";
                 isEmailExist = accountRepository.findByEmail(email) != null;

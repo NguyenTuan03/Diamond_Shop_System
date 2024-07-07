@@ -8,7 +8,17 @@ import {
   Spacer,
   useColorModeValue,
   useBreakpointValue,
+  IconButton,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  useMediaQuery
 } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   IoHomeOutline,
   IoNewspaperOutline,
@@ -19,8 +29,10 @@ import { CiCalendar, CiSettings } from "react-icons/ci";
 import { PiCalculatorThin } from "react-icons/pi";
 import { VscServerProcess } from "react-icons/vsc";
 import { BsNewspaper } from "react-icons/bs";
+import { RiBookMarkedFill } from "react-icons/ri";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
+import { MdManageAccounts } from "react-icons/md";
 import { Link } from "react-router-dom";
 import routes from "../../config/Config";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
@@ -34,38 +46,50 @@ const menuItems = [
     label: "Notifications",
   },
   {
-    roleid: [5],
+    roleid: [],
     path: routes.dashboardAppoint,
     icon: CiCalendar,
     label: "Appointments",
   },
+    { 
+    roleid: [1],
+    path: routes.manageAccount,
+    icon: MdManageAccounts,
+    label: "Manage Account",
+  },
   {
-    roleid: [2],
-    path: "#",
+    roleid: [2, 5],
+    path: routes.sealingLetter,
     icon: IoNewspaperOutline,
     label: "Sealing Letter",
   },
-  { 
+  {
+    roleid: [2, 5],
+    path: routes.commitment,
+    icon: RiBookMarkedFill,
+    label: "Commitment",
+  },
+  {
     roleid: [2],
     path: "#",
     icon: IoDiamondSharp,
     label: "Valuated Diamond",
   },
   {
-    roleid: [3],
-    path: "#",
+    roleid: [2, 3, 5],
+    path: routes.pendingRequest,
     icon: IoNewspaperOutline,
     label: "Pending Request",
   },
   {
-    roleid: [3],
-    path: "#",
+    roleid: [2, 3, 5],
+    path: routes.processRequest,
     icon: VscServerProcess,
     label: "Process Request",
   },
   {
     roleid: [4],
-    path: "#",
+    path: routes.valuationDiamond,
     icon: BsNewspaper,
     label: "Valuation Diamond",
   },
@@ -101,12 +125,13 @@ const generalMenuItems = [
 ];
 
 const SideBar = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const auth = useContext(UserContext);
   const bg = useColorModeValue("gray.800", "black");
   const color = useColorModeValue("white", "gray.200");
   const hoverBg = useColorModeValue("purple.700", "purple.600");
 
-  const isXsView = useBreakpointValue({ base: true, sm: false });
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   const renderMenuItem = ({ path, icon: Icon, label }) => (
     <Link to={path} key={label}>
@@ -123,56 +148,113 @@ const SideBar = () => {
         }}
       >
         <Icon />
-        {!isXsView && <Text ml="4">{label}</Text>}
+        {/* {!isMobile && <Text ml="4">{label}</Text>} */}
+        <Text ml="4">{label}</Text>
       </Flex>
     </Link>
   );
 
   return (
-    <Box
-      bg={bg}
-      color={color}
-      minH="100vh"
-      w={isXsView ? "75px" : "250px"}
-      pos="fixed"
-      borderRight="1px"
-      borderColor="gray.200"
-      borderRadius={8}
-    >
-      {!isXsView && <Profile />}
-      <Divider my="8" borderColor="gray.600" />
-      <VStack spacing="2" align="stretch">
-        <Link to={routes.dashboard}>
-          <Flex
-            align="center"
-            p="4"
-            mx="4"
-            borderRadius="lg"
-            role="group"
-            cursor="pointer"
-            _hover={{
-              bg: hoverBg,
-              color: "white",
-            }}
-          >
-            <RxDashboard />
-            {!isXsView && <Text ml="4">Dashboard</Text>}
-          </Flex>
-        </Link>
-        {menuItems
-          .filter((item) => item.roleid.includes(auth.userAuth.roleid))
-          .map(renderMenuItem)}
-      </VStack>
-      <Spacer />
-      <Divider my="8" borderColor="gray.600" />
-      <VStack spacing="2" align="stretch">
-        {generalMenuItems
-          .filter(
-            (item) => !item.roleid || item.roleid.includes(auth.userAuth.roleid)
-          )
-          .map(renderMenuItem)}
-      </VStack>
-    </Box>
+    <>
+      {isMobile ? (
+        <>
+          <IconButton
+            icon={<HamburgerIcon />}
+            onClick={onOpen}
+            variant="outline"
+            aria-label="Open Menu"
+            m={4}
+          />
+          <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerHeader>Menu</DrawerHeader>
+              <DrawerBody>
+                <VStack spacing="2" align="stretch">
+                  <Link to={routes.dashboard}>
+                    <Flex
+                      align="center"
+                      p="4"
+                      mx="4"
+                      borderRadius="lg"
+                      role="group"
+                      cursor="pointer"
+                      _hover={{
+                        bg: hoverBg,
+                        color: "white",
+                      }}
+                    >
+                      <RxDashboard />
+                      <Text ml="4">Dashboard</Text>
+                    </Flex>
+                  </Link>
+                  {menuItems
+                    .filter((item) => item.roleid.includes(auth.userAuth.roleid))
+                    .map(renderMenuItem)}
+                </VStack>
+                <Spacer />
+                <Divider my="8" borderColor="gray.600" />
+                <VStack spacing="2" align="stretch">
+                  {generalMenuItems
+                    .filter(
+                      (item) =>
+                        !item.roleid || item.roleid.includes(auth.userAuth.roleid)
+                    )
+                    .map(renderMenuItem)}
+                </VStack>
+              </DrawerBody>
+            </DrawerContent>
+          </Drawer>
+        </>
+      ) : (
+        <Box
+          bg={bg}
+          color={color}
+          minH="100vh"
+          w="250px"
+          pos="fixed"
+          borderRight="1px"
+          borderColor="gray.200"
+          borderRadius={8}
+        >
+          <Profile />
+          <Divider my="8" borderColor="gray.600" />
+          <VStack spacing="2" align="stretch">
+            <Link to={routes.dashboard}>
+              <Flex
+                align="center"
+                p="4"
+                mx="4"
+                borderRadius="lg"
+                role="group"
+                cursor="pointer"
+                _hover={{
+                  bg: hoverBg,
+                  color: "white",
+                }}
+              >
+                <RxDashboard />
+                <Text ml="4">Dashboard</Text>
+              </Flex>
+            </Link>
+            {menuItems
+              .filter((item) => item.roleid.includes(auth.userAuth.roleid))
+              .map(renderMenuItem)}
+          </VStack>
+          <Spacer />
+          <Divider my="8" borderColor="gray.600" />
+          <VStack spacing="2" align="stretch">
+            {generalMenuItems
+              .filter(
+                (item) =>
+                  !item.roleid || item.roleid.includes(auth.userAuth.roleid)
+              )
+              .map(renderMenuItem)}
+          </VStack>
+        </Box>
+      )}
+    </>
   );
 };
 

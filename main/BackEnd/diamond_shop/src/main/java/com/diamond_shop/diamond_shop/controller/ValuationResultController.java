@@ -6,6 +6,7 @@ import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +51,7 @@ public class ValuationResultController {
     }
 
     @PostMapping(path = "/image/create")
-    public String createValuationResultImage(@RequestBody CreateImageDTO createImageDTO) {
+    public String createValuationResultImage(@Valid @RequestBody CreateImageDTO createImageDTO) {
         return valuationResultService.createValuationResultImage(createImageDTO);
     }
 
