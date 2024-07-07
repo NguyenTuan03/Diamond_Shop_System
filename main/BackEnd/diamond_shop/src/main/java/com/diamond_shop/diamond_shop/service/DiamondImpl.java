@@ -2,6 +2,7 @@ package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.pojo.ServiceResultPojo;
 import com.diamond_shop.diamond_shop.repository.ServiceRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,13 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class DiamondImpl implements DiamondService {
 
     private final ServiceRepository serviceRepository;
-
-    public DiamondImpl(ServiceRepository serviceRepository) {
-        this.serviceRepository = serviceRepository;
-    }
 
     @Override
     public ResponseEntity<String> fetchDiamondCalculate(String gradingLab, String carat, String shape, String color, String clarity, String cut) {

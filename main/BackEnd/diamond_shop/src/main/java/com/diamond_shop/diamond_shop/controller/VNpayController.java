@@ -8,6 +8,7 @@ import com.diamond_shop.diamond_shop.service.VNPayService;
 import com.diamond_shop.diamond_shop.service.ValuationRequestService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,21 +26,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/vnpay")
+@RequiredArgsConstructor
 public class VNpayController {
     private final ValuationRequestService valuationRequestService;
 
     private final PaymentService paymentService;
 
     private final ProcessRequestRepository processRequestRepository;
-
-    public VNpayController(
-            ValuationRequestService valuationRequestService,
-            PaymentService paymentService,
-            ProcessRequestRepository processRequestRepository) {
-        this.valuationRequestService = valuationRequestService;
-        this.paymentService = paymentService;
-        this.processRequestRepository = processRequestRepository;
-    }
 
     @Value("${frontend_url}")
     String frontendUrl;

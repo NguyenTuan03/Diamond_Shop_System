@@ -7,6 +7,7 @@ import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,9 @@ import java.util.Optional;
 @RestController
 @CrossOrigin
 @RequestMapping("api/valuation-result")
+@RequiredArgsConstructor
 public class ValuationResultController {
     private final ValuationResultService valuationResultService;
-
-    public ValuationResultController(ValuationResultService valuationResultService) {
-        this.valuationResultService = valuationResultService;
-    }
 
     @PutMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
     public String valuateDiamond(@RequestParam("id") String id, @RequestBody ValuationResultDTO valuationResultDTO) {
