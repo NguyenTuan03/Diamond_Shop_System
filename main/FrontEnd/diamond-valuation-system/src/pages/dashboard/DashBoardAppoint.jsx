@@ -23,7 +23,7 @@ export default function DashBoardAppoint() {
         const fetchApi = async (id) => {
             try {
                 const result = await viewCustomerRequest(1, id);
-                SetRequest(result.content)
+                SetRequest(result.content);
             } catch (error) {
                 console.log(error);
             }
@@ -35,46 +35,40 @@ export default function DashBoardAppoint() {
             <Text py={3} fontSize="lg">
                 APPOINTMENTS
             </Text>
-            {
-                request.length === 0 ? (
-                    <Box>
-                        There's no API available
-                    </Box>
-                ) : (
-                    <TableContainer>
-                        <Table variant="simple">
-                            <Thead>
-                                <Tr>
-                                    <Th>#</Th>
-                                    <Th>Customer</Th>
-                                    <Th>Date</Th>
-                                    <Th>Email</Th>
-                                    <Th>Phone</Th>
-                                    <Th>Description</Th>
-                                    <Th>Status</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {
-                                    request.map((req,i) => {
-                                        return (
-                                            <Tr key={i}>
-                                                <Td>{i+1}</Td>
-                                                <Td>{req.customerName}</Td>
-                                                <Td>{req.createdDate}</Td>
-                                                <Td>{req.customerEmail}</Td>
-                                                <Td>{req.customerPhone}</Td>
-                                                <Td>{req.description}</Td>
-                                                <Td>Contacting...</Td>
-                                            </Tr>
-                                        )
-                                    })
-                                }
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                )
-            }
+            {request.length === 0 ? (
+                <Box>There's no API available</Box>
+            ) : (
+                <TableContainer>
+                    <Table variant="simple">
+                        <Thead>
+                            <Tr>
+                                <Th>#</Th>
+                                <Th>Customer</Th>
+                                <Th>Date</Th>
+                                <Th>Email</Th>
+                                <Th>Phone</Th>
+                                <Th>Description</Th>
+                                <Th>Status</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {request.map((req, i) => {
+                                return (
+                                    <Tr key={i}>
+                                        <Td>{i + 1}</Td>
+                                        <Td>{req.customerName}</Td>
+                                        <Td>{req.createdDate?.slice(0, 10)}</Td>
+                                        <Td>{req.customerEmail}</Td>
+                                        <Td>{req.customerPhone}</Td>
+                                        <Td>{req.description}</Td>
+                                        <Td>Contacting...</Td>
+                                    </Tr>
+                                );
+                            })}
+                        </Tbody>
+                    </Table>
+                </TableContainer>
+            )}
         </div>
     );
 }

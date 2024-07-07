@@ -4,7 +4,7 @@ import { Flex, Select, Text } from "@chakra-ui/react";
 import PendingRequestTable from "../table/PendingRequestTable";
 import ProcessRequestTable from "../table/ProcessRequestTable";
 import SealingLetterTable from "../table/SealingLetterTable";
-
+import CommitmentTable from "../table/CommitmentTable";
 export default function CustomerDashboard() {
   const user = useContext(UserContext);
   const [filter, setFilter] = useState("");
@@ -32,10 +32,12 @@ export default function CustomerDashboard() {
           <option value="pending">Pending Request</option>
           <option value="process">Process Request</option>
           <option value="sealing-letter">Sealing Letter</option>
+          <option value="commitment">Commitment</option>
         </Select>
         {(filter === "pending" && <PendingRequestTable />) ||
           (filter === "process" && <ProcessRequestTable />) ||
-          (filter === "sealing-letter" && <SealingLetterTable />)}
+          (filter === "sealing-letter" && <SealingLetterTable />) ||
+          (filter === "commitment" && <CommitmentTable />)}
       </Flex>
     </>
   );

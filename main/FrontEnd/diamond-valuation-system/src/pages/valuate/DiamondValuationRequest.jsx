@@ -8,7 +8,7 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import Title from "../../components/Title";
 import { Form, Formik } from "formik";
 import axios from "axios";
@@ -17,6 +17,47 @@ export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
   const bgColor = useColorModeValue("white", "black");
   const toast = useToast();
+  const createPendingRequest = async (customerId, description) => {
+    await axios
+      .post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/pending-request/create`,
+        {
+          customerId: customerId,
+          description: description,
+        }
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          toast({
+            title: response.data,
+            status: "success",
+            position: "top-right",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
+      });
+  };
+  const checkCustomerPendingRequest = async (customerId, description) => {
+    await axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/pending-request/customer/check?id=${customerId}`
+      )
+      .then(function (response) {
+        if (response.data.includes("already")) {
+          toast({
+            title: response.data,
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          createPendingRequest(customerId, description);
+        }
+      });
+  };
   return (
     <>
       <Flex
@@ -37,51 +78,33 @@ export default function DiamondValuationRequest() {
         <Center mt={5} mb={5}>
           <Formik
             initialValues={{ description: "" }}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
               try {
+                setSubmitting(true);
                 if (localStorage.getItem("user") === null) {
                   toast({
                     title: "Please login first !",
                     status: "error",
-                    position: "top-right",
                     duration: 3000,
                     position: "top-right",
                     isClosable: true,
                   });
-                  setSubmitting(false);
+                  // setSubmitting(false);
                 } else if (user.userAuth.roleid !== 5) {
                   toast({
                     title: "Just customer can make a request !",
                     status: "warning",
-                    position: "top-right",
                     duration: 3000,
                     position: "top-right",
                     isClosable: true,
                   });
-                  setSubmitting(false);
+                  // setSubmitting(false);
                 } else {
-                  axios
-                    .post(
-                      `${
-                        import.meta.env.VITE_REACT_APP_BASE_URL
-                      }/api/pending-request/create`,
-                      {
-                        customerId: user.userAuth.id,
-                        description: values.description,
-                      }
-                    )
-                    .then(function (response) {
-                      if (response.status === 200) {
-                        setSubmitting(false);
-                        toast({
-                          title: response.data,
-                          status: "success",
-                          position: "top-right",
-                          duration: 3000,
-                          isClosable: true,
-                        });
-                      }
-                    });
+                  setSubmitting(true);
+                  checkCustomerPendingRequest(
+                    user.userAuth.id,
+                    values.description,
+                  )
                 }
               } catch (e) {
                 console.log(e);
@@ -108,6 +131,7 @@ export default function DiamondValuationRequest() {
                       placeholder="Please write your request description here..."
                     />
                   </FormControl>
+                  {console.log(isSubmitting)}
                   <Button
                     type="submit"
                     colorScheme="blue"

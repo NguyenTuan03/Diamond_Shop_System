@@ -6,7 +6,6 @@ import com.diamond_shop.diamond_shop.entity.PaymentEntity;
 import com.diamond_shop.diamond_shop.pojo.VNpayBillPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PaymentRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +28,12 @@ public class PaymentImpl implements PaymentService {
     }
 
     @Override
-    public int createPayment(int userid, 
-        String created_date, 
-        String bank, 
-        String amount, 
-        String transactionNo,
-        String orderInfo) {
+    public int createPayment(int userid,
+                             String created_date,
+                             String bank,
+                             String amount,
+                             String transactionNo,
+                             String orderInfo) {
 
         AccountEntity accountEntity = accountRepository.findById(userid).orElse(null);
 
@@ -43,10 +42,10 @@ public class PaymentImpl implements PaymentService {
         try {
             createdDate = dateFormat.parse(created_date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-        int amountInt = Integer.parseInt(amount);
-        
+        int amountInt = Integer.parseInt(amount) / 1000;
+
         if (accountEntity == null) {
             throw new IllegalArgumentException("User not found with id: " + userid);
         }

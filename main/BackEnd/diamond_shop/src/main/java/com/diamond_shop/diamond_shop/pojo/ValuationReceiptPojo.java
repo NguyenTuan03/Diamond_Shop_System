@@ -17,4 +17,9 @@ public class ValuationReceiptPojo {
     String consultingStaffName;
     String consultingStaffPhone;
     String description;
+    Date paymentDate;
+    String bank;
+    int amount;
+    String transactionNo;
+    String orderInfo;
 }

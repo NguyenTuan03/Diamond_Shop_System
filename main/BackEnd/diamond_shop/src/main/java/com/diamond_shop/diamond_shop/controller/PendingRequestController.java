@@ -3,6 +3,9 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.PendingRequestDTO;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
 import com.diamond_shop.diamond_shop.service.PendingRequestService;
+
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +25,8 @@ public class PendingRequestController {
     }
 
     @GetMapping(path = "/customer/get")
-    public Page<PendingRequestsEntity> getPendingRequestsByCustomerId(@RequestParam("page") int page, @RequestParam("id") int customerId) {
+    public Page<PendingRequestsEntity> getPendingRequestsByCustomerId(@RequestParam("page") int page, @RequestParam("id") int customerId, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return pendingRequestService.getAllByCustomerId(page, customerId);
     }
 
@@ -31,5 +35,15 @@ public class PendingRequestController {
         if (pendingRequestService.makePendingRequest(pendingRequestDTO) != 0)
             return "Successful. Our team will contact you soon !";
         else return "Please login first !";
+    }
+
+    @DeleteMapping(path = "/delete")
+    public String cancelPendingRequest(@RequestParam int id) {
+        return pendingRequestService.cancelPendingRequest(id);
+    }
+
+    @GetMapping(path = "/customer/check")
+    public String checkCustomerPendingRequest(@RequestParam("id") int customerId) {
+        return pendingRequestService.checkCustomerPendingRequest(customerId);
     }
 }

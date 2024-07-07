@@ -423,12 +423,12 @@ export default function LabGrown() {
                                                           <Td>
                                                               {priceItem.inv}
                                                           </Td>
-                                                          <Td>
+                                                          {/* <Td>
                                                               <Button colorScheme="blue">
                                                                   View price
                                                                   charts
                                                               </Button>
-                                                          </Td>
+                                                          </Td> */}
                                                       </Tr>
                                                   ))}
                                     </Tbody>
