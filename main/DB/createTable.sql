@@ -15,7 +15,8 @@ CREATE TABLE users(
 	email NVARCHAR(50) NOT NULL,
 	phone_number NVARCHAR(10),
 	address NVARCHAR(255),
-	-- isActive BIT,
+	isActive BIT,
+	activate_code VARCHAR(255),
 	FOREIGN KEY (role_id) REFERENCES roles(id)
 )
 
