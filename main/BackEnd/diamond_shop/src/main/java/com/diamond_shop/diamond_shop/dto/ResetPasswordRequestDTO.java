@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PendingRequestDTO {
-    private int customerId;
-    private String description;
+public class ResetPasswordRequestDTO {
+    private String token;
+    private String newPassword;
 }

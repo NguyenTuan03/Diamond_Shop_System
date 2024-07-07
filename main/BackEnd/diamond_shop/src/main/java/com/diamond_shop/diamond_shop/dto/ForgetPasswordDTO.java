@@ -7,9 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class PendingRequestDTO {
-    private int customerId;
-    private String description;
+@NoArgsConstructor
+public class ForgetPasswordDTO {
+    private String email;
 }
