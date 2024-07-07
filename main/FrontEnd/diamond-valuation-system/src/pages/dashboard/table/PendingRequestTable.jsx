@@ -18,6 +18,7 @@ import {
   Button,
   ModalFooter,
   useToast,
+  Box,
   Center,
   Skeleton,
   Stack,
@@ -151,9 +152,9 @@ export default function PendingRequestTable() {
           <Center>No pending request to show</Center>
         ) : (
           <Skeleton isLoaded={pendingRequest.length > 0} height={"200px"}>
-            <TableContainer>
+          <TableContainer shadow="md" borderRadius="md">
               <Table size={"sm"} colorScheme="blue">
-                <Thead bg={"blue.400"}>
+                <Thead bg={"blue.500"}>
                   <Tr>
                     <Th>ID</Th>
                     <Th>Customer Name</Th>
@@ -166,7 +167,7 @@ export default function PendingRequestTable() {
                 </Thead>
                 <Tbody>
                   {pendingRequest.map((item, index) => (
-                    <Tr key={index}>
+                    <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
                       <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.customerEmail || "N/A"}</Td>
@@ -197,7 +198,6 @@ export default function PendingRequestTable() {
           </Skeleton>
         )}
       </Flex>
-
       <Modal
         isOpen={viewPendingRequest.isOpen}
         onClose={viewPendingRequest.onClose}

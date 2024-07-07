@@ -3,6 +3,7 @@ import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
 import {
+  Box,
   Button,
   Center,
   Flex,
@@ -73,9 +74,9 @@ export default function SealingLetterTable() {
           <Center>No sealing letter to show</Center>
         ) : (
           <Skeleton isLoaded={sealingLetter.length > 0} height={"200px"}>
-            <TableContainer>
+            <TableContainer shadow="md" borderRadius="md">
               <Table size={"sm"} colorScheme="blue">
-                <Thead bg={"blue.400"}>
+                <Thead bg={"blue.500"}>
                   <Tr>
                     <Th>ID</Th>
                     <Th>Request ID</Th>
@@ -87,7 +88,7 @@ export default function SealingLetterTable() {
                 </Thead>
                 <Tbody>
                   {sealingLetter.map((item, index) => (
-                    <Tr key={index}>
+                    <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
                       <Td>{item?.valuationRequestId || "N/A"}</Td>
                       {user.userAuth.roleid === 2 && (

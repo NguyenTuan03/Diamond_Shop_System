@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import PageIndicator from "../../../components/PageIndicator";
 import {
+  Box,
   Button,
   Center,
   Flex,
@@ -74,9 +75,9 @@ export default function CommitmentTable() {
           <Center>No commitment to show</Center>
         ) : (
           <Skeleton isLoaded={commitment.length > 0} height={"200px"}>
-            <TableContainer>
+          <TableContainer shadow="md" borderRadius="md">
               <Table size={"sm"} colorScheme="blue">
-                <Thead bg={"blue.400"}>
+                <Thead bg={"blue.500"}>
                   <Tr>
                     <Th>ID</Th>
                     <Th>Request ID</Th>
@@ -87,7 +88,7 @@ export default function CommitmentTable() {
                 </Thead>
                 <Tbody>
                   {commitment.map((item, index) => (
-                    <Tr key={index}>
+                    <Tr key={index} _hover={{bg:"gray.100"}}>
                       <Td>{item?.id}</Td>
                       <Td>{item?.valuationRequestId || "N/A"}</Td>
                       {user.userAuth.roleid === 2 && (

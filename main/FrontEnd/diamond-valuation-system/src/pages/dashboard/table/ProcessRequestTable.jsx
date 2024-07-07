@@ -53,17 +53,14 @@ export default function ProcessRequestTable() {
   const fetchProcessRequest = (page, id) => {
     let url = "";
     if (user.userAuth.roleid === 2) {
-      url = `${
-        import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/process-request/get/all?page=${page}`;
+      url = `${import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/process-request/get/all?page=${page}`;
     } else if (user.userAuth.roleid === 3) {
-      url = `${
-        import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/process-request/get/consulting-staff?page=${page}&id=${id}`;
+      url = `${import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/process-request/get/consulting-staff?page=${page}&id=${id}`;
     } else if (user.userAuth.roleid === 5) {
-      url = `${
-        import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/process-request/get/customer?page=${page}&id=${id}`;
+      url = `${import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/process-request/get/customer?page=${page}&id=${id}`;
     }
     axios
       .get(url)
@@ -97,8 +94,7 @@ export default function ProcessRequestTable() {
     setIsUpdateProcess(true);
     axios
       .put(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
+        `${import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/process-request/update?id=${processRequestId}`,
         {
           status: status,
@@ -137,8 +133,7 @@ export default function ProcessRequestTable() {
   ) => {
     await axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
+        `${import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-request/process-request/check-finished?id=${processRequestId}`
       )
       .then(function (response) {
@@ -175,8 +170,7 @@ export default function ProcessRequestTable() {
   ) => {
     await axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
+        `${import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-request/process-request/check-sealed?id=${processRequestId}`
       )
       .then(function (response) {
@@ -224,8 +218,7 @@ export default function ProcessRequestTable() {
     setSelectedValuationRequest(null);
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
+        `${import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-request/pending-request/get?id=${pendingRequestId}`
       )
       .then(function (response) {
@@ -249,8 +242,7 @@ export default function ProcessRequestTable() {
     setSelectedValuationResult(null);
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
+        `${import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-result/valuation-request/get?id=${valuationRequestId}`
       )
       .then(function (response) {
@@ -271,8 +263,7 @@ export default function ProcessRequestTable() {
   const createSealingLetter = (valuationRequestId) => {
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
+        `${import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/sealing-letter/create?valuationRequestId=${valuationRequestId}`
       )
       .then(function (response) {
@@ -311,8 +302,7 @@ export default function ProcessRequestTable() {
   const createReceipt = (valuationRequestId) => {
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
+        `${import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-receipt/create?valuationRequestId=${valuationRequestId}`
       )
       .then(function (response) {
@@ -352,8 +342,7 @@ export default function ProcessRequestTable() {
     setSelectedValuationReceipt(null);
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
+        `${import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-receipt/valuation-request/get?id=${valuationRequestId}`
       )
       .then(function (response) {
@@ -376,8 +365,7 @@ export default function ProcessRequestTable() {
   const createCommitment = (valuationRequestId) => {
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
+        `${import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/commitment/create?valuationRequestId=${valuationRequestId}`
       )
       .then(function (response) {
@@ -425,9 +413,9 @@ export default function ProcessRequestTable() {
           <Center>No process request to show</Center>
         ) : (
           <Skeleton isLoaded={processRequest.length > 0} height={"200px"}>
-            <TableContainer>
+            <TableContainer shadow="md" borderRadius="md">
               <Table size={"sm"} colorScheme="blue">
-                <Thead bg={"blue.400"}>
+                <Thead bg={"blue.500"}>
                   <Tr>
                     <Th>ID</Th>
                     <Th>Customer Name</Th>
@@ -440,7 +428,7 @@ export default function ProcessRequestTable() {
                 </Thead>
                 <Tbody>
                   {processRequest.map((item, index) => (
-                    <Tr key={index}>
+                    <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
                       <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.customerEmail || "N/A"}</Td>
