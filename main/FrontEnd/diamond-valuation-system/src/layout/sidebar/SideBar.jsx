@@ -32,6 +32,7 @@ import { BsNewspaper } from "react-icons/bs";
 import { RiBookMarkedFill } from "react-icons/ri";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
+import { GiCheckeredDiamond } from "react-icons/gi";
 import { MdManageAccounts } from "react-icons/md";
 import { Link } from "react-router-dom";
 import routes from "../../config/Config";
@@ -56,6 +57,12 @@ const menuItems = [
     path: routes.manageAccount,
     icon: MdManageAccounts,
     label: "Manage Account",
+  },
+  {
+    roleid:[2],
+    path:routes.manageService,
+    icon:GiCheckeredDiamond,
+    label:"Manage Service",
   },
   {
     roleid: [2, 5],

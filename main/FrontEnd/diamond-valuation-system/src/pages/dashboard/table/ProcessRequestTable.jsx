@@ -44,23 +44,28 @@ export default function ProcessRequestTable() {
   const [isChecked, setIsChecked] = useState(false);
   const [isUpdateProcess, setIsUpdateProcess] = useState(false);
   const [selectedProcessRequest, setSelectedProcessRequest] = useState(null);
-  const [selectedValuationRequest, setSelectedValuationRequest] = useState(null);
+  const [selectedValuationRequest, setSelectedValuationRequest] =
+    useState(null);
   const [selectedValuationResult, setSelectedValuationResult] = useState(null);
-  const [selectedValuationReceipt, setSelectedValuationReceipt] = useState(null);
+  const [selectedValuationReceipt, setSelectedValuationReceipt] =
+    useState(null);
   const viewValuationRequest = useDisclosure();
   const viewValuationResult = useDisclosure();
   const viewReceipt = useDisclosure();
   const fetchProcessRequest = (page, id) => {
     let url = "";
     if (user.userAuth.roleid === 2) {
-      url = `${import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/process-request/get/all?page=${page}`;
+      url = `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/process-request/get/all?page=${page}`;
     } else if (user.userAuth.roleid === 3) {
-      url = `${import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/process-request/get/consulting-staff?page=${page}&id=${id}`;
+      url = `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/process-request/get/consulting-staff?page=${page}&id=${id}`;
     } else if (user.userAuth.roleid === 5) {
-      url = `${import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/process-request/get/customer?page=${page}&id=${id}`;
+      url = `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/process-request/get/customer?page=${page}&id=${id}`;
     }
     axios
       .get(url)
@@ -94,7 +99,8 @@ export default function ProcessRequestTable() {
     setIsUpdateProcess(true);
     axios
       .put(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/process-request/update?id=${processRequestId}`,
         {
           status: status,
@@ -133,7 +139,8 @@ export default function ProcessRequestTable() {
   ) => {
     await axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-request/process-request/check-finished?id=${processRequestId}`
       )
       .then(function (response) {
@@ -170,7 +177,8 @@ export default function ProcessRequestTable() {
   ) => {
     await axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-request/process-request/check-sealed?id=${processRequestId}`
       )
       .then(function (response) {
@@ -218,7 +226,8 @@ export default function ProcessRequestTable() {
     setSelectedValuationRequest(null);
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-request/pending-request/get?id=${pendingRequestId}`
       )
       .then(function (response) {
@@ -242,7 +251,8 @@ export default function ProcessRequestTable() {
     setSelectedValuationResult(null);
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-result/valuation-request/get?id=${valuationRequestId}`
       )
       .then(function (response) {
@@ -263,7 +273,8 @@ export default function ProcessRequestTable() {
   const createSealingLetter = (valuationRequestId) => {
     axios
       .post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/sealing-letter/create?valuationRequestId=${valuationRequestId}`
       )
       .then(function (response) {
@@ -302,7 +313,8 @@ export default function ProcessRequestTable() {
   const createReceipt = (valuationRequestId) => {
     axios
       .post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-receipt/create?valuationRequestId=${valuationRequestId}`
       )
       .then(function (response) {
@@ -342,7 +354,8 @@ export default function ProcessRequestTable() {
     setSelectedValuationReceipt(null);
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-receipt/valuation-request/get?id=${valuationRequestId}`
       )
       .then(function (response) {
@@ -365,7 +378,8 @@ export default function ProcessRequestTable() {
   const createCommitment = (valuationRequestId) => {
     axios
       .post(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/commitment/create?valuationRequestId=${valuationRequestId}`
       )
       .then(function (response) {
@@ -467,13 +481,23 @@ export default function ProcessRequestTable() {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <Skeleton isLoaded={selectedValuationRequest !== null}>
+            <Skeleton
+              isLoaded={
+                selectedValuationRequest !== null ||
+                selectedProcessRequest?.status === "Not resolved yet"
+              }
+            >
               <ModalCloseButton />
               Valuation Request ID: {selectedValuationRequest?.id || "N/A"}
             </Skeleton>
           </ModalHeader>
           <ModalBody>
-            <Skeleton isLoaded={selectedValuationRequest !== null}>
+            <Skeleton
+              isLoaded={
+                selectedValuationRequest !== null ||
+                selectedProcessRequest?.status === "Not resolved yet"
+              }
+            >
               <Flex direction={"column"} gap={5}>
                 {(user.userAuth.roleid === 2 || user.userAuth.roleid === 3) && (
                   <>
@@ -534,7 +558,12 @@ export default function ProcessRequestTable() {
               </Flex>
             </Skeleton>
           </ModalBody>
-          <Skeleton isLoaded={selectedValuationRequest !== null}>
+          <Skeleton
+            isLoaded={
+              selectedValuationRequest !== null ||
+              selectedProcessRequest?.status === "Not resolved yet"
+            }
+          >
             {(user.userAuth.roleid === 2 && (
               <ModalFooter justifyContent={"space-around"}>
                 {selectedProcessRequest?.status === "Sealed" && (

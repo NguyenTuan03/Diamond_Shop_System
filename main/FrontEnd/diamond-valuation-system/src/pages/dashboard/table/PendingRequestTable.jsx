@@ -32,7 +32,6 @@ import { useNavigate } from "react-router-dom";
 import { set } from "date-fns";
 
 export default function PendingRequestTable() {
-  const navigate = useNavigate();
   const toast = useToast();
   const user = useContext(UserContext);
   const [currentPage, setCurrentPage] = useState(1);
@@ -152,7 +151,7 @@ export default function PendingRequestTable() {
           <Center>No pending request to show</Center>
         ) : (
           <Skeleton isLoaded={pendingRequest.length > 0} height={"200px"}>
-          <TableContainer shadow="md" borderRadius="md">
+            <TableContainer shadow="md" borderRadius="md">
               <Table size={"sm"} colorScheme="blue">
                 <Thead bg={"blue.500"}>
                   <Tr>

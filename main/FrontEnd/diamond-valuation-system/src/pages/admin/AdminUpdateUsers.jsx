@@ -12,7 +12,6 @@ import {
   FormLabel,
   FormErrorMessage,
   Button,
-  Select,
   InputLeftAddon,
   FormHelperText,
 } from "@chakra-ui/react";
