@@ -422,10 +422,10 @@ export default function Natural() {
                                                               {priceItem.inv}
                                                           </Td>
                                                           <Td>
-                                                              <Button colorScheme="blue">
+                                                              {/* <Button colorScheme="blue">
                                                                   View price
                                                                   charts
-                                                              </Button>
+                                                              </Button> */}
                                                           </Td>
                                                       </Tr>
                                                   ))}

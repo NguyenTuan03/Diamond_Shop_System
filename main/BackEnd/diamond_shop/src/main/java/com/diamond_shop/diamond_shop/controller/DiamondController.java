@@ -4,6 +4,7 @@ import com.diamond_shop.diamond_shop.dto.DiamondCheckRequestDTO;
 import com.diamond_shop.diamond_shop.service.DiamondService;
 import com.google.gson.Gson;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("api/diamond")
+@RequiredArgsConstructor
 public class DiamondController {
     private final DiamondService diamondService;
-
-    public DiamondController(DiamondService diamondService) {
-        this.diamondService = diamondService;
-    }
 
     @PostMapping(value = "/calculate", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getDiamondAttr(@Valid @RequestBody DiamondCheckRequestDTO request) {
