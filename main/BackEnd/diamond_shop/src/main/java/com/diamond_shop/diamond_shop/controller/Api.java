@@ -5,6 +5,7 @@ import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
 import com.diamond_shop.diamond_shop.service.AccountService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("api/account")
+@RequiredArgsConstructor
 public class Api {
 
     private final AccountService accountService;
-
-    public Api(AccountService accountService) {
-        this.accountService = accountService;
-    }
 
     @GetMapping(path = "/welcome")
     public String welcome() {

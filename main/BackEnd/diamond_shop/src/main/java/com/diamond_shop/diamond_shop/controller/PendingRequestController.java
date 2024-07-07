@@ -4,18 +4,16 @@ import com.diamond_shop.diamond_shop.dto.PendingRequestDTO;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
 import com.diamond_shop.diamond_shop.service.PendingRequestService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/pending-request")
+@RequiredArgsConstructor
 public class PendingRequestController {
     private final PendingRequestService pendingRequestService;
-
-    public PendingRequestController(PendingRequestService pendingRequestService) {
-        this.pendingRequestService = pendingRequestService;
-    }
 
     @GetMapping(path = "/get/all")
     public Page<PendingRequestsEntity> getAllPendingRequests(@RequestParam("page") int page) {
