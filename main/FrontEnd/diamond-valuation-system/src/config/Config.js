@@ -31,5 +31,6 @@ const routes = {
     sealingLetter:"/dashboard/sealing-letter",
     commitment:"/dashboard/commitment",
     valuationDiamond:"/dashboard/valuation-diamond",
+    manageService:"/dashboard/manage-service",
 };
 export default routes;

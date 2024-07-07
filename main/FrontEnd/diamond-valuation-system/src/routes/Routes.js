@@ -33,6 +33,7 @@ import SealingLetterTable from "../pages/dashboard/table/SealingLetterTable.jsx"
 import CommitmentTable from "../pages/dashboard/table/CommitmentTable.jsx";
 import ValuationStaffDashboard from "../pages/dashboard/valuation/ValuationStaffDashBoard.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
+import ServiceTable from "../pages/dashboard/table/ServiceTable.jsx";
 
 const ALlRoutes = [
   {
@@ -181,9 +182,9 @@ const ALlRoutes = [
     component: DashBoardSetting,
   },
   {
-    path:routes.manageAccount,
-    component:AdminPage,
-    layout:DashBoardLayout
+    path: routes.manageAccount,
+    component: AdminPage,
+    layout: DashBoardLayout,
   },
   {
     path: routes.pendingRequest,
@@ -202,14 +203,19 @@ const ALlRoutes = [
   },
   {
     path: routes.commitment,
-    component:CommitmentTable,
+    component: CommitmentTable,
     layout: DashBoardLayout,
   },
   {
-    path:routes.valuationDiamond,
-    component:ValuationStaffDashboard,
-    layout:DashBoardLayout
-  }
+    path: routes.valuationDiamond,
+    component: ValuationStaffDashboard,
+    layout: DashBoardLayout,
+  },
+  {
+    path: routes.manageService,
+    component: ServiceTable,
+    layout: DashBoardLayout,
+  },
 ];
 
 export { ALlRoutes };
