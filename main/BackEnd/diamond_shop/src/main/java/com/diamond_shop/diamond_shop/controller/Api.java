@@ -15,7 +15,6 @@ import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
-import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.service.AccountService;
 
 import jakarta.validation.Valid;
