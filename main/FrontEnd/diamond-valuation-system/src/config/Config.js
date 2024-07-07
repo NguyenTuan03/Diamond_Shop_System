@@ -17,6 +17,7 @@ const routes = {
     logout: "/logout",
     error: "*",
     aboutUs: "/aboutUs",
+    FAQs: "/FAQs",
     dashboard: "/dashboard",
     dasboardNotification: "/dashboard/notifications",
     dashboardPrices: "/dashboard/prices",

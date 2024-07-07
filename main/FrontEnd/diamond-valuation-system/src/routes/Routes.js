@@ -34,6 +34,7 @@ import CommitmentTable from "../pages/dashboard/table/CommitmentTable.jsx";
 import ValuationStaffDashboard from "../pages/dashboard/valuation/ValuationStaffDashBoard.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import ServiceTable from "../pages/dashboard/table/ServiceTable.jsx";
+import FAQs from "../pages/FAQ/FAQs.jsx";
 
 const ALlRoutes = [
   {
@@ -98,6 +99,10 @@ const ALlRoutes = [
   {
     path: routes.aboutUs,
     component: AboutUs,
+  },
+  {
+    path: routes.FAQs,
+    component: FAQs,
   },
 
   {

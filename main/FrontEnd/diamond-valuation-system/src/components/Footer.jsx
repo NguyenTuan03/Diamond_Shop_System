@@ -89,7 +89,7 @@ export default function Footer() {
               <Link reloadDocument to={routes.aboutUs}>
                 About us
               </Link>
-              <Link reloadDocument to={routes.educationCertificate}>
+              <Link reloadDocument to={routes.FAQs}>
                 FAQs
               </Link>
             </Stack>
