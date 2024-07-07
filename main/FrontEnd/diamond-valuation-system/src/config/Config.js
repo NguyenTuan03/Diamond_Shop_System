@@ -17,7 +17,6 @@ const routes = {
     logout: "/logout",
     error: "*",
     aboutUs: "/aboutUs",
-    // Customer's Dashboard
     dashboard: "/dashboard",
     dasboardNotification: "/dashboard/notifications",
     dashboardPrices: "/dashboard/prices",
@@ -25,7 +24,13 @@ const routes = {
     dashboardSearch: "/dashboard/search",
     dashboardRequest: "/dashboard/request",
     dashboardSetting: "/dashboard/setting",
-    dashboardTransaction: "/dashboard/transaction"
-    // Admin's Dashboard
+    dashboardTransaction: "/dashboard/transaction",
+    manageAccount:"/dashboard/manage-account",
+    pendingRequest:"/dashboard/pending-request",
+    processRequest:"/dashboard/process-request",
+    sealingLetter:"/dashboard/sealing-letter",
+    commitment:"/dashboard/commitment",
+    valuationDiamond:"/dashboard/valuation-diamond",
+    manageService:"/dashboard/manage-service",
 };
 export default routes;

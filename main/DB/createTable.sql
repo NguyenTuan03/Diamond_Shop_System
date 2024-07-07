@@ -16,7 +16,7 @@ CREATE TABLE users(
 	phone_number NVARCHAR(10),
 	address NVARCHAR(255),
 	isActive BIT,
-	activate_code VARCHAR(255),
+	active_code VARCHAR(255),
 	FOREIGN KEY (role_id) REFERENCES roles(id)
 )
 
@@ -151,12 +151,12 @@ INSERT INTO service_statistics(
 
 INSERT INTO Services(Name, Price, Time, service_statistic_id) VALUES('Normal', 200000, 30, 1),('Pro', 500000, 20, 2), ('Premium',1000000, 10, 3)
 
-INSERT INTO users(role_id, username, password, full_name, email, phone_number, address)
+INSERT INTO users(role_id, username, password, full_name, email, phone_number, address,isActive)
 VALUES
-(5, 'tuan','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tuan@gmail.com','0905038319','HCM'),
-(3, 'consulting001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tu@gmail.com','0905038311','HCM'),
-(4, 'valuation001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tun@gmail.com','0906038319','HCM'),
-(2, 'manager','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','un@gmail.com','0905038314','HCM'),
-(1, 'admin','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','n@gmail.com','0905038315','HCM')
+(5, 'tuan','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tuan@gmail.com','0905038319','HCM',1),
+(3, 'consulting001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tu@gmail.com','0905038311','HCM',1),
+(4, 'valuation001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tun@gmail.com','0906038319','HCM',1),
+(2, 'manager','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','un@gmail.com','0905038314','HCM',1),
+(1, 'admin','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','n@gmail.com','0905038315','HCM',1)
 
 -- All Pass Tuan@2011
