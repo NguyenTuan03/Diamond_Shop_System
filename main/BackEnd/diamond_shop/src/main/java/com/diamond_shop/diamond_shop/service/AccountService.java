@@ -25,6 +25,8 @@ public interface AccountService {
     
     String updateAccount(AccountDTO accountDTO);
 
+    String activate(String code);
+
     String restoreAccount(int id);
 
     ResponseEntity<?> loginAccount(LoginDTO loginDTO);

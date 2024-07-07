@@ -1,5 +1,7 @@
 package com.diamond_shop.diamond_shop.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -71,6 +73,8 @@ public class AccountImpl implements AccountService {
 
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
         RoleEntity roleEntity = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
+        String activationCode = UUID.randomUUID().toString();
+
         AccountEntity accountEntity = new AccountEntity(   
                 roleEntity,
                 accountDTO.getUsername(),
@@ -78,11 +82,26 @@ public class AccountImpl implements AccountService {
                 accountDTO.getFullname(),
                 updatePhoneNumber,
                 accountDTO.getEmail(),
-                true
+                false,
+                activationCode
         );
 
         accountRepository.save(accountEntity);
-        return "User registered successfully!";
+        emailService.sendActivationEmail(accountDTO.getEmail(), activationCode, accountDTO.getFullname());
+        return "User registered successfully!, Check your email to active account!";
+    }
+    
+    @Override
+    public String activate(String code) {
+        AccountEntity accountEntity = accountRepository.findByActivationCode(code);
+        if (accountEntity != null) {
+            accountEntity.setIs_active(true);
+            accountEntity.setActivate_code(null); 
+            accountRepository.save(accountEntity);
+            return "Account has been activated successfully!";
+        } else {
+            return "Invalid activation code!";
+        }
     }
 
     @Override
@@ -186,31 +205,6 @@ public class AccountImpl implements AccountService {
 
     @Override
     public ResponseEntity<?> loginAccount(LoginDTO loginDTO) {
-        // AccountDTO acc2 = new AccountDTO();
-        // AccountEntity acc1 = accountRepository.findByUserName(loginDTO.getUsername());
-        // if (acc1 != null) {
-        //     String password = loginDTO.getPassword();
-        //     String encodedPassword = acc1.getPassword();
-        //     boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-        //     if (isPwdRight) {
-        //         Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
-        //         if (account.isPresent()) {
-        //             acc2.setId(acc1.getId());
-        //             acc2.setRoleid(acc1.getRole().getId());
-        //             acc2.setFullname(acc1.getFullname());
-        //             acc2.setUsername(acc1.getUsername());
-        //             acc2.setPhonenumber(acc1.getPhone_number());
-        //             return new LoginMessageDTO("Login Success", true, acc2);
-        //         } else {
-        //             return new LoginMessageDTO("Login Failed", false);
-        //         }
-        //     } else {
-        //         return new LoginMessageDTO("Password Not Match", false);
-        //     }
-        // } else {
-        //     return new LoginMessageDTO("Not exits", false);
-        // }
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDTO.getUsername(),
@@ -242,7 +236,7 @@ public class AccountImpl implements AccountService {
         }
 
         String token = JWTUtil.generateResetToken(accountEntity.getUsername());
-        emailService.sendResetTokenEmail(accountEntity.getEmail(), token);
+        emailService.sendResetTokenEmail(accountEntity.getEmail(), token, accountEntity.getFullname());
 
         return ResponseEntity.ok("Reset password email sent");
     }
