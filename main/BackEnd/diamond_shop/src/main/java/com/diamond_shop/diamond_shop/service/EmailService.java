@@ -24,10 +24,10 @@ public class EmailService {
 
         String htmlMsg = "<h3>Hi, "+name+"</h3>"
                 + "<p>Please click the following link to activate your account:</p>"
-                + "<button style=\"display: flex;\r\n" + //
-                "justify-content: center;\r\n" + //
-                "align-items: center;\r\n" + //
-                "padding: 10px 20px;\r\n" + //
+                + "<button style=\"display: flex;\r\n" + 
+                "justify-content: center;\r\n" + 
+                "align-items: center;\r\n" + 
+                "padding: 10px 20px;\r\n" + 
                 "cursor: pointer; background: #3498db; border: transparent; border-radius: 8px; \">" 
                     + "<a href=\"http://localhost:5173/activate/"+email+"?code=" + activationCode + "\" style=\"display:block; text-decoration: none; color: #fff\">"
                         + "Activate Account"
@@ -41,6 +41,25 @@ public class EmailService {
         mailSender.send(mimeMessage);
     }
 
+    public void sendAccountForAdmin(String email, String activationCode, String name, String username, String password) {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setTo(email);
+            helper.setSubject("Account Activation!");
+    
+            String htmlMsg = "<h3>Hi, "+name+"</h3>"
+                    + "<h4>Welcome to our website:</h4>"
+                    + "<p>This is your account to login 👇</p>"
+                    + "<p>username: <strong>"+username+"</strong></p>"
+                    + "<p>password: <strong>"+password+"</strong></p>";
+            helper.setText(htmlMsg, true);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed to send email");
+            }
+            mailSender.send(mimeMessage);
+        }
     public void sendResetTokenEmail(String to, String token, String name) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
