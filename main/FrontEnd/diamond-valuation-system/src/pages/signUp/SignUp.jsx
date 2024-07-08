@@ -49,7 +49,7 @@ export default function SignUp({ signUp, signIn }) {
           description: res.data,
           position: "top-right",
           status: "error",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
         throw new Error(res.data);

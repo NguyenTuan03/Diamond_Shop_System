@@ -41,11 +41,11 @@ export default function CommitmentTable() {
   const [selectedCommitment, setSelectedCommitment] = useState({});
   const fetchCommitment = async (page) => {
     let url = "";
-    if (user.userAuth.roleid === 2) {
+    if (user.userAuth.authorities[0].authority === "Manager") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/commitment/get/all?page=${page}`;
-    } else if (user.userAuth.roleid === 5) {
+    } else if (user.userAuth.authorities[0].authority === "Customer") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/commitment/customer/get/all?page=${page}&id=${user.userAuth.id}`;
@@ -81,7 +81,7 @@ export default function CommitmentTable() {
                   <Tr>
                     <Th>ID</Th>
                     <Th>Request ID</Th>
-                    {user.userAuth.roleid === 2 && <Th>Customer Name</Th>}
+                    {user.userAuth.authorities[0].authority === "Manager" && <Th>Customer Name</Th>}
                     <Th>Created Date</Th>
                     <Th>View</Th>
                   </Tr>
@@ -91,7 +91,7 @@ export default function CommitmentTable() {
                     <Tr key={index} _hover={{bg:"gray.100"}}>
                       <Td>{item?.id}</Td>
                       <Td>{item?.valuationRequestId || "N/A"}</Td>
-                      {user.userAuth.roleid === 2 && (
+                      {user.userAuth.authorities[0].authority === "Manager" && (
                         <Td>{item?.customerName || "N/A"}</Td>
                       )}
                       <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>

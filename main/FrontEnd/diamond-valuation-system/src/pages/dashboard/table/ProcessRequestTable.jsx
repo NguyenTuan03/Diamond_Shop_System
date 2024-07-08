@@ -54,15 +54,15 @@ export default function ProcessRequestTable() {
   const viewReceipt = useDisclosure();
   const fetchProcessRequest = (page, id) => {
     let url = "";
-    if (user.userAuth.roleid === 2) {
+    if (user.userAuth.authorities[0].authority === "Manager") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/process-request/get/all?page=${page}`;
-    } else if (user.userAuth.roleid === 3) {
+    } else if (user.userAuth.authorities[0].authority === "Consulting staff") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/process-request/get/consulting-staff?page=${page}&id=${id}`;
-    } else if (user.userAuth.roleid === 5) {
+    } else if (user.userAuth.authorities[0].authority === "Customer") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/process-request/get/customer?page=${page}&id=${id}`;
@@ -73,9 +73,14 @@ export default function ProcessRequestTable() {
         console.log(response.data);
         if (response.status === 200) {
           Promise.all(
-            response.data.content.map(async (item) => {
+            response.data.content.map(async (item, index) => {
               await checkValuationRequestFinished(item.id, setIsChecked);
-              await checkValuationRequestSealed(item.id, setIsChecked);
+              await checkValuationRequestSealed(
+                item.id,
+                setIsChecked,
+                item.customerId,
+                item.consultingStaffId
+              );
             })
           );
 
@@ -147,6 +152,16 @@ export default function ProcessRequestTable() {
         if (response.status === 200) {
           console.log(response.data);
           if (response.data === "Finished request") {
+            var finishedRequest = [];
+            finishedRequest.push({
+              customerId: customerId,
+              consultingStaffId: consultingStaffId,
+              processRequestId: processRequestId,
+            });
+            localStorage.setItem(
+              "finishedRequests",
+              JSON.stringify(finishedRequest)
+            );
             setIsChecked(true);
             toast({
               title: "Success",
@@ -173,7 +188,9 @@ export default function ProcessRequestTable() {
   };
   const checkValuationRequestSealed = async (
     processRequestId,
-    setIsChecked
+    setIsChecked,
+    customerId,
+    consultingStaffId
   ) => {
     await axios
       .get(
@@ -185,11 +202,21 @@ export default function ProcessRequestTable() {
         if (response.status === 200) {
           console.log(response.data);
           if (response.data === "Sealed request") {
+            var sealedRequests = [];
+            sealedRequests.push({
+              customerId: customerId,
+              consultingStaffId: consultingStaffId,
+              processRequestId: processRequestId,
+            });
+            localStorage.setItem(
+              "sealedRequests",
+              JSON.stringify(sealedRequests)
+            );
             setIsChecked(true);
             toast({
               title: "Success",
               description:
-                "Valuation request sealed. Please contact customer to receive diamond.",
+                "Valuation request sealed. Please contact customer to notify.",
               status: "success",
               position: "top-right",
               duration: 3000,
@@ -432,9 +459,14 @@ export default function ProcessRequestTable() {
                 <Thead bg={"blue.500"}>
                   <Tr>
                     <Th>ID</Th>
+                    {(user.userAuth.roleid === 2 ||
+                      user.userAuth.roleid === 3) && <Th>Customer ID</Th>}
                     <Th>Customer Name</Th>
-                    <Th>Email</Th>
-                    <Th>Phone number</Th>
+                    {(user.userAuth.roleid === 2 ||
+                      user.userAuth.roleid === 3) && (
+                      <Th>Consulting Staff ID</Th>
+                    )}
+                    <Th>Consulting Staff Name</Th>
                     <Th>Description</Th>
                     <Th>Status</Th>
                     <Th>View</Th>
@@ -444,9 +476,16 @@ export default function ProcessRequestTable() {
                   {processRequest.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
+                      {(user.userAuth.roleid === 2 ||
+                        user.userAuth.roleid === 3) && (
+                        <Td>{item?.customerId || "N/A"}</Td>
+                      )}
                       <Td>{item?.customerName || "N/A"}</Td>
-                      <Td>{item?.customerEmail || "N/A"}</Td>
-                      <Td>{item?.customerPhone || "N/A"}</Td>
+                      {(user.userAuth.roleid === 2 ||
+                        user.userAuth.roleid === 3) && (
+                        <Td>{item?.consultingStaffId || "N/A"}</Td>
+                      )}
+                      <Td>{item?.consultingStaffName}</Td>
                       <Td>{item?.description || "N/A"}</Td>
                       <Td>{item?.status || "N/A"}</Td>
                       <Td>
@@ -499,7 +538,7 @@ export default function ProcessRequestTable() {
               }
             >
               <Flex direction={"column"} gap={5}>
-                {(user.userAuth.roleid === 2 || user.userAuth.roleid === 3) && (
+                {(user.userAuth.authorities[0].authority === "Manager" || user.userAuth.authorities[0].authority === "Consulting staff") && (
                   <>
                     <Text>
                       <strong>Customer Name</strong>:{" "}
@@ -515,7 +554,7 @@ export default function ProcessRequestTable() {
                     </Text>
                   </>
                 )}
-                {(user.userAuth.roleid === 2 || user.userAuth.roleid === 5) && (
+                {(user.userAuth.authorities[0].authority === "Manager" || user.userAuth.authorities[0].authority === "Customer") && (
                   <>
                     <Text>
                       <strong>Staff Name</strong>:{" "}
@@ -564,7 +603,7 @@ export default function ProcessRequestTable() {
               selectedProcessRequest?.status === "Not resolved yet"
             }
           >
-            {(user.userAuth.roleid === 2 && (
+            {(user.userAuth.authorities[0].authority === "Manager" && (
               <ModalFooter justifyContent={"space-around"}>
                 {selectedProcessRequest?.status === "Sealed" && (
                   <Button
@@ -577,7 +616,7 @@ export default function ProcessRequestTable() {
                 )}
               </ModalFooter>
             )) ||
-              (user.userAuth.roleid === 3 && (
+              (user.userAuth.authorities[0].authority === "Consulting staff" && (
                 <ModalFooter justifyContent={"space-around"}>
                   {(selectedProcessRequest?.status === "Not resolved yet" && (
                     <>
@@ -709,7 +748,7 @@ export default function ProcessRequestTable() {
                     ))}
                 </ModalFooter>
               )) ||
-              (user.userAuth.roleid === 5 && (
+              (user.userAuth.authorities[0].authority === "Customer" && (
                 <ModalFooter justifyContent={"space-around"}>
                   {(selectedProcessRequest?.status === "Not resolved yet" && (
                     <ZaloChat
@@ -761,7 +800,7 @@ export default function ProcessRequestTable() {
           </Skeleton>
         </ModalContent>
       </Modal>
-      {(user.userAuth.roleid === 3 && (
+      {(user.userAuth.authorities[0].authority === "Consulting staff" && (
         <Modal
           isOpen={viewValuationResult.isOpen}
           onClose={viewValuationResult.onClose}
@@ -935,7 +974,7 @@ export default function ProcessRequestTable() {
           </ModalContent>
         </Modal>
       )) ||
-        (user.userAuth.roleid === 5 && (
+        (user.userAuth.authorities[0].authority === "Customer" && (
           <Modal
             isOpen={viewValuationResult.isOpen}
             onClose={viewValuationResult.onClose}

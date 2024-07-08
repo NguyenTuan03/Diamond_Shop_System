@@ -90,7 +90,7 @@ export default function DiamondValuationRequest() {
                     isClosable: true,
                   });
                   // setSubmitting(false);
-                } else if (user.userAuth.roleid !== 5) {
+                } else if (user.userAuth.authorities[0].authority !== "Customer") {
                   toast({
                     title: "Just customer can make a request !",
                     status: "warning",
