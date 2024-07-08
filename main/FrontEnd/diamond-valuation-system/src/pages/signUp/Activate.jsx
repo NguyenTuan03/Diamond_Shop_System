@@ -1,12 +1,38 @@
-import { Box, Flex, Icon, Text } from "@chakra-ui/react";
+import { Box, Flex, Icon, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GiDiamondTrophy } from "react-icons/gi";
+import { activateAccount } from "../../service/ActivateAccount";
 export default function Activate() {
     const param = useParams();
-    setInterval(() => {
-        console.log("activate");
-    },2000)
+    const toast = useToast();
+    const nav = useNavigate();
+    const searchParams = new URLSearchParams(window.location.search);
+    useEffect(() => {
+        const code = searchParams.get("code");
+        if (!code)  {
+            code = "";
+        }
+        else {
+            const check = setInterval(async () => {
+                const result = await activateAccount(code);
+                if (result != null) {
+                    toast({
+                        title: result,
+                        description: "We've created your account for you.",
+                        status: 'success',
+                        duration: 3000,
+                        position: "top-right",
+                        isClosable: true,
+                    });
+                    nav('/');
+                    clearInterval(check);
+                }
+            }, 3000);
+
+            return () => clearInterval(check);
+        }
+    }, [searchParams, toast, nav]);
     return (
         <Box
             w={"100%"}

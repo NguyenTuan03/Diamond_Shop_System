@@ -13,16 +13,18 @@ export default function Profile() {
   return (
     <>
       <Flex
-        direction="column"
-        align="center"
+        direction="row"
+        alignItems={"center"}
+        paddingLeft={"26px"}
         mt="8"
       >
         <Avatar
-            name={auth.userAuth.fullname}
+            name={auth.userAuth.fullname || auth.userAuth.username}
+            mr={"12px"}
             src="https://bit.ly/tioluwani-kolawole"
           />
-        <Text mt="4" fontSize="md">
-          {auth.userAuth.fullname}
+        <Text mt="4" fontSize="md" margin={"0px"}>
+          {auth.userAuth.fullname || auth.userAuth.username}
         </Text>
         
       </Flex>
