@@ -12,11 +12,16 @@ let cx = classnames.bind(styles);
 export default function MainLayout({ children }) {
   const auth = useContext(UserContext);
   const nav = useNavigate();
+  const isCustomer =
+    auth.userAuth &&
+    auth.userAuth.authorities &&
+    auth.userAuth.authorities.length > 0 &&
+    auth.userAuth.authorities[0].authority === "Customer";
   return (
     <>
       <Header />
       {children}
-      {auth.userAuth.authorities[0].authority === "Customer" && (
+      {isCustomer && (
         <Button
           onClick={() => nav(routes.diamondValuationRequest)}
           position={"fixed"}

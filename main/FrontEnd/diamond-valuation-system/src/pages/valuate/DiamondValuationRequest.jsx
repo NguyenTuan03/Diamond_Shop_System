@@ -17,13 +17,17 @@ export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
   const bgColor = useColorModeValue("white", "black");
   const toast = useToast();
-  const createPendingRequest = async (customerId, description) => {
+  const createPendingRequest = async (customerId, description ,token) => {
     await axios
       .post(
         `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/pending-request/create`,
         {
           customerId: customerId,
           description: description,
+        }, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
         }
       )
       .then(function (response) {
@@ -54,7 +58,7 @@ export default function DiamondValuationRequest() {
             isClosable: true,
           });
         } else {
-          createPendingRequest(customerId, description);
+          createPendingRequest(customerId, description, user.userAuth.token);
         }
       });
   };
