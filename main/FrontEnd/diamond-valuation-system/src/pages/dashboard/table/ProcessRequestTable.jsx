@@ -73,9 +73,14 @@ export default function ProcessRequestTable() {
         console.log(response.data);
         if (response.status === 200) {
           Promise.all(
-            response.data.content.map(async (item) => {
+            response.data.content.map(async (item, index) => {
               await checkValuationRequestFinished(item.id, setIsChecked);
-              await checkValuationRequestSealed(item.id, setIsChecked);
+              await checkValuationRequestSealed(
+                item.id,
+                setIsChecked,
+                item.customerId,
+                item.consultingStaffId
+              );
             })
           );
 
@@ -147,6 +152,16 @@ export default function ProcessRequestTable() {
         if (response.status === 200) {
           console.log(response.data);
           if (response.data === "Finished request") {
+            var finishedRequest = [];
+            finishedRequest.push({
+              customerId: customerId,
+              consultingStaffId: consultingStaffId,
+              processRequestId: processRequestId,
+            });
+            localStorage.setItem(
+              "finishedRequests",
+              JSON.stringify(finishedRequest)
+            );
             setIsChecked(true);
             toast({
               title: "Success",
@@ -173,7 +188,9 @@ export default function ProcessRequestTable() {
   };
   const checkValuationRequestSealed = async (
     processRequestId,
-    setIsChecked
+    setIsChecked,
+    customerId,
+    consultingStaffId
   ) => {
     await axios
       .get(
@@ -185,11 +202,21 @@ export default function ProcessRequestTable() {
         if (response.status === 200) {
           console.log(response.data);
           if (response.data === "Sealed request") {
+            var sealedRequests = [];
+            sealedRequests.push({
+              customerId: customerId,
+              consultingStaffId: consultingStaffId,
+              processRequestId: processRequestId,
+            });
+            localStorage.setItem(
+              "sealedRequests",
+              JSON.stringify(sealedRequests)
+            );
             setIsChecked(true);
             toast({
               title: "Success",
               description:
-                "Valuation request sealed. Please contact customer to receive diamond.",
+                "Valuation request sealed. Please contact customer to notify.",
               status: "success",
               position: "top-right",
               duration: 3000,
@@ -432,9 +459,14 @@ export default function ProcessRequestTable() {
                 <Thead bg={"blue.500"}>
                   <Tr>
                     <Th>ID</Th>
+                    {(user.userAuth.roleid === 2 ||
+                      user.userAuth.roleid === 3) && <Th>Customer ID</Th>}
                     <Th>Customer Name</Th>
-                    <Th>Email</Th>
-                    <Th>Phone number</Th>
+                    {(user.userAuth.roleid === 2 ||
+                      user.userAuth.roleid === 3) && (
+                      <Th>Consulting Staff ID</Th>
+                    )}
+                    <Th>Consulting Staff Name</Th>
                     <Th>Description</Th>
                     <Th>Status</Th>
                     <Th>View</Th>
@@ -444,9 +476,16 @@ export default function ProcessRequestTable() {
                   {processRequest.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
+                      {(user.userAuth.roleid === 2 ||
+                        user.userAuth.roleid === 3) && (
+                        <Td>{item?.customerId || "N/A"}</Td>
+                      )}
                       <Td>{item?.customerName || "N/A"}</Td>
-                      <Td>{item?.customerEmail || "N/A"}</Td>
-                      <Td>{item?.customerPhone || "N/A"}</Td>
+                      {(user.userAuth.roleid === 2 ||
+                        user.userAuth.roleid === 3) && (
+                        <Td>{item?.consultingStaffId || "N/A"}</Td>
+                      )}
+                      <Td>{item?.consultingStaffName}</Td>
                       <Td>{item?.description || "N/A"}</Td>
                       <Td>{item?.status || "N/A"}</Td>
                       <Td>

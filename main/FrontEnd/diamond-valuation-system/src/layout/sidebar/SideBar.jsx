@@ -16,9 +16,13 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
-  useMediaQuery
+  useMediaQuery,
+  Menu,
+  MenuButton,
+  Button,
+  MenuList,
 } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   IoHomeOutline,
   IoNewspaperOutline,
@@ -52,17 +56,17 @@ const menuItems = [
     icon: CiCalendar,
     label: "Appointments",
   },
-    { 
+  {
     roleid: [1],
     path: routes.manageAccount,
     icon: MdManageAccounts,
     label: "Manage Account",
   },
   {
-    roleid:[2],
-    path:routes.manageService,
-    icon:GiCheckeredDiamond,
-    label:"Manage Service",
+    roleid: [2],
+    path: routes.manageService,
+    icon: GiCheckeredDiamond,
+    label: "Manage Service",
   },
   {
     roleid: [2, 5],
@@ -151,12 +155,14 @@ const SideBar = () => {
         cursor="pointer"
         _hover={{
           bg: hoverBg,
-          color: "white",
+          // color: "white",
         }}
       >
         <Icon />
         {/* {!isMobile && <Text ml="4">{label}</Text>} */}
-        <Text ml="4">{label}</Text>
+        <Text ml="4" color={"white"}>
+          {label}
+        </Text>
       </Flex>
     </Link>
   );
@@ -197,7 +203,9 @@ const SideBar = () => {
                     </Flex>
                   </Link>
                   {menuItems
-                    .filter((item) => item.roleid.includes(auth.userAuth.roleid))
+                    .filter((item) =>
+                      item.roleid.includes(auth.userAuth.roleid)
+                    )
                     .map(renderMenuItem)}
                 </VStack>
                 <Spacer />
@@ -206,7 +214,8 @@ const SideBar = () => {
                   {generalMenuItems
                     .filter(
                       (item) =>
-                        !item.roleid || item.roleid.includes(auth.userAuth.roleid)
+                        !item.roleid ||
+                        item.roleid.includes(auth.userAuth.roleid)
                     )
                     .map(renderMenuItem)}
                 </VStack>
@@ -245,6 +254,24 @@ const SideBar = () => {
                 <Text ml="4">Dashboard</Text>
               </Flex>
             </Link>
+            {/* <Menu>
+              <MenuButton
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+                color={"white"}
+                bg={bg}
+                _hover={{ bg: hoverBg }}
+                border={"1px solid"}
+                borderColor={"white"}
+              >
+                Manage
+              </MenuButton>
+              <MenuList bg={bg} zIndex={99} border={"3px solid"}>
+                {menuItems
+                  .filter((item) => item.roleid.includes(auth.userAuth.roleid))
+                  .map(renderMenuItem)}
+              </MenuList>
+            </Menu> */}
             {menuItems
               .filter((item) => item.roleid.includes(auth.userAuth.roleid))
               .map(renderMenuItem)}
