@@ -4,18 +4,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { activateAccount } from "../../service/ActivateAccount";
 export default function Activate() {
-    const param = useParams();
-    const toast = useToast();
-    const nav = useNavigate();
-    const searchParams = new URLSearchParams(window.location.search);
+    let param = useParams();
+    let toast = useToast();
+    let nav = useNavigate();
+    let searchParams = new URLSearchParams(window.location.search);
     useEffect(() => {
-        const code = searchParams.get("code");
+        let code = searchParams.get("code");
         if (!code)  {
             code = "";
         }
         else {
-            const check = setInterval(async () => {
-                const result = await activateAccount(code);
+            let check = setInterval(async () => {
+                let result = await activateAccount(code);
                 if (result != null) {
                     toast({
                         title: result,
