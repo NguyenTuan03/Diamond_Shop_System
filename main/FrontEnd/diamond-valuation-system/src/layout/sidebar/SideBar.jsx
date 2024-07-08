@@ -46,6 +46,10 @@ const SideBar = () => {
     const color = useColorModeValue("white", "gray.200");
     const hoverBg = useColorModeValue("purple.700", "purple.600");
     const [isMobile] = useMediaQuery("(max-width: 768px)");
+    const isUsers =
+        auth.userAuth &&
+        auth.userAuth.authorities &&
+        auth.userAuth.authorities.length > 0;
     const menuItems = [
         {
             role: ["Consulting staff", "Valuation staff", "Customer"],
@@ -196,11 +200,12 @@ const SideBar = () => {
                                     </Link>
                                     {menuItems
                                         .filter((item) => {
-                                            if (item === null) {
-                                            }
-                                            item.role.includes(
-                                                auth.userAuth.authorities[0]
-                                                    .authority
+                                            return (
+                                                item.role.length === 0 ||
+                                                item.role.includes(
+                                                    auth.userAuth.authorities[0]
+                                                        .authority
+                                                )
                                             );
                                         })
                                         .map(renderMenuItem)}
@@ -212,10 +217,13 @@ const SideBar = () => {
                                         .filter(
                                             (item) =>
                                                 !item.role ||
-                                                item.role.includes(
-                                                    auth.userAuth.authorities[0]
-                                                        .authority
-                                                )
+                                                item.role.map((item) => {
+                                                    return item.includes(
+                                                        auth.userAuth
+                                                            .authorities[0]
+                                                            .authority
+                                                    );
+                                                })
                                         )
                                         .map(renderMenuItem)}
                                 </VStack>
@@ -254,24 +262,34 @@ const SideBar = () => {
                             </Flex>
                         </Link>
                         {menuItems
-                            .filter((item) =>
-                                item.role.includes(
-                                    auth.userAuth.authorities[0].authority
-                                )
-                            )
+                            .filter((item) => {
+                                return (
+                                    item.role.length === 0 ||
+                                    item.role.includes(
+                                        auth.userAuth.authorities[0].authority
+                                    )
+                                );
+                            })
                             .map(renderMenuItem)}
                     </VStack>
                     <Spacer />
                     <Divider my="8" borderColor="gray.600" />
                     <VStack spacing="2" align="stretch">
                         {generalMenuItems
-                            .filter(
-                                (item) =>
-                                    !item.role ||
-                                    item.role.includes(
-                                        auth.userAuth.authorities[0].authority
-                                    )
-                            )
+                            .filter((item) => {
+                                if (isUsers) {
+                                    return (
+                                        !item.role ||
+                                        item.role.map((item) => {
+                                            return (
+                                                item ===
+                                                auth.userAuth.authorities[0]
+                                                    .authority
+                                            );
+                                        })
+                                    );
+                                }
+                            })
                             .map(renderMenuItem)}
                     </VStack>
                 </Box>

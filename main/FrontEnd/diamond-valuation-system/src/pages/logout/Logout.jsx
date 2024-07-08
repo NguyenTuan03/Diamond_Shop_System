@@ -9,7 +9,7 @@ export default function Logout() {
     localStorage.removeItem("user");
     setTimeout(() => {
       window.location.reload();
-      navigate("");
+      navigate(0);
     }, [500]);
     toast.success("Logout Successful", {
       position: "top-right",
