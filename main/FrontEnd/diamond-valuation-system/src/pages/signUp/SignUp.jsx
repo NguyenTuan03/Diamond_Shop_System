@@ -26,11 +26,13 @@ import { validateSignUp } from "../../utils/ValidateSignUp";
 import Http from "../../utils/Http";
 import { FiEye } from "react-icons/fi";
 import { IoEyeOffOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 export default function SignUp({ signUp, signIn }) {
   const toast = useToast();
   const [show, setShow] = useState(false);
   const [confirmshow, setConfirmShow] = useState(false);
   const handleShowPassWord = () => setShow(!show);
+  const nav = useNavigate();
   const handleShowConfirmPw = () => setConfirmShow(!confirmshow);
   async function signUpApi(username, fullname, email, phonenumber, password) {
     try {
@@ -54,12 +56,15 @@ export default function SignUp({ signUp, signIn }) {
       } else {
         toast({
           title: "Account created.",
-          description: "We've created your account for you.",
+          description: "Please check your email to active account! 🙌.",
           position: "top-right",
           status: "success",
           duration: 3000,
           isClosable: true,
         });
+        setTimeout(() => {
+          nav(`/activate/${email}`);
+        }, 2000);
       }
     } catch (error) {
       toast({

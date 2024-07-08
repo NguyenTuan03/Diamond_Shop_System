@@ -57,13 +57,12 @@ public class Api {
     public ResponseEntity<?> CreateResetPassword(@RequestBody ResetPasswordRequestDTO resetPasswordRequestDTO) {
         return accountService.resetPassword(resetPasswordRequestDTO);
     }
-    @GetMapping(path = "/activate")
+    @PostMapping(path = "/activate")
     public String activateAccount(@RequestParam("code") String code) {
         return accountService.activate(code);
     }
     @DeleteMapping(path = "/delete")
     public String deleteCustomer(@RequestParam("id") int id) {
         return accountService.deleteHardAccount(id);
-    }
-    
+    }   
 }

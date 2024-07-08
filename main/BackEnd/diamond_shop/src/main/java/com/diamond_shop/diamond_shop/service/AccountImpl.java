@@ -69,8 +69,12 @@ public class AccountImpl implements AccountService {
     public String addAccount(AccountDTO accountDTO) {
         String updatePhoneNumber = updatePhoneNumber(accountDTO.getPhonenumber());
         String errorMessage = checkDuplicateAccount("add", accountDTO.getId(), accountDTO.getUsername(), "", updatePhoneNumber);
-        if (!errorMessage.isEmpty()) return errorMessage;
-
+        if (!errorMessage.isEmpty()){
+            return errorMessage;
+        } 
+        // if (!emailService.isEmailValid(accountDTO.getEmail())) {
+        //     return "Email does not exist!";
+        // }
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
         RoleEntity roleEntity = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
         String activationCode = UUID.randomUUID().toString();
@@ -85,7 +89,6 @@ public class AccountImpl implements AccountService {
                 false,
                 activationCode
         );
-
         accountRepository.save(accountEntity);
         emailService.sendActivationEmail(accountDTO.getEmail(), activationCode, accountDTO.getFullname());
         return "User registered successfully!, Check your email to active account!";
@@ -135,6 +138,8 @@ public class AccountImpl implements AccountService {
             case "add":
                 isUsernameExist = accountRepository.findByUserName(username) != null;
                 if (isUsernameExist) errorMessage += "Username, ";
+                isEmailExist = accountRepository.findByEmail(email) != null;
+                if (isEmailExist) errorMessage += "Email, ";
                 isPhoneNumberExist = accountRepository.findByPhoneNumber(phoneNumber) != null;
                 if (isPhoneNumberExist) errorMessage += "Phone number ";
                 if (isUsernameExist || isPhoneNumberExist) errorMessage += "already exist";

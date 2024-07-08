@@ -6,6 +6,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -27,7 +29,7 @@ public class EmailService {
                 "align-items: center;\r\n" + //
                 "padding: 10px 20px;\r\n" + //
                 "cursor: pointer; background: #3498db; border: transparent; border-radius: 8px; \">" 
-                    + "<a href=\"http://localhost:8081/api/account/activate?code=" + activationCode + "\" style=\"display:block; text-decoration: none; color: #fff\">"
+                    + "<a href=\"http://localhost:5173/activate/"+email+"?code=" + activationCode + "\" style=\"display:block; text-decoration: none; color: #fff\">"
                         + "Activate Account"
                     + "</a>"
                 + "</button>";
@@ -62,5 +64,15 @@ public class EmailService {
             throw new RuntimeException("Failed to send email");
         }
         mailSender.send(mimeMessage);
+    }
+    public boolean isEmailValid(String email) {
+        boolean result = true;
+        try {
+            InternetAddress emailAddr = new InternetAddress(email);
+            emailAddr.validate();
+        } catch (AddressException ex) {
+            result = false;
+        }
+        return result;
     }
 }
