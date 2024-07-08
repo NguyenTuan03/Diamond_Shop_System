@@ -29,7 +29,7 @@ public class EmailService {
                 "align-items: center;\r\n" + //
                 "padding: 10px 20px;\r\n" + //
                 "cursor: pointer; background: #3498db; border: transparent; border-radius: 8px; \">" 
-                    + "<a href=\"http://localhost:8081/api/account/activate?code=" + activationCode + "\" style=\"display:block; text-decoration: none; color: #fff\">"
+                    + "<a href=\"http://localhost:5173/activate/"+email+"?code=" + activationCode + "\" style=\"display:block; text-decoration: none; color: #fff\">"
                         + "Activate Account"
                     + "</a>"
                 + "</button>";
