@@ -71,10 +71,7 @@ public class AccountImpl implements AccountService {
         String errorMessage = checkDuplicateAccount("add", accountDTO.getId(), accountDTO.getUsername(), "", updatePhoneNumber);
         if (!errorMessage.isEmpty()){
             return errorMessage;
-        } 
-        // if (!emailService.isEmailValid(accountDTO.getEmail())) {
-        //     return "Email does not exist!";
-        // }
+        }     
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
         RoleEntity roleEntity = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
         String activationCode = UUID.randomUUID().toString();
@@ -116,6 +113,7 @@ public class AccountImpl implements AccountService {
 
         RoleEntity role = roleRepository.findById(accountDTO.getRoleid()).orElseThrow(() -> new RuntimeException("Role not found"));
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
+        // String activationCode = UUID.randomUUID().toString();
         AccountEntity account = new AccountEntity (
             role, 
             accountDTO.getUsername(), 
@@ -127,6 +125,7 @@ public class AccountImpl implements AccountService {
             true
         );
         accountRepository.save(account);
+        // emailService.sendActivationEmail(accountDTO.getEmail(), activationCode, accountDTO.getFullname());
         return account.getUsername();
     }
 
