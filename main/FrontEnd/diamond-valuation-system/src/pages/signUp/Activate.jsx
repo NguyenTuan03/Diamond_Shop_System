@@ -4,28 +4,27 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { activateAccount } from "../../service/ActivateAccount";
 export default function Activate() {
-    const param = useParams();
-    const toast = useToast();
-    const nav = useNavigate();
-    const searchParams = new URLSearchParams(window.location.search);
+    let param = useParams();
+    let toast = useToast();
+    let nav = useNavigate();
+    let searchParams = new URLSearchParams(window.location.search);
     useEffect(() => {
-        const code = searchParams.get("code");
-        if (!code)  {
+        let code = searchParams.get("code");
+        if (!code) {
             code = "";
-        }
-        else {
-            const check = setInterval(async () => {
-                const result = await activateAccount(code);
+        } else {
+            let check = setInterval(async () => {
+                let result = await activateAccount(code);
                 if (result != null) {
                     toast({
                         title: result,
                         description: "We've created your account for you.",
-                        status: 'success',
+                        status: "success",
                         duration: 3000,
                         position: "top-right",
                         isClosable: true,
                     });
-                    nav('/');
+                    nav("/");
                     clearInterval(check);
                 }
             }, 3000);
@@ -60,12 +59,19 @@ export default function Activate() {
                 <Text fontSize={"4xl"} mb={"40px"} fontWeight={"bold"}>
                     Almost Done!
                 </Text>
-                <Text fontSize={"2xl"} mb={"14px"}>We just sent you an email at</Text>
-                <Text fontSize={"2xl"} mb={"14px"} fontWeight={"bold"}>{param.email} </Text>
+                <Text fontSize={"2xl"} mb={"14px"}>
+                    We just sent you an email at
+                </Text>
+                <Text fontSize={"2xl"} mb={"14px"} fontWeight={"bold"}>
+                    {param.email}{" "}
+                </Text>
                 <Text fontSize={"2xl"}>
                     Please check your inbox to validate your account.
                 </Text>
-                <Text fontSize={"xl"} fontFamily={"Playwrite France Traditionnelle"}>
+                <Text
+                    fontSize={"xl"}
+                    fontFamily={"Playwrite France Traditionnelle"}
+                >
                     Stay here and relax! 🍵
                 </Text>
             </Box>

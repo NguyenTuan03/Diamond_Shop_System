@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/commitment")
+// @RequestMapping("mana/commitment")
 public class CommitmentController {
 
     private final CommitmentImpl commitmentImpl;
@@ -16,12 +16,12 @@ public class CommitmentController {
         this.commitmentImpl = commitmentImpl;
     }
 
-    @PostMapping(path = "/create")
+    @PostMapping(path = "manager/commitment/create")
     public String createCommitmentByValuationRequestId(@RequestParam("valuationRequestId") int valuationRequestId) {
         return commitmentImpl.createCommitmentByValuationRequestId(valuationRequestId);
     }
 
-    @GetMapping(path = "/get/all")
+    @GetMapping(path = "api/commitment/get/all")
     public Page<CommitmentLetterEntity> getAll(@RequestParam("page") int page) {
         return commitmentImpl.findAll(page);
     }

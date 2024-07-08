@@ -54,15 +54,15 @@ export default function ProcessRequestTable() {
   const viewReceipt = useDisclosure();
   const fetchProcessRequest = (page, id) => {
     let url = "";
-    if (user.userAuth.roleid === 2) {
+    if (user.userAuth.authorities[0].authority === "Manager") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/process-request/get/all?page=${page}`;
-    } else if (user.userAuth.roleid === 3) {
+    } else if (user.userAuth.authorities[0].authority === "Consulting staff") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/process-request/get/consulting-staff?page=${page}&id=${id}`;
-    } else if (user.userAuth.roleid === 5) {
+    } else if (user.userAuth.authorities[0].authority === "Customer") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/process-request/get/customer?page=${page}&id=${id}`;
@@ -499,7 +499,7 @@ export default function ProcessRequestTable() {
               }
             >
               <Flex direction={"column"} gap={5}>
-                {(user.userAuth.roleid === 2 || user.userAuth.roleid === 3) && (
+                {(user.userAuth.authorities[0].authority === "Manager" || user.userAuth.authorities[0].authority === "Consulting staff") && (
                   <>
                     <Text>
                       <strong>Customer Name</strong>:{" "}
@@ -515,7 +515,7 @@ export default function ProcessRequestTable() {
                     </Text>
                   </>
                 )}
-                {(user.userAuth.roleid === 2 || user.userAuth.roleid === 5) && (
+                {(user.userAuth.authorities[0].authority === "Manager" || user.userAuth.authorities[0].authority === "Customer") && (
                   <>
                     <Text>
                       <strong>Staff Name</strong>:{" "}
@@ -564,7 +564,7 @@ export default function ProcessRequestTable() {
               selectedProcessRequest?.status === "Not resolved yet"
             }
           >
-            {(user.userAuth.roleid === 2 && (
+            {(user.userAuth.authorities[0].authority === "Manager" && (
               <ModalFooter justifyContent={"space-around"}>
                 {selectedProcessRequest?.status === "Sealed" && (
                   <Button
@@ -577,7 +577,7 @@ export default function ProcessRequestTable() {
                 )}
               </ModalFooter>
             )) ||
-              (user.userAuth.roleid === 3 && (
+              (user.userAuth.authorities[0].authority === "Consulting staff" && (
                 <ModalFooter justifyContent={"space-around"}>
                   {(selectedProcessRequest?.status === "Not resolved yet" && (
                     <>
@@ -709,7 +709,7 @@ export default function ProcessRequestTable() {
                     ))}
                 </ModalFooter>
               )) ||
-              (user.userAuth.roleid === 5 && (
+              (user.userAuth.authorities[0].authority === "Customer" && (
                 <ModalFooter justifyContent={"space-around"}>
                   {(selectedProcessRequest?.status === "Not resolved yet" && (
                     <ZaloChat
@@ -761,7 +761,7 @@ export default function ProcessRequestTable() {
           </Skeleton>
         </ModalContent>
       </Modal>
-      {(user.userAuth.roleid === 3 && (
+      {(user.userAuth.authorities[0].authority === "Consulting staff" && (
         <Modal
           isOpen={viewValuationResult.isOpen}
           onClose={viewValuationResult.onClose}
@@ -935,7 +935,7 @@ export default function ProcessRequestTable() {
           </ModalContent>
         </Modal>
       )) ||
-        (user.userAuth.roleid === 5 && (
+        (user.userAuth.authorities[0].authority === "Customer" && (
           <Modal
             isOpen={viewValuationResult.isOpen}
             onClose={viewValuationResult.onClose}

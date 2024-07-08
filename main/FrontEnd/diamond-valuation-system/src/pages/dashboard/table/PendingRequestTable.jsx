@@ -43,11 +43,11 @@ export default function PendingRequestTable() {
   const fetchPendingRequest = (page, id) => {
     setIsLoadedPendingRequest(true);
     let url = "";
-    if (user.userAuth.roleid === 3 || user.userAuth.roleid === 2) {
+    if (user.userAuth.authorities[0].authority === "Consulting staff" || user.userAuth.authorities[0].authority === "Manager") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/pending-request/get/all?page=${page}`;
-    } else if (user.userAuth.roleid === 5) {
+    } else if (user.userAuth.authorities[0].authority === "Customer") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/pending-request/customer/get?page=${page}&id=${id}`;
@@ -235,7 +235,7 @@ export default function PendingRequestTable() {
             </Skeleton>
           </ModalBody>
           <Skeleton isLoaded={selectedPendingRequest !== null}>
-            {(user.userAuth.roleid === 5 && (
+            {(user.userAuth.authorities[0].authority === "Customer" && (
               <ModalFooter justifyContent={"space-around"}>
                 <Button
                   isLoading={isLoadedPendingRequest}
@@ -248,7 +248,7 @@ export default function PendingRequestTable() {
                 </Button>
               </ModalFooter>
             )) ||
-              (user.userAuth.roleid === 3 && (
+              (user.userAuth.authorities[0].authority === "Consulting staff" && (
                 <ModalFooter justifyContent={"space-around"}>
                   <Button
                     isLoading={isLoadedPendingRequest}

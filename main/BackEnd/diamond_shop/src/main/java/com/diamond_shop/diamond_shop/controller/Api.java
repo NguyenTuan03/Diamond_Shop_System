@@ -35,7 +35,7 @@ public class Api {
     public String welcome() {
         return "Hello";
     }
-
+    //No need token
     @PostMapping(path = "/save")
     public String saveEmployee(@Valid @RequestBody AccountDTO accountDTO, Errors errors) {
         if (errors.hasErrors()) {
@@ -43,7 +43,7 @@ public class Api {
         }
         return accountService.addAccount(accountDTO);
     }
-
+    //No need token
     @PostMapping(path = "/login")
     public ResponseEntity<?> loginCustomer(@RequestBody LoginDTO loginDTO) {
         return accountService.loginAccount(loginDTO);
@@ -53,14 +53,17 @@ public class Api {
     public ResponseEntity<?> CreateForgotPassword(@RequestBody ForgetPasswordDTO forgetPasswordDTO) {
         return accountService.forgotPassword(forgetPasswordDTO);
     }
+
     @PostMapping("/reset-password")
     public ResponseEntity<?> CreateResetPassword(@RequestBody ResetPasswordRequestDTO resetPasswordRequestDTO) {
         return accountService.resetPassword(resetPasswordRequestDTO);
     }
+    //No need token
     @PostMapping(path = "/activate")
     public String activateAccount(@RequestParam("code") String code) {
         return accountService.activate(code);
     }
+    
     @DeleteMapping(path = "/delete")
     public String deleteCustomer(@RequestParam("id") int id) {
         return accountService.deleteHardAccount(id);
