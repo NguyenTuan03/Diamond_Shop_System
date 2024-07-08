@@ -113,7 +113,7 @@ public class AccountImpl implements AccountService {
 
         RoleEntity role = roleRepository.findById(accountDTO.getRoleid()).orElseThrow(() -> new RuntimeException("Role not found"));
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
-        // String activationCode = UUID.randomUUID().toString();
+        String activationCode = UUID.randomUUID().toString();
         AccountEntity account = new AccountEntity (
             role, 
             accountDTO.getUsername(), 
@@ -125,7 +125,7 @@ public class AccountImpl implements AccountService {
             true
         );
         accountRepository.save(account);
-        // emailService.sendActivationEmail(accountDTO.getEmail(), activationCode, accountDTO.getFullname());
+        emailService.sendAccountForAdmin(accountDTO.getEmail(), activationCode, accountDTO.getFullname(), accountDTO.getUsername(), accountDTO.getPassword());
         return account.getUsername();
     }
 
