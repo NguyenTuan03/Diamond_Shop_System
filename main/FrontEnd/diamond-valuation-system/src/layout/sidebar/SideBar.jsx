@@ -230,7 +230,6 @@ const SideBar = () => {
                     pos="fixed"
                     borderRight="1px"
                     borderColor="gray.200"
-                    borderRadius={8}
                 >
                     <Profile />
                     <Divider my="8" borderColor="gray.600" />

@@ -34,6 +34,7 @@ import CommitmentTable from "../pages/dashboard/table/CommitmentTable.jsx";
 import ValuationStaffDashboard from "../pages/dashboard/valuation/ValuationStaffDashBoard.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import ServiceTable from "../pages/dashboard/table/ServiceTable.jsx";
+import Activate from "../pages/signUp/Activate.jsx";
 
 const ALlRoutes = [
     {
@@ -215,6 +216,11 @@ const ALlRoutes = [
         path: routes.manageService,
         component: ServiceTable,
         layout: DashBoardLayout,
+    },
+    {
+        path: routes.activate,
+        component: Activate,
+        layout: null,
     },
 ];
 

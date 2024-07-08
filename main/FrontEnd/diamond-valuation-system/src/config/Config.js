@@ -32,5 +32,6 @@ const routes = {
     commitment: "/dashboard/commitment",
     valuationDiamond: "/dashboard/valuation-diamond",
     manageService: "/dashboard/manage-service",
+    activate: "/activate/:email",
 };
 export default routes;
