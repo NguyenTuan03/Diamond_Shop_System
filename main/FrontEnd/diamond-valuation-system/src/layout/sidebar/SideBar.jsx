@@ -39,97 +39,6 @@ import routes from "../../config/Config";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import Profile from "../../components/Profile";
 
-const menuItems = [
-    {
-        roleid: [3, 4, 5],
-        path: routes.dasboardNotification,
-        icon: IoIosNotificationsOutline,
-        label: "Notifications",
-    },
-    {
-        roleid: [],
-        path: routes.dashboardAppoint,
-        icon: CiCalendar,
-        label: "Appointments",
-    },
-    {
-        roleid: [1],
-        path: routes.manageAccount,
-        icon: MdManageAccounts,
-        label: "Manage Account",
-    },
-    {
-        roleid: [2],
-        path: routes.manageService,
-        icon: GiCheckeredDiamond,
-        label: "Manage Service",
-    },
-    {
-        roleid: [2, 5],
-        path: routes.sealingLetter,
-        icon: IoNewspaperOutline,
-        label: "Sealing Letter",
-    },
-    {
-        roleid: [2, 5],
-        path: routes.commitment,
-        icon: RiBookMarkedFill,
-        label: "Commitment",
-    },
-    {
-        roleid: [2],
-        path: "#",
-        icon: IoDiamondSharp,
-        label: "Valuated Diamond",
-    },
-    {
-        roleid: [2, 3, 5],
-        path: routes.pendingRequest,
-        icon: IoNewspaperOutline,
-        label: "Pending Request",
-    },
-    {
-        roleid: [2, 3, 5],
-        path: routes.processRequest,
-        icon: VscServerProcess,
-        label: "Process Request",
-    },
-    {
-        roleid: [4],
-        path: routes.valuationDiamond,
-        icon: BsNewspaper,
-        label: "Valuation Diamond",
-    },
-];
-
-const generalMenuItems = [
-    {
-        path: "/",
-        icon: IoHomeOutline,
-        label: "Home",
-    },
-    {
-        path: routes.diamondCalculate,
-        icon: PiCalculatorThin,
-        label: "Valuation",
-    },
-    {
-        path: routes.search,
-        icon: IoMdSearch,
-        label: "Search",
-    },
-    {
-        path: routes.diamondCheck,
-        icon: MdOutlineRemoveRedEye,
-        label: "Diamond Check",
-    },
-    {
-        roleid: [5],
-        path: routes.dashboardSetting,
-        icon: CiSettings,
-        label: "Setting",
-    },
-];
 
 const SideBar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -137,8 +46,98 @@ const SideBar = () => {
     const bg = useColorModeValue("gray.800", "black");
     const color = useColorModeValue("white", "gray.200");
     const hoverBg = useColorModeValue("purple.700", "purple.600");
-
     const [isMobile] = useMediaQuery("(max-width: 768px)");
+    const menuItems = [
+        {
+            role: [3, 4, 5],
+            path: routes.dasboardNotification,
+            icon: IoIosNotificationsOutline,
+            label: "Notifications",
+        },
+        {
+            role: [],
+            path: routes.dashboardAppoint,
+            icon: CiCalendar,
+            label: "Appointments",
+        },
+        {
+            role: [1],
+            path: routes.manageAccount,
+            icon: MdManageAccounts,
+            label: "Manage Account",
+        },
+        {
+            role: [2],
+            path: routes.manageService,
+            icon: GiCheckeredDiamond,
+            label: "Manage Service",
+        },
+        {
+            role: [2, 5],
+            path: routes.sealingLetter,
+            icon: IoNewspaperOutline,
+            label: "Sealing Letter",
+        },
+        {
+            role: [2, 5],
+            path: routes.commitment,
+            icon: RiBookMarkedFill,
+            label: "Commitment",
+        },
+        {
+            role: [2],
+            path: "#",
+            icon: IoDiamondSharp,
+            label: "Valuated Diamond",
+        },
+        {
+            role: [2, 3, 5],
+            path: routes.pendingRequest,
+            icon: IoNewspaperOutline,
+            label: "Pending Request",
+        },
+        {
+            role: [2, 3, 5],
+            path: routes.processRequest,
+            icon: VscServerProcess,
+            label: "Process Request",
+        },
+        {
+            role: [4],
+            path: routes.valuationDiamond,
+            icon: BsNewspaper,
+            label: "Valuation Diamond",
+        },
+    ];
+    
+    const generalMenuItems = [
+        {
+            path: "/",
+            icon: IoHomeOutline,
+            label: "Home",
+        },
+        {
+            path: routes.diamondCalculate,
+            icon: PiCalculatorThin,
+            label: "Valuation",
+        },
+        {
+            path: routes.search,
+            icon: IoMdSearch,
+            label: "Search",
+        },
+        {
+            path: routes.diamondCheck,
+            icon: MdOutlineRemoveRedEye,
+            label: "Diamond Check",
+        },
+        {
+            role: [5],
+            path: routes.dashboardSetting,
+            icon: CiSettings,
+            label: "Setting",
+        },
+    ];
 
     const renderMenuItem = ({ path, icon: Icon, label }) => (
         <Link to={path} key={label}>
@@ -177,7 +176,7 @@ const SideBar = () => {
                         <DrawerContent>
                             <DrawerCloseButton />
                             <DrawerHeader>Menu</DrawerHeader>
-                            <DrawerBody>
+                            <DrawerBody>        
                                 <VStack spacing="2" align="stretch">
                                     <Link to={routes.dashboard}>
                                         <Flex
@@ -198,8 +197,8 @@ const SideBar = () => {
                                     </Link>
                                     {menuItems
                                         .filter((item) =>
-                                            item.roleid.includes(
-                                                auth.userAuth.roleid
+                                            item.role.includes(
+                                                auth.userAuth.authorities[0].authority
                                             )
                                         )
                                         .map(renderMenuItem)}
@@ -210,9 +209,9 @@ const SideBar = () => {
                                     {generalMenuItems
                                         .filter(
                                             (item) =>
-                                                !item.roleid ||
-                                                item.roleid.includes(
-                                                    auth.userAuth.roleid
+                                                !item.role ||
+                                                item.role.includes(
+                                                    auth.userAuth.authorities[0].authority
                                                 )
                                         )
                                         .map(renderMenuItem)}
@@ -253,7 +252,7 @@ const SideBar = () => {
                         </Link>
                         {menuItems
                             .filter((item) =>
-                                item.roleid.includes(auth.userAuth.roleid)
+                                item.role.includes(auth.userAuth.authorities[0].authority)
                             )
                             .map(renderMenuItem)}
                     </VStack>
@@ -263,8 +262,8 @@ const SideBar = () => {
                         {generalMenuItems
                             .filter(
                                 (item) =>
-                                    !item.roleid ||
-                                    item.roleid.includes(auth.userAuth.roleid)
+                                    !item.role ||
+                                    item.role.includes(auth.userAuth.roleid)
                             )
                             .map(renderMenuItem)}
                     </VStack>
