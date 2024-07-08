@@ -1,10 +1,7 @@
 package com.diamond_shop.diamond_shop.service;
 
-import com.diamond_shop.diamond_shop.dto.UpdateServiceDTO;
 import com.diamond_shop.diamond_shop.pojo.ServiceResultPojo;
 import com.diamond_shop.diamond_shop.repository.ServiceRepository;
-import com.diamond_shop.diamond_shop.repository.ServiceStatisticRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,11 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class DiamondImpl implements DiamondService {
 
     private final ServiceRepository serviceRepository;
-    private final ServiceStatisticRepository serviceStatisticRepository;
+
+    public DiamondImpl(ServiceRepository serviceRepository) {
+        this.serviceRepository = serviceRepository;
+    }
 
     @Override
     public ResponseEntity<String> fetchDiamondCalculate(String gradingLab, String carat, String shape, String color, String clarity, String cut) {
@@ -39,17 +38,6 @@ public class DiamondImpl implements DiamondService {
     @Override
     public List<ServiceResultPojo> getAllServices() {
         return serviceRepository.getAllServices();
-    }
-
-    @Override
-    public String updateService(UpdateServiceDTO updateServiceDTO) {
-        try {
-            serviceRepository.updateServiceById(updateServiceDTO.getId(), updateServiceDTO.getName(), updateServiceDTO.getPrice(), updateServiceDTO.getTime());
-            serviceStatisticRepository.updateStatistic(updateServiceDTO.getStatisticId(), updateServiceDTO.getStatisticName());
-        } catch (Exception e) {
-            return "Update service error";
-        }
-        return "Update successful";
     }
 
     //

@@ -37,7 +37,8 @@ export default function Login({ signIn, signUp }) {
     try {
       console.log(username, password);
       const result = await login(username, password);
-      if (!result.data?.status) {
+      console.log(result);
+      if (!result?.status) {
         toast.error("Login failed. Try again later", {
           position: "top-right",
           autoClose: 2000,
@@ -65,7 +66,7 @@ export default function Login({ signIn, signUp }) {
           theme: "light",
           transition: Bounce,
         });
-        localStorage.setItem("user", JSON.stringify(result.data.accountDTO));
+        localStorage.setItem("user", JSON.stringify(result.data ));
       }
     } catch (error) {
       console.error(error);

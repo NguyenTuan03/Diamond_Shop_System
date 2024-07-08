@@ -230,7 +230,7 @@ export default function Header() {
                   bg={colorMode}
                 >
                   <Avatar
-                    name={auth.userAuth.fullname || auth.userAuth.name}
+                    name={auth.userAuth.fullname || auth.userAuth.username}
                     src={auth.userAuth.picture}
                   />
                 </MenuButton>

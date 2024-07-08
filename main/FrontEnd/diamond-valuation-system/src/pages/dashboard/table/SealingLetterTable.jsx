@@ -41,11 +41,11 @@ export default function SealingLetterTable() {
 
   const fetchSealingLetter = async (page, id) => {
     let url = "";
-    if (user.userAuth.roleid === 2) {
+    if (user.userAuth.authorities[0].authority === "Manager") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/sealing-letter/get/all?page=${page}`;
-    } else if (user.userAuth.roleid === 5) {
+    } else if (user.userAuth.authorities[0].authority === "Customer") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/sealing-letter/customer/get?page=${page}&id=${id}`;
@@ -80,7 +80,7 @@ export default function SealingLetterTable() {
                   <Tr>
                     <Th>ID</Th>
                     <Th>Request ID</Th>
-                    {user.userAuth.roleid === 2 && <Th>Customer Name</Th>}
+                    {user.userAuth.authorities[0].authority === "Manager" && <Th>Customer Name</Th>}
                     <Th>Created Date</Th>
                     <Th>Sealing Date</Th>
                     <Th>View</Th>
@@ -91,7 +91,7 @@ export default function SealingLetterTable() {
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
                       <Td>{item?.valuationRequestId || "N/A"}</Td>
-                      {user.userAuth.roleid === 2 && (
+                      {user.userAuth.authorities[0].authority === "Manager" && (
                         <Td>{item?.customerName || "N/A"}</Td>
                       )}
                       <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
@@ -199,7 +199,7 @@ export default function SealingLetterTable() {
           </ModalBody>
           <ModalFooter>
             <Skeleton isLoaded={selectedSealingLetter !== null}>
-              {user.userAuth.roleid === 2 && (
+              {user.userAuth.authorities[0].authority === "Manager" && (
                 <Button
                   onClick={() => {
                     window.print();

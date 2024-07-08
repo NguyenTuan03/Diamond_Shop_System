@@ -16,7 +16,7 @@ export default function MainLayout({ children }) {
     <>
       <Header />
       {children}
-      {auth.userAuth.roleid === 5 && (
+      {auth.userAuth.authorities[0].authority === "Customer" && (
         <Button
           onClick={() => nav(routes.diamondValuationRequest)}
           position={"fixed"}

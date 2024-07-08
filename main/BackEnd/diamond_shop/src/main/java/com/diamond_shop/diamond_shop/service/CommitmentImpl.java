@@ -4,7 +4,6 @@ import com.diamond_shop.diamond_shop.entity.CommitmentLetterEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 import com.diamond_shop.diamond_shop.repository.CommitmentRepository;
 import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -13,22 +12,20 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class CommitmentImpl implements CommitmentService {
 
     private final ValuationRequestRepository valuationRequestRepository;
     private final CommitmentRepository commitmentRepository;
 
+    public CommitmentImpl(ValuationRequestRepository valuationRequestRepository, CommitmentRepository commitmentRepository) {
+        this.valuationRequestRepository = valuationRequestRepository;
+        this.commitmentRepository = commitmentRepository;
+    }
+
     @Override
     public Page<CommitmentLetterEntity> findAll(int page) {
         int pageSize = 5, pageNumber = --page;
         return commitmentRepository.findAll(PageRequest.of(pageNumber, pageSize));
-    }
-
-    @Override
-    public Page<CommitmentLetterEntity> findAllByCustomerId(int page, int customerId) {
-        int pageSize = 5, pageNumber = --page;
-        return commitmentRepository.findAllByCustomerId(PageRequest.of(pageNumber, pageSize), customerId);
     }
 
     @Override

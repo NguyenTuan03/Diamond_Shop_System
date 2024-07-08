@@ -1,13 +1,15 @@
 import { Button } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 export default function Logout() {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("user");
     setTimeout(() => {
-      navigate(0);
+      window.location.reload();
+      navigate("");
     }, [500]);
     toast.success("Logout Successful", {
       position: "top-right",
@@ -22,8 +24,11 @@ export default function Logout() {
     });
   };
   return (
+    <>
+    <ToastContainer/>
     <Button colorScheme="red" onClick={handleLogout}>
       Logout
     </Button>
+    </>
   );
 }

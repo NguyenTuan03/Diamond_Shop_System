@@ -2,7 +2,6 @@ package com.diamond_shop.diamond_shop.controller;
 
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
 import com.diamond_shop.diamond_shop.service.ValuationRequestService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +11,12 @@ import java.util.Optional;
 @RestController
 @CrossOrigin
 @RequestMapping("api/valuation-request")
-@RequiredArgsConstructor
 public class ValuationRequestController {
     private final ValuationRequestService valuationRequestService;
+
+    public ValuationRequestController(ValuationRequestService valuationRequestService) {
+        this.valuationRequestService = valuationRequestService;
+    }
 
     @GetMapping(path = "/pending-request/get")
     public Optional<ValuationRequestEntity> getValuationRequestByPendingRequestId(@RequestParam("id") int pendingRequestId) {

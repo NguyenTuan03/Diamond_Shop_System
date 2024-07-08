@@ -25,6 +25,6 @@ public interface ValuationRequestRepository extends JpaRepository<ValuationReque
             "WHERE v.pendingRequestId.id=:pendingRequestId")
     Optional<ValuationRequestEntity> findByPendingRequestId(@Param("pendingRequestId") int pendingRequestId);
 
-    @Query("SELECT v FROM ValuationRequestEntity v WHERE v.pendingRequestId.processRequestEntity.id=:processRequestId")
+    @Query("SELECT v FROM ValuationRequestEntity v WHERE v.pendingRequestId.valuationRequestEntity.id=:processRequestId")
     Optional<ValuationRequestEntity> findByProcessRequestId(@Param("processRequestId") int processRequestId);
 }

@@ -1,0 +1,78 @@
+package com.diamond_shop.diamond_shop.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
+@Service
+public class EmailService {
+    @Autowired
+    private JavaMailSender mailSender;
+
+    public void sendActivationEmail(String email, String activationCode, String name) {
+    MimeMessage mimeMessage = mailSender.createMimeMessage();
+    try {
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        helper.setTo(email);
+        helper.setSubject("Account Activation!");
+
+        String htmlMsg = "<h3>Hi, "+name+"</h3>"
+                + "<p>Please click the following link to activate your account:</p>"
+                + "<button style=\"display: flex;\r\n" + //
+                "justify-content: center;\r\n" + //
+                "align-items: center;\r\n" + //
+                "padding: 10px 20px;\r\n" + //
+                "cursor: pointer; background: #3498db; border: transparent; border-radius: 8px; \">" 
+                    + "<a href=\"http://localhost:5173/activate/"+email+"?code=" + activationCode + "\" style=\"display:block; text-decoration: none; color: #fff\">"
+                        + "Activate Account"
+                    + "</a>"
+                + "</button>";
+        helper.setText(htmlMsg, true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to send email");
+        }
+        mailSender.send(mimeMessage);
+    }
+
+    public void sendResetTokenEmail(String to, String token, String name) {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject("Reset Password");
+                    String htmlMsg = "<h3>Hi, "+name+"</h3>"
+                    + "<p>To reset your password, click the button below:</p>"
+                    + "<button style=\"display: flex;\r\n" + //
+                    "justify-content: center;\r\n" + //
+                    "align-items: center;\r\n" + //
+                    "padding: 10px 20px;\r\n" + //
+                    "cursor: pointer; background: #3498db; border: transparent; border-radius: 8px; \">" 
+                        + "<a href=\"http://localhost:8081/api/account/reset-password?token=" + token + "\" style=\"display:block; text-decoration: none; color: #fff\">"
+                            + "Activate Account"
+                        + "</a>"
+                    + "</button>";
+            helper.setText(htmlMsg, true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to send email");
+        }
+        mailSender.send(mimeMessage);
+    }
+    public boolean isEmailValid(String email) {
+        boolean result = true;
+        try {
+            InternetAddress emailAddr = new InternetAddress(email);
+            emailAddr.validate();
+        } catch (AddressException ex) {
+            result = false;
+        }
+        return result;
+    }
+}
