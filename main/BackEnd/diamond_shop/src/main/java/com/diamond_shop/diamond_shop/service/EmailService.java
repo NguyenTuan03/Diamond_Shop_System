@@ -29,7 +29,7 @@ public class EmailService {
                 "align-items: center;\r\n" + 
                 "padding: 10px 20px;\r\n" + 
                 "cursor: pointer; background: #3498db; border: transparent; border-radius: 8px; \">" 
-                    + "<a href=\"http://localhost:5173/activate/"+email+"?code=" + activationCode + "\" style=\"display:block; text-decoration: none; color: #fff\">"
+                    + "<a href=\"http://localhost:8081/api/account/activate?code=" + activationCode + "\" style=\"display:block; text-decoration: none; color: #fff\">"
                         + "Activate Account"
                     + "</a>"
                 + "</button>";
@@ -74,6 +74,30 @@ public class EmailService {
                     "padding: 10px 20px;\r\n" + //
                     "cursor: pointer; background: #3498db; border: transparent; border-radius: 8px; \">" 
                         + "<a href=\"http://localhost:8081/api/account/reset-password?token=" + token + "\" style=\"display:block; text-decoration: none; color: #fff\">"
+                            + "Activate Account"
+                        + "</a>"
+                    + "</button>";
+            helper.setText(htmlMsg, true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to send email");
+        }
+        mailSender.send(mimeMessage);
+    }
+    public void sendForgetTokenEmail(String to, String token, String name) {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject("Reset Password");
+                    String htmlMsg = "<h3>Hi, "+name+"</h3>"
+                    + "<p>To reset your password, click the button below:</p>"
+                    + "<button style=\"display: flex;\r\n" + //
+                    "justify-content: center;\r\n" + //
+                    "align-items: center;\r\n" + //
+                    "padding: 10px 20px;\r\n" + //
+                    "cursor: pointer; background: #3498db; border: transparent; border-radius: 8px; \">" 
+                        + "<a href=\"http://localhost:8081/api/account/reset-forget-password?token=" + token + "\" style=\"display:block; text-decoration: none; color: #fff\">"
                             + "Activate Account"
                         + "</a>"
                     + "</button>";

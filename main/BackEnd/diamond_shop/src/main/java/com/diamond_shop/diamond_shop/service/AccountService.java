@@ -6,6 +6,9 @@ import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
+
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
@@ -25,7 +28,7 @@ public interface AccountService {
     
     String updateAccount(AccountDTO accountDTO);
 
-    String activate(String code);
+    String activate(String code, HttpServletResponse response);
 
     String restoreAccount(int id);
 
@@ -33,8 +36,10 @@ public interface AccountService {
 
     ResponseEntity<?> forgotPassword(ForgetPasswordDTO forgetPasswordDTO);
 
-    ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO);
+    ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response);
 
+    ResponseEntity<?> resetForgetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response);
+    
     String updatePhoneNumber(String phoneNumber);
 
     String checkDuplicateAccount(String type, int id, String username, String email, String phoneNumber);

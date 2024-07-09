@@ -84,6 +84,9 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Integer>
         @Query("SELECT a FROM AccountEntity a WHERE a.is_active = true AND a.username=:username")
         List<AccountEntity> findByUsername(@Param("username") String username);        
 
+        @Query("SELECT a FROM AccountEntity a WHERE a.is_active = true AND a.email=:email AND a.username=:username")
+        AccountEntity findByUsernameAndEmail(@Param("username") String username, @Param("email") String email);
+
         @Modifying
         @Transactional
         @Query("UPDATE AccountEntity a SET a.role.id=:Role_id, a.fullname=:fullName, a.email=:email, a.phone_number=:phoneNumber, a.address=:address WHERE a.id=:id")

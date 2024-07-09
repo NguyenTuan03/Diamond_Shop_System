@@ -11,5 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResetPasswordRequestDTO {
     private String token;
+    private String oldPassword;
     private String newPassword;
 }
