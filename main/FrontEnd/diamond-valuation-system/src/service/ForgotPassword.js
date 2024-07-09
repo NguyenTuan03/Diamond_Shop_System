@@ -1,5 +1,5 @@
 import Http from "../utils/Http.js";
-export const forgetPassword = async (email) => {
+export const forgetPassword = async (username,email) => {
     try {
         const res = await Http.httpRequest.post("api/account/forget-password", {
             username,

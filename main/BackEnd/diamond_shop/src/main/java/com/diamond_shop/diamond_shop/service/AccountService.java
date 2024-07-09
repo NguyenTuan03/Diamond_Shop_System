@@ -38,7 +38,7 @@ public interface AccountService {
 
     ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response);
 
-    ResponseEntity<?> resetForgetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response);
+    ResponseEntity<?> resetForgetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO);
     
     String updatePhoneNumber(String phoneNumber);
 

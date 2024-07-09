@@ -33,6 +33,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/account/save").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/forget-password").permitAll()
+                                // .requestMatchers(HttpMethod.POST, "/api/account/reset-forget-password").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/diamond/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/activate").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/**").authenticated()

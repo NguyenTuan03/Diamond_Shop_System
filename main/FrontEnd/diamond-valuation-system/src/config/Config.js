@@ -34,5 +34,6 @@ const routes = {
     manageService: "/dashboard/manage-service",
     activate: "/activate/:email",
     forgetPassword: "/forget-password",
+    resetForgetPassword: "/reset-forget-password",
 };
 export default routes;

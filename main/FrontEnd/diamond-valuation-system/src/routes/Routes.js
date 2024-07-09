@@ -36,6 +36,7 @@ import AdminPage from "../pages/admin/AdminPage.jsx";
 import ServiceTable from "../pages/dashboard/table/ServiceTable.jsx";
 import Activate from "../pages/signUp/Activate.jsx";
 import ForgotPassword from "../pages/login/ForgotPassword.jsx";
+import ResetForgetPassword from "../pages/login/ResetForgetPassword.jsx";
 
 const ALlRoutes = [
     {
@@ -226,6 +227,11 @@ const ALlRoutes = [
     {
         path: routes.forgetPassword,
         component: ForgotPassword,
+        layout: null,
+    },
+    {
+        path: routes.resetForgetPassword,
+        component: ResetForgetPassword,
         layout: null,
     },
 ];

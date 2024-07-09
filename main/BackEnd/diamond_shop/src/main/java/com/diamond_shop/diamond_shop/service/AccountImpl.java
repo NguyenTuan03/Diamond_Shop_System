@@ -283,12 +283,7 @@ public class AccountImpl implements AccountService {
         return ResponseEntity.ok("Password updated successfully");
     }
     @Override
-    public ResponseEntity<?> resetForgetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {
-        try {
-            response.sendRedirect("http://localhost:5173/reset-forget-password");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public ResponseEntity<?> resetForgetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO) {
         String token = resetPasswordRequestDTO.getToken();
         String newPassword = resetPasswordRequestDTO.getNewPassword();
     
