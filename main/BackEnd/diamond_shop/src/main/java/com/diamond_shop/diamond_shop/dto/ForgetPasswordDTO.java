@@ -10,5 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ForgetPasswordDTO {
+    private String username;
     private String email;
 }
