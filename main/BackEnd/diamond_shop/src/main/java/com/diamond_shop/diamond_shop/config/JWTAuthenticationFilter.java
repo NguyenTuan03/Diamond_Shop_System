@@ -1,6 +1,9 @@
 package com.diamond_shop.diamond_shop.config;
-import java.io.IOException;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,13 +13,12 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
+
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
-    
+
     @Autowired
     private JWTUtil JWTUtil;
 
@@ -38,9 +40,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-            else {
-                System.out.println("Invalid or missing JWT token");
+            } else {
+                System.out.println("Invalid or missing JWT token " + new Date());
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
