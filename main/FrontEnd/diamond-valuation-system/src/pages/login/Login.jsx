@@ -17,7 +17,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../service/Login";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,12 +26,14 @@ import { UserContext } from "../../components/GlobalContext/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import { FiEye } from "react-icons/fi";
 import { IoEyeOffOutline } from "react-icons/io5";
+import routes from "../../config/Config";
 export default function Login({ signIn, signUp }) {
   const [isLoading, setIsLoading] = useState(false);
   const auth = useContext(UserContext);
   const [isLogin, setIsLogin] = useState(false);
   const [show, setShow] = useState(false);
   const handleShowPassWord = () => setShow(!show);
+  const nav = useNavigate();
   async function fetchApi(username, password) {
     setIsLoading(true);
     try {
@@ -171,7 +173,7 @@ export default function Login({ signIn, signUp }) {
                       justifyContent={"space-between"}
                       m={"10px"}
                     >
-                      <Text fontSize={"sm"}>Forgot password ?</Text>
+                      <Text onClick={() => nav(routes.forgetPassword)} cursor={"pointer"} fontSize={"sm"} _hover={{color: "blue"}}>Forgot password ?</Text>
                       <Button
                         isLoading={isLoading}
                         type="submit"

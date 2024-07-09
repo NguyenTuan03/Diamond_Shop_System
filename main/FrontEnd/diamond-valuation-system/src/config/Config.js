@@ -33,5 +33,6 @@ const routes = {
     valuationDiamond: "/dashboard/valuation-diamond",
     manageService: "/dashboard/manage-service",
     activate: "/activate/:email",
+    forgetPassword: "/forget-password",
 };
 export default routes;
