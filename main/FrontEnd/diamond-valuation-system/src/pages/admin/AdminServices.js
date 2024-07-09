@@ -12,7 +12,7 @@ export const fetchAccounts = async (
       .get(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/admin/get?search=${search}&page=${pageId}&filter=${filter}`
+        }/admin/get?search=${search}&page=${pageId}&filter=${filter}`
       )
       .then(function (response) {
         console.log(response.data.content);
@@ -43,7 +43,7 @@ export const createAccount = async (
 ) => {
   try {
     const res = await axios.post(
-      `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/admin/create`,
+      `${import.meta.env.VITE_REACT_APP_BASE_URL}/admin/create`,
       {
         roleid: roleid,
         username: username,
@@ -92,11 +92,12 @@ export const updateAccount = async (
   email,
   phonenumber,
   address,
-  toast
+  toast,
+  token
 ) => {
   try {
     const res = await axios.put(
-      `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/admin/update`,
+      `${import.meta.env.VITE_REACT_APP_BASE_URL}/admin/update`,
       {
         id: id,
         roleid: roleid,
@@ -106,6 +107,10 @@ export const updateAccount = async (
         email: email,
         phonenumber: phonenumber,
         address: address,
+      }, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
       }
     );
     if (res.data.includes("exist")) {
@@ -137,12 +142,16 @@ export const updateAccount = async (
   }
 };
 
-export const deleteAccount = async (id, setIsDeleted, toast) => {
+export const deleteAccount = async (id, setIsDeleted, toast, token) => {
   try {
     await axios
       .delete(
-        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/admin/delete?id=${id}`
-      )
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/admin/delete?id=${id}`
+      , {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
       .then(function (response) {
         setIsDeleted(true);
         toast({

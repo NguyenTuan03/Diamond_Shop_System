@@ -44,7 +44,7 @@ public class PaymentImpl implements PaymentService {
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
-        int amountInt = Integer.parseInt(amount) / 1000;
+        int amountInt = Integer.parseInt(amount) / 100;
 
         if (accountEntity == null) {
             throw new IllegalArgumentException("User not found with id: " + userid);

@@ -5,6 +5,7 @@ import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PendingRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,11 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PendingRequestImpl implements PendingRequestService {
     private final PendingRepository pendingRepository;
     private final AccountRepository accountRepository;
 
-    public PendingRequestImpl(PendingRepository pendingRepository, AccountRepository accountRepository) {
-        this.pendingRepository = pendingRepository;
-        this.accountRepository = accountRepository;
-    }
 
     @Override
     public Page<PendingRequestsEntity> getAllPendingRequests(int page) {
@@ -65,7 +63,7 @@ public class PendingRequestImpl implements PendingRequestService {
     public String checkCustomerPendingRequest(int customerId) {
         List<PendingRequestsEntity> pendingRequests = pendingRepository.findByCustomerId(customerId);
         if (!pendingRequests.isEmpty())
-            return "You has already make a request";
+            return "You has already made a request";
         return "";
     }
 }

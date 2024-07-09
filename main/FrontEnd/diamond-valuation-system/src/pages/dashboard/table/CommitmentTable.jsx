@@ -33,6 +33,10 @@ import { GiDiamondTrophy } from "react-icons/gi";
 
 export default function CommitmentTable() {
   const user = useContext(UserContext);
+  const isUsers =
+    user.userAuth &&
+    user.userAuth.authorities &&
+    user.userAuth.authorities.length > 0;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const viewCommitment = useDisclosure();
@@ -40,25 +44,24 @@ export default function CommitmentTable() {
   const [commitment, setCommitment] = useState([]);
   const [selectedCommitment, setSelectedCommitment] = useState({});
   const fetchCommitment = async (page) => {
-    let url = "";
-    if (user.userAuth.authorities[0].authority === "Manager") {
-      url = `${
-        import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/commitment/get/all?page=${page}`;
-    } else if (user.userAuth.authorities[0].authority === "Customer") {
-      url = `${
-        import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/commitment/customer/get/all?page=${page}&id=${user.userAuth.id}`;
+    if (isUsers) {
+      let url = "";
+      if (user.userAuth.authorities[0].authority === "Manager") {
+        url = `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/commitment/get/all?page=${page}`;
+      } else if (user.userAuth.authorities[0].authority === "Customer") {
+        url = `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/commitment/get?page=${page}&customerId=${user.userAuth.id}`;
+      }
+      axios.get(url).then(function (response) {
+        console.log(response.data);
+        setCommitment(response.data.content);
+        setTotalPages(response.data.totalPages);
+      });
     }
-    axios.get(url).then(function (response) {
-      console.log(response.data);
-      setCommitment(response.data.content);
-      setTotalPages(response.data.totalPages);
-    });
   };
-  useEffect(() => {
-    fetchCommitment(currentPage);
-  }, []);
   useEffect(() => {
     fetchCommitment(currentPage);
   }, [currentPage]);
@@ -74,21 +77,25 @@ export default function CommitmentTable() {
         {totalPages === 0 ? (
           <Center>No commitment to show</Center>
         ) : (
-          <Skeleton isLoaded={commitment.length > 0} height={"200px"}>
-          <TableContainer shadow="md" borderRadius="md">
+          <Skeleton isLoaded={commitment?.length > 0} height={"200px"}>
+            <TableContainer shadow="md" borderRadius="md">
               <Table size={"sm"} colorScheme="blue">
                 <Thead bg={"blue.500"}>
                   <Tr>
                     <Th>ID</Th>
                     <Th>Request ID</Th>
-                    {user.userAuth.authorities[0].authority === "Manager" && <Th>Customer Name</Th>}
+
+                    {isUsers &&
+                      user.userAuth.authorities[0].authority === "Manager" && (
+                        <Th>Customer Name</Th>
+                      )}
                     <Th>Created Date</Th>
                     <Th>View</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {commitment.map((item, index) => (
-                    <Tr key={index} _hover={{bg:"gray.100"}}>
+                  {commitment?.map((item, index) => (
+                    <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
                       <Td>{item?.valuationRequestId || "N/A"}</Td>
                       {user.userAuth.authorities[0].authority === "Manager" && (
