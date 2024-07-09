@@ -15,15 +15,24 @@ import axios from "axios";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
+  const isUsers =
+    user.userAuth &&
+    user.userAuth.authorities &&
+    user.userAuth.authorities.length > 0;
   const bgColor = useColorModeValue("white", "black");
   const toast = useToast();
-  const createPendingRequest = async (customerId, description) => {
+  const createPendingRequest = async (customerId, description, token) => {
     await axios
       .post(
         `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/pending-request/create`,
         {
           customerId: customerId,
           description: description,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
         }
       )
       .then(function (response) {
@@ -54,7 +63,7 @@ export default function DiamondValuationRequest() {
             isClosable: true,
           });
         } else {
-          createPendingRequest(customerId, description);
+          createPendingRequest(customerId, description, user.userAuth.token);
         }
       });
   };
@@ -90,7 +99,10 @@ export default function DiamondValuationRequest() {
                     isClosable: true,
                   });
                   // setSubmitting(false);
-                } else if (user.userAuth.authorities[0].authority !== "Customer") {
+                } else if (
+                  isUsers &&
+                  user.userAuth.authorities[0].authority !== "Customer"
+                ) {
                   toast({
                     title: "Just customer can make a request !",
                     status: "warning",
@@ -103,8 +115,8 @@ export default function DiamondValuationRequest() {
                   setSubmitting(true);
                   checkCustomerPendingRequest(
                     user.userAuth.id,
-                    values.description,
-                  )
+                    values.description
+                  );
                 }
               } catch (e) {
                 console.log(e);

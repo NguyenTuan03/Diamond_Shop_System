@@ -29,6 +29,12 @@ public class CommitmentImpl implements CommitmentService {
     }
 
     @Override
+    public Page<CommitmentLetterEntity> findAllByCustomerId(int page, int customerId) {
+        int pageSize = 5, pageNumber = --page;
+        return commitmentRepository.findAllByCustomerId(PageRequest.of(pageNumber, pageSize), customerId);
+    }
+
+    @Override
     public String createCommitmentByValuationRequestId(int valuationRequestId) {
         Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findById(valuationRequestId);
         if (valuationRequest.isEmpty())

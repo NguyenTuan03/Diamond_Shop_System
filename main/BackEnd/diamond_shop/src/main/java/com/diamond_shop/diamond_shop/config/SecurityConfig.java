@@ -28,6 +28,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers(HttpMethod.GET, "/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/**").permitAll() 
                                 .requestMatchers(HttpMethod.POST, "/api/account/save").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
@@ -38,7 +39,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PATCH, "/api/**").authenticated()
                                 .requestMatchers(HttpMethod.DELETE, "/api/**").authenticated()
                                 .requestMatchers("https://diamondval.vercel.app").permitAll()
-                                .requestMatchers("/admin/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/admin/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/admin/**").permitAll()
                                 .requestMatchers("/manager/**").hasRole("Manager")
                                 .requestMatchers("/valuation/**").hasRole("Valuation staff")
                                 .requestMatchers("/consulting/**").hasRole("Consulting staff")
