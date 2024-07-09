@@ -3,12 +3,15 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.service.AccountService;
+
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/admin")
+@RequestMapping("/admin")
 public class AdminController {
 
     private final AccountService accountService;
@@ -18,7 +21,8 @@ public class AdminController {
     }
 
     @GetMapping(path = "/get")
-    public Page<AccountEntity> getAllAccounts(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter) {
+    public Page<AccountEntity> getAllAccounts(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("filter") String filter, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return accountService.getAllAccountsById(search, page, filter);
     }
 
@@ -32,7 +36,7 @@ public class AdminController {
         return accountService.createAccount(account);
     }
 
-    @PostMapping(path = "/update")
+    @PutMapping(path = "/update")
     public String updateAccount(@RequestBody AccountDTO account) {
         System.out.println(account);
         return accountService.updateAccount(account);
@@ -43,7 +47,7 @@ public class AdminController {
         return accountService.restoreAccount(id);
     }
 
-    @PostMapping(path = "/delete")
+    @DeleteMapping(path = "/delete")
     public void deleteAccount(@RequestParam("id") int id) {
         accountService.deleteSoftAccount(id);
     }
