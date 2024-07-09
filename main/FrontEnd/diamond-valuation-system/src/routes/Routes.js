@@ -35,6 +35,7 @@ import ValuationStaffDashboard from "../pages/dashboard/valuation/ValuationStaff
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import ServiceTable from "../pages/dashboard/table/ServiceTable.jsx";
 import Activate from "../pages/signUp/Activate.jsx";
+import ForgotPassword from "../pages/login/ForgotPassword.jsx";
 
 const ALlRoutes = [
     {
@@ -220,6 +221,11 @@ const ALlRoutes = [
     {
         path: routes.activate,
         component: Activate,
+        layout: null,
+    },
+    {
+        path: routes.forgetPassword,
+        component: ForgotPassword,
         layout: null,
     },
 ];
