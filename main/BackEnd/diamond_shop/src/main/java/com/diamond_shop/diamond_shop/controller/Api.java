@@ -53,6 +53,11 @@ public class Api {
         return accountService.resetPassword(resetPasswordRequestDTO, response);
     }
 
+    @PostMapping("/reset-forget-password")
+    public ResponseEntity<?> CreateResetForgetPassword(@RequestBody ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {
+        return accountService.resetPassword(resetPasswordRequestDTO, response);
+    }
+
     @GetMapping(path = "/activate")
     public String activateAccount(@RequestParam("code") String code, HttpServletResponse response) {
         return accountService.activate(code, response);

@@ -242,13 +242,14 @@ public class AccountImpl implements AccountService {
     
     @Override
     public ResponseEntity<?> forgotPassword(ForgetPasswordDTO forgetPasswordDTO) {
-        AccountEntity accountEntity = accountRepository.findByEmail(forgetPasswordDTO.getEmail());
+        AccountEntity accountEntity = accountRepository.findByUsernameAndEmail(forgetPasswordDTO.getUsername(),forgetPasswordDTO.getEmail());
+        
         if (accountEntity == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email or Username not found");
         }
 
         String token = JWTUtil.generateResetToken(accountEntity.getUsername());
-        emailService.sendResetTokenEmail(accountEntity.getEmail(), token, accountEntity.getFullname());
+        emailService.sendForgetTokenEmail(accountEntity.getEmail(), token, accountEntity.getFullname());
 
         return ResponseEntity.ok("Reset password email sent");
     }
@@ -257,7 +258,7 @@ public class AccountImpl implements AccountService {
     @Override
     public ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {
         try {
-            response.sendRedirect("http://localhost:5173/resetpassword");
+            response.sendRedirect("http://localhost:5173/reset-password");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -276,6 +277,29 @@ public class AccountImpl implements AccountService {
         }
         if (!accountEntity.getPassword().equals(oldPassword)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Password is incorrect!");
+        }
+        accountEntity.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(accountEntity);
+        return ResponseEntity.ok("Password updated successfully");
+    }
+    @Override
+    public ResponseEntity<?> resetForgetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {
+        try {
+            response.sendRedirect("http://localhost:5173/reset-forget-password");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String token = resetPasswordRequestDTO.getToken();
+        String newPassword = resetPasswordRequestDTO.getNewPassword();
+    
+        if (!JWTUtil.validateJwtToken(token)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
+        }
+    
+        String username = JWTUtil.getUserNameFromJwtToken(token);
+        AccountEntity accountEntity = accountRepository.findByUserName(username);
+        if (accountEntity == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
         }
         accountEntity.setPassword(passwordEncoder.encode(newPassword));
         accountRepository.save(accountEntity);

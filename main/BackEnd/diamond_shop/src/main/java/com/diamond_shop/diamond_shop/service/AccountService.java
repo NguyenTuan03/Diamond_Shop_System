@@ -38,6 +38,8 @@ public interface AccountService {
 
     ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response);
 
+    ResponseEntity<?> resetForgetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response);
+    
     String updatePhoneNumber(String phoneNumber);
 
     String checkDuplicateAccount(String type, int id, String username, String email, String phoneNumber);
