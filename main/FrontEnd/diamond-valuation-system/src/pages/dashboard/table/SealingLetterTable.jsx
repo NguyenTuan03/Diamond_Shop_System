@@ -30,9 +30,12 @@ import {
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 import { GiDiamondTrophy } from "react-icons/gi";
-
 export default function SealingLetterTable() {
   const user = useContext(UserContext);
+  const isUsers =
+    user.userAuth &&
+    user.userAuth.authorities &&
+    user.userAuth.authorities.length > 0;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const viewSealingLetter = useDisclosure();
@@ -40,21 +43,23 @@ export default function SealingLetterTable() {
   const [selectedSealingLetter, setSelectedSealingLetter] = useState({});
 
   const fetchSealingLetter = async (page, id) => {
-    let url = "";
-    if (user.userAuth.authorities[0].authority === "Manager") {
-      url = `${
-        import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/sealing-letter/get/all?page=${page}`;
-    } else if (user.userAuth.authorities[0].authority === "Customer") {
-      url = `${
-        import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/sealing-letter/customer/get?page=${page}&id=${id}`;
+    if (isUsers) {
+      let url = "";
+      if (user.userAuth.authorities[0].authority === "Manager") {
+        url = `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/sealing-letter/get/all?page=${page}`;
+      } else if (user.userAuth.authorities[0].authority === "Customer") {
+        url = `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/sealing-letter/customer/get?page=${page}&id=${id}`;
+      }
+      await axios.get(url).then(function (response) {
+        console.log(response.data);
+        setSealingLetter(response.data.content);
+        setTotalPages(response.data.totalPages);
+      });
     }
-    await axios.get(url).then(function (response) {
-      console.log(response.data);
-      setSealingLetter(response.data.content);
-      setTotalPages(response.data.totalPages);
-    });
   };
   useEffect(() => {
     fetchSealingLetter(currentPage, user.userAuth.id);
@@ -80,7 +85,10 @@ export default function SealingLetterTable() {
                   <Tr>
                     <Th>ID</Th>
                     <Th>Request ID</Th>
-                    {user.userAuth.authorities[0].authority === "Manager" && <Th>Customer Name</Th>}
+                    {isUsers &&
+                      user.userAuth.authorities[0].authority === "Manager" && (
+                        <Th>Customer Name</Th>
+                      )}
                     <Th>Created Date</Th>
                     <Th>Sealing Date</Th>
                     <Th>View</Th>
@@ -91,9 +99,9 @@ export default function SealingLetterTable() {
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
                       <Td>{item?.valuationRequestId || "N/A"}</Td>
-                      {user.userAuth.authorities[0].authority === "Manager" && (
-                        <Td>{item?.customerName || "N/A"}</Td>
-                      )}
+                      {isUsers &&
+                        user.userAuth.authorities[0].authority ===
+                          "Manager" && <Td>{item?.customerName || "N/A"}</Td>}
                       <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
                       <Td>{item?.sealingDate?.slice(0, 10) || "N/A"}</Td>
                       <Td>
@@ -199,15 +207,17 @@ export default function SealingLetterTable() {
           </ModalBody>
           <ModalFooter>
             <Skeleton isLoaded={selectedSealingLetter !== null}>
-              {user.userAuth.authorities[0].authority === "Manager" && (
-                <Button
-                  onClick={() => {
-                    window.print();
-                  }}
-                >
-                  Print
-                </Button>
-              )}
+              i
+              {isUsers &&
+                user.userAuth.authorities[0].authority === "Manager" && (
+                  <Button
+                    onClick={() => {
+                      window.print();
+                    }}
+                  >
+                    Print
+                  </Button>
+                )}
             </Skeleton>
           </ModalFooter>
         </ModalContent>
