@@ -15,10 +15,11 @@ import {
   InputLeftAddon,
   FormHelperText,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { Form, Formik } from "formik";
 import { validateSignUp } from "../../utils/ValidateSignUp";
 import { updateAccount } from "./AdminServices";
+import { UserContext } from "../../components/GlobalContext/AuthContext";
 export default function AdminUpdateUsers({
   setIsUpdated,
   isOpen,
@@ -26,7 +27,9 @@ export default function AdminUpdateUsers({
   updateAcc,
   updateUser,
   toast,
-}) {
+})
+{
+  const user = useContext(UserContext);
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -57,7 +60,8 @@ export default function AdminUpdateUsers({
                 values.email,
                 values.phoneNumber,
                 values.address,
-                toast
+                toast,
+                user.userAuth.token
               )
                 .then(() => {
                   setIsUpdated(true);

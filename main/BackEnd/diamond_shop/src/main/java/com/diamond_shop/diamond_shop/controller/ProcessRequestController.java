@@ -4,18 +4,17 @@ import com.diamond_shop.diamond_shop.dto.ReceivePendingRequestDTO;
 import com.diamond_shop.diamond_shop.dto.UpdateProcessRequestDTO;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.service.ProcessRequestService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
 @RequestMapping("api/process-request")
+@RequiredArgsConstructor
 public class ProcessRequestController {
     private final ProcessRequestService processRequestService;
-
-    public ProcessRequestController(ProcessRequestService processRequestService) {
-        this.processRequestService = processRequestService;
-    }
 
     @GetMapping(path = "/get/all")
     public Page<ProcessRequestEntity> viewAllProcessRequest(@RequestParam("page") int page) {
@@ -33,12 +32,12 @@ public class ProcessRequestController {
     }
 
     @PostMapping(path = "/create")
-    public String createProcessRequest(@RequestBody ReceivePendingRequestDTO receivePendingRequestDTO) {
+    public String createProcessRequest(@Valid @RequestBody ReceivePendingRequestDTO receivePendingRequestDTO) {
         return processRequestService.createProcessRequest(receivePendingRequestDTO);
     }
 
     @PutMapping(path = "/update")
-    public String updateProcessRequest(@RequestParam("id") int id, @RequestBody UpdateProcessRequestDTO updateProcessRequestDTO) {
+    public String updateProcessRequest(@Valid @RequestParam("id") int id, @RequestBody UpdateProcessRequestDTO updateProcessRequestDTO) {
         return processRequestService.updateProcessRequest(id, updateProcessRequestDTO);
     }
 }

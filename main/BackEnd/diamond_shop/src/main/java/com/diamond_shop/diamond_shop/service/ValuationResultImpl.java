@@ -6,6 +6,7 @@ import com.diamond_shop.diamond_shop.entity.*;
 import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,26 +23,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ValuationResultImpl implements ValuationResultService {
     private final ValuationResultRepository valuationResultRepository;
     private final ProcessResultRepository processResultRepository;
     private final ProcessRequestRepository processRequestRepository;
     private final ValuationRequestRepository valuationRequestRepository;
     private final ValuationResultImageRepository valuationResultImageRepository;
-
-    public ValuationResultImpl(
-            ValuationResultRepository valuationResultRepository,
-            ProcessResultRepository processResultRepository,
-            ProcessRequestRepository processRequestRepository,
-            ValuationRequestRepository valuationRequestRepository,
-            ValuationResultImageRepository valuationResultImageRepository) {
-        this.valuationResultRepository = valuationResultRepository;
-        this.processResultRepository = processResultRepository;
-        this.processRequestRepository = processRequestRepository;
-        this.valuationRequestRepository = valuationRequestRepository;
-        this.valuationResultImageRepository = valuationResultImageRepository;
-
-    }
 
     @Override
     public Optional<ValuationResultEntity> getValuationResultById(String id) {
