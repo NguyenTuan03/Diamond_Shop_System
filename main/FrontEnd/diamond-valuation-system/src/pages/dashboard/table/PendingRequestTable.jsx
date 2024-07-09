@@ -34,6 +34,10 @@ import { set } from "date-fns";
 export default function PendingRequestTable() {
   const toast = useToast();
   const user = useContext(UserContext);
+  const isUsers =
+    user.userAuth &&
+    user.userAuth.authorities &&
+    user.userAuth.authorities.length > 0;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const viewPendingRequest = useDisclosure();
@@ -43,7 +47,10 @@ export default function PendingRequestTable() {
   const fetchPendingRequest = (page, id) => {
     setIsLoadedPendingRequest(true);
     let url = "";
-    if (user.userAuth.authorities[0].authority === "Consulting staff" || user.userAuth.authorities[0].authority === "Manager") {
+    if (
+      user.userAuth.authorities[0].authority === "Consulting staff" ||
+      user.userAuth.authorities[0].authority === "Manager"
+    ) {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
       }/api/pending-request/get/all?page=${page}`;
@@ -235,35 +242,38 @@ export default function PendingRequestTable() {
             </Skeleton>
           </ModalBody>
           <Skeleton isLoaded={selectedPendingRequest !== null}>
-            {(user.userAuth.authorities[0].authority === "Customer" && (
-              <ModalFooter justifyContent={"space-around"}>
-                <Button
-                  isLoading={isLoadedPendingRequest}
-                  colorScheme="red"
-                  onClick={() => {
-                    cancelPendingRequest(selectedPendingRequest?.id);
-                  }}
-                >
-                  Cancel
-                </Button>
-              </ModalFooter>
-            )) ||
-              (user.userAuth.authorities[0].authority === "Consulting staff" && (
+            {(isUsers &&
+              user.userAuth.authorities[0].authority === "Customer" && (
                 <ModalFooter justifyContent={"space-around"}>
                   <Button
                     isLoading={isLoadedPendingRequest}
-                    colorScheme="teal"
+                    colorScheme="red"
                     onClick={() => {
-                      receivePendingRequest(
-                        user?.userAuth?.id,
-                        selectedPendingRequest?.id
-                      );
+                      cancelPendingRequest(selectedPendingRequest?.id);
                     }}
                   >
-                    Receive
+                    Cancel
                   </Button>
                 </ModalFooter>
-              ))}
+              )) ||
+              (isUsers &&
+                user.userAuth.authorities[0].authority ===
+                  "Consulting staff" && (
+                  <ModalFooter justifyContent={"space-around"}>
+                    <Button
+                      isLoading={isLoadedPendingRequest}
+                      colorScheme="teal"
+                      onClick={() => {
+                        receivePendingRequest(
+                          user?.userAuth?.id,
+                          selectedPendingRequest?.id
+                        );
+                      }}
+                    >
+                      Receive
+                    </Button>
+                  </ModalFooter>
+                ))}
           </Skeleton>
         </ModalContent>
       </Modal>
