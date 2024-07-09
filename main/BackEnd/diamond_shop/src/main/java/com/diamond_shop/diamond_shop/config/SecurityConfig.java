@@ -28,6 +28,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers(HttpMethod.GET, "/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/**").permitAll() 
                                 .requestMatchers(HttpMethod.POST, "/api/account/save").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
