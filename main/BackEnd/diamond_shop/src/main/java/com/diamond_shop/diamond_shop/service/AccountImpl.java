@@ -1,5 +1,6 @@
 package com.diamond_shop.diamond_shop.service;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import com.diamond_shop.diamond_shop.entity.RoleEntity;
 import com.diamond_shop.diamond_shop.pojo.LoginPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class AccountImpl implements AccountService {
@@ -92,12 +95,17 @@ public class AccountImpl implements AccountService {
     }
     
     @Override
-    public String activate(String code) {
+    public String activate(String code, HttpServletResponse response) {
         AccountEntity accountEntity = accountRepository.findByActivationCode(code);
         if (accountEntity != null) {
             accountEntity.setIs_active(true);
             accountEntity.setActivate_code(null); 
             accountRepository.save(accountEntity);
+            try {
+                response.sendRedirect("http://localhost:5173");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return "Account has been activated successfully!";
         } else {
             return "Invalid activation code!";
@@ -247,8 +255,14 @@ public class AccountImpl implements AccountService {
 
 
     @Override
-    public ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO) {
+    public ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {
+        try {
+            response.sendRedirect("http://localhost:5173/resetpassword");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String token = resetPasswordRequestDTO.getToken();
+        String oldPassword = resetPasswordRequestDTO.getOldPassword();
         String newPassword = resetPasswordRequestDTO.getNewPassword();
     
         if (!JWTUtil.validateJwtToken(token)) {
@@ -258,12 +272,13 @@ public class AccountImpl implements AccountService {
         String username = JWTUtil.getUserNameFromJwtToken(token);
         AccountEntity accountEntity = accountRepository.findByUserName(username);
         if (accountEntity == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
         }
-    
+        if (!accountEntity.getPassword().equals(oldPassword)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Password is incorrect!");
+        }
         accountEntity.setPassword(passwordEncoder.encode(newPassword));
         accountRepository.save(accountEntity);
-
         return ResponseEntity.ok("Password updated successfully");
     }
     @Override
@@ -279,7 +294,6 @@ public class AccountImpl implements AccountService {
         accountRepository.deleteById(id);
         return "Successful";
     }
-
 
     @Override
     public Page<AccountEntity> getAllDeletedAccountsById(String search, int pageId, String filter) {

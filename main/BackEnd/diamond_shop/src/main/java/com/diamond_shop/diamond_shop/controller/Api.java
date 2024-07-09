@@ -5,6 +5,8 @@ import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
 import com.diamond_shop.diamond_shop.service.AccountService;
+
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -47,14 +49,13 @@ public class Api {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<?> CreateResetPassword(@RequestBody ResetPasswordRequestDTO resetPasswordRequestDTO) {
-        return accountService.resetPassword(resetPasswordRequestDTO);
+    public ResponseEntity<?> CreateResetPassword(@RequestBody ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {
+        return accountService.resetPassword(resetPasswordRequestDTO, response);
     }
 
-    //No need token
-    @PostMapping(path = "/activate")
-    public String activateAccount(@RequestParam("code") String code) {
-        return accountService.activate(code);
+    @GetMapping(path = "/activate")
+    public String activateAccount(@RequestParam("code") String code, HttpServletResponse response) {
+        return accountService.activate(code, response);
     }
 
     @DeleteMapping(path = "/delete")
