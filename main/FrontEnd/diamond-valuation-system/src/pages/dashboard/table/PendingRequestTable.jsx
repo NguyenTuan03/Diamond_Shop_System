@@ -68,7 +68,7 @@ export default function PendingRequestTable() {
       }
     });
   };
-  const receivePendingRequest = (consultingStaffId, pendingRequestId) => {
+  const receivePendingRequest = (consultingStaffId, pendingRequestId, token) => {
     setIsLoadedPendingRequest(true);
     axios
       .post(
@@ -77,7 +77,11 @@ export default function PendingRequestTable() {
           pendingRequestId: pendingRequestId,
           consultingStaffId: consultingStaffId,
         }
-      )
+      , {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
       .then(function (response) {
         setIsLoadedPendingRequest(false);
         if (response.data === "Have already received !") {
@@ -108,14 +112,18 @@ export default function PendingRequestTable() {
         });
       });
   };
-  const cancelPendingRequest = (pendingRequestId) => {
+  const cancelPendingRequest = (pendingRequestId, token) => {
     setIsLoadedPendingRequest(true);
     axios
       .delete(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/pending-request/delete?id=${pendingRequestId}`
-      )
+      , {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
       .then(function (response) {
         if (response.status === 200) {
           if (response.data.includes("successful")) {
@@ -249,7 +257,7 @@ export default function PendingRequestTable() {
                     isLoading={isLoadedPendingRequest}
                     colorScheme="red"
                     onClick={() => {
-                      cancelPendingRequest(selectedPendingRequest?.id);
+                      cancelPendingRequest(selectedPendingRequest?.id, user.userAuth.token);
                     }}
                   >
                     Cancel
@@ -266,7 +274,8 @@ export default function PendingRequestTable() {
                       onClick={() => {
                         receivePendingRequest(
                           user?.userAuth?.id,
-                          selectedPendingRequest?.id
+                          selectedPendingRequest?.id,
+                          user.userAuth.token
                         );
                       }}
                     >

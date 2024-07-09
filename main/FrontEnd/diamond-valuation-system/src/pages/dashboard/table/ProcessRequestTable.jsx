@@ -104,7 +104,7 @@ export default function ProcessRequestTable() {
       });
   };
 
-  const updateProcessRequest = (processRequestId, status) => {
+  const updateProcessRequest = (processRequestId, status, token) => {
     setIsUpdateProcess(true);
     axios
       .put(
@@ -113,6 +113,10 @@ export default function ProcessRequestTable() {
         }/api/process-request/update?id=${processRequestId}`,
         {
           status: status,
+        }, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
         }
       )
       .then(function (response) {
@@ -637,7 +641,8 @@ export default function ProcessRequestTable() {
                           onClick={() => {
                             updateProcessRequest(
                               selectedProcessRequest?.id,
-                              "Contacted"
+                              "Contacted",
+                              user.userAuth.token
                             );
                           }}
                         >
