@@ -34,6 +34,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import { GiCheckeredDiamond } from "react-icons/gi";
 import { MdManageAccounts } from "react-icons/md";
+import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import routes from "../../config/Config";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
@@ -140,13 +141,18 @@ const SideBar = () => {
       icon: CiSettings,
       label: "Setting",
     },
+    {
+      path: "#",
+      icon: FiLogOut,
+      label: "Logout",
+    },
   ];
 
   const renderMenuItem = ({ path, icon: Icon, label }) => (
     <Link to={path} key={label}>
       <Flex
         align="center"
-        p="4"
+        p="3"
         mx="4"
         borderRadius="lg"
         role="group"
@@ -172,7 +178,7 @@ const SideBar = () => {
             onClick={onOpen}
             variant="outline"
             aria-label="Open Menu"
-            m={4}
+            m={3}
           />
           <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
             <DrawerOverlay />
@@ -180,11 +186,11 @@ const SideBar = () => {
               <DrawerCloseButton />
               <DrawerHeader>Menu</DrawerHeader>
               <DrawerBody>
-                <VStack spacing="2" align="stretch">
+                <VStack spacing="1" align="stretch">
                   <Link to={routes.dashboard}>
                     <Flex
                       align="center"
-                      p="4"
+                      p="3"
                       mx="4"
                       borderRadius="lg"
                       role="group"
@@ -237,6 +243,8 @@ const SideBar = () => {
           pos="fixed"
           borderRight="1px"
           borderColor="gray.200"
+          maxH="100vh" 
+          overflowY="auto"
         >
           <Profile />
           <Divider my="8" borderColor="gray.600" />
@@ -244,7 +252,7 @@ const SideBar = () => {
             <Link to={routes.dashboard}>
               <Flex
                 align="center"
-                p="4"
+                p="3"
                 mx="4"
                 borderRadius="lg"
                 role="group"
