@@ -151,7 +151,7 @@ INSERT INTO service_statistics(
 
 INSERT INTO Services(Name, Price, Time, service_statistic_id) VALUES('Normal', 200000, 30, 1),('Pro', 500000, 20, 2), ('Premium',1000000, 10, 3)
 
-INSERT INTO users(role_id, username, password, full_name, email, phone_number, address,isActive)
+INSERT INTO users(role_id, username, password, full_name, email, phone_number, address,is_active)
 VALUES
 (5, 'tuan','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tuan@gmail.com','0905038319','HCM',1),
 (3, 'consulting001','$2a$10$cFVjD9HGp/AFH5meqqpNuem08iedeBNe6CD/lI09zgGTNG.yzt9Ni','NguyenTuan','tu@gmail.com','0905038311','HCM',1),

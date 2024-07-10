@@ -90,4 +90,7 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "FROM ValuationResultEntity as v " +
             "WHERE v.valuationRequestId.id=:valuationRequestId")
     Optional<ValuationResultEntity> getValuationResultByValuationRequestId(@Param("valuationRequestId") int valuationRequestId);
+
+    @Query(value = "SELECT COUNT(v.id) FROM ValuationResultEntity v")
+    int totalValuationResults();
 }

@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public interface ValuationResultService {
 
+    int totalValuationResults();
+
     Optional<ValuationResultEntity> getValuationResultById(String id);
 
     Page<ValuationResultEntity> getValuationResultsByCustomerId(int page, int customerId);

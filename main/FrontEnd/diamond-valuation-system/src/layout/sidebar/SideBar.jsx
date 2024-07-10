@@ -53,16 +53,10 @@ const SideBar = () => {
     auth.userAuth.authorities.length > 0;
   const menuItems = [
     {
-      role: ["Consulting staff", "Valuation staff", "Customer"],
+      role: ["Manager","Consulting staff", "Valuation staff", "Customer"],
       path: routes.dasboardNotification,
       icon: IoIosNotificationsOutline,
       label: "Notifications",
-    },
-    {
-      role: [],
-      path: routes.dashboardAppoint,
-      icon: CiCalendar,
-      label: "Appointments",
     },
     {
       role: ["Admin"],
@@ -98,7 +92,7 @@ const SideBar = () => {
       role: ["Manager", "Consulting staff", "Customer"],
       path: routes.pendingRequest,
       icon: IoNewspaperOutline,
-      label: "Pending Request",
+      label: "Appointments",
     },
     {
       role: ["Manager", "Consulting staff", "Customer"],

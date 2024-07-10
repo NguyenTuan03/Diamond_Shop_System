@@ -23,6 +23,11 @@ import java.util.Optional;
 public class ValuationResultController {
     private final ValuationResultService valuationResultService;
 
+    @GetMapping("/total")
+    public int totalValuationResult() {
+        return valuationResultService.totalValuationResults();
+    }
+
     @PutMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
     public String valuateDiamond(@RequestParam("id") String id, @RequestBody ValuationResultDTO valuationResultDTO) {
         return valuationResultService.valuateDiamond(id, valuationResultDTO);

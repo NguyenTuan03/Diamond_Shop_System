@@ -18,6 +18,7 @@ public class ValuationRequestImpl implements ValuationRequestService {
     private final ValuationRequestRepository valuationRequestRepository;
     private final ProcessRequestRepository processRequestRepository;
 
+
     @Override
     public String makeRequest(int pendingId, int serviceId, int paymentId) {
 
