@@ -57,51 +57,55 @@ export default function ProcessRequestTable() {
   const viewValuationResult = useDisclosure();
   const viewReceipt = useDisclosure();
   const fetchProcessRequest = (page, id) => {
-    let url = "";
-    if (user.userAuth.authorities[0].authority === "Manager") {
-      url = `${
-        import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/process-request/get/all?page=${page}`;
-    } else if (user.userAuth.authorities[0].authority === "Consulting staff") {
-      url = `${
-        import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/process-request/get/consulting-staff?page=${page}&id=${id}`;
-    } else if (user.userAuth.authorities[0].authority === "Customer") {
-      url = `${
-        import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/process-request/get/customer?page=${page}&id=${id}`;
-    }
-    axios
-      .get(url)
-      .then(function (response) {
-        console.log(response.data);
-        if (response.status === 200) {
-          Promise.all(
-            response.data.content.map(async (item, index) => {
-              await checkValuationRequestFinished(item.id, setIsChecked);
-              await checkValuationRequestSealed(
-                item.id,
-                setIsChecked,
-                item.customerId,
-                item.consultingStaffId
-              );
-            })
-          );
+    if (isUsers) {
+      let url = "";
+      if (user.userAuth.authorities[0].authority === "Manager") {
+        url = `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/process-request/get/all?page=${page}`;
+      } else if (
+        user.userAuth.authorities[0].authority === "Consulting staff"
+      ) {
+        url = `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/process-request/get/consulting-staff?page=${page}&id=${id}`;
+      } else if (user.userAuth.authorities[0].authority === "Customer") {
+        url = `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/process-request/get/customer?page=${page}&id=${id}`;
+      }
+      axios
+        .get(url)
+        .then(function (response) {
+          console.log(response.data);
+          if (response.status === 200) {
+            Promise.all(
+              response.data.content.map(async (item, index) => {
+                await checkValuationRequestFinished(item.id, setIsChecked);
+                await checkValuationRequestSealed(
+                  item.id,
+                  setIsChecked,
+                  item.customerId,
+                  item.consultingStaffId
+                );
+              })
+            );
 
-          setProcessRequest(response.data.content);
-          setTotalPages(response.data?.totalPages);
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Failed",
-          description: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
+            setProcessRequest(response.data.content);
+            setTotalPages(response.data?.totalPages);
+          }
+        })
+        .catch((error) => {
+          toast({
+            title: "Failed",
+            description: error.response.data,
+            status: "error",
+            position: "top-right",
+            duration: 3000,
+            isClosable: true,
+          });
         });
-      });
+    }
   };
 
   const updateProcessRequest = (processRequestId, status) => {
@@ -113,6 +117,11 @@ export default function ProcessRequestTable() {
         }/api/process-request/update?id=${processRequestId}`,
         {
           status: status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
         }
       )
       .then(function (response) {
@@ -127,6 +136,7 @@ export default function ProcessRequestTable() {
             duration: 3000,
             isClosable: true,
           });
+          viewValuationRequest.onClose();
           fetchProcessRequest(currentPage, user.userAuth.id);
         }
       })
@@ -306,7 +316,12 @@ export default function ProcessRequestTable() {
       .post(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/sealing-letter/create?valuationRequestId=${valuationRequestId}`
+        }/api/sealing-letter/create?valuationRequestId=${valuationRequestId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
+        }
       )
       .then(function (response) {
         console.log(response.data);
@@ -346,7 +361,12 @@ export default function ProcessRequestTable() {
       .post(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-receipt/create?valuationRequestId=${valuationRequestId}`
+        }/api/valuation-receipt/create?valuationRequestId=${valuationRequestId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
+        }
       )
       .then(function (response) {
         console.log(response.data);
@@ -411,7 +431,12 @@ export default function ProcessRequestTable() {
       .post(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/commitment/create?valuationRequestId=${valuationRequestId}`
+        }/api/commitment/create?valuationRequestId=${valuationRequestId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
+        }
       )
       .then(function (response) {
         console.log(response.data);
@@ -527,7 +552,8 @@ export default function ProcessRequestTable() {
             <Skeleton
               isLoaded={
                 selectedValuationRequest !== null ||
-                selectedProcessRequest?.status === "Not resolved yet"
+                selectedProcessRequest?.status === "Not resolved yet" ||
+                selectedProcessRequest?.status === "Contacted"
               }
             >
               <ModalCloseButton />
@@ -538,7 +564,8 @@ export default function ProcessRequestTable() {
             <Skeleton
               isLoaded={
                 selectedValuationRequest !== null ||
-                selectedProcessRequest?.status === "Not resolved yet"
+                selectedProcessRequest?.status === "Not resolved yet" ||
+                selectedProcessRequest?.status === "Contacted"
               }
             >
               <Flex direction={"column"} gap={5}>
@@ -609,7 +636,8 @@ export default function ProcessRequestTable() {
           <Skeleton
             isLoaded={
               selectedValuationRequest !== null ||
-              selectedProcessRequest?.status === "Not resolved yet"
+              selectedProcessRequest?.status === "Not resolved yet" ||
+              selectedProcessRequest?.status === "Contacted"
             }
           >
             {(isUsers &&
