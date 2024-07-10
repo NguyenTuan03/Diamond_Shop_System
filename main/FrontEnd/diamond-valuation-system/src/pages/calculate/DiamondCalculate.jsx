@@ -79,6 +79,7 @@ export default function Calculate() {
           title: "Diamond Valuation",
           description: "Please fill all the fields",
           status: "error",
+          position: 'top-right',
           duration: 3000,
           isClosable: true,
         });
@@ -120,6 +121,7 @@ export default function Calculate() {
             toast({
               title: "Diamond Valuation",
               description: "There is no available data for this query.",
+              position: 'top-right',
               status: "warning",
               duration: 3000,
               isClosable: true,
@@ -129,6 +131,7 @@ export default function Calculate() {
             toast({
               title: "Diamond Valuation",
               description: "Diamond has been valuated successfully",
+              position: 'top-right',
               status: "success",
               duration: 3000,
               isClosable: true,
@@ -140,6 +143,7 @@ export default function Calculate() {
       toast({
         title: "Diamond Valuation",
         description: "An error occurred",
+        position: 'top-right',
         status: "error",
         duration: 3000,
         isClosable: true,
