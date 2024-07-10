@@ -21,16 +21,17 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import { GrUpdate } from "react-icons/gr";
 import { MdDeleteOutline } from "react-icons/md";
+import { UserContext } from "../../../components/GlobalContext/AuthContext";
 
 export default function ServiceTable() {
+  const user = useContext(UserContext);
   const toast = useToast();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
-  const viewService = useDisclosure();
   const [service, setService] = useState([]);
   const serviceStatisticNames = [];
   const fetchService = () => {
@@ -147,7 +148,12 @@ export default function ServiceTable() {
                               `${
                                 import.meta.env.VITE_REACT_APP_BASE_URL
                               }/api/service/update`,
-                              values
+                              values,
+                              {
+                                headers: {
+                                  Authorization: `Bearer ${user.userAuth.token}`,
+                                },
+                              }
                             )
                             .then((response) => {
                               if (response.status === 200) {
