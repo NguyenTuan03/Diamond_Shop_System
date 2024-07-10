@@ -45,15 +45,18 @@ export default function PendingRequestTable() {
   const [pendingRequest, setPendingRequest] = useState([]);
   const [selectedPendingRequest, setSelectedPendingRequest] = useState(null);
   const fetchPendingRequest = (page, id) => {
-    setIsLoadedPendingRequest(true);
-    let url = "";
-    if (
+    if(isUsers)
+    {
+
+      setIsLoadedPendingRequest(true);
+      let url = "";
+      if (
       user.userAuth.authorities[0].authority === "Consulting staff" ||
       user.userAuth.authorities[0].authority === "Manager"
     ) {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/pending-request/get/all?page=${page}`;
+        }/api/pending-request/get/all?page=${page}`;
     } else if (user.userAuth.authorities[0].authority === "Customer") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
@@ -68,7 +71,8 @@ export default function PendingRequestTable() {
       }
     });
   };
-  const receivePendingRequest = (consultingStaffId, pendingRequestId, token) => {
+}
+  const receivePendingRequest = (consultingStaffId, pendingRequestId) => {
     setIsLoadedPendingRequest(true);
     axios
       .post(
@@ -76,12 +80,13 @@ export default function PendingRequestTable() {
         {
           pendingRequestId: pendingRequestId,
           consultingStaffId: consultingStaffId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
         }
-      , {
-        headers: {
-          'Authorization': 'Bearer ' + token
-        }
-      })
+      )
       .then(function (response) {
         setIsLoadedPendingRequest(false);
         if (response.data === "Have already received !") {
@@ -99,6 +104,10 @@ export default function PendingRequestTable() {
             duration: 3000,
             isClosable: true,
           });
+          setTimeout(() => {
+            fetchPendingRequest(currentPage, user.userAuth.id);
+            viewPendingRequest.onClose();
+          }, 1000);
         }
       })
       .catch(function (error) {
@@ -112,18 +121,19 @@ export default function PendingRequestTable() {
         });
       });
   };
-  const cancelPendingRequest = (pendingRequestId, token) => {
+  const cancelPendingRequest = (pendingRequestId) => {
     setIsLoadedPendingRequest(true);
     axios
       .delete(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/pending-request/delete?id=${pendingRequestId}`
-      , {
-        headers: {
-          'Authorization': 'Bearer ' + token
+        }/api/pending-request/delete?id=${pendingRequestId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
         }
-      })
+      )
       .then(function (response) {
         if (response.status === 200) {
           if (response.data.includes("successful")) {
@@ -137,6 +147,7 @@ export default function PendingRequestTable() {
             });
             setTimeout(() => {
               fetchPendingRequest(currentPage, user.userAuth.id);
+              viewPendingRequest.onClose();
             }, 1000);
           } else {
             setIsLoadedPendingRequest(false);
@@ -257,7 +268,7 @@ export default function PendingRequestTable() {
                     isLoading={isLoadedPendingRequest}
                     colorScheme="red"
                     onClick={() => {
-                      cancelPendingRequest(selectedPendingRequest?.id, user.userAuth.token);
+                      cancelPendingRequest(selectedPendingRequest?.id);
                     }}
                   >
                     Cancel
@@ -274,8 +285,7 @@ export default function PendingRequestTable() {
                       onClick={() => {
                         receivePendingRequest(
                           user?.userAuth?.id,
-                          selectedPendingRequest?.id,
-                          user.userAuth.token
+                          selectedPendingRequest?.id
                         );
                       }}
                     >

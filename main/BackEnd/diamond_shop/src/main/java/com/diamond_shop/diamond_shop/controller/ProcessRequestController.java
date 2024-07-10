@@ -40,4 +40,9 @@ public class ProcessRequestController {
     public String updateProcessRequest(@Valid @RequestParam("id") int id, @RequestBody UpdateProcessRequestDTO updateProcessRequestDTO) {
         return processRequestService.updateProcessRequest(id, updateProcessRequestDTO);
     }
+
+    @GetMapping(path = "/total/done")
+    public int totalDone() {
+        return processRequestService.totalDone();
+    }
 }

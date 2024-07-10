@@ -8,11 +8,13 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { UserContext } from "./GlobalContext/AuthContext";
 
 export default function UploadImage({ diamondId }) {
+  const user = useContext(UserContext);
   const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUpLoading] = useState(false);
@@ -57,6 +59,11 @@ export default function UploadImage({ diamondId }) {
               {
                 id: data?.public_id,
                 valuationResultId: diamondId,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${user.userAuth.token}`,
+                },
               }
             )
             .then(function (response) {

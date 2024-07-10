@@ -1,5 +1,5 @@
-import { useToast } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { Text, useToast } from "@chakra-ui/react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import NotificationToast from "../../components/notification/NotificationToast";
 import NotificationCard from "../../components/notification/NotificationCard";
@@ -7,7 +7,11 @@ import NotificationCard from "../../components/notification/NotificationCard";
 export default function DashBoardNotification() {
   const toast = useToast();
   const user = useContext(UserContext);
-  let finishedNotification;
+  const isUsers =
+    user.userAuth &&
+    user.userAuth.authorities &&
+    user.userAuth.authorities.length > 0;
+  let finishedNotification = null;
   if (localStorage.getItem("finishedRequests")) {
     try {
       finishedNotification = JSON.parse(
@@ -17,7 +21,7 @@ export default function DashBoardNotification() {
       console.log(e);
     }
   }
-  let sealedNotification;
+  let sealedNotification = null;
   if (localStorage.getItem("sealedRequests")) {
     try {
       sealedNotification = JSON.parse(localStorage.getItem("sealedRequests"));
@@ -25,16 +29,20 @@ export default function DashBoardNotification() {
       console.log(e);
     }
   }
+  useEffect(() => {
+    console.log(JSON.parse(localStorage.getItem("finishedRequests")).length);
+  }, []);
   return (
     <>
-      {finishedNotification &&
+      {isUsers &&
+        finishedNotification &&
         finishedNotification.map(
           (item, index) =>
             (user.userAuth.id === item.customerId ||
-              user.userAuth.id === item.consultingStaffId) && (
-              <>
+              user.userAuth.id === item.consultingStaffId ||
+              user.userAuth.authorities[0].authority === "Manager") && (
+              <div key={index}>
                 <NotificationCard
-                  key={index}
                   type={"finished"}
                   processRequestId={item.processRequestId}
                 />
@@ -53,15 +61,17 @@ export default function DashBoardNotification() {
                     isClosable: true,
                   })}
                 </div>
-              </>
+              </div>
             )
         )}
-      {sealedNotification &&
+      {isUsers &&
+        sealedNotification &&
         sealedNotification.map(
           (item, index) =>
             (user.userAuth.id === item.customerId ||
-              user.userAuth.id === item.consultingStaffId) && (
-              <>
+              user.userAuth.id === item.consultingStaffId ||
+              user.userAuth.authorities[0].authority === "Manager") && (
+              <div key={index}>
                 <NotificationCard
                   key={index}
                   type={"sealed"}
@@ -82,9 +92,14 @@ export default function DashBoardNotification() {
                     isClosable: true,
                   })}
                 </div>
-              </>
+              </div>
             )
         )}
+      {(finishedNotification === null ||
+        JSON.parse(localStorage.getItem("finishedRequests")).length === 0) &&
+        (sealedNotification === null ||
+          JSON.parse(localStorage.getItem("sealedRequests")).length ===
+            0) && <Text>No Notification</Text>}
     </>
   );
 }
