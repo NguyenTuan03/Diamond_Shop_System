@@ -109,7 +109,7 @@ export default function SignUp({ signUp, signIn }) {
                 values.password
               );
               setSubmitting(false);
-              signUp.onClose();
+              // signUp.onClose();
             }}
           >
             {({
@@ -274,7 +274,8 @@ export default function SignUp({ signUp, signIn }) {
                     type="submit"
                     colorScheme="blue"
                     w={"inherit"}
-                    disabled={isSubmitting}
+                    isDisabled={isSubmitting}
+                    isLoading={isSubmitting}
                   >
                     Sign up
                   </Button>

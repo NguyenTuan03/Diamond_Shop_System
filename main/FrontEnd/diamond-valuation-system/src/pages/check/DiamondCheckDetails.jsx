@@ -41,7 +41,18 @@ export default function DiamondCheckDetails() {
       )
       .then(function (response) {
         if (response.data === null) {
-          navigate("/error");
+          setTimeout(() => {
+            toast({
+              title: "Error",
+              description: "Diamond not found",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          }, 2000);
+          setTimeout(() => {
+            navigate(-1);
+          }, 3000);
         }
         console.log(response.data);
         setDiamond(response.data);

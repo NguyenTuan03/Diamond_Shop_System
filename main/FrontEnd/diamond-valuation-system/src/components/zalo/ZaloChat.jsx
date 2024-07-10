@@ -12,7 +12,7 @@ export default function ZaloChat({ phone }) {
           color="white"
         >
           <Image
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png"
+            src="../images/contact/zalo.webp"
             w={"50px"}
           />
         </Tooltip>
