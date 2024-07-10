@@ -45,15 +45,18 @@ export default function PendingRequestTable() {
   const [pendingRequest, setPendingRequest] = useState([]);
   const [selectedPendingRequest, setSelectedPendingRequest] = useState(null);
   const fetchPendingRequest = (page, id) => {
-    setIsLoadedPendingRequest(true);
-    let url = "";
-    if (
+    if(isUsers)
+    {
+
+      setIsLoadedPendingRequest(true);
+      let url = "";
+      if (
       user.userAuth.authorities[0].authority === "Consulting staff" ||
       user.userAuth.authorities[0].authority === "Manager"
     ) {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
-      }/api/pending-request/get/all?page=${page}`;
+        }/api/pending-request/get/all?page=${page}`;
     } else if (user.userAuth.authorities[0].authority === "Customer") {
       url = `${
         import.meta.env.VITE_REACT_APP_BASE_URL
@@ -68,6 +71,7 @@ export default function PendingRequestTable() {
       }
     });
   };
+}
   const receivePendingRequest = (consultingStaffId, pendingRequestId) => {
     setIsLoadedPendingRequest(true);
     axios
@@ -76,6 +80,11 @@ export default function PendingRequestTable() {
         {
           pendingRequestId: pendingRequestId,
           consultingStaffId: consultingStaffId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
         }
       )
       .then(function (response) {
@@ -95,6 +104,10 @@ export default function PendingRequestTable() {
             duration: 3000,
             isClosable: true,
           });
+          setTimeout(() => {
+            fetchPendingRequest(currentPage, user.userAuth.id);
+            viewPendingRequest.onClose();
+          }, 1000);
         }
       })
       .catch(function (error) {
@@ -114,7 +127,12 @@ export default function PendingRequestTable() {
       .delete(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/pending-request/delete?id=${pendingRequestId}`
+        }/api/pending-request/delete?id=${pendingRequestId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
+        }
       )
       .then(function (response) {
         if (response.status === 200) {
@@ -129,6 +147,7 @@ export default function PendingRequestTable() {
             });
             setTimeout(() => {
               fetchPendingRequest(currentPage, user.userAuth.id);
+              viewPendingRequest.onClose();
             }, 1000);
           } else {
             setIsLoadedPendingRequest(false);
