@@ -10,7 +10,6 @@ import {
 import React from "react";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import axios from "axios";
 import { Form, Formik } from "formik";
 import routes from "../../config/Config";
 import { useNavigate } from "react-router-dom";
