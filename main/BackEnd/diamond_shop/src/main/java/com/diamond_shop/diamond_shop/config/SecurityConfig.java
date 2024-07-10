@@ -28,9 +28,12 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers(HttpMethod.GET, "/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/**").permitAll() 
                                 .requestMatchers(HttpMethod.POST, "/api/account/save").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/account/forget-password").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/diamond/calculate").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/diamond/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/activate").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/**").authenticated()

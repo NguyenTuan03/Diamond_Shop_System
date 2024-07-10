@@ -38,6 +38,10 @@ import routes from "../../../config/Config";
 export default function ProcessRequestTable() {
   const toast = useToast();
   const user = useContext(UserContext);
+  const isUsers =
+    user.userAuth &&
+    user.userAuth.authorities &&
+    user.userAuth.authorities.length > 0;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const [processRequest, setProcessRequest] = useState([]);
@@ -100,7 +104,7 @@ export default function ProcessRequestTable() {
       });
   };
 
-  const updateProcessRequest = (processRequestId, status) => {
+  const updateProcessRequest = (processRequestId, status, token) => {
     setIsUpdateProcess(true);
     axios
       .put(
@@ -109,6 +113,10 @@ export default function ProcessRequestTable() {
         }/api/process-request/update?id=${processRequestId}`,
         {
           status: status,
+        }, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
         }
       )
       .then(function (response) {
@@ -538,38 +546,43 @@ export default function ProcessRequestTable() {
               }
             >
               <Flex direction={"column"} gap={5}>
-                {(user.userAuth.authorities[0].authority === "Manager" || user.userAuth.authorities[0].authority === "Consulting staff") && (
-                  <>
-                    <Text>
-                      <strong>Customer Name</strong>:{" "}
-                      {selectedProcessRequest?.customerName || "N/A"}
-                    </Text>
-                    <Text>
-                      <strong>Customer Email</strong>:{" "}
-                      {selectedProcessRequest?.customerEmail || "N/A"}
-                    </Text>
-                    <Text>
-                      <strong>Customer Phone</strong>:{" "}
-                      {selectedProcessRequest?.customerPhone || "N/A"}
-                    </Text>
-                  </>
-                )}
-                {(user.userAuth.authorities[0].authority === "Manager" || user.userAuth.authorities[0].authority === "Customer") && (
-                  <>
-                    <Text>
-                      <strong>Staff Name</strong>:{" "}
-                      {selectedProcessRequest?.consultingStaffName || "N/A"}
-                    </Text>
-                    <Text>
-                      <strong>Staff Email</strong>:{" "}
-                      {selectedProcessRequest?.consultingStaffEmail || "N/A"}
-                    </Text>
-                    <Text>
-                      <strong>Staff Phone</strong>:{" "}
-                      {selectedProcessRequest?.consultingStaffPhone || "N/A"}
-                    </Text>
-                  </>
-                )}
+                {isUsers &&
+                  (user.userAuth.authorities[0].authority === "Manager" ||
+                    user.userAuth.authorities[0].authority ===
+                      "Consulting staff") && (
+                    <>
+                      <Text>
+                        <strong>Customer Name</strong>:{" "}
+                        {selectedProcessRequest?.customerName || "N/A"}
+                      </Text>
+                      <Text>
+                        <strong>Customer Email</strong>:{" "}
+                        {selectedProcessRequest?.customerEmail || "N/A"}
+                      </Text>
+                      <Text>
+                        <strong>Customer Phone</strong>:{" "}
+                        {selectedProcessRequest?.customerPhone || "N/A"}
+                      </Text>
+                    </>
+                  )}
+                {isUsers &&
+                  (user.userAuth.authorities[0].authority === "Manager" ||
+                    user.userAuth.authorities[0].authority === "Customer") && (
+                    <>
+                      <Text>
+                        <strong>Staff Name</strong>:{" "}
+                        {selectedProcessRequest?.consultingStaffName || "N/A"}
+                      </Text>
+                      <Text>
+                        <strong>Staff Email</strong>:{" "}
+                        {selectedProcessRequest?.consultingStaffEmail || "N/A"}
+                      </Text>
+                      <Text>
+                        <strong>Staff Phone</strong>:{" "}
+                        {selectedProcessRequest?.consultingStaffPhone || "N/A"}
+                      </Text>
+                    </>
+                  )}
                 <Text>
                   <strong>Service Type</strong>:{" "}
                   {selectedValuationRequest?.serviceName || "N/A"}
@@ -603,93 +616,87 @@ export default function ProcessRequestTable() {
               selectedProcessRequest?.status === "Not resolved yet"
             }
           >
-            {(user.userAuth.authorities[0].authority === "Manager" && (
-              <ModalFooter justifyContent={"space-around"}>
-                {selectedProcessRequest?.status === "Sealed" && (
-                  <Button
-                    onClick={() => {
-                      createSealingLetter(selectedValuationRequest?.id);
-                    }}
-                  >
-                    Create sealing letter
-                  </Button>
-                )}
-              </ModalFooter>
-            )) ||
-              (user.userAuth.authorities[0].authority === "Consulting staff" && (
+            {(isUsers &&
+              user.userAuth.authorities[0].authority === "Manager" && (
                 <ModalFooter justifyContent={"space-around"}>
-                  {(selectedProcessRequest?.status === "Not resolved yet" && (
-                    <>
-                      <Button
-                        isLoading={isUpdateProcess}
-                        onClick={() => {
-                          updateProcessRequest(
-                            selectedProcessRequest?.id,
-                            "Contacted"
-                          );
-                        }}
-                      >
-                        Contacted
-                      </Button>
-                      <ZaloChat phone={selectedProcessRequest?.customerPhone} />
-                    </>
-                  )) ||
-                    (selectedProcessRequest?.status === "Contacted" && (
-                      <ZaloChat phone={selectedProcessRequest?.customerPhone} />
-                    )) ||
-                    (selectedProcessRequest?.status === "Paid" && (
+                  {selectedProcessRequest?.status === "Sealed" && (
+                    <Button
+                      onClick={() => {
+                        createSealingLetter(selectedValuationRequest?.id);
+                      }}
+                    >
+                      Create sealing letter
+                    </Button>
+                  )}
+                </ModalFooter>
+              )) ||
+              (isUsers &&
+                user.userAuth.authorities[0].authority ===
+                  "Consulting staff" && (
+                  <ModalFooter justifyContent={"space-around"}>
+                    {(selectedProcessRequest?.status === "Not resolved yet" && (
                       <>
                         <Button
                           isLoading={isUpdateProcess}
                           onClick={() => {
                             updateProcessRequest(
                               selectedProcessRequest?.id,
-                              "Diamond Received"
+                              "Contacted",
+                              user.userAuth.token
                             );
-                            createReceipt(selectedValuationRequest?.id);
                           }}
                         >
-                          Diamond Received
+                          Contacted
                         </Button>
                         <ZaloChat
                           phone={selectedProcessRequest?.customerPhone}
                         />
                       </>
                     )) ||
-                    (selectedProcessRequest?.status === "Diamond Received" && (
-                      <>
-                        <Button
-                          onClick={() => {
-                            viewReceipt.onOpen();
-                            fetchValuationReceipt(selectedValuationRequest?.id);
-                          }}
-                        >
-                          Receipt
-                        </Button>
+                      (selectedProcessRequest?.status === "Contacted" && (
                         <ZaloChat
                           phone={selectedProcessRequest?.customerPhone}
                         />
-                      </>
-                    )) ||
-                    (selectedProcessRequest?.status === "Valuated" && (
-                      <>
-                        <Button
-                          colorScheme="teal"
-                          onClick={() => {
-                            fetchValuationResult(selectedValuationRequest?.id);
-                            viewValuationResult.onOpen();
-                          }}
-                        >
-                          View
-                        </Button>
-                        <ZaloChat
-                          phone={selectedProcessRequest?.customerPhone}
-                        />
-                      </>
-                    )) ||
-                    (selectedProcessRequest?.status === "Finished" && (
-                      <>
-                        <SimpleGrid columns={2} spacing={5}>
+                      )) ||
+                      (selectedProcessRequest?.status === "Paid" && (
+                        <>
+                          <Button
+                            isLoading={isUpdateProcess}
+                            onClick={() => {
+                              updateProcessRequest(
+                                selectedProcessRequest?.id,
+                                "Diamond Received"
+                              );
+                              createReceipt(selectedValuationRequest?.id);
+                            }}
+                          >
+                            Diamond Received
+                          </Button>
+                          <ZaloChat
+                            phone={selectedProcessRequest?.customerPhone}
+                          />
+                        </>
+                      )) ||
+                      (selectedProcessRequest?.status ===
+                        "Diamond Received" && (
+                        <>
+                          <Button
+                            onClick={() => {
+                              viewReceipt.onOpen();
+                              fetchValuationReceipt(
+                                selectedValuationRequest?.id
+                              );
+                            }}
+                          >
+                            Receipt
+                          </Button>
+                          <ZaloChat
+                            phone={selectedProcessRequest?.customerPhone}
+                          />
+                        </>
+                      )) ||
+                      (selectedProcessRequest?.status === "Valuated" && (
+                        <>
                           <Button
                             colorScheme="teal"
                             onClick={() => {
@@ -704,277 +711,304 @@ export default function ProcessRequestTable() {
                           <ZaloChat
                             phone={selectedProcessRequest?.customerPhone}
                           />
+                        </>
+                      )) ||
+                      (selectedProcessRequest?.status === "Finished" && (
+                        <>
+                          <SimpleGrid columns={2} spacing={5}>
+                            <Button
+                              colorScheme="teal"
+                              onClick={() => {
+                                fetchValuationResult(
+                                  selectedValuationRequest?.id
+                                );
+                                viewValuationResult.onOpen();
+                              }}
+                            >
+                              View
+                            </Button>
+                            <ZaloChat
+                              phone={selectedProcessRequest?.customerPhone}
+                            />
+                            <Button
+                              isLoading={isUpdateProcess}
+                              colorScheme="blue"
+                              onClick={() => {
+                                updateProcessRequest(
+                                  selectedProcessRequest?.id,
+                                  "Done"
+                                );
+                              }}
+                            >
+                              Cust. Received
+                            </Button>
+                            <Button
+                              colorScheme="red"
+                              onClick={() => {
+                                createCommitment(selectedValuationRequest?.id);
+                              }}
+                            >
+                              Lost Receipt
+                            </Button>
+                          </SimpleGrid>
+                        </>
+                      )) ||
+                      (selectedProcessRequest?.status === "Done" && (
+                        <>
                           <Button
-                            isLoading={isUpdateProcess}
-                            colorScheme="blue"
+                            colorScheme="teal"
                             onClick={() => {
-                              updateProcessRequest(
-                                selectedProcessRequest?.id,
-                                "Done"
+                              fetchValuationResult(
+                                selectedValuationRequest?.id
                               );
+                              viewValuationResult.onOpen();
                             }}
                           >
-                            Cust. Received
+                            View
                           </Button>
-                          <Button
-                            colorScheme="red"
-                            onClick={() => {
-                              createCommitment(selectedValuationRequest?.id);
-                            }}
-                          >
-                            Lost Receipt
-                          </Button>
-                        </SimpleGrid>
-                      </>
-                    )) ||
-                    (selectedProcessRequest?.status === "Done" && (
-                      <>
-                        <Button
-                          colorScheme="teal"
-                          onClick={() => {
-                            fetchValuationResult(selectedValuationRequest?.id);
-                            viewValuationResult.onOpen();
-                          }}
-                        >
-                          View
-                        </Button>
+                          <ZaloChat
+                            phone={selectedProcessRequest?.customerPhone}
+                          />
+                        </>
+                      )) ||
+                      (selectedProcessRequest?.status === "Sealed" && (
                         <ZaloChat
                           phone={selectedProcessRequest?.customerPhone}
                         />
-                      </>
-                    )) ||
-                    (selectedProcessRequest?.status === "Sealed" && (
-                      <ZaloChat phone={selectedProcessRequest?.customerPhone} />
-                    ))}
-                </ModalFooter>
-              )) ||
-              (user.userAuth.authorities[0].authority === "Customer" && (
-                <ModalFooter justifyContent={"space-around"}>
-                  {(selectedProcessRequest?.status === "Not resolved yet" && (
-                    <ZaloChat
-                      phone={selectedProcessRequest?.consultingStaffPhone}
-                    />
-                  )) ||
-                    (selectedProcessRequest?.status === "Contacted" && (
-                      <>
-                        <Link
-                          to={routes.diamondService}
-                          state={{
-                            pendingRequestId:
-                              selectedProcessRequest?.pendingRequestId,
-                          }}
-                        >
-                          <Button colorScheme="teal">Service</Button>
-                        </Link>
-                        <ZaloChat
-                          phone={selectedProcessRequest?.consultingStaffPhone}
-                        />
-                      </>
-                    )) ||
-                    (selectedProcessRequest?.status === "Paid" && (
+                      ))}
+                  </ModalFooter>
+                )) ||
+              (isUsers &&
+                user.userAuth.authorities[0].authority === "Customer" && (
+                  <ModalFooter justifyContent={"space-around"}>
+                    {(selectedProcessRequest?.status === "Not resolved yet" && (
                       <ZaloChat
                         phone={selectedProcessRequest?.consultingStaffPhone}
                       />
                     )) ||
-                    ((selectedProcessRequest?.status === "Valuated" ||
-                      selectedProcessRequest?.status === "Finished" ||
-                      selectedProcessRequest?.status === "Done" ||
-                      selectedProcessRequest?.status === "Sealed") && (
-                      <>
-                        <Button
-                          colorScheme="teal"
-                          onClick={() => {
-                            viewValuationResult.onOpen();
-                            fetchValuationResult(selectedValuationRequest?.id);
-                          }}
-                        >
-                          View Result
-                        </Button>
+                      (selectedProcessRequest?.status === "Contacted" && (
+                        <>
+                          <Link
+                            to={routes.diamondService}
+                            state={{
+                              pendingRequestId:
+                                selectedProcessRequest?.pendingRequestId,
+                            }}
+                          >
+                            <Button colorScheme="teal">Service</Button>
+                          </Link>
+                          <ZaloChat
+                            phone={selectedProcessRequest?.consultingStaffPhone}
+                          />
+                        </>
+                      )) ||
+                      (selectedProcessRequest?.status === "Paid" && (
                         <ZaloChat
                           phone={selectedProcessRequest?.consultingStaffPhone}
                         />
-                      </>
-                    ))}
-                </ModalFooter>
-              ))}
+                      )) ||
+                      ((selectedProcessRequest?.status === "Valuated" ||
+                        selectedProcessRequest?.status === "Finished" ||
+                        selectedProcessRequest?.status === "Done" ||
+                        selectedProcessRequest?.status === "Sealed") && (
+                        <>
+                          <Button
+                            colorScheme="teal"
+                            onClick={() => {
+                              viewValuationResult.onOpen();
+                              fetchValuationResult(
+                                selectedValuationRequest?.id
+                              );
+                            }}
+                          >
+                            View Result
+                          </Button>
+                          <ZaloChat
+                            phone={selectedProcessRequest?.consultingStaffPhone}
+                          />
+                        </>
+                      ))}
+                  </ModalFooter>
+                ))}
           </Skeleton>
         </ModalContent>
       </Modal>
-      {(user.userAuth.authorities[0].authority === "Consulting staff" && (
-        <Modal
-          isOpen={viewValuationResult.isOpen}
-          onClose={viewValuationResult.onClose}
-          size={"full"}
-        >
-          <ModalOverlay />
-          <ModalContent p={5}>
-            <ModalHeader>
-              <Skeleton isLoaded={selectedValuationResult !== null}>
-                <Flex direction={"row"} gap={5}>
-                  <Icon as={GiDiamondTrophy} w={16} h={16} />
-                  <Text fontFamily={"The Nautigal"} fontSize={"5xl"}>
-                    DiamondVal
-                  </Text>
-                </Flex>
-              </Skeleton>
-            </ModalHeader>
-            <ModalBody>
-              <Skeleton isLoaded={selectedValuationResult !== null}>
-                <Flex direction={"column"} gap={2} p={5}>
-                  <Flex direction={"column"} align={"center"} gap={5}>
-                    <Text fontSize={"2xl"}>
-                      <strong>Valuation Result ID</strong>:{" "}
-                      {selectedValuationResult?.id || "N/A"}
+      {(isUsers &&
+        user.userAuth.authorities[0].authority === "Consulting staff" && (
+          <Modal
+            isOpen={viewValuationResult.isOpen}
+            onClose={viewValuationResult.onClose}
+            size={"full"}
+          >
+            <ModalOverlay />
+            <ModalContent p={5}>
+              <ModalHeader>
+                <Skeleton isLoaded={selectedValuationResult !== null}>
+                  <Flex direction={"row"} gap={5}>
+                    <Icon as={GiDiamondTrophy} w={16} h={16} />
+                    <Text fontFamily={"The Nautigal"} fontSize={"5xl"}>
+                      DiamondVal
                     </Text>
                   </Flex>
-                  <SimpleGrid columns={2} spacing={10}>
-                    <Flex direction={"column"} bg={"blue.100"} gap={5} p={5}>
-                      <Text bg={"blue.400"} p={2}>
-                        Grading Report
+                </Skeleton>
+              </ModalHeader>
+              <ModalBody>
+                <Skeleton isLoaded={selectedValuationResult !== null}>
+                  <Flex direction={"column"} gap={2} p={5}>
+                    <Flex direction={"column"} align={"center"} gap={5}>
+                      <Text fontSize={"2xl"}>
+                        <strong>Valuation Result ID</strong>:{" "}
+                        {selectedValuationResult?.id || "N/A"}
                       </Text>
-                      <Text>
-                        <strong>ID</strong>: {selectedValuationResult?.id}
-                      </Text>
-                      <Text>
-                        <strong>Valuated Date</strong>:{" "}
-                        {selectedValuationResult?.createdDate?.slice(0, 10)}
-                      </Text>
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Origin"
-                      ) && (
-                        <Text>
-                          <strong>Origin: </strong>
-                          {selectedValuationResult?.origin}
-                        </Text>
-                      )}
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Shape"
-                      ) && (
-                        <Text>
-                          <strong>Shape: </strong>
-                          {selectedValuationResult?.shape}
-                        </Text>
-                      )}
-                      <Text>
-                        <strong>Price: </strong>
-                        {selectedValuationResult?.price}
-                      </Text>
-                      <Text bg={"blue.400"} p={2}>
-                        4C Grading Result
-                      </Text>
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Carat"
-                      ) && (
-                        <Text>
-                          <strong>Carat: </strong>
-                          {selectedValuationResult?.carat}
-                        </Text>
-                      )}
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Color"
-                      ) && (
-                        <Text>
-                          <strong>Color: </strong>
-                          {selectedValuationResult?.color}
-                        </Text>
-                      )}
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Cut"
-                      ) && (
-                        <Text>
-                          <strong>Cut: </strong>
-                          {selectedValuationResult?.cut}
-                        </Text>
-                      )}
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Clarity"
-                      ) && (
-                        <Text>
-                          <strong>Clarity: </strong>
-                          {selectedValuationResult?.clarity}
-                        </Text>
-                      )}
                     </Flex>
-                    <Flex direction={"column"} gap={5} bg={"blue.100"} p={5}>
-                      <Text bg={"blue.400"} p={2}>
-                        Additional Grading Information
-                      </Text>
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Symmetry"
-                      ) && (
-                        <Text>
-                          <strong>Symmetry: </strong>
-                          {selectedValuationResult?.symmetry}
+                    <SimpleGrid columns={2} spacing={10}>
+                      <Flex direction={"column"} bg={"blue.100"} gap={5} p={5}>
+                        <Text bg={"blue.400"} p={2}>
+                          Grading Report
                         </Text>
-                      )}
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Polish"
-                      ) && (
                         <Text>
-                          <strong>Polish: </strong>
-                          {selectedValuationResult?.polish}
+                          <strong>ID</strong>: {selectedValuationResult?.id}
                         </Text>
-                      )}
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Fluorescence"
-                      ) && (
                         <Text>
-                          <strong>Fluorescence: </strong>
-                          {selectedValuationResult?.fluorescence}
+                          <strong>Valuated Date</strong>:{" "}
+                          {selectedValuationResult?.createdDate?.slice(0, 10)}
                         </Text>
-                      )}
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Measurements"
-                      ) && (
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Origin"
+                        ) && (
+                          <Text>
+                            <strong>Origin: </strong>
+                            {selectedValuationResult?.origin}
+                          </Text>
+                        )}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Shape"
+                        ) && (
+                          <Text>
+                            <strong>Shape: </strong>
+                            {selectedValuationResult?.shape}
+                          </Text>
+                        )}
                         <Text>
-                          <strong>Measurements: </strong>
-                          {selectedValuationResult?.measurements}
+                          <strong>Price: </strong>
+                          {selectedValuationResult?.price}
                         </Text>
-                      )}
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Table"
-                      ) && (
-                        <Text>
-                          <strong>Table: </strong>
-                          {selectedValuationResult?.diamondTable}
+                        <Text bg={"blue.400"} p={2}>
+                          4C Grading Result
                         </Text>
-                      )}
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "Depth"
-                      ) && (
-                        <Text>
-                          <strong>Depth: </strong>
-                          {selectedValuationResult?.depth}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Carat"
+                        ) && (
+                          <Text>
+                            <strong>Carat: </strong>
+                            {selectedValuationResult?.carat}
+                          </Text>
+                        )}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Color"
+                        ) && (
+                          <Text>
+                            <strong>Color: </strong>
+                            {selectedValuationResult?.color}
+                          </Text>
+                        )}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Cut"
+                        ) && (
+                          <Text>
+                            <strong>Cut: </strong>
+                            {selectedValuationResult?.cut}
+                          </Text>
+                        )}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Clarity"
+                        ) && (
+                          <Text>
+                            <strong>Clarity: </strong>
+                            {selectedValuationResult?.clarity}
+                          </Text>
+                        )}
+                      </Flex>
+                      <Flex direction={"column"} gap={5} bg={"blue.100"} p={5}>
+                        <Text bg={"blue.400"} p={2}>
+                          Additional Grading Information
                         </Text>
-                      )}
-                      {selectedValuationResult?.serviceStatistic?.includes(
-                        "L/W Ratio"
-                      ) && (
-                        <Text>
-                          <strong>L/W Ratio: </strong>
-                          {selectedValuationResult?.lengthToWidthRatio}
-                        </Text>
-                      )}
-                    </Flex>
-                  </SimpleGrid>
-                </Flex>
-              </Skeleton>
-            </ModalBody>
-            <ModalFooter justifyContent={"space-around"}>
-              <Skeleton isLoaded={selectedValuationResult !== null}>
-                <Button
-                  onClick={() => {
-                    window.print();
-                  }}
-                >
-                  Print
-                </Button>
-              </Skeleton>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      )) ||
-        (user.userAuth.authorities[0].authority === "Customer" && (
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Symmetry"
+                        ) && (
+                          <Text>
+                            <strong>Symmetry: </strong>
+                            {selectedValuationResult?.symmetry}
+                          </Text>
+                        )}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Polish"
+                        ) && (
+                          <Text>
+                            <strong>Polish: </strong>
+                            {selectedValuationResult?.polish}
+                          </Text>
+                        )}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Fluorescence"
+                        ) && (
+                          <Text>
+                            <strong>Fluorescence: </strong>
+                            {selectedValuationResult?.fluorescence}
+                          </Text>
+                        )}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Measurements"
+                        ) && (
+                          <Text>
+                            <strong>Measurements: </strong>
+                            {selectedValuationResult?.measurements}
+                          </Text>
+                        )}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Table"
+                        ) && (
+                          <Text>
+                            <strong>Table: </strong>
+                            {selectedValuationResult?.diamondTable}
+                          </Text>
+                        )}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "Depth"
+                        ) && (
+                          <Text>
+                            <strong>Depth: </strong>
+                            {selectedValuationResult?.depth}
+                          </Text>
+                        )}
+                        {selectedValuationResult?.serviceStatistic?.includes(
+                          "L/W Ratio"
+                        ) && (
+                          <Text>
+                            <strong>L/W Ratio: </strong>
+                            {selectedValuationResult?.lengthToWidthRatio}
+                          </Text>
+                        )}
+                      </Flex>
+                    </SimpleGrid>
+                  </Flex>
+                </Skeleton>
+              </ModalBody>
+              <ModalFooter justifyContent={"space-around"}>
+                <Skeleton isLoaded={selectedValuationResult !== null}>
+                  <Button
+                    onClick={() => {
+                      window.print();
+                    }}
+                  >
+                    Print
+                  </Button>
+                </Skeleton>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        )) ||
+        (isUsers && user.userAuth.authorities[0].authority === "Customer" && (
           <Modal
             isOpen={viewValuationResult.isOpen}
             onClose={viewValuationResult.onClose}
