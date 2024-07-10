@@ -32,6 +32,11 @@ public class ValuationResultImpl implements ValuationResultService {
     private final ValuationResultImageRepository valuationResultImageRepository;
 
     @Override
+    public int totalValuationResults() {
+        return valuationResultRepository.totalValuationResults();
+    }
+
+    @Override
     public Optional<ValuationResultEntity> getValuationResultById(String id) {
         return valuationResultRepository.findValuationResultById(id);
     }
