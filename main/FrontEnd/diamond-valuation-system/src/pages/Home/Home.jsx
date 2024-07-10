@@ -235,7 +235,7 @@ export default function Home() {
                                 borderRadius="md"
                                 bg={bgColor}
                                 width={{ base: "100%", md: "45%", lg: "20%" }}
-                                height="auto"
+                                height="350px"
                             >
                                 <Flex justifyContent="center" mb={3}>
                                     {[...Array(5)].map((_, i) => (
