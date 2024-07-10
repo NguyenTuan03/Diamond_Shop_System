@@ -19,7 +19,7 @@ public class CommitmentController {
         return commitmentImpl.createCommitmentByValuationRequestId(valuationRequestId);
     }
 
-    @GetMapping(path = "/get/all")
+    @GetMapping(path = "api/commitment/get/all")
     public Page<CommitmentLetterEntity> getAll(@RequestParam("page") int page) {
         return commitmentImpl.findAll(page);
     }
