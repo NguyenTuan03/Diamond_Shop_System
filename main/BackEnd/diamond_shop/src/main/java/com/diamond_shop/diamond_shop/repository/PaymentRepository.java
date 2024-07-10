@@ -21,4 +21,7 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Integer>
     @Query(value = "SELECT a FROM PaymentEntity a WHERE a.customerId.is_active = true AND a.customerId.id=:customerId")
     List<PaymentEntity> findByCustomerId(@Param("customerId") int customerId);
 
+    @Query(value = "SELECT p.amount FROM PaymentEntity p")
+    List<Integer> getIncome();
+
 }
