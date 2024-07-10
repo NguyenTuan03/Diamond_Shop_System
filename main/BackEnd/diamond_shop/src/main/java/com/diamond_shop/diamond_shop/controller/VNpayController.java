@@ -9,6 +9,7 @@ import com.diamond_shop.diamond_shop.service.ValuationRequestService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +33,12 @@ public class VNpayController {
     private final ProcessRequestRepository processRequestRepository;
 
     private final String home_Url = "http://localhost:5173/";
+
+    @Value("${app.frontend_url}")
+    private String frontend_url;
+
+    @Value("${app.backend_url}")
+    private String backend_url;
 
     @GetMapping("/create")
     public String createPayment(
@@ -57,7 +64,7 @@ public class VNpayController {
         vnpParams.put("vnp_OrderInfo", orderInfo);
         vnpParams.put("vnp_OrderType", orderType);
         vnpParams.put("vnp_Locale", "vn");
-        vnpParams.put("vnp_ReturnUrl", "http://localhost:8081/api/vnpay/create-valuation-request" + "?customerId=" + customerId + "&serviceId=" + serviceId + "&pendingRequestId=" + pendingRequestId);
+        vnpParams.put("vnp_ReturnUrl", backend_url + "/api/vnpay/create-valuation-request" + "?customerId=" + customerId + "&serviceId=" + serviceId + "&pendingRequestId=" + pendingRequestId);
         String clientIpAddress = VNPayService.getClientIpAddress(request);
         vnpParams.put("vnp_IpAddr", clientIpAddress);
         String createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -101,7 +108,7 @@ public class VNpayController {
             processRequest.setStatus("Paid");
             processRequestRepository.save(processRequest);
 
-            response.sendRedirect("http://localhost:5173/?" + VNPayService.createQueryString(params));
+            response.sendRedirect(frontend_url + "/?" + VNPayService.createQueryString(params));
             return "success";
         } else {
             response.sendRedirect(home_Url + "?" + VNPayService.createQueryString(params));
