@@ -125,11 +125,6 @@ const SideBar = () => {
       label: "Valuation",
     },
     {
-      path: routes.search,
-      icon: IoMdSearch,
-      label: "Search",
-    },
-    {
       path: routes.diamondCheck,
       icon: MdOutlineRemoveRedEye,
       label: "Diamond Check",
@@ -157,7 +152,7 @@ const SideBar = () => {
         }}
       >
         <Icon />
-        {/* {!isMobile && <Text ml="4">{label}</Text>} */}
+        
         <Text ml="4">{label}</Text>
       </Flex>
     </Link>

@@ -31,15 +31,15 @@ export default function DashBoardAppoint() {
         fetchApi(user.userAuth.id);
     }, []);
     return (
-        <div>
-            <Text py={3} fontSize="lg">
+        <Box bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+            <Text py={3} fontSize="lg" pl={4}>
                 APPOINTMENTS
             </Text>
             {request.length === 0 ? (
-                <Box>There's no API available</Box>
+                <Box variant="simple" bg="gray.200" color="black">There's no API available</Box>
             ) : (
                 <TableContainer>
-                    <Table variant="simple">
+                    <Table variant="simple" bg="gray.200" color="black">
                         <Thead>
                             <Tr>
                                 <Th>#</Th>
@@ -69,6 +69,6 @@ export default function DashBoardAppoint() {
                     </Table>
                 </TableContainer>
             )}
-        </div>
+        </Box>
     );
 }
