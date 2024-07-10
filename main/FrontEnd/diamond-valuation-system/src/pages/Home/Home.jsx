@@ -81,7 +81,8 @@ export default function Home() {
                     direction={{ base: "column", md: "row", lg: "row" }}
                     alignItems="center"
                     justifyContent={currentImage === 0 ? "flex-end" : "flex-start"}
-                    height="70vh"
+                    width="100vw"
+                    height={{ base: "50vh", md: "70vh" }}
                     position="relative"
                     transition="background-image 1s ease-in-out"
                     bgColor="black"
@@ -97,9 +98,11 @@ export default function Home() {
                         left={0}
                         zIndex={1}
                     />
-                    <Center zIndex={2}
+                    <Center
+                        zIndex={2}
                         marginRight={currentImage === 0 ? "5%" : "0"}
-                        marginLeft={currentImage !== 0 ? "5%" : "0"}>
+                        marginLeft={currentImage !== 0 ? "5%" : "0"}
+                    >
                         <Flex direction="column" fontWeight="bold" alignItems="center">
                             <Text
                                 fontSize={{ base: "xl", md: "4xl", lg: "5xl" }}
@@ -193,19 +196,19 @@ export default function Home() {
                     ))}
                 </Flex>
                 <Box borderTopWidth={1} borderStyle={"solid"} borderColor={"gray.700"} >
-                    <Flex mt={40} mb={10} fontWeight="bold"  justifyContent="center">
-                    <Text
-                                fontSize={{ base: "xl", md: "4xl", lg: "5xl" }}                               
-                                color={fontColor}
-                            >
-                                Diamonds have been valuated
-                            </Text>
+                    <Flex mt={40} mb={10} fontWeight="bold" justifyContent="center">
+                        <Text
+                            fontSize={{ base: "xl", md: "4xl", lg: "5xl" }}
+                            color={fontColor}
+                        >
+                            Diamonds have been valuated
+                        </Text>
                     </Flex>
                     <Box >
                         <InfiniteMovingFeaturedCards />
                     </Box>
                 </Box>
-                <Box  mt={10} borderTopWidth={1} borderStyle={"solid"} borderColor={"gray.700"} p={5}>
+                <Box mt={10} borderTopWidth={1} borderStyle={"solid"} borderColor={"gray.700"} p={5}>
                     <Flex mt={10} mb={10} fontWeight="bold" justifyContent="center">
                         <Text
                             fontSize={{ base: "xl", md: "4xl", lg: "5xl" }}
@@ -231,15 +234,15 @@ export default function Home() {
                                 boxShadow="lg"
                                 borderRadius="md"
                                 bg={bgColor}
-                                width={{ base: "100%", md: "20%" }}
-                                height={60}
+                                width={{ base: "100%", md: "45%", lg: "20%" }}
+                                height="auto"
                             >
                                 <Flex justifyContent="center" mb={3}>
                                     {[...Array(5)].map((_, i) => (
                                         <StarIcon key={i} color="teal.500" />
                                     ))}
                                 </Flex>
-                                <Text fontSize="md" color={fontColor}>
+                                <Text fontSize={{ base: "md", md: "2xl" }} color={fontColor}>
                                     {testimonial.text}
                                 </Text>
                                 <Text fontSize="sm" fontWeight="bold" color="teal.500" mt={3}>
@@ -249,32 +252,32 @@ export default function Home() {
                         ))}
                     </Flex>
                 </Box>
-                <Box position="relative" width="100vw" height="400px" mt={5}>
-            <Image 
-                src="/images/banner/Banner3.webp" 
-                alt="Banner Image" 
-                width="100%" 
-                height="100%" 
-                objectFit="cover"
-                filter="blur(0.5px)" 
-            />
-            <Center 
-                position="absolute" 
-                top="50%" 
-                left="50%" 
-                transform="translate(-50%, -50%)" 
-                color="yellow.400" 
-                textAlign="center"
-                flexDirection="column"
-            >
-                <Text fontSize="4xl"  letterSpacing="widest">
-                    WE ARE DIAMONDVAL
-                </Text>
-                <Text fontSize="4xl" letterSpacing="widest">
-                    WE KNOW HOW TO MAKE YOU SATISFIED WITH OUR SERVICE
-                </Text>
-            </Center>
-        </Box>
+                <Box position="relative" width="100vw" height={{ base: "200px", md: "300px", lg: "400px" }} mt={5}>
+                    <Image
+                        src="/images/banner/Banner3.webp"
+                        alt="Banner Image"
+                        width="100%"
+                        height="100%"
+                        objectFit="cover"
+                        filter="blur(0.5px)"
+                    />
+                    <Center
+                        position="absolute"
+                        top="50%"
+                        left="50%"
+                        transform="translate(-50%, -50%)"
+                        color="yellow.400"
+                        textAlign="center"
+                        flexDirection="column"
+                    >
+                        <Text fontSize={{ base: "md", md: "2xl", lg: "4xl" }} letterSpacing="widest">
+                            WE ARE DIAMONDVAL
+                        </Text>
+                        <Text fontSize={{ base: "md", md: "2xl", lg: "4xl" }} letterSpacing="widest">
+                            WE KNOW HOW TO MAKE YOU SATISFIED WITH OUR SERVICE
+                        </Text>
+                    </Center>
+                </Box>
             </Container>
         </>
     );

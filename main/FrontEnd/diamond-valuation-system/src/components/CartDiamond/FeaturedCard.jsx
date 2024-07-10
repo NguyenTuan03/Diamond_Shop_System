@@ -3,7 +3,7 @@ import { Flex, Box, Text, Image,useColorModeValue, } from "@chakra-ui/react";
 
 const FeaturedCard = ({ imageSrc, title1, title2, title3 }) => {
     const bgColor = useColorModeValue("white", "gray.900");
-    const fontColor = useColorModeValue("teal.500", "#yellow.200");
+    const fontColor = useColorModeValue("teal.500", "yellow.200");
     return (
         <Flex
             align="center"
