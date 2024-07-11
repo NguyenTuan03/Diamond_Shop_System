@@ -95,7 +95,12 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Integer>
         @Modifying
         @Transactional
         @Query("UPDATE AccountEntity a SET a.is_active=false WHERE a.id=:id")
-        void deleteById(@Param("id") int id);
+        void deleteSoftById(@Param("id") int id);
+
+        @Modifying
+        @Transactional
+        @Query("DELETE FROM AccountEntity a WHERE a.id = :id")
+        void deleteHardById(@Param("id") int id);
 
         @Modifying
         @Transactional
