@@ -77,6 +77,12 @@ const SideBar = () => {
       label: "Sealing Letter",
     },
     {
+      role: ["Customer"],
+      path: routes.dashboardTransaction,
+      icon: IoNewspaperOutline,
+      label: "Transaction history",
+    },
+    {
       role: ["Manager", "Customer"],
       path: routes.commitment,
       icon: RiBookMarkedFill,
@@ -120,11 +126,6 @@ const SideBar = () => {
       label: "Valuation",
     },
     {
-      path: routes.search,
-      icon: IoMdSearch,
-      label: "Search",
-    },
-    {
       path: routes.diamondCheck,
       icon: MdOutlineRemoveRedEye,
       label: "Diamond Check",
@@ -157,7 +158,7 @@ const SideBar = () => {
         }}
       >
         <Icon />
-        {/* {!isMobile && <Text ml="4">{label}</Text>} */}
+        
         <Text ml="4">{label}</Text>
       </Flex>
     </Link>

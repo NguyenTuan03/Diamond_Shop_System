@@ -17,13 +17,13 @@ import {
 } from "react-icons/fa";
 export default function Footer() {
   const bgColor = useColorModeValue("white", "black");
-  const fontColor = useColorModeValue("black", "white");
+  const fontColor = useColorModeValue("black", "#DBA843");
   return (
     <>
       <Box
-        bg={useColorModeValue("gray.200", "gray.700")}
+        bg={useColorModeValue("gray.200", "black")}
         color={fontColor}
-        m={"20px 0 0 0"}
+        m={"0 0 0 0"}
       >
         <Container as={Stack} maxW={"9xl"}>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} p={10} gap={10}>
@@ -95,7 +95,7 @@ export default function Footer() {
             </Stack>
           </SimpleGrid>
         </Container>
-        <Box borderTopWidth={1} borderStyle={"solid"} borderColor={"gray.200"}>
+        <Box borderTopWidth={1} borderStyle={"solid"} borderColor={"gray.700"}>
           <Container
             as={Stack}
             maxW={"9xl"}

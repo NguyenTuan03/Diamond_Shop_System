@@ -9,10 +9,13 @@ import {
   Td,
   IconButton,
   Center,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import { GrUpdate } from "react-icons/gr";
 import { MdDeleteOutline } from "react-icons/md";
+import { MdOutlineNoAccounts } from "react-icons/md";
+
 export default function AdminTable({
   accounts,
   setCurrentAcc,
@@ -22,25 +25,28 @@ export default function AdminTable({
   setDeleteId,
   confirmDeleteUser,
 }) {
+  const bgHoverColor = useColorModeValue("gray.100", "gray.700");
   return (
     <>
       <TableContainer
         display={{ base: "block", md: "none", lg: "none" }}
         whiteSpace={"wrap"}
-        shadow="md" borderRadius="md" bg="white"
+        h={"100vh"}
+        shadow="md"
+        borderRadius="md"
       >
         <Table size={"md"} colorScheme="blue">
           <Thead bgColor={"blue.500"}>
             <Tr>
-              <Th color="white">No</Th>
-              <Th color="white">Role</Th>
-              <Th color="white">Full Name</Th>
-              <Th color="white">View</Th>
+              <Th>No</Th>
+              <Th>Role</Th>
+              <Th>Full Name</Th>
+              <Th>View</Th>
             </Tr>
           </Thead>
           <Tbody>
             {accounts.map((account, index) => (
-              <Tr key={index} _hover={{ bg: "gray.100" }}>
+              <Tr key={index} _hover={{ bg: bgHoverColor }}>
                 <Td>{index + 1}</Td>
                 <Td>{account?.roleName}</Td>
                 <Td>{account?.fullName}</Td>
@@ -65,26 +71,27 @@ export default function AdminTable({
       <TableContainer
         display={{ base: "none", md: "block", lg: "block" }}
         whiteSpace={"wrap"}
-        shadow="md" borderRadius="md" bg="white"
+        shadow="md"
+        borderRadius="md"
       >
         <Table size={"md"} colorScheme="blue">
           <Thead bgColor={"blue.500"}>
             <Tr>
-              <Th color="white">No</Th>
-              <Th color="white">Role</Th>
-              <Th color="white">Username</Th>
-              <Th color="white">Password</Th>
-              <Th color="white">Full Name</Th>
-              <Th color="white">Email</Th>
-              <Th color="white">Phone number</Th>
-              <Th color="white">Address</Th>
-              <Th color="white">Update</Th>
-              <Th color="white">Delete</Th>
+              <Th>No</Th>
+              <Th>Role</Th>
+              <Th>Username</Th>
+              <Th>Password</Th>
+              <Th>Full Name</Th>
+              <Th>Email</Th>
+              <Th>Phone number</Th>
+              <Th>Address</Th>
+              <Th>Update</Th>
+              <Th>Inactive</Th>
             </Tr>
           </Thead>
           <Tbody>
             {accounts.map((account, index) => (
-              <Tr key={index} _hover={{ bg: "gray.100" }}>
+              <Tr key={index} _hover={{ bg: bgHoverColor }}>
                 <Td>{index + 1}</Td>
                 <Td>{account?.roleName}</Td>
                 <Td>{account?.username}</Td>
@@ -109,7 +116,6 @@ export default function AdminTable({
                         setUpdateAcc(account);
                         updateUser.onOpen();
                       }}
-                      
                     />
                   </Center>
                 </Td>
@@ -117,7 +123,7 @@ export default function AdminTable({
                   <Center>
                     <IconButton
                       aria-label="delete user"
-                      icon={<MdDeleteOutline size={25} color="red" />}
+                      icon={<MdOutlineNoAccounts size={25} color="red" />}
                       bgColor={"transparent"}
                       onClick={() => {
                         setDeleteId(account.id);

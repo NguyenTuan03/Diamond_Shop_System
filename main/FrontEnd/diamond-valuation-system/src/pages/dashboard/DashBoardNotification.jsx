@@ -30,7 +30,7 @@ export default function DashBoardNotification() {
     }
   }
   useEffect(() => {
-    console.log(JSON.parse(localStorage.getItem("finishedRequests")).length);
+    console.log(JSON.parse(localStorage.getItem("finishedRequests"))?.length);
   }, []);
   return (
     <>

@@ -3,7 +3,9 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.pojo.VNpayBillPojo;
 import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
+import com.diamond_shop.diamond_shop.repository.ProcessResultRepository;
 import com.diamond_shop.diamond_shop.service.PaymentService;
+import com.diamond_shop.diamond_shop.service.ProcessResultService;
 import com.diamond_shop.diamond_shop.service.VNPayService;
 import com.diamond_shop.diamond_shop.service.ValuationRequestService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +32,10 @@ public class VNpayController {
 
     private final PaymentService paymentService;
 
+    private final ProcessResultService processResultService;
+
     private final ProcessRequestRepository processRequestRepository;
+
 
     private final String home_Url = "http://localhost:5173/";
 
@@ -107,6 +112,8 @@ public class VNpayController {
             ProcessRequestEntity processRequest = processRequestRepository.findByPendingRequestId(pendingRequestId);
             processRequest.setStatus("Paid");
             processRequestRepository.save(processRequest);
+
+            // processResultService.processResult(processRequest);
 
             response.sendRedirect(frontend_url + "/?" + VNPayService.createQueryString(params));
             return "success";

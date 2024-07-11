@@ -35,21 +35,8 @@ export default function DashBoardSetting() {
     try {
       await auth.deleteAccount();
       onClose();
-      toast({
-        title: "Account deleted.",
-        description: "Your account has been deleted successfully.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
     } catch (error) {
-      toast({
-        title: "Failed to delete account.",
-        description: "An error occurred while deleting your account.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      
       console.error("Error deleting account:", error);
     }
   };
