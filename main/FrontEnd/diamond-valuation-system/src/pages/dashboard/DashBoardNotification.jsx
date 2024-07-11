@@ -1,4 +1,4 @@
-import { Box, Text, useToast } from "@chakra-ui/react";
+import { Box, Center, Flex, Text, useToast } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import NotificationToast from "../../components/notification/NotificationToast";
@@ -34,18 +34,14 @@ export default function DashBoardNotification() {
   }, []);
   return (
     <>
-      <Box
-        bg="gray.600"
-        color="white"
-        mb={5}
-        boxShadow="sm"
-        borderRadius="md"
-        maxW="100%"
-        minW="100%"
-      >
-        <Text py={3} fontSize="lg" pl={4}>
-          NOTIFICATION
-        </Text>
+    <Box>
+      <Flex direction={"column"} gap={10}>
+        <Center>
+          <Text fontSize={"4xl"} fontWeight={"bold"}>
+            Notification
+          </Text>
+        </Center>
+        </Flex>
         {isUsers &&
           finishedNotification &&
           finishedNotification.map(
@@ -112,9 +108,9 @@ export default function DashBoardNotification() {
           (sealedNotification === null ||
             JSON.parse(localStorage.getItem("sealedRequests")).length ===
               0) && (
-            <Box variant="simple" bg="gray.200" color="black" p={4}>
+            <Center m={10}>
               No Notification
-            </Box>
+            </Center>
           )}
       </Box>
     </>
