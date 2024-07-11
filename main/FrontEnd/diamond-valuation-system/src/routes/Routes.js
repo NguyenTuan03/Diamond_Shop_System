@@ -19,10 +19,7 @@ import Error from "../pages/error/Error.jsx";
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
 import DashBoard from "../pages/dashboard/DashBoard.jsx";
 import DashBoardNotification from "./../pages/dashboard/DashBoardNotification";
-import DashBoardPrices from "./../pages/dashboard/DashBoardPrices";
 import DashBoardAppoint from "./../pages/dashboard/DashBoardAppoint";
-import DashBoardSearch from "./../pages/dashboard/DashBoardSearch";
-import DashBoardRequest from "./../pages/dashboard/DashBoardRequest";
 import AboutUs from "../pages/aboutUs/AboutUs.jsx";
 import DashBoardSetting from "../pages/dashboard/DashBoardSetting.jsx";
 import DashBoardTransaction from "../pages/dashboard/DashBoardTransaction.jsx";
@@ -89,10 +86,6 @@ const ALlRoutes = [
   {
     path: routes.login,
     component: Login,
-  },
-  {
-    path: routes.logout,
-    component: Logout,
   },
   {
     path: routes.error,
@@ -182,10 +175,6 @@ const ALlRoutes = [
         path: routes.login,
         component: Login,
     },
-    {
-        path: routes.logout,
-        component: Logout,
-    },
     // Customer
     {
         path: routes.dashboard,
@@ -198,11 +187,6 @@ const ALlRoutes = [
         layout: DashBoardLayout,
     },
     {
-        path: routes.dashboardPrices,
-        component: DashBoardPrices,
-        layout: DashBoardLayout,
-    },
-    {
         path: routes.dashboardAppoint,
         component: DashBoardAppoint,
         layout: DashBoardLayout,
@@ -210,16 +194,6 @@ const ALlRoutes = [
     {
         path: routes.dashboardTransaction,
         component: DashBoardTransaction,
-        layout: DashBoardLayout,
-    },
-    {
-        path: routes.dashboardSearch,
-        component: DashBoardSearch,
-        layout: DashBoardLayout,
-    },
-    {
-        path: routes.dashboardRequest,
-        component: DashBoardRequest,
         layout: DashBoardLayout,
     },
     {
