@@ -37,7 +37,7 @@ import routes from "../../config/Config";
 
 export default function Calculate() {
   const fontColor = useColorModeValue("white", "black");
-  const bgColor = useColorModeValue("blue.600", "#DBA843");
+  const bgColor = useColorModeValue("blue.400", "#DBA843");
   const toast = useToast();
   const user = useContext(UserContext);
   const sendEmailModal = useDisclosure();

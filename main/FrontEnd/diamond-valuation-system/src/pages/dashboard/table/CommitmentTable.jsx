@@ -80,17 +80,17 @@ export default function CommitmentTable() {
           <Skeleton isLoaded={commitment?.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
               <Table >
-                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+                <Thead bg="gray.400" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
-                    <Th>ID</Th>
-                    <Th>Request ID</Th>
+                    <Th color="black">ID</Th>
+                    <Th color="black">Request ID</Th>
 
                     {isUsers &&
                       user.userAuth.authorities[0].authority === "Manager" && (
-                        <Th>Customer Name</Th>
+                        <Th color="black">Customer Name</Th>
                       )}
-                    <Th>Created Date</Th>
-                    <Th>View</Th>
+                    <Th color="black">Created Date</Th>
+                    <Th color="black">View</Th>
                   </Tr>
                 </Thead>
                 <Tbody variant="simple" bg="gray.200" color="black">
