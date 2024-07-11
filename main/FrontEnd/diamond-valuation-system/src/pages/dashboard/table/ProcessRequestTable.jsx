@@ -481,12 +481,12 @@ export default function ProcessRequestTable() {
           </Text>
         </Center>
         {totalPages === 0 ? (
-          <Center>No process request to show</Center>
+          <Center >No process request to show</Center>
         ) : (
           <Skeleton isLoaded={processRequest.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
-              <Table size={"sm"} colorScheme="blue">
-                <Thead bg={"blue.500"}>
+              <Table >
+                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
                     <Th>ID</Th>
                     {(user.userAuth.roleid === 2 ||
@@ -502,7 +502,7 @@ export default function ProcessRequestTable() {
                     <Th>View</Th>
                   </Tr>
                 </Thead>
-                <Tbody>
+                <Tbody variant="simple" bg="gray.200" color="black">
                   {processRequest.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
@@ -522,6 +522,7 @@ export default function ProcessRequestTable() {
                         <IconButton
                           icon={<ViewIcon />}
                           bg={"transparent"}
+                          color="black"
                           onClick={() => {
                             setSelectedProcessRequest(item);
                             viewValuationRequest.onOpen();

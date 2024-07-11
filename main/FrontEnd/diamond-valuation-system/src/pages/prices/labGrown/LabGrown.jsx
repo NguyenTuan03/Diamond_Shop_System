@@ -83,6 +83,7 @@ const tabs = [
 ];
 export default function LabGrown() {
     const bgColor = useColorModeValue("white", "gray.800");
+    const bgColor1 = useColorModeValue("rgb(224 231 255)", "#DBA843");
     const [price, setPrice] = useState([]);
     const [selectedTab, setSelectedTab] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
@@ -123,7 +124,7 @@ export default function LabGrown() {
                 variant="unstyled"
                 onChange={(index) => setSelectedTab(index)}
             >
-                <TabList justifyContent={"center"}>
+                <TabList justifyContent={"center"} >
                     <SimpleGrid columns={{ base: 2, md: 4, lg: 5 }} spacing={4}>
                         {tabs &&
                             tabs.map((tab, i) => {
@@ -132,7 +133,7 @@ export default function LabGrown() {
                                         key={i}
                                         _selected={{
                                             color: "black",
-                                            bg: "rgb(224 231 255)",
+                                            bg: bgColor1,
                                             border: 0,
                                         }}
                                     >
@@ -141,6 +142,7 @@ export default function LabGrown() {
                                             alignItems={"center"}
                                         >
                                             <Image
+                                            
                                                 src={tab.img}
                                                 w={"32px"}
                                                 h={"32px"}
