@@ -23,7 +23,7 @@ export default function DashBoardAppoint() {
     }, []);
     return (
         <Box>
-            <Box p={"12px"} bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+            <Box  bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
             <Text py={3} fontSize="lg" pl={4}>
                 APPOINTMENTS
             </Text>
@@ -32,15 +32,14 @@ export default function DashBoardAppoint() {
             ) : (
                 <TableContainer>
                     <Table variant="simple" bg="gray.200" color="black">
-                        <Thead>
-                            <Tr>
-                                <Th>#</Th>
-                                <Th>Customer</Th>
-                                <Th>Date</Th>
-                                <Th>Email</Th>
-                                <Th>Phone</Th>
-                                <Th>Description</Th>
-                                <Th>Status</Th>
+                        <Thead >
+                            <Tr >
+                                <Th color="black">No</Th>
+                                <Th color="black">Name</Th>
+                                <Th color="black">Date Create Request</Th>
+                                
+                                <Th color="black">Description</Th>
+                                <Th color="black">Status</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -50,8 +49,7 @@ export default function DashBoardAppoint() {
                                         <Td>{i + 1}</Td>
                                         <Td>{req.customerName}</Td>
                                         <Td>{req.createdDate?.slice(0, 10)}</Td>
-                                        <Td>{req.customerEmail}</Td>
-                                        <Td>{req.customerPhone}</Td>
+                                        
                                         <Td>{req.description}</Td>
                                         <Td>Contacting...</Td>
                                     </Tr>
