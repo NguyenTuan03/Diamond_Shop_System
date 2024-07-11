@@ -33,6 +33,11 @@ public class ValuationResultController {
         return valuationResultService.valuateDiamond(id, valuationResultDTO);
     }
 
+    @GetMapping(path = "/get/all")
+    public Page<ValuationResultEntity> getAllValuationResults(@RequestParam("page") int page) {
+        return valuationResultService.getAllValuationResults(page);
+    }
+
     @GetMapping(path = "/get")
     public Optional<ValuationResultEntity> getValuationResult(@RequestParam("id") String id) {
         return valuationResultService.getValuationResultById(id);
