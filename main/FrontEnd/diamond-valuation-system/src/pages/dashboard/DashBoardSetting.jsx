@@ -24,6 +24,8 @@ import { UserContext } from "../../components/GlobalContext/AuthContext";
 export default function DashBoardSetting() {
   const auth = useContext(UserContext);
   const bgColor = useColorModeValue("white", "black");
+  const bgColor1 = useColorModeValue("gray", "yellow");
+  const fontColor = useColorModeValue("#000", "#fff");
   const toast = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
@@ -42,7 +44,7 @@ export default function DashBoardSetting() {
   };
 
   return (
-    <>
+    <Box bg={bgColor}>
       <ScrollToTop
         smooth
         style={{
@@ -52,7 +54,7 @@ export default function DashBoardSetting() {
           padding: "4px",
         }}
       />
-      <Container mawW={"100vw"}>
+      <Container mawW={"100vw"} bg={bgColor}>
         <Flex
           direction="column"
           alignItems="center"
@@ -60,18 +62,19 @@ export default function DashBoardSetting() {
           bg={bgColor}
           paddingTop={10}
         >
-          <Flex>
+          <Flex >
             <Title title={"Your Account Settings"} width={"60vw"} />
 
             <Text display={"flex"}>{auth.userAuth.fullname}</Text>
           </Flex>
           <Divider m={"20px 0 20px 0"} />
           <Box
-            bg="white"
-            border="2px dashed grey"
+            bg={bgColor}
+            border="2px dashed"
+            borderColor={bgColor1}
             borderRadius="4px"
             p={4}
-            color="#000"
+            color={fontColor}
             width="100%"
             minWidth={{ md: 1000 }}
             sx={{ mt: 5, mb: 5 }}
@@ -88,14 +91,15 @@ export default function DashBoardSetting() {
           </Box>
 
           <Box
-            bg="white"
-            border="2px dashed grey"
-            borderRadius="4px"
-            p={4}
-            color="#000"
-            width="100%"
-            minWidth={{ md: 1000 }}
-            sx={{ mt: 5, mb: 5 }}
+           bg={bgColor}
+           border="2px dashed"
+           borderColor={bgColor1}
+           borderRadius="4px"
+           p={4}
+           color={fontColor}
+           width="100%"
+           minWidth={{ md: 1000 }}
+           sx={{ mt: 5, mb: 5 }}
           >
             <Text fontSize={{ xs: "18px", md: "24px" }} fontWeight="bold">
               Update Account
@@ -105,7 +109,7 @@ export default function DashBoardSetting() {
             </Text>
 
             <Button
-              colorScheme="blue"
+              bg="blue.500"
               mt={"20px"}
               onClick={() => setIsOpenUpdate(true)}
             >
@@ -113,11 +117,12 @@ export default function DashBoardSetting() {
             </Button>
           </Box>
           <Box
-            bg="white"
-            border="2px dashed grey"
+            bg={bgColor}
+            border="2px dashed"
+            borderColor={bgColor1}
             borderRadius="4px"
             p={4}
-            color="#000"
+            color={fontColor}
             width="100%"
             minWidth={{ md: 1000 }}
             sx={{ mt: 5, mb: 5 }}
@@ -133,7 +138,7 @@ export default function DashBoardSetting() {
               with this account will be lost forever.
             </Text>
             <Button
-              colorScheme="red"
+              bg="red.500"
               mt={"20px"}
               onClick={() => setIsOpen(true)}
             >
@@ -161,7 +166,7 @@ export default function DashBoardSetting() {
                       Cancel
                     </Button>
                     <Button
-                      colorScheme="red"
+                      bg="red.500"
                       onClick={handleDeleteAccount}
                       ml={3}
                     >
@@ -174,6 +179,6 @@ export default function DashBoardSetting() {
           </Box>
         </Flex>
       </Container>
-    </>
+    </Box>
   );
 }
