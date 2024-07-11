@@ -175,8 +175,7 @@ export default function AdminUpdateUsers({
                     colorScheme="blue"
                     w={"inherit"}
                     m={"10px 0 0 0"}
-                    isDisabled={isSubmitting}
-                    isLoading={isSubmitting}
+                    disabled={isSubmitting}
                   >
                     Update
                   </Button>

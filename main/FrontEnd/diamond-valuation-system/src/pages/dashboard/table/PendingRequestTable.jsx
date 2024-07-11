@@ -170,7 +170,7 @@ export default function PendingRequestTable() {
       <Flex direction={"column"} gap={10} >
         <Center>
           <Text fontSize="4xl" fontWeight="bold">
-            Appointments
+            Pending Request
           </Text>
         </Center>
         {totalPages === 0 ? (
@@ -181,13 +181,13 @@ export default function PendingRequestTable() {
               <Table >
                 <Thead bg="gray.600" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
-                    <Th color={"white"}>ID</Th>
-                    <Th color={"white"}>Customer Name</Th>
-                    <Th color={"white"}>Email</Th>
-                    <Th color={"white"}>Phone Number</Th>
-                    <Th color={"white"}>Description</Th>
-                    <Th color={"white"}>Created Date</Th>
-                    <Th color={"wheat"}>View</Th>
+                    <Th color="white">ID</Th>
+                    <Th color="white">Customer Name</Th>
+                    <Th color="white">Email</Th>
+                    <Th color="white">Phone Number</Th>
+                    <Th color="white">Description</Th>
+                    <Th color="white">Created Date</Th>
+                    <Th color="white">View</Th>
                   </Tr>
                 </Thead>
                 <Tbody variant="simple" bg="gray.200" color="black">
