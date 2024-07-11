@@ -211,7 +211,7 @@ public class AccountImpl implements AccountService {
 
     @Override
     public String deleteSoftAccount(int id) {
-        accountRepository.deleteById(id);
+        accountRepository.deleteSoftById(id);
         return "Delete successful";
     }
 
@@ -310,7 +310,7 @@ public class AccountImpl implements AccountService {
 
     @Override
     public String deleteHardAccount(int id) {
-        accountRepository.deleteById(id);
+        accountRepository.deleteHardById(id);
         return "Successful";
     }
 
