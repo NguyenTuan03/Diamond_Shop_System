@@ -76,6 +76,12 @@ const SideBar = () => {
       label: "Sealing Letter",
     },
     {
+      role: ["Customer"],
+      path: routes.dashboardTransaction,
+      icon: IoNewspaperOutline,
+      label: "Transaction history",
+    },
+    {
       role: ["Manager", "Customer"],
       path: routes.commitment,
       icon: RiBookMarkedFill,
