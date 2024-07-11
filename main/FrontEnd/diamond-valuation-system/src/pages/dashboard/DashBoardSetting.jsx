@@ -13,7 +13,6 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
-  AlertDialogCloseButton,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 
@@ -36,7 +35,6 @@ export default function DashBoardSetting() {
       await auth.deleteAccount();
       onClose();
     } catch (error) {
-      
       console.error("Error deleting account:", error);
     }
   };
