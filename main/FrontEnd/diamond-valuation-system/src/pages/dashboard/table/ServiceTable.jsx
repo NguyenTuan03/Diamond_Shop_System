@@ -118,19 +118,19 @@ export default function ServiceTable() {
         ) : (
           <Skeleton isLoaded={service?.length > 0} height={"200px"}>
             <TableContainer shadow={"md"} borderRadius={"md"}>
-              <Table size={"sm"} colorScheme="blue">
-                <Thead bg={"blue.500"}>
+              <Table bg="gray.600"  mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+                <Thead >
                   <Tr>
-                    <Th>ID</Th>
-                    <Th>Name</Th>
-                    <Th>Price</Th>
-                    <Th>Time</Th>
-                    <Th>Statistics</Th>
-                    <Th>Update</Th>
-                    <Th>Delete</Th>
+                    <Th color="white">ID</Th>
+                    <Th color="white">Name</Th>
+                    <Th color="white">Price</Th>
+                    <Th color="white">Time</Th>
+                    <Th color="white">Statistics</Th>
+                    <Th color="white">Update</Th>
+                    <Th color="white">Delete</Th>
                   </Tr>
                 </Thead>
-                <Tbody>
+                <Tbody variant="simple" bg="gray.200" color="black">
                   {service?.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Formik
@@ -230,6 +230,7 @@ export default function ServiceTable() {
                             </Td>
                             <Td>
                               <IconButton
+                              color="blue" 
                                 type="submit"
                                 icon={<GrUpdate />}
                                 bgColor={"transparent"}
