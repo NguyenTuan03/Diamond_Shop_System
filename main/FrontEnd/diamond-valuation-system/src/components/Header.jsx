@@ -242,9 +242,9 @@ export default function Header() {
                 </MenuButton>
                 <MenuList>
                   <MenuItem onClick={() => nav("/dashboard")}>
-                    Dash board
+                    Dashboard
                   </MenuItem>
-                  <MenuItem onClick={handleLogout}>Log out</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>
               </Menu>
             )}

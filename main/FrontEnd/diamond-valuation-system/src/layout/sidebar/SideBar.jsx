@@ -39,6 +39,7 @@ import { Link } from "react-router-dom";
 import routes from "../../config/Config";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import Profile from "../../components/Profile";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 const SideBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -47,6 +48,23 @@ const SideBar = () => {
   const color = useColorModeValue("white", "gray.200");
   const hoverBg = useColorModeValue("purple.700", "purple.600");
   const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setTimeout(() => {
+      window.location.reload();
+    }, [200]);
+    toast.success("Logout Successful", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce
+    });
+  };
   const isUsers =
     auth.userAuth &&
     auth.userAuth.authorities &&
@@ -136,11 +154,6 @@ const SideBar = () => {
       icon: CiSettings,
       label: "Setting",
     },
-    {
-      path: "#",
-      icon: FiLogOut,
-      label: "Logout",
-    },
   ];
 
   const renderMenuItem = ({ path, icon: Icon, label }) => (
@@ -168,6 +181,7 @@ const SideBar = () => {
     <>
       {isMobile ? (
         <>
+        <ToastContainer />
           <IconButton
             icon={<HamburgerIcon />}
             onClick={onOpen}
@@ -225,11 +239,28 @@ const SideBar = () => {
                     )
                     .map(renderMenuItem)}
                 </VStack>
+                <Flex
+                align="center"
+                p="3"
+                mx="4"
+                borderRadius="lg"
+                role="group"
+                cursor="pointer"
+                _hover={{
+                  bg: hoverBg,
+                  color: "white",
+                }}
+                onClick={handleLogout}
+              >
+                <FiLogOut />
+                <Text ml="4">Logout</Text>
+              </Flex>
               </DrawerBody>
             </DrawerContent>
           </Drawer>
         </>
       ) : (
+        
         <Box
           bg={bg}
           color={color}
@@ -241,6 +272,7 @@ const SideBar = () => {
           maxH="100vh" 
           overflowY="auto"
         >
+          <ToastContainer />
           <Profile />
           <Divider my="8" borderColor="gray.600" />
           <VStack spacing="2" align="stretch">
@@ -286,6 +318,22 @@ const SideBar = () => {
               })
               .map(renderMenuItem)}
           </VStack>
+          <Flex
+                align="center"
+                p="3"
+                mx="4"
+                borderRadius="lg"
+                role="group"
+                cursor="pointer"
+                _hover={{
+                  bg: hoverBg,
+                  color: "white",
+                }}
+                onClick={handleLogout}
+              >
+                <FiLogOut />
+                <Text ml="4">Logout</Text>
+          </Flex>
         </Box>
       )}
     </>
