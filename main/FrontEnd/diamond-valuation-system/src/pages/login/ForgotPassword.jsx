@@ -7,7 +7,16 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const handleResetPassword = async () => {
     const result = await forgetPassword(username, email);
-    console.log(result);
+    if (result) {
+        toast({
+          title: result,
+          description: "We've sent you email, check this out!.",
+          status: 'success',
+          position:'top-right',
+          duration: 3000,
+          isClosable: true,
+        })
+      }
   }
   return (
     <Box

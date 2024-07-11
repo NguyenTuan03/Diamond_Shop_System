@@ -57,7 +57,7 @@ export default function MainLayout({ children }) {
                 bottom={"60px"}
                 bg={bgColor}
                 color={fontColor}
-                _hover={"gray"}
+                _hover={{color: "gray"}}
             >
                 <FaPlus style={{ marginRight: "10px" }} /> Create Request
             </Button>
