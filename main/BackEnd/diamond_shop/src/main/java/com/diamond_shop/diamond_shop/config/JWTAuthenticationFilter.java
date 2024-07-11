@@ -30,7 +30,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
-            System.out.println("JWT Token: " + jwt);
             if (jwt != null && JWTUtil.validateJwtToken(jwt)) {
                 String username = JWTUtil.getUserNameFromJwtToken(jwt);
                 System.out.println("Username from token: " + username);
@@ -41,7 +40,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
-                System.out.println("Invalid or missing JWT token " + new Date());
+//                System.out.println("Invalid or missing JWT token " + new Date());
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);

@@ -68,9 +68,6 @@ export default function UploadImage({ diamondId }) {
             )
             .then(function (response) {
               console.log(response.data);
-              setTimeout(() => {
-                navigate(0);
-              }, 1000);
             });
         }
       }

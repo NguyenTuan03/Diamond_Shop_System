@@ -361,7 +361,8 @@ export default function ProcessRequestTable() {
       .post(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-receipt/create?valuationRequestId=${valuationRequestId}`, {},
+        }/api/valuation-receipt/create?valuationRequestId=${valuationRequestId}`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${user.userAuth.token}`,
@@ -673,12 +674,15 @@ export default function ProcessRequestTable() {
                         </Button>
                         <ZaloChat
                           phone={selectedProcessRequest?.customerPhone}
+                          type={"customer"}
                         />
                       </>
                     )) ||
                       (selectedProcessRequest?.status === "Contacted" && (
                         <ZaloChat
                           phone={selectedProcessRequest?.customerPhone}
+                          type={"customer"}
+
                         />
                       )) ||
                       (selectedProcessRequest?.status === "Paid" && (
@@ -697,6 +701,8 @@ export default function ProcessRequestTable() {
                           </Button>
                           <ZaloChat
                             phone={selectedProcessRequest?.customerPhone}
+                            type={"customer"}
+
                           />
                         </>
                       )) ||
@@ -715,6 +721,8 @@ export default function ProcessRequestTable() {
                           </Button>
                           <ZaloChat
                             phone={selectedProcessRequest?.customerPhone}
+                            type={"customer"}
+
                           />
                         </>
                       )) ||
@@ -733,6 +741,8 @@ export default function ProcessRequestTable() {
                           </Button>
                           <ZaloChat
                             phone={selectedProcessRequest?.customerPhone}
+                            type={"customer"}
+
                           />
                         </>
                       )) ||
@@ -752,6 +762,8 @@ export default function ProcessRequestTable() {
                             </Button>
                             <ZaloChat
                               phone={selectedProcessRequest?.customerPhone}
+                              type={"customer"}
+
                             />
                             <Button
                               isLoading={isUpdateProcess}
@@ -791,6 +803,8 @@ export default function ProcessRequestTable() {
                           </Button>
                           <ZaloChat
                             phone={selectedProcessRequest?.customerPhone}
+                            type={"customer"}
+
                           />
                         </>
                       )) ||
@@ -807,6 +821,8 @@ export default function ProcessRequestTable() {
                     {(selectedProcessRequest?.status === "Not resolved yet" && (
                       <ZaloChat
                         phone={selectedProcessRequest?.consultingStaffPhone}
+                        type={"staff"}
+
                       />
                     )) ||
                       (selectedProcessRequest?.status === "Contacted" && (
@@ -822,12 +838,16 @@ export default function ProcessRequestTable() {
                           </Link>
                           <ZaloChat
                             phone={selectedProcessRequest?.consultingStaffPhone}
+                            type={"staff"}
+
                           />
                         </>
                       )) ||
                       (selectedProcessRequest?.status === "Paid" && (
                         <ZaloChat
                           phone={selectedProcessRequest?.consultingStaffPhone}
+                          type={"staff"}
+
                         />
                       )) ||
                       ((selectedProcessRequest?.status === "Valuated" ||
@@ -848,6 +868,8 @@ export default function ProcessRequestTable() {
                           </Button>
                           <ZaloChat
                             phone={selectedProcessRequest?.consultingStaffPhone}
+                            type={"staff"}
+
                           />
                         </>
                       ))}
