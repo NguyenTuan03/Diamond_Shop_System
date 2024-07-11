@@ -33,57 +33,57 @@ const tabs = [
     {
         shape: "Round",
         api: "round",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_round.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/b.svg?height=34&width=34",
     },
     {
         shape: "Oval",
         api: "oval",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_oval.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/o.svg?height=32&width=32",
     },
     {
         shape: "Princess",
         api: "princess",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_princess.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/pr.svg?height=32&width=32",
     },
     {
         shape: "Emerald",
         api: "emerald",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_emerald.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/e.svg?height=32&width=32",
     },
     {
         shape: "Cushion",
         api: "cushion",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_cushion.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/c.svg?height=32&width=32",
     },
     {
         shape: "Radiant",
         api: "radiant",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_radiant.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/as.svg?height=32&width=32",
     },
     {
         shape: "Pear",
         api: "pear",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_pear.svg?height=32&width=32",
+        img: "/images/Pear.png?height=32&width=32",
     },
     {
         shape: "Heart",
         api: "heart",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_heart.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/h.svg?height=32&width=32",
     },
     {
         shape: "Marquise",
         api: "marquise",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_marquise.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/m.svg?height=32&width=32",
     },
     {
         shape: "Asscher",
         api: "asscher",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_asscher.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/as.svg?height=32&width=32",
     },
 ];
 export default function Natural() {
-    const bgColor = useColorModeValue("white", "gray.800");
-    const bgColor1 = useColorModeValue("rgb(224 231 255)", "#DBA843");
+    const bgColor = useColorModeValue("white", "black");
+    const bgColor1 = useColorModeValue("rgb(224 231 255)", "yellow.400");
     const [price, setPrice] = useState([]);
     const [selectedTab, setSelectedTab] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
@@ -125,19 +125,21 @@ export default function Natural() {
                 onChange={(index) => setSelectedTab(index)}
             >
                 <TabList justifyContent={"center"}>
-                    <SimpleGrid columns={{ base: 2, md: 4, lg: 5 }} spacing={4}>
+                    <SimpleGrid  borderRadius="md" columns={{ base: 2, md: 4, lg: 5 }} spacing={4}>
                         {tabs &&
                             tabs.map((tab, i) => {
                                 return (
-                                    <Tab
+                                    <Tab 
                                         key={i}
                                         _selected={{
-                                            color: "black",
+                                            color: "gray",
                                             bg: bgColor1,
-                                            border: 0,
+                                            borderRadius:"md"
+                                            
                                         }}
                                     >
                                         <Flex
+                                            color= "gray"
                                             flexDirection={"column"}
                                             alignItems={"center"}
                                         >

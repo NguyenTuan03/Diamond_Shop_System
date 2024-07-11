@@ -1,6 +1,7 @@
 import { ViewIcon } from "@chakra-ui/icons";
 import {
   Badge,
+  Box,
   Center,
   Flex,
   GridItem,
@@ -69,7 +70,9 @@ export default function ServiceTable() {
             Service
           </Text>
         </Center>
-        <Text fontSize={"xl"} fontWeight={"bold"}>
+        <Center>
+        <Box  w={"32vw"} p={5} >
+        <Text fontSize={"xl"} fontWeight={"bold"} mb={5}>
           Statistics:
         </Text>
         <SimpleGrid columns={4} w={"30vw"} spacing={2}>
@@ -113,6 +116,10 @@ export default function ServiceTable() {
             <Badge colorScheme="red">Origin</Badge>
           </GridItem>
         </SimpleGrid>
+        </Box>
+        </Center>
+        
+        
         {totalPages === 0 ? (
           <Center>No service to show</Center>
         ) : (
