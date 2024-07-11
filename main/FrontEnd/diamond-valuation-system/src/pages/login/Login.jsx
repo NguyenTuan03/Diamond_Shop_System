@@ -91,7 +91,8 @@ export default function Login({ signIn, signUp }) {
     var decoded = jwtDecode(response.credential);
     auth.loginUser(decoded);
     setIsLogin(true);
-    console.log(decoded);
+    console.log("google: ",decoded);
+    
     document.getElementById("buttonDiv").hidden = true;
   };
   useEffect(() => {

@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 export default function DiamondCheck() {
   const navigate = useNavigate();
   const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("blue.600", "#DBA843");
   return (
     <Container maxW="100vw">
       <Flex
@@ -36,7 +37,7 @@ export default function DiamondCheck() {
           <Text
             fontSize={{ base: "3xl", md: "4xl", lg: "6xl" }}
             fontWeight={"bold"}
-            color={"blue.400"}
+            color={fontColor}
           >
             price & quality
           </Text>
@@ -74,6 +75,7 @@ export default function DiamondCheck() {
                       name="id"
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      
                       value={values.id}
                       placeholder="Enter Valuate ID"
                       size={{ base: "sm", md: "md", lg: "lg" }}
@@ -82,7 +84,9 @@ export default function DiamondCheck() {
                   <Button
                     type="submit"
                     isLoading={isSubmitting}
-                    colorScheme="blue"
+                    color={fontColor}
+                    colorScheme="DBA843"
+                    variant="outline"
                     size={{ base: "sm", md: "md", lg: "lg" }}
                   >
                     Run free check

@@ -36,7 +36,8 @@ import { UserContext } from "../../components/GlobalContext/AuthContext";
 import routes from "../../config/Config";
 
 export default function Calculate() {
-  const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("blue.600", "#DBA843");
   const toast = useToast();
   const user = useContext(UserContext);
   const sendEmailModal = useDisclosure();
@@ -163,7 +164,7 @@ export default function Calculate() {
           direction="column"
           alignItems="center"
           justifyContent="center"
-          bg={bgColor}
+          bg={fontColor}
           paddingTop={10}
         >
           <Text
@@ -266,13 +267,13 @@ export default function Calculate() {
                     <SliderTrack>{/* <SliderFilledTrack /> */}</SliderTrack>
                     <Tooltip
                       hasArrow
-                      bg={"blue.400"}
-                      color={"white"}
+                      bg={bgColor}
+                      color={fontColor}
                       placement="top"
                       isOpen={sliderShowToolTip}
                       label={sliderValue}
                     >
-                      <SliderThumb bg={"blue.400"} boxSize={6}>
+                      <SliderThumb bg={bgColor} color={fontColor} boxSize={6}>
                         <Box as={IoDiamondOutline} />
                       </SliderThumb>
                     </Tooltip>
@@ -280,7 +281,7 @@ export default function Calculate() {
                 </Flex>
                 <Button
                   borderRadius={"md"}
-                  colorScheme="blue"
+                  bg={bgColor} color={fontColor}
                   w={"inherit"}
                   m={"10px 0 0 0"}
                   isLoading={isLoading}
@@ -376,8 +377,8 @@ export default function Calculate() {
                       else {
                         nav(routes.diamondValuationRequest)
                       }
-                    }} leftIcon={<IoDiamond />} colorScheme="blue">
-                      Valuate Diamond
+                    }} leftIcon={<IoDiamond />} bg={bgColor} color={fontColor}>
+                      Create Request
                     </Button>
                   
                 </Center>
