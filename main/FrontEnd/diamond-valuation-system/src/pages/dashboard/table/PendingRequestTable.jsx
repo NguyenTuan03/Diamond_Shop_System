@@ -167,19 +167,19 @@ export default function PendingRequestTable() {
   }, [currentPage]);
   return (
     <>
-      <Flex direction={"column"} gap={10}>
+      <Flex direction={"column"} gap={10} >
         <Center>
           <Text fontSize="4xl" fontWeight="bold">
             Pending Request
           </Text>
         </Center>
         {totalPages === 0 ? (
-          <Center>No pending request to show</Center>
+          <Center >No pending request to show</Center>
         ) : (
           <Skeleton isLoaded={pendingRequest.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
-              <Table size={"sm"} colorScheme="blue">
-                <Thead bg={"blue.500"}>
+              <Table >
+                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
                     <Th>ID</Th>
                     <Th>Customer Name</Th>
@@ -190,9 +190,9 @@ export default function PendingRequestTable() {
                     <Th>View</Th>
                   </Tr>
                 </Thead>
-                <Tbody>
+                <Tbody variant="simple" bg="gray.200" color="black">
                   {pendingRequest.map((item, index) => (
-                    <Tr key={index} _hover={{ bg: "gray.100" }}>
+                    <Tr key={index} >
                       <Td>{item?.id}</Td>
                       <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.customerEmail || "N/A"}</Td>
@@ -203,6 +203,7 @@ export default function PendingRequestTable() {
                         <IconButton
                           icon={<ViewIcon />}
                           bgColor={"transparent"}
+                          color="black"
                           onClick={() => {
                             setSelectedPendingRequest(item);
                             viewPendingRequest.onOpen();

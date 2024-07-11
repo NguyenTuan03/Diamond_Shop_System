@@ -79,8 +79,8 @@ export default function CommitmentTable() {
         ) : (
           <Skeleton isLoaded={commitment?.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
-              <Table size={"sm"} colorScheme="blue">
-                <Thead bg={"blue.500"}>
+              <Table >
+                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
                     <Th>ID</Th>
                     <Th>Request ID</Th>
@@ -93,7 +93,7 @@ export default function CommitmentTable() {
                     <Th>View</Th>
                   </Tr>
                 </Thead>
-                <Tbody>
+                <Tbody variant="simple" bg="gray.200" color="black">
                   {commitment?.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
@@ -106,6 +106,7 @@ export default function CommitmentTable() {
                         <IconButton
                           icon={<ViewIcon />}
                           bg={"transparent"}
+                          color="black"
                           onClick={() => {
                             setSelectedCommitment(item);
                             viewCommitment.onOpen();
