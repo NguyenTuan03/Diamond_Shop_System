@@ -87,9 +87,7 @@ export default function DiamondCheck() {
                     bgColor={fontColor}
                     type="submit"
                     isLoading={isSubmitting}
-                    color={bgColor}
-                    bg="DBA843"
-                    variant="outline"
+                    colorScheme="blue"
                     size={{ base: "sm", md: "md", lg: "lg" }}
                   >
                     Run free check
