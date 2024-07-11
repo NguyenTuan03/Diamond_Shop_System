@@ -61,7 +61,7 @@ const InfiniteMovingFeaturedCards = () => {
                 imageSrc={image.src}
                 title1={`${valuationResult[index]?.shape} · ${valuationResult[index]?.carat} Carat · ${valuationResult[index]?.color} Color`}
                 title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
-                title3={valuationResult[index]?.id}
+                title3={`ID ${valuationResult[index]?.id}`}
               />
             </Link>
           </Skeleton>
@@ -78,7 +78,7 @@ const InfiniteMovingFeaturedCards = () => {
                 imageSrc={image.src}
                 title1={`${valuationResult[index]?.shape} · ${valuationResult[index]?.carat} Carat · ${valuationResult[index]?.color} Color`}
                 title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
-                title3={valuationResult[index]?.id}
+                title3={`ID ${valuationResult[index]?.id}`}
               />
             </Link>
           </Skeleton>

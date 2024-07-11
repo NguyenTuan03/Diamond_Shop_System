@@ -19,6 +19,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
+import routes from "../../config/Config";
 export default function DiamondCheckDetails() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -53,7 +54,7 @@ export default function DiamondCheckDetails() {
             });
           }, 2000);
           setTimeout(() => {
-            navigate(-1);
+            navigate(routes.diamondCheck);
           }, 3000);
         }
         console.log(response.data);

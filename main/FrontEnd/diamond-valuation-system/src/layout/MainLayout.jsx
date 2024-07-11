@@ -55,13 +55,10 @@ export default function MainLayout({ children }) {
                 position={"fixed"}
                 left={"20px"}
                 bottom={"60px"}
-                bg={bgColor}
-                color={fontColor}
-                _hover={"gray"}
+                colorScheme="blue"
             >
                 <FaPlus style={{ marginRight: "10px" }} /> Create Request
             </Button>
-
             <Footer />
         </>
     );

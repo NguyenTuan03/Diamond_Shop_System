@@ -38,10 +38,7 @@ const Error = lazy(() => import("../pages/error/Error.jsx"));
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
 import DashBoard from "../pages/dashboard/DashBoard.jsx";
 import DashBoardNotification from "../pages/dashboard/DashBoardNotification.jsx";
-import DashBoardPrices from "../pages/dashboard/DashBoardPrices.jsx";
 import DashBoardAppoint from "../pages/dashboard/DashBoardAppoint.jsx";
-import DashBoardSearch from "../pages/dashboard/DashBoardSearch.jsx";
-import DashBoardRequest from "../pages/dashboard/DashBoardRequest.jsx";
 const AboutUs = lazy(() => import("../pages/aboutUs/AboutUs.jsx"));
 const DashBoardSetting = lazy(() =>
   import("../pages/dashboard/DashBoardSetting.jsx")
@@ -55,7 +52,6 @@ import ValuationStaffDashboard from "../pages/dashboard/valuation/ValuationStaff
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import ServiceTable from "../pages/dashboard/table/ServiceTable.jsx";
 const Activate = lazy(() => import("../pages/signUp/Activate.jsx"));
-const ForgotPassword = lazy(() => import("../pages/login/ForgotPassword.jsx"));
 const ResetForgetPassword = lazy(() =>
   import("../pages/login/ResetForgetPassword.jsx")
 );
@@ -76,6 +72,10 @@ const ALlRoutes = [
   {
     path: routes.diamondDetail,
     component: Detail,
+  },
+  {
+    path: routes.prices,
+    component: Prices,
   },
 
   {
@@ -130,10 +130,6 @@ const ALlRoutes = [
     component: DiamondValuationRequest,
   },
   {
-    path: routes.prices,
-    component: Prices,
-  },
-  {
     path: routes.educationCertificate,
     component: EducationCertificate,
   },
@@ -178,11 +174,6 @@ const ALlRoutes = [
     layout: DashBoardLayout,
   },
   {
-    path: routes.dashboardPrices,
-    component: DashBoardPrices,
-    layout: DashBoardLayout,
-  },
-  {
     path: routes.dashboardAppoint,
     component: DashBoardAppoint,
     layout: DashBoardLayout,
@@ -190,16 +181,6 @@ const ALlRoutes = [
   {
     path: routes.dashboardTransaction,
     component: DashBoardTransaction,
-    layout: DashBoardLayout,
-  },
-  {
-    path: routes.dashboardSearch,
-    component: DashBoardSearch,
-    layout: DashBoardLayout,
-  },
-  {
-    path: routes.dashboardRequest,
-    component: DashBoardRequest,
     layout: DashBoardLayout,
   },
   {
@@ -244,11 +225,6 @@ const ALlRoutes = [
   {
     path: routes.activate,
     component: Activate,
-    layout: null,
-  },
-  {
-    path: routes.forgetPassword,
-    component: ForgotPassword,
     layout: null,
   },
   {

@@ -185,7 +185,6 @@ export default function ServiceTable() {
                               <Th></Th>
                               <Th></Th>
                               <Th></Th>
-                              <Th></Th>
                             </Tr>
                           </Thead>
                           <Tbody>
@@ -263,14 +262,6 @@ export default function ServiceTable() {
                                   bgColor={"transparent"}
                                   isLoading={isSubmitting}
                                   isDisabled={isSubmitting}
-                                />
-                              </Td>
-                              <Td>
-                                <IconButton
-                                  icon={
-                                    <MdDeleteOutline size={25} color="red" />
-                                  }
-                                  bgColor={"transparent"}
                                 />
                               </Td>
                             </Tr>
