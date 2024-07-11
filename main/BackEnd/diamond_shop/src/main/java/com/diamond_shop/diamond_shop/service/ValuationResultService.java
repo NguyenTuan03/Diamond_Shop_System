@@ -7,6 +7,7 @@ import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,7 @@ import java.util.Optional;
 public interface ValuationResultService {
 
     int totalValuationResults();
-
+    Page<ValuationResultEntity> getAllValuationResults(int page);
     Optional<ValuationResultEntity> getValuationResultById(String id);
 
     Page<ValuationResultEntity> getValuationResultsByCustomerId(int page, int customerId);

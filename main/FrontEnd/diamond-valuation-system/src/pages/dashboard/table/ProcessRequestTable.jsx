@@ -683,7 +683,6 @@ export default function ProcessRequestTable() {
                         <ZaloChat
                           phone={selectedProcessRequest?.customerPhone}
                           type={"customer"}
-
                         />
                       )) ||
                       (selectedProcessRequest?.status === "Paid" && (
@@ -703,7 +702,6 @@ export default function ProcessRequestTable() {
                           <ZaloChat
                             phone={selectedProcessRequest?.customerPhone}
                             type={"customer"}
-
                           />
                         </>
                       )) ||
@@ -723,7 +721,6 @@ export default function ProcessRequestTable() {
                           <ZaloChat
                             phone={selectedProcessRequest?.customerPhone}
                             type={"customer"}
-
                           />
                         </>
                       )) ||
@@ -743,7 +740,6 @@ export default function ProcessRequestTable() {
                           <ZaloChat
                             phone={selectedProcessRequest?.customerPhone}
                             type={"customer"}
-
                           />
                         </>
                       )) ||
@@ -764,7 +760,6 @@ export default function ProcessRequestTable() {
                             <ZaloChat
                               phone={selectedProcessRequest?.customerPhone}
                               type={"customer"}
-
                             />
                             <Button
                               isLoading={isUpdateProcess}
@@ -805,7 +800,6 @@ export default function ProcessRequestTable() {
                           <ZaloChat
                             phone={selectedProcessRequest?.customerPhone}
                             type={"customer"}
-
                           />
                         </>
                       )) ||
@@ -823,7 +817,6 @@ export default function ProcessRequestTable() {
                       <ZaloChat
                         phone={selectedProcessRequest?.consultingStaffPhone}
                         type={"staff"}
-
                       />
                     )) ||
                       (selectedProcessRequest?.status === "Contacted" && (
@@ -840,7 +833,6 @@ export default function ProcessRequestTable() {
                           <ZaloChat
                             phone={selectedProcessRequest?.consultingStaffPhone}
                             type={"staff"}
-
                           />
                         </>
                       )) ||
@@ -848,7 +840,6 @@ export default function ProcessRequestTable() {
                         <ZaloChat
                           phone={selectedProcessRequest?.consultingStaffPhone}
                           type={"staff"}
-
                         />
                       )) ||
                       ((selectedProcessRequest?.status === "Valuated" ||
@@ -870,7 +861,6 @@ export default function ProcessRequestTable() {
                           <ZaloChat
                             phone={selectedProcessRequest?.consultingStaffPhone}
                             type={"staff"}
-
                           />
                         </>
                       ))}
@@ -1093,10 +1083,6 @@ export default function ProcessRequestTable() {
                         {selectedValuationResult?.shape}
                       </Text>
                     )}
-                    <Text>
-                      <strong>Price: </strong>
-                      {selectedValuationResult?.price}
-                    </Text>
                     {selectedValuationResult?.serviceStatistic?.includes(
                       "Carat"
                     ) && (
@@ -1185,6 +1171,11 @@ export default function ProcessRequestTable() {
                         {selectedValuationResult?.lengthToWidthRatio}
                       </Text>
                     )}
+                    <Center>
+                      <Text color={"blue.400"} fontSize={"3xl"}>
+                        {selectedValuationResult?.price} $
+                      </Text>
+                    </Center>
                   </Flex>
                 </Skeleton>
               </ModalBody>

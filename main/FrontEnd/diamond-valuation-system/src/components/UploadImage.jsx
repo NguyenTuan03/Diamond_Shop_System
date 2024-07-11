@@ -85,7 +85,7 @@ export default function UploadImage({ diamondId }) {
   };
   return (
     <>
-      <FormControl w={"auto"} isRequired>
+      <FormControl w={"auto"}>
         <FormLabel
           display={"inline-block"}
           cursor={"pointer"}
