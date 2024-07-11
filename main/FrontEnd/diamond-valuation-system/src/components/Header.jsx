@@ -70,7 +70,7 @@ export default function Header() {
           zIndex={999}
           direction={"row"}
           align={"center"}
-          justify={"space-around"}
+          justify={"space-between"}
           bg={bgColor}
           color={fontColor}
           style={{

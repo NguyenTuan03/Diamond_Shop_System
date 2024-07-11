@@ -30,9 +30,9 @@ const stats = [
     { value: "5M+", label: "Diamond Checks" }
 ];
 const testimonials = [
-    { text: "Highly Recommend DiamondVal. I am VERY grateful to DiamondVal for saving me from a would-be terrible purchase. Highly recommend!", name: "Alex B" },
-    { text: "DiamondVal is a Tremendous Resource. The cut score was a terrific way to hone in on the best candidates when faced with the overwhelming number of options available online.", name: "Igor G" },
-    { text: "The Most Beautiful Diamond I’ve Ever Seen! By using the DiamondVal calculator, I was able to find the best cut diamond at the best price. My diamond is breathtaking.", name: "Kim V" },
+    { text: "Highly Recommend DiamondVal. I am VERY grateful to DiamondVal for saving me from a would-be terrible purchase. Highly recommend!", name: "Truong D" },
+    { text: "DiamondVal is a Tremendous Resource. The cut score was a terrific way to hone in on the best candidates when faced with the overwhelming number of options available online.", name: "Tuan N" },
+    { text: "The Most Beautiful Diamond I’ve Ever Seen! By using the DiamondVal calculator, I was able to find the best cut diamond at the best price. My diamond is breathtaking.", name: "Hung L" },
 ];
 
 export default function Home() {
