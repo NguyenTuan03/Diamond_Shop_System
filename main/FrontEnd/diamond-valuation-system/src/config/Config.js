@@ -17,12 +17,10 @@ const routes = {
     logout: "/logout",
     error: "*",
     aboutUs: "/aboutUs",
+    FAQs: "/FAQs",
     dashboard: "/dashboard",
     dasboardNotification: "/dashboard/notifications",
-    dashboardPrices: "/dashboard/prices",
     dashboardAppoint: "/dashboard/appointments",
-    dashboardSearch: "/dashboard/search",
-    dashboardRequest: "/dashboard/request",
     dashboardSetting: "/dashboard/setting",
     dashboardTransaction: "/dashboard/transaction",
     manageAccount: "/dashboard/manage-account",
@@ -33,5 +31,7 @@ const routes = {
     valuationDiamond: "/dashboard/valuation-diamond",
     manageService: "/dashboard/manage-service",
     activate: "/activate/:email",
+    forgetPassword: "/forget-password",
+    resetForgetPassword: "/reset-forget-password",
 };
 export default routes;

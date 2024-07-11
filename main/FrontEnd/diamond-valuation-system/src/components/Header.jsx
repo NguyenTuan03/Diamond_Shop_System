@@ -32,6 +32,7 @@ export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
   const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("black", "#DBA843");
   const modalSignIn = useDisclosure();
   const modalSignUp = useDisclosure();
   const auth = useContext(UserContext);
@@ -50,7 +51,7 @@ export default function Header() {
       draggable: true,
       progress: undefined,
       theme: "light",
-      transition: Bounce,
+      transition: Bounce,fontColor
     });
   };
   const changeColorMode = () => {
@@ -69,7 +70,9 @@ export default function Header() {
           zIndex={999}
           direction={"row"}
           align={"center"}
+          justify={"space-between"}
           bg={bgColor}
+          color={fontColor}
           style={{
             boxShadow: `0px 0px 15px 0px gray`,
             backdropFilter: "blur(20px)",
@@ -205,12 +208,14 @@ export default function Header() {
               size={{ base: "xs", md: "sm", lg: "md" }}
               icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               onClick={changeColorMode}
+              color={fontColor}
             />
             {!auth.userAuth ? (
               <Button
-                colorScheme="blue"
+                colorScheme="gray"
                 size={{ base: "xs", md: "sm", lg: "md" }}
                 onClick={modalSignIn.onOpen}
+                color={fontColor}
               >
                 <Text
                   fontSize={{
@@ -218,6 +223,7 @@ export default function Header() {
                     md: "sm",
                     lg: "md",
                   }}
+                  
                 >
                   Sign in
                 </Text>
@@ -236,9 +242,9 @@ export default function Header() {
                 </MenuButton>
                 <MenuList>
                   <MenuItem onClick={() => nav("/dashboard")}>
-                    Dash board
+                    Dashboard
                   </MenuItem>
-                  <MenuItem onClick={handleLogout}>Log out</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>
               </Menu>
             )}

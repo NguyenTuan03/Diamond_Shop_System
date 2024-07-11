@@ -24,6 +24,11 @@ public class ProcessRequestImpl implements ProcessRequestService {
     private final ProcessResultService processResultService;
 
     @Override
+    public int totalDone() {
+        return processRequestRepository.totalDone();
+    }
+
+    @Override
     public Page<ProcessRequestEntity> viewAllProcessRequests(int page) {
         int pageSize = 5;
         int pageNumber = --page;

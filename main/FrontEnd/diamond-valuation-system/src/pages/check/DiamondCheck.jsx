@@ -10,15 +10,15 @@ import {
 import React from "react";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import axios from "axios";
 import { Form, Formik } from "formik";
 import routes from "../../config/Config";
 import { useNavigate } from "react-router-dom";
 export default function DiamondCheck() {
   const navigate = useNavigate();
   const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("blue.400", "#DBA843");
   return (
-    <Container maxW="100vw">
+    <Container maxW="100vw" h={"90vh"}>
       <Flex
         direction={{ base: "column", md: "row", lg: "row" }}
         alignItems="center"
@@ -37,7 +37,7 @@ export default function DiamondCheck() {
           <Text
             fontSize={{ base: "3xl", md: "4xl", lg: "6xl" }}
             fontWeight={"bold"}
-            color={"blue.400"}
+            color={fontColor}
           >
             price & quality
           </Text>
@@ -81,9 +81,12 @@ export default function DiamondCheck() {
                     />
                   </FormControl>
                   <Button
+                    bgColor={fontColor}
                     type="submit"
                     isLoading={isSubmitting}
-                    colorScheme="blue"
+                    color={"white"}
+                    colorScheme="DBA843"
+                    variant="outline"
                     size={{ base: "sm", md: "md", lg: "lg" }}
                   >
                     Run free check

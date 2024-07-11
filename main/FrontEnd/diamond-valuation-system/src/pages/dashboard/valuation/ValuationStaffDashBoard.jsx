@@ -35,6 +35,7 @@ import {
   useDisclosure,
   Skeleton,
   useToast,
+  Tooltip,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
@@ -44,6 +45,7 @@ import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import UploadImage from "../../../components/UploadImage";
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage } from "@cloudinary/react";
+import { lazyload, placeholder } from "@cloudinary/react";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
 import PageIndicator from "../../../components/PageIndicator";
@@ -57,6 +59,7 @@ export default function ValuationStaffDashboard() {
   const viewValuationResult = useDisclosure();
   const [processResult, setProcessResult] = useState([]);
   const [selectedProcessResult, setSelectedProcessResult] = useState({});
+  const [isGeneratePrice, setIsGeneratePrice] = useState(false);
   const fetchProcessResult = (page, valuationStaffId) => {
     axios
       .get(
@@ -99,6 +102,11 @@ export default function ValuationStaffDashboard() {
           depth: values?.depth,
           lengthToWidthRatio: values?.lengthToWidthRatio,
           price: values?.price,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
         }
       )
       .then((response) => {
@@ -177,7 +185,12 @@ export default function ValuationStaffDashboard() {
         .delete(
           `${
             import.meta.env.VITE_REACT_APP_BASE_URL
-          }/api/valuation-result/image/delete?id=${imageId}`
+          }/api/valuation-result/image/delete?id=${imageId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.userAuth.token}`,
+            },
+          }
         )
         .then(function (response) {
           setIsDeleted(false);
@@ -204,18 +217,18 @@ export default function ValuationStaffDashboard() {
           </Text>
         </Center>
         <Skeleton isLoaded={processResult.length > 0} height={"200px"}>
-          <TableContainer whiteSpace={"wrap"}>
-            <Table size={"sm"} colorScheme="blue">
-              <Thead bgColor={"blue.400"}>
+          <TableContainer whiteSpace={"wrap"} bg="gray.600" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+            <Table >
+              <Thead >
                 <Tr>
-                  <Th>No</Th>
-                  <Th>ID</Th>
-                  <Th>Service</Th>
-                  <Th>Status</Th>
-                  <Th>View</Th>
+                  <Th color="white">No</Th>
+                  <Th color="white">ID</Th>
+                  <Th color="white">Service</Th>
+                  <Th color="white">Status</Th>
+                  <Th color="white">View</Th>
                 </Tr>
               </Thead>
-              <Tbody>
+              <Tbody variant="simple" bg="gray.200" color="black">
                 {processResult.map((item, index) => (
                   <Tr key={index}>
                     <Td>{index + 1}</Td>
@@ -226,6 +239,7 @@ export default function ValuationStaffDashboard() {
                       <IconButton
                         icon={<ViewIcon />}
                         bgColor={"transparent"}
+                        color="black"
                         onClick={() => {
                           setSelectedProcessResult(item);
                           fetchValuatedDiamondImages(item?.valuationResultId);
@@ -238,7 +252,7 @@ export default function ValuationStaffDashboard() {
               </Tbody>
             </Table>
           </TableContainer>
-          <Center>
+          <Center m={"50px 0 0 0"}>
             <PageIndicator
               totalPages={totalPages}
               setCurrentPage={setCurrentPage}
@@ -591,6 +605,77 @@ export default function ValuationStaffDashboard() {
                         </Field>
                       )}
                     </SimpleGrid>
+                    <Tooltip
+                      label="Generate price just by Shape & 4C attributes"
+                      hasArrow
+                    >
+                      <Button
+                        isLoading={isGeneratePrice}
+                        isDisabled={isGeneratePrice}
+                        onClick={() => {
+                          setIsGeneratePrice(true);
+                          axios
+                            .post(
+                              `${
+                                import.meta.env.VITE_REACT_APP_BASE_URL
+                              }/api/diamond/calculate`,
+                              {
+                                gradingLab: "",
+                                carat: values.carat,
+                                shape: values.shape,
+                                color: values.color,
+                                cut: values.cut,
+                                clarity: values.clarity,
+                              },
+                              {
+                                headers: {
+                                  Authorization: `Bearer ${user.userAuth.token}`,
+                                },
+                              }
+                            )
+                            .then((response) => {
+                              console.log(response.data.body);
+                              setIsGeneratePrice(false);
+                              const test = new DOMParser().parseFromString(
+                                response.data.body,
+                                "text/xml"
+                              );
+                              const jsonResult = {};
+                              for (const child of test.querySelector("pr")
+                                .children) {
+                                jsonResult[child.tagName.toLowerCase()] =
+                                  child.textContent;
+                              }
+                              if (
+                                jsonResult.price ===
+                                "There is no available data for this query."
+                              ) {
+                                toast({
+                                  title: "Diamond Valuation",
+                                  description:
+                                    "There is no available data for this query.",
+                                  status: "warning",
+                                  duration: 3000,
+                                  isClosable: true,
+                                });
+                                values.price = 0;
+                              } else {
+                                toast({
+                                  title: "Diamond Valuation",
+                                  description:
+                                    "Diamond has been valuated successfully",
+                                  status: "success",
+                                  duration: 3000,
+                                  isClosable: true,
+                                });
+                                values.price = jsonResult.price;
+                              }
+                            });
+                        }}
+                      >
+                        Generate price
+                      </Button>
+                    </Tooltip>
                     <FormControl>
                       <FormLabel>Price</FormLabel>
                       <InputGroup>
@@ -614,38 +699,39 @@ export default function ValuationStaffDashboard() {
                         Submit
                       </Button>
                     </Center>
-                    <Flex justify={"center"}>
-                      <SimpleGrid columns={4}>
-                        {diamondImages?.map((image, index) => {
-                          return (
-                            <>
-                              <Flex direction={"column"} key={image}>
-                                <AdvancedImage
-                                  key={index}
-                                  cldImg={cld
-                                    .image(image)
-                                    .resize(thumbnail().width(200).height(200))}
-                                />
-                                <Button
-                                  isDisabled={isDeleted}
-                                  isLoading={isDeleted}
-                                  colorScheme="red"
-                                  onClick={() => {
-                                    deleteImages(image);
-                                  }}
-                                >
-                                  Delete
-                                </Button>
-                              </Flex>
-                            </>
-                          );
-                        })}
-                      </SimpleGrid>
-                    </Flex>
                   </Flex>
                 </Form>
               )}
             </Formik>
+            <Flex justify={"center"}>
+              <SimpleGrid columns={4}>
+                {diamondImages?.map((image, index) => {
+                  return (
+                    <>
+                      <Flex direction={"column"} key={image}>
+                        <AdvancedImage
+                          key={index}
+                          cldImg={cld
+                            .image(image)
+                            .resize(thumbnail().width(200).height(200))}
+                          plugins={[lazyload(), placeholder({ mode: "blur" })]}
+                        />
+                        <Button
+                          isDisabled={isDeleted}
+                          isLoading={isDeleted}
+                          colorScheme="red"
+                          onClick={() => {
+                            deleteImages(image);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </Flex>
+                    </>
+                  );
+                })}
+              </SimpleGrid>
+            </Flex>
           </ModalBody>
           <ModalFooter justifyContent={"center"}>
             <Flex direction={"column"}>
