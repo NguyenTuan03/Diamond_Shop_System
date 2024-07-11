@@ -29,6 +29,7 @@ import { PiPiggyBankBold } from "react-icons/pi";
 import { MdDone } from "react-icons/md";
 import { IoDiamond } from "react-icons/io5";
 import LazyLoad from "../../components/lazyload/LazyLoad";
+import DashBoardTransaction from "./DashBoardTransaction";
 export default function DashBoardAppoint() {
   const user = useContext(UserContext);
   const isUsers =
@@ -92,7 +93,7 @@ export default function DashBoardAppoint() {
               APPOINTMENTS
             </Text>
             {request.length === 0 ? (
-              <Box>There's no API available</Box>
+              <Box variant="simple" bg="gray.200" color="black">There's no API available</Box>
             ) : (
                 <TableContainer>
                     <Table variant="simple" bg="gray.200" color="black">
@@ -124,61 +125,7 @@ export default function DashBoardAppoint() {
                 </TableContainer>
             )}
           </Box>
-          <Box
-            bg="gray.600"
-            color="white"
-            mb={5}
-            boxShadow="sm"
-            borderRadius="md"
-            maxW="100%"
-            minW="100%"
-          >
-            <Text py={3} fontSize="lg" pl={4}>
-              Transaction History
-            </Text>
-            <Box overflowX="auto">
-              <Table variant="simple" bg="gray.200" color="black">
-                <Thead>
-                  <Tr>
-                    <Th>Services</Th>
-                    <Th>Date</Th>
-                    <Th>Invoice ID</Th>
-                    <Th>Amount</Th>
-                    <Th>Status</Th>
-                    <Th>Action</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  <Tr>
-                    <Td>
-                      <HStack>
-                        <Box>
-                          <Text>Check Diamond</Text>
-                          <Text fontSize="sm" color="gray.500">
-                            ID: 25014287
-                          </Text>
-                        </Box>
-                      </HStack>
-                    </Td>
-                    <Td>
-                      <Text>21 March 2021</Text>
-                      <Text fontSize="sm" color="gray.500">
-                        At 6:45 PM
-                      </Text>
-                    </Td>
-                    <Td>OP01214784</Td>
-                    <Td>$250 USD</Td>
-                    <Td color="green">Receive</Td>
-                    <Td>
-                      <Button size="sm" bg="gray.300">
-                        Details
-                      </Button>
-                    </Td>
-                  </Tr>
-                </Tbody>
-              </Table>
-            </Box>
-          </Box>
+          <DashBoardTransaction />
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
             <Box
               bg="gray.600"
@@ -287,10 +234,10 @@ export default function DashBoardAppoint() {
                 </HStack>
               </VStack>
               <Button
-                backgroundColor="white"
+                backgroundColor="gray.400"
                 size="sm"
                 border="1px solid"
-                borderColor="grey"
+                borderColor="gray."
                 ml="auto"
                 mt={1}
                 mb={1}
