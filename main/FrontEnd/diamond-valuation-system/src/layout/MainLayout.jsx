@@ -12,7 +12,7 @@ let cx = classnames.bind(styles);
 export default function MainLayout({ children }) {
     const auth = useContext(UserContext);
     const nav = useNavigate();
-    const bgColor = useColorModeValue("blue", "#DBA843");
+    const bgColor = useColorModeValue("blue.400", "#DBA843");
     const fontColor = useColorModeValue("#fff", "#000");
     const modalSignIn = useDisclosure();
     const toast = useToast();
@@ -57,6 +57,7 @@ export default function MainLayout({ children }) {
                 bottom={"60px"}
                 bg={bgColor}
                 color={fontColor}
+                _hover={"gray"}
             >
                 <FaPlus style={{ marginRight: "10px" }} /> Create Request
             </Button>
