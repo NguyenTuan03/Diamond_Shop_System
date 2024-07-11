@@ -30,7 +30,7 @@ export default function EducationShape() {
   const bgColor = useColorModeValue("white", "black");
   const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   return (
-    <>
+    <Box bg={bgColor}>
       <ScrollToTop smooth style={{display:"flex" ,alignItems:"center", justifyContent:"center", padding:"4px"}}/>
       <Container maxW={"100%"}>
         <Flex
@@ -641,6 +641,6 @@ export default function EducationShape() {
           </Flex>
         </Flex>
       </Container>
-    </>
+    </Box>
   );
 }

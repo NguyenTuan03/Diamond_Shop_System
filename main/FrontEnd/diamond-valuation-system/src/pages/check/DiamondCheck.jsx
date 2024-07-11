@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Container,
   Flex,
@@ -18,7 +19,8 @@ export default function DiamondCheck() {
   const bgColor = useColorModeValue("white", "black");
   const fontColor = useColorModeValue("blue.400", "#DBA843");
   return (
-    <Container maxW="100vw" h={"90vh"}>
+    <Box bg={bgColor}>
+      <Container maxW="100vw">
       <Flex
         direction={{ base: "column", md: "row", lg: "row" }}
         alignItems="center"
@@ -26,6 +28,7 @@ export default function DiamondCheck() {
         bg={bgColor}
         p={{ base: 10, md: 15, lg: 20 }}
         gap={20}
+        
       >
         <Flex direction={"column"}>
           <Text
@@ -84,8 +87,8 @@ export default function DiamondCheck() {
                     bgColor={fontColor}
                     type="submit"
                     isLoading={isSubmitting}
-                    color={"white"}
-                    colorScheme="DBA843"
+                    color={bgColor}
+                    bg="DBA843"
                     variant="outline"
                     size={{ base: "sm", md: "md", lg: "lg" }}
                   >
@@ -103,5 +106,7 @@ export default function DiamondCheck() {
         />
       </Flex>
     </Container>
+    </Box>
+    
   );
 }
