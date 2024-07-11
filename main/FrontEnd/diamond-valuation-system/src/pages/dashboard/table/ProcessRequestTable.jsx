@@ -361,7 +361,7 @@ export default function ProcessRequestTable() {
       .post(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-receipt/create?valuationRequestId=${valuationRequestId}`,
+        }/api/valuation-receipt/create?valuationRequestId=${valuationRequestId}`, {},
         {
           headers: {
             Authorization: `Bearer ${user.userAuth.token}`,
