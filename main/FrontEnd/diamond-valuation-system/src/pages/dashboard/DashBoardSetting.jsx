@@ -1,25 +1,26 @@
 import {
-  Divider,
-  Flex,
-  Text,
-  Box,
-  useColorModeValue,
-  Container,
-  Button,
-  useToast,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
+    Divider,
+    Flex,
+    Text,
+    Box,
+    useColorModeValue,
+    Container,
+    Button,
+    useToast,
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    AlertDialogCloseButton,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import Title from "../../components/Title";
 import ScrollToTop from "react-scroll-to-top";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
+import { deleteHardAccount } from "../../service/DeleteHardAccount";
 
 export default function DashBoardSetting() {
   const auth = useContext(UserContext);
@@ -30,18 +31,39 @@ export default function DashBoardSetting() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
 
-  const onClose = () => setIsOpen(false);
-  const cancelRef = React.useRef();
+    const onClose = () => setIsOpen(false);
+    const cancelRef = useRef();
 
-  const handleDeleteAccount = async () => {
-    try {
-      await auth.deleteAccount();
-      onClose();
-    } catch (error) {
-      
-      console.error("Error deleting account:", error);
-    }
-  };
+    const handleDeleteAccount = async () => {
+        try {
+            const result = await deleteHardAccount(
+                auth.userAuth.id,
+                auth.userAuth.token
+            );
+            console.log(result);
+            if (!result.errCode) {
+                toast({
+                    title: "Delete successful.",
+                    status: "success",
+                    position: "top-right",
+                    duration: 2000,
+                    isClosable: true,
+                });
+            }
+            else {
+              toast({
+                title: "Delete Fail.",
+                status: "error",
+                position: "top-right",
+                duration: 2000,
+                isClosable: true,
+            });
+            }
+            onClose();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
   return (
     <Box bg={bgColor}>
@@ -145,21 +167,24 @@ export default function DashBoardSetting() {
               Delete Account
             </Button>
 
-            <AlertDialog
-              isOpen={isOpen}
-              leastDestructiveRef={cancelRef}
-              onClose={onClose}
-            >
-              <AlertDialogOverlay>
-                <AlertDialogContent>
-                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                    Delete Account
-                  </AlertDialogHeader>
+                        <AlertDialog
+                            isOpen={isOpen}
+                            leastDestructiveRef={cancelRef}
+                            onClose={onClose}
+                        >
+                            <AlertDialogOverlay>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader
+                                        fontSize="lg"
+                                        fontWeight="bold"
+                                    >
+                                        Delete Account
+                                    </AlertDialogHeader>
 
-                  <AlertDialogBody>
-                    Are you sure you want to delete your account? This action
-                    cannot be undone.
-                  </AlertDialogBody>
+                                    <AlertDialogBody>
+                                        Are you sure you want to delete your
+                                        account? This action cannot be undone.
+                                    </AlertDialogBody>
 
                   <AlertDialogFooter>
                     <Button ref={cancelRef} onClick={onClose}>
