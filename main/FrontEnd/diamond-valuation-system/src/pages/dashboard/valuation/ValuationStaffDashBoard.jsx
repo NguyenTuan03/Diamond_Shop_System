@@ -217,18 +217,18 @@ export default function ValuationStaffDashboard() {
           </Text>
         </Center>
         <Skeleton isLoaded={processResult.length > 0} height={"200px"}>
-          <TableContainer whiteSpace={"wrap"}>
-            <Table size={"sm"} colorScheme="blue">
-              <Thead bgColor={"blue.400"}>
+          <TableContainer whiteSpace={"wrap"} bg="gray.600" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+            <Table >
+              <Thead >
                 <Tr>
-                  <Th>No</Th>
-                  <Th>ID</Th>
-                  <Th>Service</Th>
-                  <Th>Status</Th>
-                  <Th>View</Th>
+                  <Th color="white">No</Th>
+                  <Th color="white">ID</Th>
+                  <Th color="white">Service</Th>
+                  <Th color="white">Status</Th>
+                  <Th color="white">View</Th>
                 </Tr>
               </Thead>
-              <Tbody>
+              <Tbody variant="simple" bg="gray.200" color="black">
                 {processResult.map((item, index) => (
                   <Tr key={index}>
                     <Td>{index + 1}</Td>
@@ -239,6 +239,7 @@ export default function ValuationStaffDashboard() {
                       <IconButton
                         icon={<ViewIcon />}
                         bgColor={"transparent"}
+                        color="black"
                         onClick={() => {
                           setSelectedProcessResult(item);
                           fetchValuatedDiamondImages(item?.valuationResultId);

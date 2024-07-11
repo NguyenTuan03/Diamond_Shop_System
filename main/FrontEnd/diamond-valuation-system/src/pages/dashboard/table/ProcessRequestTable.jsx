@@ -486,20 +486,20 @@ export default function ProcessRequestTable() {
           <Skeleton isLoaded={processRequest.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
               <Table >
-                <Thead bg="gray.400" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
-                    <Th color="black">ID</Th>
+                    <Th color="white">ID</Th>
                     {(user.userAuth.roleid === 2 ||
-                      user.userAuth.roleid === 3) && <Th color="black">Customer ID</Th>}
-                    <Th color="black">Customer Name</Th>
+                      user.userAuth.roleid === 3) && <Th color="white">Customer ID</Th>}
+                    <Th color="white">Customer Name</Th>
                     {(user.userAuth.roleid === 2 ||
                       user.userAuth.roleid === 3) && (
-                      <Th color="black">Consulting Staff ID</Th>
+                      <Th color="white">Consulting Staff ID</Th>
                     )}
-                    <Th color="black">Consulting Staff Name</Th>
-                    <Th color="black">Description</Th>
-                    <Th color="black">Status</Th>
-                    <Th color="black">View</Th>
+                    <Th color="white">Consulting Staff Name</Th>
+                    <Th color="white">Description</Th>
+                    <Th color="white">Status</Th>
+                    <Th color="white">View</Th>
                   </Tr>
                 </Thead>
                 <Tbody variant="simple" bg="gray.200" color="black">
