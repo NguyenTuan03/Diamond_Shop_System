@@ -81,7 +81,7 @@ export default function Home() {
                     direction={{ base: "column", md: "row", lg: "row" }}
                     alignItems="center"
                     justifyContent={currentImage === 0 ? "flex-end" : "flex-start"}
-                    width="100vw"
+                    width="100%"
                     height={{ base: "50vh", md: "70vh" }}
                     position="relative"
                     transition="background-image 1s ease-in-out"
@@ -235,9 +235,10 @@ export default function Home() {
                                 borderRadius="md"
                                 bg={bgColor}
                                 width={{ base: "100%", md: "45%", lg: "20%" }}
-                                height="350px"
+                                minHeight="430px"
+                                position={"relative"}
                             >
-                                <Flex justifyContent="center" mb={3}>
+                                <Flex justifyContent="center" mb={5}>
                                     {[...Array(5)].map((_, i) => (
                                         <StarIcon key={i} color="teal.500" />
                                     ))}
@@ -245,14 +246,14 @@ export default function Home() {
                                 <Text fontSize={{ base: "md", md: "2xl" }} color={fontColor}>
                                     {testimonial.text}
                                 </Text>
-                                <Text fontSize="sm" fontWeight="bold" color="teal.500" mt={3}>
+                                <Text fontSize="xl" fontWeight="bold" color="teal.500" mt={3} position={"absolute"} left={"0"} right={"0"} bottom={"12px"} textAlign={"center"} w={"100%"}>
                                     - {testimonial.name}
                                 </Text>
                             </Box>
                         ))}
                     </Flex>
                 </Box>
-                <Box position="relative" width="100vw" height={{ base: "200px", md: "300px", lg: "400px" }} mt={5}>
+                <Box position="relative" width="100%" height={{ base: "200px", md: "300px", lg: "400px" }} mt={5}>
                     <Image
                         src="/images/banner/Banner3.webp"
                         alt="Banner Image"
@@ -260,6 +261,7 @@ export default function Home() {
                         height="100%"
                         objectFit="cover"
                         filter="blur(0.5px)"
+                        position={"absolute"}
                     />
                     <Center
                         position="absolute"

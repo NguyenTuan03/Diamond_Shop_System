@@ -35,7 +35,7 @@ export default function Activate() {
     return (
         <Box
             w={"100%"}
-            height={"80vh"}
+            height={"100vh"}
             display={"flex"}
             alignItems={"center"}
             justifyContent={"center"}

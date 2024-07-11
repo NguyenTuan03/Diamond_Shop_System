@@ -17,7 +17,6 @@ public interface ProcessResultRepository extends JpaRepository<ProcessResultEnti
             "WHERE p.valuationStaffId.is_active=true AND p.valuationStaffId.id=:staffId")
     long countByStaffId(@Param("staffId") int staffId);
 
-    //
     @Query(value = "SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ProcessResultPojo(" +
             "p.valuationResultId.id," +
