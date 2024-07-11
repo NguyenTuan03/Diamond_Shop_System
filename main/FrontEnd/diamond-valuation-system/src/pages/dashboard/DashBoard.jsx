@@ -21,13 +21,13 @@ export default function DashBoardAppoint() {
         fetchApi(user.userAuth.id);
     }, []);
     return (
-        <Box >
-            <Box bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+        <Box>
+            <Box p={"12px"} bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
             <Text py={3} fontSize="lg" pl={4}>
                 APPOINTMENTS
             </Text>
             {request.length === 0 ? (
-                <Box>There's no API available</Box>
+                <Box ml={"12px"}>There's no upcoming appointment</Box>
             ) : (
                 <TableContainer>
                     <Table variant="simple" bg="gray.200" color="black">

@@ -4,9 +4,8 @@ export const deleteHardAccount = async (id, token) => {
         const res = await Http.httpRequest.delete("api/account/delete", {
             params : {
                 id
-            }
-        }, {
-            headers: {
+            },
+            headers : {
                 'Authorization': 'Bearer ' + token
             }
         }); 

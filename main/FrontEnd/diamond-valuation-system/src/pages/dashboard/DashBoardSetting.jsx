@@ -15,7 +15,7 @@ import {
     AlertDialogOverlay,
     AlertDialogCloseButton,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import Title from "../../components/Title";
 import ScrollToTop from "react-scroll-to-top";
@@ -30,7 +30,7 @@ export default function DashBoardSetting() {
     const [isOpenUpdate, setIsOpenUpdate] = useState(false);
 
     const onClose = () => setIsOpen(false);
-    const cancelRef = React.useRef();
+    const cancelRef = useRef();
 
     const handleDeleteAccount = async () => {
         try {
@@ -38,7 +38,8 @@ export default function DashBoardSetting() {
                 auth.userAuth.id,
                 auth.userAuth.token
             );
-            if (result != null) {
+            console.log(result);
+            if (!result.errCode) {
                 toast({
                     title: "Delete successful.",
                     status: "success",
