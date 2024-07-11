@@ -98,7 +98,8 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Integer>
         void deleteSoftById(@Param("id") int id);
 
         @Modifying
-        @Query("DELETE FROM AccountEntity a where a.id=:id")
+        @Transactional
+        @Query("DELETE FROM AccountEntity a WHERE a.id = :id")
         void deleteHardById(@Param("id") int id);
 
         @Modifying

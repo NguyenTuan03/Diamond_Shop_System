@@ -45,7 +45,7 @@ CREATE TABLE payments(
 	amount int,
 	transaction_no NVARCHAR(255),
 	order_info NVARCHAR(255),
-	FOREIGN KEY (customer_id) REFERENCES users(id)
+	FOREIGN KEY (customer_id) REFERENCES users(id) on DELETE SET NULL
 )
 
 CREATE TABLE service_statistics(
