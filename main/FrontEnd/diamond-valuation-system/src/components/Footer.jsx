@@ -49,9 +49,6 @@ export default function Footer() {
               <Text fontWeight={"bold"} fontSize={"lg"}>
                 Features
               </Text>
-              <Link reloadDocument to={routes.search}>
-                Search
-              </Link>
               <Link reloadDocument to={routes.diamondCheck}>
                 Diamond Check
               </Link>

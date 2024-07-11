@@ -29,13 +29,13 @@ export default function DashBoardTransaction() {
             <Table variant="simple" bg="gray.200" color="black">
                 <Thead>
                     <Tr>
-                        <Th>#</Th>
-                        <Th>Transaction No</Th>
-                        <Th>Name</Th>
-                        <Th>Bank</Th>
-                        <Th>Amount</Th>
-                        <Th>Date</Th>
-                        <Th>Description</Th>
+                        <Th color="black">No</Th>
+                        <Th color="black">Transaction No</Th>
+                        <Th color="black">Name</Th>
+                        <Th color="black">Bank</Th>
+                        <Th color="black">Amount</Th>
+                        <Th color="black">Date</Th>
+                        <Th color="black">Description</Th>
                     </Tr>
                 </Thead>
                 <Tbody>

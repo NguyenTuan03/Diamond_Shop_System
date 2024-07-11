@@ -5,6 +5,7 @@ import {
   Tabs,
   TabPanels,
   useColorModeValue,
+  Box,
 } from "@chakra-ui/react";
 import React from "react";
 import Natural from "./natural/Natural";
@@ -13,8 +14,9 @@ import ScrollToTop from "react-scroll-to-top";
 
 export default function Prices() {
   const bgColor1 = useColorModeValue("blue.400", "#DBA843");
+  const bgColor = useColorModeValue("#fff", "#000");
   return (
-    <>
+    <Box bg={bgColor}>
       <ScrollToTop smooth style={{display:"flex" ,alignItems:"center", justifyContent:"center", padding:"4px"}}/>
       <Tabs variant="enclosed" paddingTop={10}>
         <TabList justifyContent={"center"}  >
@@ -30,6 +32,6 @@ export default function Prices() {
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </>
+    </Box>
   );
 }
