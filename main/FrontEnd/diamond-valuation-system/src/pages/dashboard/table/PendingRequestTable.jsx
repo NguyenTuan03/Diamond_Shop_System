@@ -179,15 +179,15 @@ export default function PendingRequestTable() {
           <Skeleton isLoaded={pendingRequest.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
               <Table >
-                <Thead bg="gray.400" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+                <Thead bg="gray.600" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
-                    <Th color="black">ID</Th>
-                    <Th color="black">Customer Name</Th>
-                    <Th color="black">Email</Th>
-                    <Th color="black">Phone Number</Th>
-                    <Th color="black">Description</Th>
-                    <Th color="black">Created Date</Th>
-                    <Th color="black">View</Th>
+                    <Th color="white">ID</Th>
+                    <Th color="white">Customer Name</Th>
+                    <Th color="white">Email</Th>
+                    <Th color="white">Phone Number</Th>
+                    <Th color="white">Description</Th>
+                    <Th color="white">Created Date</Th>
+                    <Th color="white">View</Th>
                   </Tr>
                 </Thead>
                 <Tbody variant="simple" bg="gray.200" color="black">
