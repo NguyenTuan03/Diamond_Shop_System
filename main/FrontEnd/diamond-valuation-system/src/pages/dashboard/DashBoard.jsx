@@ -29,6 +29,7 @@ import { PiPiggyBankBold } from "react-icons/pi";
 import { MdDone } from "react-icons/md";
 import { IoDiamond } from "react-icons/io5";
 import LazyLoad from "../../components/lazyload/LazyLoad";
+import DashBoardTransaction from "./DashBoardTransaction";
 export default function DashBoardAppoint() {
   const user = useContext(UserContext);
   const isUsers =
@@ -87,108 +88,44 @@ export default function DashBoardAppoint() {
     <>
       {isUsers && user.userAuth.authorities[0].authority === "Customer" ? (
         <Box>
-          <Box
-            bg="gray.600"
-            color="white"
-            mb={5}
-            boxShadow="sm"
-            borderRadius="md"
-            maxW="100%"
-            minW="100%"
-          >
+            <Box  bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
             <Text py={3} fontSize="lg" pl={4}>
               APPOINTMENTS
             </Text>
             {request.length === 0 ? (
-              <Box>There's no API available</Box>
+              <Box variant="simple" bg="gray.200" color="black" p={3}>There's no API available</Box>
             ) : (
-              <TableContainer>
-                <Table variant="simple" bg="gray.200" color="black">
-                  <Thead>
-                    <Tr>
-                      <Th>#</Th>
-                      <Th>Customer</Th>
-                      <Th>Date</Th>
-                      <Th>Email</Th>
-                      <Th>Phone</Th>
-                      <Th>Description</Th>
-                      <Th>Status</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {request.map((req, i) => {
-                      return (
-                        <Tr key={i}>
-                          <Td>{i + 1}</Td>
-                          <Td>{req.customerName}</Td>
-                          <Td>{req.createdDate?.slice(0, 10)}</Td>
-                          <Td>{req.customerEmail}</Td>
-                          <Td>{req.customerPhone}</Td>
-                          <Td>{req.description}</Td>
-                          <Td>Contacting...</Td>
-                        </Tr>
-                      );
-                    })}
-                  </Tbody>
-                </Table>
-              </TableContainer>
+                <TableContainer>
+                    <Table variant="simple" bg="gray.200" color="black">
+                        <Thead >
+                            <Tr >
+                                <Th color="black">No</Th>
+                                <Th color="black">Name</Th>
+                                <Th color="black">Date Create Request</Th>
+                                
+                                <Th color="black">Description</Th>
+                                <Th color="black">Status</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {request.map((req, i) => {
+                                return (
+                                    <Tr key={i}>
+                                        <Td>{i + 1}</Td>
+                                        <Td>{req.customerName}</Td>
+                                        <Td>{req.createdDate?.slice(0, 10)}</Td>
+                                        
+                                        <Td>{req.description}</Td>
+                                        <Td>Contacting...</Td>
+                                    </Tr>
+                                );
+                            })}
+                        </Tbody>
+                    </Table>
+                </TableContainer>
             )}
           </Box>
-          <Box
-            bg="gray.600"
-            color="white"
-            mb={5}
-            boxShadow="sm"
-            borderRadius="md"
-            maxW="100%"
-            minW="100%"
-          >
-            <Text py={3} fontSize="lg" pl={4}>
-              Transaction History
-            </Text>
-            <Box overflowX="auto">
-              <Table variant="simple" bg="gray.200" color="black">
-                <Thead>
-                  <Tr>
-                    <Th>Services</Th>
-                    <Th>Date</Th>
-                    <Th>Invoice ID</Th>
-                    <Th>Amount</Th>
-                    <Th>Status</Th>
-                    <Th>Action</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  <Tr>
-                    <Td>
-                      <HStack>
-                        <Box>
-                          <Text>Check Diamond</Text>
-                          <Text fontSize="sm" color="gray.500">
-                            ID: 25014287
-                          </Text>
-                        </Box>
-                      </HStack>
-                    </Td>
-                    <Td>
-                      <Text>21 March 2021</Text>
-                      <Text fontSize="sm" color="gray.500">
-                        At 6:45 PM
-                      </Text>
-                    </Td>
-                    <Td>OP01214784</Td>
-                    <Td>$250 USD</Td>
-                    <Td color="green">Receive</Td>
-                    <Td>
-                      <Button size="sm" bg="gray.300">
-                        Details
-                      </Button>
-                    </Td>
-                  </Tr>
-                </Tbody>
-              </Table>
-            </Box>
-          </Box>
+          <DashBoardTransaction />
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
             <Box
               bg="gray.600"
@@ -297,10 +234,10 @@ export default function DashBoardAppoint() {
                 </HStack>
               </VStack>
               <Button
-                backgroundColor="white"
+                backgroundColor="gray.400"
                 size="sm"
                 border="1px solid"
-                borderColor="grey"
+                borderColor="gray."
                 ml="auto"
                 mt={1}
                 mb={1}

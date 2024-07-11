@@ -28,7 +28,7 @@ export default function EducationCertificate() {
   const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   AOS.init();
   return (
-    <>
+    <Box bg={bgColor}>
       <ScrollToTop smooth style={{display:"flex" ,alignItems:"center", justifyContent:"center", padding:"4px"}}/>
       <Container mawW={"100vw"}>
         <Flex
@@ -837,7 +837,7 @@ export default function EducationCertificate() {
           </Flex>
         </Flex>
       </Container>
-    </>
+    </Box>
   );
 }
 

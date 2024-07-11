@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Container,
   Flex,
@@ -16,9 +17,10 @@ import { useNavigate } from "react-router-dom";
 export default function DiamondCheck() {
   const navigate = useNavigate();
   const bgColor = useColorModeValue("white", "black");
-  const fontColor = useColorModeValue("blue.600", "#DBA843");
+  const fontColor = useColorModeValue("blue.400", "#DBA843");
   return (
-    <Container maxW="100vw">
+    <Box bg={bgColor}>
+      <Container maxW="100vw">
       <Flex
         direction={{ base: "column", md: "row", lg: "row" }}
         alignItems="center"
@@ -26,6 +28,7 @@ export default function DiamondCheck() {
         bg={bgColor}
         p={{ base: 10, md: 15, lg: 20 }}
         gap={20}
+        
       >
         <Flex direction={"column"}>
           <Text
@@ -81,6 +84,7 @@ export default function DiamondCheck() {
                     />
                   </FormControl>
                   <Button
+                    bgColor={fontColor}
                     type="submit"
                     isLoading={isSubmitting}
                     colorScheme="blue"
@@ -100,5 +104,7 @@ export default function DiamondCheck() {
         />
       </Flex>
     </Container>
+    </Box>
+    
   );
 }

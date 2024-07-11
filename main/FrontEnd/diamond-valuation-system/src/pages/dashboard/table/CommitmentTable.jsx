@@ -82,15 +82,15 @@ export default function CommitmentTable() {
               <Table >
                 <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
-                    <Th>ID</Th>
-                    <Th>Request ID</Th>
+                    <Th color="white">ID</Th>
+                    <Th color="white">Request ID</Th>
 
                     {isUsers &&
                       user.userAuth.authorities[0].authority === "Manager" && (
-                        <Th>Customer Name</Th>
+                        <Th color="white">Customer Name</Th>
                       )}
-                    <Th>Created Date</Th>
-                    <Th>View</Th>
+                    <Th color="white">Created Date</Th>
+                    <Th color="white">View</Th>
                   </Tr>
                 </Thead>
                 <Tbody variant="simple" bg="gray.200" color="black">

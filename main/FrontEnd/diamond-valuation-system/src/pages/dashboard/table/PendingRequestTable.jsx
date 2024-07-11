@@ -179,7 +179,7 @@ export default function PendingRequestTable() {
           <Skeleton isLoaded={pendingRequest.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
               <Table >
-                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+                <Thead bg="gray.600" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
                     <Th color={"white"}>ID</Th>
                     <Th color={"white"}>Customer Name</Th>

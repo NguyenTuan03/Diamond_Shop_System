@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
+  Box,
   Button,
   Flex,
   FormControl,
   FormLabel,
+  Icon,
   Input,
   InputGroup,
   InputRightElement,
@@ -15,10 +17,15 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  useToast,
+  GridItem,
+  SimpleGrid,
+  Badge,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../service/Login";
+import { forgetPassword } from '../../service/ForgotPassword';
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SignUp from "../signUp/SignUp";
@@ -26,20 +33,25 @@ import { UserContext } from "../../components/GlobalContext/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import { FiEye } from "react-icons/fi";
 import { IoEyeOffOutline } from "react-icons/io5";
+import { GiDiamondTrophy } from "react-icons/gi";
 import routes from "../../config/Config";
+
 export default function Login({ signIn, signUp }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const auth = useContext(UserContext);
   const [isLogin, setIsLogin] = useState(false);
   const [show, setShow] = useState(false);
   const handleShowPassWord = () => setShow(!show);
   const nav = useNavigate();
+  const toast = useToast();
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+
   async function fetchApi(username, password) {
     setIsLoading(true);
     try {
-      console.log(username, password);
       const result = await login(username, password);
-      console.log(result);
       if (!result?.status) {
         toast.error("Login failed. Try again later", {
           position: "top-right",
@@ -68,10 +80,9 @@ export default function Login({ signIn, signUp }) {
           theme: "light",
           transition: Bounce,
         });
-        localStorage.setItem("user", JSON.stringify(result.data ));
+        localStorage.setItem("user", JSON.stringify(result.data));
       }
     } catch (error) {
-      console.error(error);
       toast.error("An error occurred. Please try again later.", {
         position: "top-right",
         autoClose: 2000,
@@ -87,14 +98,14 @@ export default function Login({ signIn, signUp }) {
       setIsLoading(false);
     }
   }
+
   const handleCredentialResponse = (response) => {
     var decoded = jwtDecode(response.credential);
     auth.loginUser(decoded);
     setIsLogin(true);
-    console.log("google: ",decoded);
-    
     document.getElementById("buttonDiv").hidden = true;
   };
+
   useEffect(() => {
     if (signIn.isOpen) {
       const timer = setTimeout(() => {
@@ -112,6 +123,21 @@ export default function Login({ signIn, signUp }) {
       return () => clearTimeout(timer);
     }
   }, [signIn.isOpen]);
+
+  const handleResetPassword = async () => {
+    const result = await forgetPassword(username, email);
+    if (result !== null) {
+      toast({
+        title: result,
+        description: "We've sent you email, check this out!.",
+        status: 'success',
+        position: 'top-right',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  }
+
   return (
     <>
       <ToastContainer />
@@ -174,7 +200,7 @@ export default function Login({ signIn, signUp }) {
                       justifyContent={"space-between"}
                       m={"10px"}
                     >
-                      <Text onClick={() => nav(routes.forgetPassword)} cursor={"pointer"} fontSize={"sm"} _hover={{color: "blue"}}>Forgot password ?</Text>
+                      <Text onClick={() => setIsForgotPasswordOpen(true)} cursor={"pointer"} fontSize={"sm"} _hover={{ color: "blue" }}>Forgot password ?</Text>
                       <Button
                         isLoading={isLoading}
                         type="submit"
@@ -220,6 +246,54 @@ export default function Login({ signIn, signUp }) {
         </Modal>
       )}
       <SignUp signUp={signUp} signIn={signIn} />
+
+      <Modal isOpen={isForgotPasswordOpen} onClose={() => setIsForgotPasswordOpen(false)}>
+        <ModalOverlay />
+        <ModalContent maxWidth="600px">
+          <ModalHeader>Reset Password</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Box w={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+              <Box padding={"70px 70px 20px 70px"}>
+                <Flex>
+                  <Icon
+                    as={GiDiamondTrophy}
+                    w={{ base: 5, md: 8, lg: 10 }}
+                    h={{ base: 5, md: 8, lg: 10 }}
+                  />
+                  <Text
+                    fontFamily={"The Nautigal"}
+                    fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}
+                    fontWeight={"bold"}
+                    m={"10px "}
+                  >
+                    DiamondVal
+                  </Text>
+                </Flex>
+                <Text fontSize={"3xl"} mb={"40px"} fontWeight={"bold"}>
+                  Please enter your username
+                </Text>
+                <Input onChange={(e) => setUsername(e.target.value)} variant='flushed' placeholder='Username' mb={"24px"} />
+                <Text fontSize={"3xl"} mb={"40px"} fontWeight={"bold"}>
+                  Please enter your email
+                </Text>
+                <Input onChange={(e) => setEmail(e.target.value)} variant='flushed' placeholder='Email' mb={"24px"} />
+                <Text fontSize={"2xl"} mb={"12px"}>
+                  We'll email you instructions on how to reset your password
+                </Text>
+                <Button onClick={handleResetPassword} p={"24px"} colorScheme='blue' mb={"12px"}>Send</Button>
+                <Text
+                  fontSize={"xl"}
+                  fontFamily={"Playwrite France Traditionnelle"}
+                  mt={"30px"}
+                >
+                  Stay here and relax! 🍵
+                </Text>
+              </Box>
+            </Box>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

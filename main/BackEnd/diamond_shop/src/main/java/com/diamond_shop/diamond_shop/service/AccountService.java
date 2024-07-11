@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
+import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
@@ -33,6 +34,8 @@ public interface AccountService {
     String restoreAccount(int id);
 
     ResponseEntity<?> loginAccount(LoginDTO loginDTO);
+
+    ResponseEntity<?> loginGoogleAccount(GoogleLoginRequestDTO googleLoginRequestDTO);
 
     ResponseEntity<?> forgotPassword(ForgetPasswordDTO forgetPasswordDTO);
 

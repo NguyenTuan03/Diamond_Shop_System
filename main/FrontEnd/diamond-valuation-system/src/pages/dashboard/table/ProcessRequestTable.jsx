@@ -488,13 +488,13 @@ export default function ProcessRequestTable() {
               <Table >
                 <Thead bg="gray.600" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
-                    <Th color={"white"}>ID</Th>
+                    <Th color="white">ID</Th>
                     {(user.userAuth.roleid === 2 ||
-                      user.userAuth.roleid === 3) && <Th>Customer ID</Th>}
-                    <Th color={"white"}>Customer Name</Th>
+                      user.userAuth.roleid === 3) && <Th color="white">Customer ID</Th>}
+                    <Th color="white">Customer Name</Th>
                     {(user.userAuth.roleid === 2 ||
                       user.userAuth.roleid === 3) && (
-                      <Th>Consulting Staff ID</Th>
+                      <Th color="white">Consulting Staff ID</Th>
                     )}
                     <Th color="white">Consulting Staff Name</Th>
                     <Th color="white">Description</Th>

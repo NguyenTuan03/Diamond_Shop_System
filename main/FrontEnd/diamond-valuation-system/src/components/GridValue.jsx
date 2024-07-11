@@ -35,7 +35,7 @@ export default function GridValue({
     lg: row,
   });
   
-  const bgColor = useColorModeValue("blue.600", "#DBA843");
+  const bgColor = useColorModeValue("blue.400", "#DBA843");
   return (
     <FormControl isRequired isInvalid={isError}>
       <FormLabel color={"gray"} m={"20px 0 0 0"}>

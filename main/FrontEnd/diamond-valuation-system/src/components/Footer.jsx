@@ -23,7 +23,7 @@ export default function Footer() {
       <Box
         bg={useColorModeValue("gray.200", "black")}
         color={fontColor}
-        m={"0 0 0 0"}
+        
       >
         <Container as={Stack} maxW={"9xl"}>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} p={10} gap={10}>
@@ -86,7 +86,7 @@ export default function Footer() {
               <Link reloadDocument to={routes.aboutUs}>
                 About us
               </Link>
-              <Link reloadDocument to={routes.educationCertificate}>
+              <Link reloadDocument to={routes.FAQs}>
                 FAQs
               </Link>
             </Stack>

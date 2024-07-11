@@ -34,10 +34,12 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import { GiCheckeredDiamond } from "react-icons/gi";
 import { MdManageAccounts } from "react-icons/md";
+import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import routes from "../../config/Config";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import Profile from "../../components/Profile";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 const SideBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,6 +48,23 @@ const SideBar = () => {
   const color = useColorModeValue("white", "gray.200");
   const hoverBg = useColorModeValue("gray.700", "gray.600");
   const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setTimeout(() => {
+      window.location.reload();
+    }, [200]);
+    toast.success("Logout Successful", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce
+    });
+  };
   const isUsers =
     auth.userAuth &&
     auth.userAuth.authorities &&
@@ -74,12 +93,6 @@ const SideBar = () => {
       path: routes.sealingLetter,
       icon: IoNewspaperOutline,
       label: "Sealing Letter",
-    },
-    {
-      role: ["Customer"],
-      path: routes.dashboardTransaction,
-      icon: IoNewspaperOutline,
-      label: "Transaction history",
     },
     {
       role: ["Manager", "Customer"],
@@ -111,6 +124,12 @@ const SideBar = () => {
       icon: BsNewspaper,
       label: "Valuation Diamond",
     },
+    {
+      role: ["Customer"],
+      path: routes.dashboardTransaction,
+      icon: IoNewspaperOutline,
+      label: "Transaction history",
+    },
   ];
 
   const generalMenuItems = [
@@ -141,7 +160,7 @@ const SideBar = () => {
     <Link to={path} key={label}>
       <Flex
         align="center"
-        p="4"
+        p="3"
         mx="4"
         borderRadius="lg"
         role="group"
@@ -162,12 +181,13 @@ const SideBar = () => {
     <>
       {isMobile ? (
         <>
+        <ToastContainer />
           <IconButton
             icon={<HamburgerIcon />}
             onClick={onOpen}
             variant="outline"
             aria-label="Open Menu"
-            m={4}
+            m={3}
           />
           <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
             <DrawerOverlay />
@@ -175,11 +195,11 @@ const SideBar = () => {
               <DrawerCloseButton />
               <DrawerHeader>Menu</DrawerHeader>
               <DrawerBody>
-                <VStack spacing="2" align="stretch">
+                <VStack spacing="1" align="stretch">
                   <Link to={routes.dashboard}>
                     <Flex
                       align="center"
-                      p="4"
+                      p="3"
                       mx="4"
                       borderRadius="lg"
                       role="group"
@@ -219,11 +239,28 @@ const SideBar = () => {
                     )
                     .map(renderMenuItem)}
                 </VStack>
+                <Flex
+                align="center"
+                p="3"
+                mx="4"
+                borderRadius="lg"
+                role="group"
+                cursor="pointer"
+                _hover={{
+                  bg: hoverBg,
+                  color: "white",
+                }}
+                onClick={handleLogout}
+              >
+                <FiLogOut />
+                <Text ml="4">Logout</Text>
+              </Flex>
               </DrawerBody>
             </DrawerContent>
           </Drawer>
         </>
       ) : (
+        
         <Box
           bg={bg}
           color={color}
@@ -232,14 +269,17 @@ const SideBar = () => {
           pos="fixed"
           borderRight="1px"
           borderColor="gray.200"
+          maxH="100vh" 
+          overflowY="auto"
         >
+          <ToastContainer />
           <Profile />
           <Divider my="8" borderColor="gray.600" />
           <VStack spacing="2" align="stretch">
             <Link to={routes.dashboard}>
               <Flex
                 align="center"
-                p="4"
+                p="3"
                 mx="4"
                 borderRadius="lg"
                 role="group"
@@ -278,6 +318,22 @@ const SideBar = () => {
               })
               .map(renderMenuItem)}
           </VStack>
+          <Flex
+                align="center"
+                p="3"
+                mx="4"
+                borderRadius="lg"
+                role="group"
+                cursor="pointer"
+                _hover={{
+                  bg: hoverBg,
+                  color: "white",
+                }}
+                onClick={handleLogout}
+              >
+                <FiLogOut />
+                <Text ml="4">Logout</Text>
+          </Flex>
         </Box>
       )}
     </>

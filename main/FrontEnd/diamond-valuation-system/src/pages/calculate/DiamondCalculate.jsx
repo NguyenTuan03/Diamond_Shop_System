@@ -37,7 +37,7 @@ import routes from "../../config/Config";
 
 export default function Calculate() {
   const fontColor = useColorModeValue("white", "black");
-  const bgColor = useColorModeValue("blue.600", "#DBA843");
+  const bgColor = useColorModeValue("blue.400", "#DBA843");
   const toast = useToast();
   const user = useContext(UserContext);
   const sendEmailModal = useDisclosure();
@@ -157,7 +157,7 @@ export default function Calculate() {
   useEffect(() => {}, []);
 
   return (
-    <>
+    <Box bg={fontColor}>
       <ScrollToTop smooth style={{display:"flex" ,alignItems:"center", justifyContent:"center", padding:"4px"}}/>
       <Container maxW={"9xl"}>
         <Flex
@@ -402,6 +402,6 @@ export default function Calculate() {
         Avg: ${valuationResult.avg}$ \n
         Max: ${valuationResult.max}$ \n`}
       />
-    </>
+    </Box>
   );
 }

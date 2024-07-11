@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.service;
 import com.diamond_shop.diamond_shop.config.JWTUtil;
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
+import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
@@ -10,6 +11,7 @@ import com.diamond_shop.diamond_shop.entity.RoleEntity;
 import com.diamond_shop.diamond_shop.pojo.LoginPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
+import java.util.List;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -233,6 +237,47 @@ public class AccountImpl implements AccountService {
         );
     }
 
+    @Override
+    public ResponseEntity<?> loginGoogleAccount(GoogleLoginRequestDTO googleLoginRequestDTO) {
+        AccountEntity acc = accountRepository.findByEmail(googleLoginRequestDTO.getEmail());
+        RoleEntity roleEntity = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
+        AccountEntity accountEntity = new AccountEntity();
+        if (acc != null) {
+            return ResponseEntity.ok("Email has been registered!");
+        }
+
+            accountEntity.setRole(roleEntity); 
+            accountEntity.setUsername(googleLoginRequestDTO.getName());
+            accountEntity.setPassword(passwordEncoder.encode("null"));
+            accountEntity.setFullname(googleLoginRequestDTO.getName());
+            accountEntity.setEmail(googleLoginRequestDTO.getEmail());
+            accountEntity.setIs_active(true);
+            accountRepository.save(accountEntity);
+            
+        UserDetailsImpl userDetails = new UserDetailsImpl(
+            accountEntity.getId(), 
+            accountEntity.getUsername(),
+            accountEntity.getEmail(),
+            accountEntity.getPassword(),
+            List.of(new SimpleGrantedAuthority(roleEntity.getName()))
+        );
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                userDetails.getPassword(),
+                userDetails.getAuthorities()
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = JWTUtil.generateJwtToken(authentication);
+        return ResponseEntity.ok(
+            new LoginPojo(
+                jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                userDetails.getAuthorities()
+            )
+        );
+    }
 
     @Override
     public ResponseEntity<?> forgotPassword(ForgetPasswordDTO forgetPasswordDTO) {
