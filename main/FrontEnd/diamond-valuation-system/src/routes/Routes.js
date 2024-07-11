@@ -28,10 +28,7 @@ const Error = lazy(() => import("../pages/error/Error.jsx"));
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
 const DashBoard = lazy(() => import("../pages/dashboard/DashBoard.jsx"));
 const DashBoardNotification = lazy(() => import("../pages/dashboard/DashBoardNotification.jsx"));
-const DashBoardPrices = lazy(() => import("../pages/dashboard/DashBoardPrices.jsx"));
 const DashBoardAppoint = lazy(() => import("../pages/dashboard/DashBoardAppoint.jsx"));
-const DashBoardSearch = lazy(() => import("../pages/dashboard/DashBoardSearch.jsx"));
-const DashBoardRequest = lazy(() => import("../pages/dashboard/DashBoardRequest.jsx"));
 const AboutUs = lazy(() => import("../pages/aboutUs/AboutUs.jsx"));
 const DashBoardSetting = lazy(() => import("../pages/dashboard/DashBoardSetting.jsx"));
 const DashBoardTransaction = lazy(() => import("../pages/dashboard/DashBoardTransaction.jsx"));
@@ -148,10 +145,6 @@ const ALlRoutes = [
     path: routes.login,
     component: Login,
   },
-  {
-    path: routes.logout,
-    component: Logout,
-  },
   // Customer
   {
     path: routes.dashboard,
@@ -164,11 +157,6 @@ const ALlRoutes = [
     layout: DashBoardLayout,
   },
   {
-    path: routes.dashboardPrices,
-    component: DashBoardPrices,
-    layout: DashBoardLayout,
-  },
-  {
     path: routes.dashboardAppoint,
     component: DashBoardAppoint,
     layout: DashBoardLayout,
@@ -176,16 +164,6 @@ const ALlRoutes = [
   {
     path: routes.dashboardTransaction,
     component: DashBoardTransaction,
-    layout: DashBoardLayout,
-  },
-  {
-    path: routes.dashboardSearch,
-    component: DashBoardSearch,
-    layout: DashBoardLayout,
-  },
-  {
-    path: routes.dashboardRequest,
-    component: DashBoardRequest,
     layout: DashBoardLayout,
   },
   {
