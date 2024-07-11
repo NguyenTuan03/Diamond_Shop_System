@@ -45,7 +45,7 @@ export default function ResetForgetPassword() {
             alignItems={"center"}
             justifyContent={"center"}
         >
-            <Box border={"1px solid #00000036"} padding={"70px 80px"}>
+            <Box padding={"70px 80px"}>
                 <Flex>
                     <Icon
                         as={GiDiamondTrophy}

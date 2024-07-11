@@ -40,7 +40,6 @@ const ValuationStaffDashboard = lazy(() => import("../pages/dashboard/valuation/
 const AdminPage = lazy(() => import("../pages/admin/AdminPage.jsx"));
 const ServiceTable = lazy(() => import("../pages/dashboard/table/ServiceTable.jsx"));
 const Activate = lazy(() => import("../pages/signUp/Activate.jsx"));
-const ForgotPassword = lazy(() => import("../pages/login/ForgotPassword.jsx"));
 const ResetForgetPassword = lazy(() => import("../pages/login/ResetForgetPassword.jsx"));
 
 const ALlRoutes = [
@@ -208,11 +207,6 @@ const ALlRoutes = [
   {
     path: routes.activate,
     component: Activate,
-    layout: null,
-  },
-  {
-    path: routes.forgetPassword,
-    component: ForgotPassword,
     layout: null,
   },
   {

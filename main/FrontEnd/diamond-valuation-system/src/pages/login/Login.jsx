@@ -254,7 +254,7 @@ export default function Login({ signIn, signUp }) {
           <ModalCloseButton />
           <ModalBody>
             <Box w={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
-              <Box border={"1px solid #00000036"} padding={"70px 80px"}>
+              <Box padding={"70px 70px 20px 70px"}>
                 <Flex>
                   <Icon
                     as={GiDiamondTrophy}
@@ -281,10 +281,11 @@ export default function Login({ signIn, signUp }) {
                 <Text fontSize={"2xl"} mb={"12px"}>
                   We'll email you instructions on how to reset your password
                 </Text>
-                <Button onClick={handleResetPassword} colorScheme='blue' mb={"12px"}>Send</Button>
+                <Button onClick={handleResetPassword} p={"24px"} colorScheme='blue' mb={"12px"}>Send</Button>
                 <Text
                   fontSize={"xl"}
                   fontFamily={"Playwrite France Traditionnelle"}
+                  mt={"30px"}
                 >
                   Stay here and relax! 🍵
                 </Text>
