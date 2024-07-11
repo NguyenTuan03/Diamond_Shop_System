@@ -6,6 +6,7 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { viewCustomerRequest } from "../../service/ViewRequest";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
+import DashBoardTransaction from "./DashBoardTransaction";
 export default function DashBoardAppoint() {
     const user = useContext(UserContext);
     const [request, SetRequest] = useState([]);
@@ -21,13 +22,13 @@ export default function DashBoardAppoint() {
         fetchApi(user.userAuth.id);
     }, []);
     return (
-        <Box >
-            <Box bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+        <Box>
+            <Box p={"12px"} bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
             <Text py={3} fontSize="lg" pl={4}>
                 APPOINTMENTS
             </Text>
             {request.length === 0 ? (
-                <Box>There's no API available</Box>
+                <Box ml={"12px"}>There's no upcoming appointment</Box>
             ) : (
                 <TableContainer>
                     <Table variant="simple" bg="gray.200" color="black">
@@ -61,47 +62,7 @@ export default function DashBoardAppoint() {
                 </TableContainer>
             )}
         </Box>
-        <Box bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
-                <Text py={3} fontSize="lg" pl={4}>
-                    Transaction History
-                </Text>
-                <Box overflowX="auto">
-                    <Table variant="simple" bg="gray.200" color="black">
-                        <Thead>
-                            <Tr>
-                                <Th>Services</Th>
-                                <Th>Date</Th>
-                                <Th>Invoice ID</Th>
-                                <Th>Amount</Th>
-                                <Th>Status</Th>
-                                <Th>Action</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>
-                                    <HStack>
-                                        <Box>
-                                            <Text>Check Diamond</Text>
-                                            <Text fontSize="sm" color="gray.500">ID: 25014287</Text>
-                                        </Box>
-                                    </HStack>
-                                </Td>
-                                <Td>
-                                    <Text>21 March 2021</Text>
-                                    <Text fontSize="sm" color="gray.500">At 6:45 PM</Text>
-                                </Td>
-                                <Td>OP01214784</Td>
-                                <Td>$250 USD</Td>
-                                <Td color="green">Receive</Td>
-                                <Td>
-                                    <Button size="sm" bg="gray.300">Details</Button>
-                                </Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
-                </Box>
-            </Box>
+        <DashBoardTransaction/>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
                 <Box bg="gray.600" color="white" borderRadius="md" maxW="100%" minW="100%">
                     <Text py={3} fontSize="lg" pl={4}>
