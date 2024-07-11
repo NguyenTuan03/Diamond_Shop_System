@@ -29,13 +29,9 @@ export default function DashBoardNotification() {
       console.log(e);
     }
   }
-  // useEffect(() => {
-  //   if (JSON.parse(localStorage.getItem("finishedRequests")).length >= 0) {
-  //     console.log(JSON.parse(localStorage.getItem("finishedRequests")).length);
-  //   } else {
-  //       return;
-  //   }
-  // }, []);
+  useEffect(() => {
+    console.log(JSON.parse(localStorage.getItem("finishedRequests"))?.length);
+  }, []);
   return (
     <>
       {isUsers &&

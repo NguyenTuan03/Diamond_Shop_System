@@ -21,11 +21,9 @@ export default function AuthContext({ children }) {
         logoutUser,
     };
 
-    return (
-        <div>
-            <UserContext.Provider value={value}>
-                {children}
-            </UserContext.Provider>
-        </div>
-    );
+  return (
+    <div>
+      <UserContext.Provider value={value}>{children}</UserContext.Provider>
+    </div>
+  );
 }
