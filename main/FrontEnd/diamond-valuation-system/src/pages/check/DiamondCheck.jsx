@@ -75,7 +75,6 @@ export default function DiamondCheck() {
                       name="id"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      
                       value={values.id}
                       placeholder="Enter Valuate ID"
                       size={{ base: "sm", md: "md", lg: "lg" }}
@@ -84,9 +83,7 @@ export default function DiamondCheck() {
                   <Button
                     type="submit"
                     isLoading={isSubmitting}
-                    color={fontColor}
-                    colorScheme="DBA843"
-                    variant="outline"
+                    colorScheme="blue"
                     size={{ base: "sm", md: "md", lg: "lg" }}
                   >
                     Run free check
