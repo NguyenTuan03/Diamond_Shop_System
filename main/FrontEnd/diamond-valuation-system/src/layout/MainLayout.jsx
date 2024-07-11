@@ -4,7 +4,7 @@ import classnames from "classnames/bind";
 import styles from "./MainLayout.module.scss";
 import Footer from "../components/Footer";
 import { UserContext } from "../components/GlobalContext/AuthContext";
-import { Button } from "@chakra-ui/react";
+import { Button, useColorModeValue } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import routes from "../config/Config";
@@ -12,6 +12,8 @@ let cx = classnames.bind(styles);
 export default function MainLayout({ children }) {
   const auth = useContext(UserContext);
   const nav = useNavigate();
+  const bgColor = useColorModeValue("blue", "#DBA843");
+  const fontColor = useColorModeValue("#fff", "#000");
   const isCustomer =
     auth.userAuth &&
     auth.userAuth.authorities &&
@@ -27,7 +29,8 @@ export default function MainLayout({ children }) {
           position={"fixed"}
           left={"20px"}
           bottom={"60px"}
-          colorScheme="blue"
+          bg={bgColor}
+          color={fontColor}
         >
           <FaPlus style={{ marginRight: "10px" }} /> Create Request
         </Button>
