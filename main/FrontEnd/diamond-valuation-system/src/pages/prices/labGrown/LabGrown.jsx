@@ -33,56 +33,57 @@ const tabs = [
     {
         shape: "Round",
         api: "round",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_round.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/b.svg?height=32&width=32",
     },
     {
         shape: "Oval",
         api: "oval",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_oval.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/o.svg?height=32&width=32",
     },
     {
         shape: "Princess",
         api: "princess",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_princess.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/pr.svg?height=32&width=32",
     },
     {
         shape: "Emerald",
         api: "emerald",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_emerald.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/e.svg?height=32&width=32",
     },
     {
         shape: "Cushion",
         api: "cushion",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_cushion.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/c.svg?height=32&width=32",
     },
     {
         shape: "Radiant",
         api: "radiant",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_radiant.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/as.svg?height=32&width=32",
     },
     {
         shape: "Pear",
         api: "pear",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_pear.svg?height=32&width=32",
+        img: "/images/Pear.png?height=32&width=32",
     },
     {
         shape: "Heart",
         api: "heart",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_heart.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/h.svg?height=32&width=32",
     },
     {
         shape: "Marquise",
         api: "marquise",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_marquise.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/m.svg?height=32&width=32",
     },
     {
         shape: "Asscher",
         api: "asscher",
-        img: "https://stonealgo-3.b-cdn.net/static/dist/img/Shapes/svg/d_shape_asscher.svg?height=32&width=32",
+        img: "https://www.lumeradiamonds.com/images/diamond_search_results/as.svg?height=32&width=32",
     },
 ];
 export default function LabGrown() {
-    const bgColor = useColorModeValue("white", "gray.800");
+    const bgColor = useColorModeValue("white", "black");
+    const bgColor1 = useColorModeValue("rgb(224 231 255)", "yellow.400");
     const [price, setPrice] = useState([]);
     const [selectedTab, setSelectedTab] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
@@ -123,7 +124,7 @@ export default function LabGrown() {
                 variant="unstyled"
                 onChange={(index) => setSelectedTab(index)}
             >
-                <TabList justifyContent={"center"}>
+                <TabList justifyContent={"center"} >
                     <SimpleGrid columns={{ base: 2, md: 4, lg: 5 }} spacing={4}>
                         {tabs &&
                             tabs.map((tab, i) => {
@@ -131,16 +132,18 @@ export default function LabGrown() {
                                     <Tab
                                         key={i}
                                         _selected={{
-                                            color: "black",
-                                            bg: "rgb(224 231 255)",
+                                            color: "gray",
+                                            bg: bgColor1,
                                             border: 0,
                                         }}
                                     >
                                         <Flex
+                                            color="gray"
                                             flexDirection={"column"}
                                             alignItems={"center"}
                                         >
                                             <Image
+
                                                 src={tab.img}
                                                 w={"32px"}
                                                 h={"32px"}
@@ -188,150 +191,150 @@ export default function LabGrown() {
                             >
                                 {isLoading
                                     ? Array(4)
-                                          .fill("")
-                                          .map((_, index) => (
-                                              <GridItem key={index} w="100%">
-                                                  <SkeletonText
-                                                      noOfLines={4}
-                                                      spacing="4"
-                                                      skeletonHeight="2"
-                                                  />
-                                              </GridItem>
-                                          ))
+                                        .fill("")
+                                        .map((_, index) => (
+                                            <GridItem key={index} w="100%">
+                                                <SkeletonText
+                                                    noOfLines={4}
+                                                    spacing="4"
+                                                    skeletonHeight="2"
+                                                />
+                                            </GridItem>
+                                        ))
                                     : price.slice(0, 4).map((priceItem, index) => (
-                                              <GridItem
-                                                  key={index}
-                                                  w="100%"
-                                                  bg="#fff"
-                                              >
-                                                  <Box
-                                                      padding={5}
-                                                      border={"1px solid"}
-                                                      borderColor={"gray.100"}
-                                                      bg={bgColor}
-                                                  >
-                                                      <Flex
-                                                          padding={5}
-                                                          justifyContent={
-                                                              "space-between"
-                                                          }
-                                                      >
-                                                          <div>
-                                                              <Text
-                                                                  fontWeight={
-                                                                      "bold"
-                                                                  }
-                                                                  fontSize={
-                                                                      "15px"
-                                                                  }
-                                                              >
-                                                                  {
-                                                                      priceItem.name
-                                                                  }
-                                                              </Text>
-                                                              <Text
-                                                                  ml={3}
-                                                                  fontSize={
-                                                                      "12px"
-                                                                  }
-                                                                  color={
-                                                                      parseFloat(
-                                                                          priceItem.priceChange
-                                                                      ) < 0
-                                                                          ? "red"
-                                                                          : "green"
-                                                                  }
-                                                              >
-                                                                  {
-                                                                      priceItem.priceChange
-                                                                  }{" "}
-                                                                  (1m)
-                                                              </Text>
-                                                          </div>
-                                                          <div>
-                                                              <Text>
-                                                                  {
-                                                                      priceItem.price
-                                                                  }
-                                                              </Text>
-                                                              <Text>
-                                                                  <RxExternalLink color="blue" />
-                                                              </Text>
-                                                          </div>
-                                                      </Flex>
-                                                      <Flex>
-                                                          <Image
-                                                              src={
-                                                                  priceItem.imageUrl
-                                                              }
-                                                              alt="Price Image"
-                                                          />
-                                                      </Flex>
-                                                      <Flex
-                                                          pt={3}
-                                                          justifyContent={
-                                                              "space-between"
-                                                          }
-                                                          align={"center"}
-                                                      >
-                                                          <div>
-                                                              <Text
-                                                                  fontSize={{
-                                                                      base: "xs",
-                                                                      md: "sm",
-                                                                      lg: "md",
-                                                                  }}
-                                                              >
-                                                                  Weight
-                                                              </Text>
-                                                              <Text>
-                                                                  {
-                                                                      priceItem.weight
-                                                                  }
-                                                              </Text>
-                                                          </div>
-                                                          <div>
-                                                              <Text
-                                                                  fontSize={{
-                                                                      base: "xs",
-                                                                      md: "sm",
-                                                                      lg: "md",
-                                                                  }}
-                                                              >
-                                                                  Inventory
-                                                              </Text>
-                                                              <Text>
-                                                                  {
-                                                                      priceItem.inventory
-                                                                  }
-                                                              </Text>
-                                                          </div>
-                                                          <div>
-                                                              <Text
-                                                                  fontSize={{
-                                                                      base: "xs",
-                                                                      md: "sm",
-                                                                      lg: "md",
-                                                                  }}
-                                                              >
-                                                                  Inv. Change
-                                                              </Text>
-                                                              <Text>
-                                                                {
-                                                                    priceItem.inventoryChangeDown === "" ? 
+                                        <GridItem
+                                            key={index}
+                                            w="100%"
+                                            bg="#fff"
+                                        >
+                                            <Box
+                                                padding={5}
+                                                border={"1px solid"}
+                                                borderColor={"gray.100"}
+                                                bg={bgColor}
+                                            >
+                                                <Flex
+                                                    padding={5}
+                                                    justifyContent={
+                                                        "space-between"
+                                                    }
+                                                >
+                                                    <div>
+                                                        <Text
+                                                            fontWeight={
+                                                                "bold"
+                                                            }
+                                                            fontSize={
+                                                                "15px"
+                                                            }
+                                                        >
+                                                            {
+                                                                priceItem.name
+                                                            }
+                                                        </Text>
+                                                        <Text
+                                                            ml={3}
+                                                            fontSize={
+                                                                "12px"
+                                                            }
+                                                            color={
+                                                                parseFloat(
+                                                                    priceItem.priceChange
+                                                                ) < 0
+                                                                    ? "red"
+                                                                    : "green"
+                                                            }
+                                                        >
+                                                            {
+                                                                priceItem.priceChange
+                                                            }{" "}
+                                                            (1m)
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text>
+                                                            {
+                                                                priceItem.price
+                                                            }
+                                                        </Text>
+                                                        <Text>
+                                                            <RxExternalLink color="blue" />
+                                                        </Text>
+                                                    </div>
+                                                </Flex>
+                                                <Flex>
+                                                    <Image
+                                                        src={
+                                                            priceItem.imageUrl
+                                                        }
+                                                        alt="Price Image"
+                                                    />
+                                                </Flex>
+                                                <Flex
+                                                    pt={3}
+                                                    justifyContent={
+                                                        "space-between"
+                                                    }
+                                                    align={"center"}
+                                                >
+                                                    <div>
+                                                        <Text
+                                                            fontSize={{
+                                                                base: "xs",
+                                                                md: "sm",
+                                                                lg: "md",
+                                                            }}
+                                                        >
+                                                            Weight
+                                                        </Text>
+                                                        <Text>
+                                                            {
+                                                                priceItem.weight
+                                                            }
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text
+                                                            fontSize={{
+                                                                base: "xs",
+                                                                md: "sm",
+                                                                lg: "md",
+                                                            }}
+                                                        >
+                                                            Inventory
+                                                        </Text>
+                                                        <Text>
+                                                            {
+                                                                priceItem.inventory
+                                                            }
+                                                        </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text
+                                                            fontSize={{
+                                                                base: "xs",
+                                                                md: "sm",
+                                                                lg: "md",
+                                                            }}
+                                                        >
+                                                            Inv. Change
+                                                        </Text>
+                                                        <Text>
+                                                            {
+                                                                priceItem.inventoryChangeDown === "" ?
                                                                     (
                                                                         <span>↑{priceItem.inventoryChangeUp}</span>
-                                                                    ) : 
+                                                                    ) :
                                                                     (
                                                                         <span>↓{priceItem.inventoryChangeDown}</span>
                                                                     )
-                                                                }
-                                                              </Text>
-                                                          </div>
-                                                      </Flex>
-                                                  </Box>
-                                              </GridItem>
-                                          ))}
+                                                            }
+                                                        </Text>
+                                                    </div>
+                                                </Flex>
+                                            </Box>
+                                        </GridItem>
+                                    ))}
                             </Grid>
                             <TableContainer mt={"80px"} whiteSpace={"wrap"}>
                                 <Text fontWeight={"bold"}>
@@ -352,85 +355,85 @@ export default function LabGrown() {
                                     <Tbody>
                                         {isLoading
                                             ? Array(5)
-                                                  .fill("")
-                                                  .map((_, i) => (
-                                                      <Tr key={i}>
-                                                          <Td>
-                                                              <Skeleton height="20px" />
-                                                          </Td>
-                                                          <Td>
-                                                              <Skeleton height="20px" />
-                                                          </Td>
-                                                          <Td>
-                                                              <Skeleton height="20px" />
-                                                          </Td>
-                                                          <Td>
-                                                              <Skeleton height="20px" />
-                                                          </Td>
-                                                          <Td>
-                                                              <Skeleton height="20px" />
-                                                          </Td>
-                                                          <Td>
-                                                              <Skeleton height="20px" />
-                                                          </Td>
-                                                          <Td>
-                                                              <Skeleton height="20px" />
-                                                          </Td>
-                                                      </Tr>
-                                                  ))
-                                            : price.slice(4,18).map((priceItem, i) => (
-                                                      <Tr key={i}>
-                                                          <Td>
-                                                              {
-                                                                  priceItem.priceIndex
-                                                              }
-                                                          </Td>
-                                                          <Td>
-                                                              <Image
-                                                                  src={
-                                                                      priceItem.chart
-                                                                  }
-                                                              />
-                                                          </Td>
-                                                          <Td>
-                                                              {
-                                                                  priceItem.priceUsd
-                                                              }
-                                                          </Td>
-                                                          <Td>
-                                                          <Text
-                                                                  ml={3}
-                                                                  fontSize={
-                                                                      "12px"
-                                                                  }
-                                                                  color={
-                                                                    (priceItem.changeDown === "") ?
-                                                                    "green" : 
+                                                .fill("")
+                                                .map((_, i) => (
+                                                    <Tr key={i}>
+                                                        <Td>
+                                                            <Skeleton height="20px" />
+                                                        </Td>
+                                                        <Td>
+                                                            <Skeleton height="20px" />
+                                                        </Td>
+                                                        <Td>
+                                                            <Skeleton height="20px" />
+                                                        </Td>
+                                                        <Td>
+                                                            <Skeleton height="20px" />
+                                                        </Td>
+                                                        <Td>
+                                                            <Skeleton height="20px" />
+                                                        </Td>
+                                                        <Td>
+                                                            <Skeleton height="20px" />
+                                                        </Td>
+                                                        <Td>
+                                                            <Skeleton height="20px" />
+                                                        </Td>
+                                                    </Tr>
+                                                ))
+                                            : price.slice(4, 18).map((priceItem, i) => (
+                                                <Tr key={i}>
+                                                    <Td>
+                                                        {
+                                                            priceItem.priceIndex
+                                                        }
+                                                    </Td>
+                                                    <Td>
+                                                        <Image
+                                                            src={
+                                                                priceItem.chart
+                                                            }
+                                                        />
+                                                    </Td>
+                                                    <Td>
+                                                        {
+                                                            priceItem.priceUsd
+                                                        }
+                                                    </Td>
+                                                    <Td>
+                                                        <Text
+                                                            ml={3}
+                                                            fontSize={
+                                                                "12px"
+                                                            }
+                                                            color={
+                                                                (priceItem.changeDown === "") ?
+                                                                    "green" :
                                                                     "red"
-                                                                  }
-                                                              >
-                                                                  {
-                                                                      (priceItem.changeDown === "") ?
-                                                                      priceItem.changeUp : 
-                                                                      priceItem.changeDown
-                                                                  }{" "}
-                                                                  (1m)
-                                                              </Text>
-                                                          </Td>
-                                                          <Td>
-                                                              {priceItem.range}
-                                                          </Td>
-                                                          <Td>
-                                                              {priceItem.inv}
-                                                          </Td>
-                                                          {/* <Td>
+                                                            }
+                                                        >
+                                                            {
+                                                                (priceItem.changeDown === "") ?
+                                                                    priceItem.changeUp :
+                                                                    priceItem.changeDown
+                                                            }{" "}
+                                                            (1m)
+                                                        </Text>
+                                                    </Td>
+                                                    <Td>
+                                                        {priceItem.range}
+                                                    </Td>
+                                                    <Td>
+                                                        {priceItem.inv}
+                                                    </Td>
+                                                    {/* <Td>
                                                               <Button colorScheme="blue">
                                                                   View price
                                                                   charts
                                                               </Button>
                                                           </Td> */}
-                                                      </Tr>
-                                                  ))}
+                                                </Tr>
+                                            ))}
                                     </Tbody>
                                 </Table>
                             </TableContainer>
@@ -733,24 +736,24 @@ export default function LabGrown() {
                                         </Thead>
                                         <Tbody>
                                             {price.slice(4).map((priceItem, i) => (
-                                                    <Tr key={i}>
-                                                        <Td>
-                                                            {
-                                                                priceItem.priceIndex
+                                                <Tr key={i}>
+                                                    <Td>
+                                                        {
+                                                            priceItem.priceIndex
+                                                        }
+                                                    </Td>
+                                                    <Td>
+                                                        <Image
+                                                            src={
+                                                                priceItem.chart
                                                             }
-                                                        </Td>
-                                                        <Td>
-                                                            <Image
-                                                                src={
-                                                                    priceItem.chart
-                                                                }
-                                                            />
-                                                        </Td>
-                                                        <Td>
-                                                            {priceItem.priceUsd}
-                                                        </Td>
-                                                    </Tr>
-                                                ))}
+                                                        />
+                                                    </Td>
+                                                    <Td>
+                                                        {priceItem.priceUsd}
+                                                    </Td>
+                                                </Tr>
+                                            ))}
                                         </Tbody>
                                     </Table>
                                 </TableContainer>

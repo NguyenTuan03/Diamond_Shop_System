@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Cloudinary } from "@cloudinary/url-gen/index";
-import { AdvancedImage } from "@cloudinary/react";
+import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -29,6 +29,8 @@ export default function DiamondCheckDetails() {
     },
   });
   const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("black", "white");
+  const bgColor1 = useColorModeValue("blue.400", "#DBA843");
   const [diamond, setDiamond] = useState({});
   const [diamondImages, setDiamondImages] = useState([]);
 
@@ -41,7 +43,18 @@ export default function DiamondCheckDetails() {
       )
       .then(function (response) {
         if (response.data === null) {
-          navigate("/error");
+          setTimeout(() => {
+            toast({
+              title: "Error",
+              description: "Diamond not found",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          }, 2000);
+          setTimeout(() => {
+            navigate(-1);
+          }, 3000);
         }
         console.log(response.data);
         setDiamond(response.data);
@@ -104,6 +117,7 @@ export default function DiamondCheckDetails() {
               cldImg={cld
                 .image(image)
                 .resize(thumbnail().width(200).height(200))}
+              plugins={[lazyload(), placeholder({ mode: "blur" })]}
             />
           );
         })}
@@ -128,7 +142,7 @@ export default function DiamondCheckDetails() {
           <ListItem>
             Fair Price Estimate:{" "}
             <Skeleton isLoaded={diamond !== null}>
-              <Text display={"inline"} color={"blue.400"} fontWeight={"bold"}>
+              <Text display={"inline"} color={bgColor1} fontWeight={"bold"}>
                 ${diamond?.price}
               </Text>
             </Skeleton>
@@ -138,7 +152,7 @@ export default function DiamondCheckDetails() {
           templateColumns="repeat(4, 1fr)"
           border={"2px solid"}
           borderRadius={"10px"}
-          borderColor={"blue.400"}
+          borderColor={bgColor1}
           p={5}
           gap={5}
         >
@@ -263,7 +277,7 @@ export default function DiamondCheckDetails() {
             </Skeleton>
           </GridItem>
         </Grid>
-        <Button colorScheme="blue" size={{ base: "sm", md: "md", lg: "lg" }}>
+        <Button bg={bgColor1} color={bgColor} size={{ base: "sm", md: "md", lg: "lg" }}>
           Run another check
         </Button>
       </Flex>

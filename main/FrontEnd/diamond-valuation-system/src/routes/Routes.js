@@ -1,41 +1,78 @@
+import { lazy } from "react";
 import routes from "../config/Config.js";
-import DiamondCalculate from "../pages/calculate/DiamondCalculate.jsx";
-import DiamondCheck from "../pages/check/DiamondCheck.jsx";
-import DiamondCheckDetails from "../pages/check/DiamondCheckDetails.jsx";
-import Detail from "../pages/detail/Detail.jsx";
-import DiamondService from "../pages/services/DiamondService.jsx";
-import DiamondValuationRequest from "../pages/valuate/DiamondValuationRequest.jsx";
-import EducationCarat from "../pages/education/EducationCarat.jsx";
-import EducationCertificate from "../pages/education/EducationCertificate.jsx";
-import EducationClarity from "../pages/education/EducationClarity.jsx";
-import EducationColor from "../pages/education/EducationColor.jsx";
-import EducationCut from "../pages/education/EducationCut.jsx";
-import EducationShape from "../pages/education/EducationShape.jsx";
-import HomePage from "../pages/Home/Home.jsx";
-import Login from "../pages/login/Login.jsx";
-import Logout from "../pages/logout/Logout.jsx";
-import Prices from "../pages/prices/Prices.jsx";
-import Error from "../pages/error/Error.jsx";
+const DiamondCalculate = lazy(() =>
+    import("../pages/calculate/DiamondCalculate.jsx")
+);
+const DiamondCheck = lazy(() => import("../pages/check/DiamondCheck.jsx"));
+const DiamondCheckDetails = lazy(() =>
+    import("../pages/check/DiamondCheckDetails.jsx")
+);
+const Detail = lazy(() => import("../pages/detail/Detail.jsx"));
+const DiamondService = lazy(() =>
+    import("../pages/services/DiamondService.jsx")
+);
+const DiamondValuationRequest = lazy(() =>
+    import("../pages/valuate/DiamondValuationRequest")
+);
+const EducationCarat = lazy(() =>
+    import("../pages/education/EducationCarat.jsx")
+);
+const EducationCertificate = lazy(() =>
+    import("../pages/education/EducationCertificate.jsx")
+);
+const EducationClarity = lazy(() =>
+    import("../pages/education/EducationClarity.jsx")
+);
+const EducationColor = lazy(() =>
+    import("../pages/education/EducationColor.jsx")
+);
+const EducationCut = lazy(() => import("../pages/education/EducationCut.jsx"));
+const EducationShape = lazy(() =>
+    import("../pages/education/EducationShape.jsx")
+);
+const HomePage = lazy(() => import("../pages/Home/Home.jsx"));
+const Login = lazy(() => import("../pages/login/Login.jsx"));
+const Logout = lazy(() => import("../pages/logout/Logout.jsx"));
+const Prices = lazy(() => import("../pages/prices/Prices.jsx"));
+const Error = lazy(() => import("../pages/error/Error.jsx"));
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
-import DashBoard from "../pages/dashboard/DashBoard.jsx";
-import DashBoardNotification from "./../pages/dashboard/DashBoardNotification";
-import DashBoardPrices from "./../pages/dashboard/DashBoardPrices";
-import DashBoardAppoint from "./../pages/dashboard/DashBoardAppoint";
-import DashBoardSearch from "./../pages/dashboard/DashBoardSearch";
-import DashBoardRequest from "./../pages/dashboard/DashBoardRequest";
-import AboutUs from "../pages/aboutUs/AboutUs.jsx";
-import DashBoardSetting from "../pages/dashboard/DashBoardSetting.jsx";
-import DashBoardTransaction from "../pages/dashboard/DashBoardTransaction.jsx";
-import PendingRequestTable from "../pages/dashboard/table/PendingRequestTable.jsx";
-import { layout } from "@chakra-ui/react";
-import ProcessRequestTable from "../pages/dashboard/table/ProcessRequestTable.jsx";
-import SealingLetterTable from "../pages/dashboard/table/SealingLetterTable.jsx";
-import CommitmentTable from "../pages/dashboard/table/CommitmentTable.jsx";
-import ValuationStaffDashboard from "../pages/dashboard/valuation/ValuationStaffDashBoard.jsx";
-import AdminPage from "../pages/admin/AdminPage.jsx";
-import ServiceTable from "../pages/dashboard/table/ServiceTable.jsx";
-import Activate from "../pages/signUp/Activate.jsx";
-import ForgotPassword from "../pages/login/ForgotPassword.jsx";
+const DashBoard = lazy(() => import("../pages/dashboard/DashBoard.jsx"));
+const DashBoardNotification = lazy(() =>
+    import("../pages/dashboard/DashBoardNotification.jsx")
+);
+const DashBoardAppoint = lazy(() =>
+    import("../pages/dashboard/DashBoardAppoint.jsx")
+);
+const AboutUs = lazy(() => import("../pages/aboutUs/AboutUs.jsx"));
+const DashBoardSetting = lazy(() =>
+    import("../pages/dashboard/DashBoardSetting.jsx")
+);
+const DashBoardTransaction = lazy(() =>
+    import("../pages/dashboard/DashBoardTransaction.jsx")
+);
+const PendingRequestTable = lazy(() =>
+    import("../pages/dashboard/table/PendingRequestTable.jsx")
+);
+const ProcessRequestTable = lazy(() =>
+    import("../pages/dashboard/table/ProcessRequestTable.jsx")
+);
+const SealingLetterTable = lazy(() =>
+    import("../pages/dashboard/table/SealingLetterTable.jsx")
+);
+const CommitmentTable = lazy(() =>
+    import("../pages/dashboard/table/CommitmentTable.jsx")
+);
+const ValuationStaffDashboard = lazy(() =>
+    import("../pages/dashboard/valuation/ValuationStaffDashBoard.jsx")
+);
+const AdminPage = lazy(() => import("../pages/admin/AdminPage.jsx"));
+const ServiceTable = lazy(() =>
+    import("../pages/dashboard/table/ServiceTable.jsx")
+);
+const Activate = lazy(() => import("../pages/signUp/Activate.jsx"));
+const ResetForgetPassword = lazy(() =>
+    import("../pages/login/ResetForgetPassword.jsx")
+);
 
 const ALlRoutes = [
     {
@@ -139,10 +176,6 @@ const ALlRoutes = [
         path: routes.login,
         component: Login,
     },
-    {
-        path: routes.logout,
-        component: Logout,
-    },
     // Customer
     {
         path: routes.dashboard,
@@ -155,11 +188,6 @@ const ALlRoutes = [
         layout: DashBoardLayout,
     },
     {
-        path: routes.dashboardPrices,
-        component: DashBoardPrices,
-        layout: DashBoardLayout,
-    },
-    {
         path: routes.dashboardAppoint,
         component: DashBoardAppoint,
         layout: DashBoardLayout,
@@ -167,16 +195,6 @@ const ALlRoutes = [
     {
         path: routes.dashboardTransaction,
         component: DashBoardTransaction,
-        layout: DashBoardLayout,
-    },
-    {
-        path: routes.dashboardSearch,
-        component: DashBoardSearch,
-        layout: DashBoardLayout,
-    },
-    {
-        path: routes.dashboardRequest,
-        component: DashBoardRequest,
         layout: DashBoardLayout,
     },
     {
@@ -224,8 +242,8 @@ const ALlRoutes = [
         layout: null,
     },
     {
-        path: routes.forgetPassword,
-        component: ForgotPassword,
+        path: routes.resetForgetPassword,
+        component: ResetForgetPassword,
         layout: null,
     },
 ];

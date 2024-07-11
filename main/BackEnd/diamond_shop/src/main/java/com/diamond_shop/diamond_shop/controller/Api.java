@@ -2,6 +2,7 @@ package com.diamond_shop.diamond_shop.controller;
 
 import com.diamond_shop.diamond_shop.dto.AccountDTO;
 import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
+import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
 import com.diamond_shop.diamond_shop.dto.LoginDTO;
 import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
 import com.diamond_shop.diamond_shop.service.AccountService;
@@ -40,7 +41,11 @@ public class Api {
     @PostMapping(path = "/login")
     public ResponseEntity<?> loginCustomer(@RequestBody LoginDTO loginDTO) {
         return accountService.loginAccount(loginDTO);
+    }
 
+    @PostMapping(path = "/google")
+    public ResponseEntity<?> loginGoogle(@RequestBody GoogleLoginRequestDTO googleLoginRequestDTO) {
+        return accountService.loginGoogleAccount(googleLoginRequestDTO);
     }
 
     @PostMapping(path = "/forget-password")
@@ -51,6 +56,11 @@ public class Api {
     @PostMapping("/reset-password")
     public ResponseEntity<?> CreateResetPassword(@RequestBody ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {
         return accountService.resetPassword(resetPasswordRequestDTO, response);
+    }
+
+    @PostMapping("/reset-forget-password")
+    public ResponseEntity<?> CreateResetForgetPassword(@RequestBody ResetPasswordRequestDTO resetPasswordRequestDTO) {
+        return accountService.resetForgetPassword(resetPasswordRequestDTO);
     }
 
     @GetMapping(path = "/activate")

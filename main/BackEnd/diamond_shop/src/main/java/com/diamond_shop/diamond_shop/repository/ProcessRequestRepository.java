@@ -13,6 +13,11 @@ import java.util.Optional;
 @Repository
 public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEntity, Integer> {
 
+    @Query(value = "SELECT COUNT(p.id) " +
+            "FROM ProcessRequestEntity p " +
+            "WHERE p.status='Done'")
+    int totalDone();
+
     @Query(value = "SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ProcessRequestPojo(" +
             "p.id, " +

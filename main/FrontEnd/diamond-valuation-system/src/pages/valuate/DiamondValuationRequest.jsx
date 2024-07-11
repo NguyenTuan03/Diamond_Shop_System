@@ -71,9 +71,9 @@ export default function DiamondValuationRequest() {
     <>
       <Flex
         direction={"column"}
+        h={"80vh"}
         alignItems={"center"}
         justifyContent={"center"}
-        paddingTop={"30px"}
         bg={bgColor}
       >
         <Title

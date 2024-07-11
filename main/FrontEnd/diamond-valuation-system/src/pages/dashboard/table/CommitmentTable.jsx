@@ -79,21 +79,21 @@ export default function CommitmentTable() {
         ) : (
           <Skeleton isLoaded={commitment?.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
-              <Table size={"sm"} colorScheme="blue">
-                <Thead bg={"blue.500"}>
+              <Table >
+                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
                   <Tr>
-                    <Th>ID</Th>
-                    <Th>Request ID</Th>
+                    <Th color="white">ID</Th>
+                    <Th color="white">Request ID</Th>
 
                     {isUsers &&
                       user.userAuth.authorities[0].authority === "Manager" && (
-                        <Th>Customer Name</Th>
+                        <Th color="white">Customer Name</Th>
                       )}
-                    <Th>Created Date</Th>
-                    <Th>View</Th>
+                    <Th color="white">Created Date</Th>
+                    <Th color="white">View</Th>
                   </Tr>
                 </Thead>
-                <Tbody>
+                <Tbody variant="simple" bg="gray.200" color="black">
                   {commitment?.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
@@ -106,6 +106,7 @@ export default function CommitmentTable() {
                         <IconButton
                           icon={<ViewIcon />}
                           bg={"transparent"}
+                          color="black"
                           onClick={() => {
                             setSelectedCommitment(item);
                             viewCommitment.onOpen();

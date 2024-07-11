@@ -32,6 +32,18 @@ public class ValuationResultImpl implements ValuationResultService {
     private final ValuationResultImageRepository valuationResultImageRepository;
 
     @Override
+    public int totalValuationResults() {
+        return valuationResultRepository.totalValuationResults();
+    }
+
+    @Override
+    public Page<ValuationResultEntity> getAllValuationResults(int page) {
+        int pageNumber = page - 1;
+        int pageSize = 5;
+        return valuationResultRepository.findAllValuationResults(PageRequest.of(pageNumber, pageSize));
+    }
+
+    @Override
     public Optional<ValuationResultEntity> getValuationResultById(String id) {
         return valuationResultRepository.findValuationResultById(id);
     }

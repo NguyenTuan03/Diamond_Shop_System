@@ -1,6 +1,7 @@
 import { ViewIcon } from "@chakra-ui/icons";
 import {
   Badge,
+  Box,
   Center,
   Flex,
   GridItem,
@@ -21,16 +22,17 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import { GrUpdate } from "react-icons/gr";
 import { MdDeleteOutline } from "react-icons/md";
+import { UserContext } from "../../../components/GlobalContext/AuthContext";
 
 export default function ServiceTable() {
+  const user = useContext(UserContext);
   const toast = useToast();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
-  const viewService = useDisclosure();
   const [service, setService] = useState([]);
   const serviceStatisticNames = [];
   const fetchService = () => {
@@ -68,7 +70,9 @@ export default function ServiceTable() {
             Service
           </Text>
         </Center>
-        <Text fontSize={"xl"} fontWeight={"bold"}>
+        <Center>
+        <Box  w={"32vw"} p={5} >
+        <Text fontSize={"xl"} fontWeight={"bold"} mb={5}>
           Statistics:
         </Text>
         <SimpleGrid columns={4} w={"30vw"} spacing={2}>
@@ -112,24 +116,28 @@ export default function ServiceTable() {
             <Badge colorScheme="red">Origin</Badge>
           </GridItem>
         </SimpleGrid>
+        </Box>
+        </Center>
+        
+        
         {totalPages === 0 ? (
           <Center>No service to show</Center>
         ) : (
           <Skeleton isLoaded={service?.length > 0} height={"200px"}>
             <TableContainer shadow={"md"} borderRadius={"md"}>
-              <Table size={"sm"} colorScheme="blue">
-                <Thead bg={"blue.500"}>
+              <Table bg="gray.600"  mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+                <Thead >
                   <Tr>
-                    <Th>ID</Th>
-                    <Th>Name</Th>
-                    <Th>Price</Th>
-                    <Th>Time</Th>
-                    <Th>Statistics</Th>
-                    <Th>Update</Th>
-                    <Th>Delete</Th>
+                    <Th color="white">ID</Th>
+                    <Th color="white">Name</Th>
+                    <Th color="white">Price</Th>
+                    <Th color="white">Time</Th>
+                    <Th color="white">Statistics</Th>
+                    <Th color="white">Update</Th>
+                    <Th color="white">Delete</Th>
                   </Tr>
                 </Thead>
-                <Tbody>
+                <Tbody variant="simple" bg="gray.200" color="black">
                   {service?.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Formik
@@ -147,7 +155,12 @@ export default function ServiceTable() {
                               `${
                                 import.meta.env.VITE_REACT_APP_BASE_URL
                               }/api/service/update`,
-                              values
+                              values,
+                              {
+                                headers: {
+                                  Authorization: `Bearer ${user.userAuth.token}`,
+                                },
+                              }
                             )
                             .then((response) => {
                               if (response.status === 200) {
@@ -224,6 +237,7 @@ export default function ServiceTable() {
                             </Td>
                             <Td>
                               <IconButton
+                              color="blue" 
                                 type="submit"
                                 icon={<GrUpdate />}
                                 bgColor={"transparent"}
