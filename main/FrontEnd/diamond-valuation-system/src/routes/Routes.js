@@ -25,7 +25,7 @@ const Login = lazy(() => import("../pages/login/Login.jsx"));
 const Logout = lazy(() => import("../pages/logout/Logout.jsx"));
 const Prices = lazy(() => import("../pages/prices/Prices.jsx"));
 const Error = lazy(() => import("../pages/error/Error.jsx"));
-const DashBoardLayout = lazy(() => import("../layout/DashBoardLayout.jsx"));
+import DashBoardLayout from "../layout/DashBoardLayout.jsx";
 const DashBoard = lazy(() => import("../pages/dashboard/DashBoard.jsx"));
 const DashBoardNotification = lazy(() => import("../pages/dashboard/DashBoardNotification.jsx"));
 const DashBoardPrices = lazy(() => import("../pages/dashboard/DashBoardPrices.jsx"));
