@@ -16,9 +16,9 @@ import { useNavigate } from "react-router-dom";
 export default function DiamondCheck() {
   const navigate = useNavigate();
   const bgColor = useColorModeValue("white", "black");
-  const fontColor = useColorModeValue("blue.600", "#DBA843");
+  const fontColor = useColorModeValue("blue.400", "#DBA843");
   return (
-    <Container maxW="100vw">
+    <Container maxW="100vw" h={"90vh"}>
       <Flex
         direction={{ base: "column", md: "row", lg: "row" }}
         alignItems="center"
@@ -75,16 +75,16 @@ export default function DiamondCheck() {
                       name="id"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      
                       value={values.id}
                       placeholder="Enter Valuate ID"
                       size={{ base: "sm", md: "md", lg: "lg" }}
                     />
                   </FormControl>
                   <Button
+                    bgColor={fontColor}
                     type="submit"
                     isLoading={isSubmitting}
-                    color={fontColor}
+                    color={"white"}
                     colorScheme="DBA843"
                     variant="outline"
                     size={{ base: "sm", md: "md", lg: "lg" }}

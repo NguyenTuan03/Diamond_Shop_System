@@ -93,7 +93,7 @@ export default function DashBoardAppoint() {
               APPOINTMENTS
             </Text>
             {request.length === 0 ? (
-              <Box variant="simple" bg="gray.200" color="black">There's no API available</Box>
+              <Box variant="simple" bg="gray.200" color="black" p={3}>There's no API available</Box>
             ) : (
                 <TableContainer>
                     <Table variant="simple" bg="gray.200" color="black">
