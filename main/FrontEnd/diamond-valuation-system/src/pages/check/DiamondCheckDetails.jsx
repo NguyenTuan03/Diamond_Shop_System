@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Cloudinary } from "@cloudinary/url-gen/index";
-import { AdvancedImage } from "@cloudinary/react";
+import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -115,6 +115,7 @@ export default function DiamondCheckDetails() {
               cldImg={cld
                 .image(image)
                 .resize(thumbnail().width(200).height(200))}
+              plugins={[lazyload(), placeholder({ mode: "blur" })]}
             />
           );
         })}

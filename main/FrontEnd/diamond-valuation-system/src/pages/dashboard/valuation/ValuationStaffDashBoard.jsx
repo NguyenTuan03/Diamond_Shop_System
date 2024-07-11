@@ -47,10 +47,8 @@ import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage } from "@cloudinary/react";
 import { lazyload, placeholder } from "@cloudinary/react";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
-import LazyLoad from "react-lazy-load";
 import { sha1 } from "js-sha1";
 import PageIndicator from "../../../components/PageIndicator";
-import { mode } from "@cloudinary/url-gen/actions/rotate";
 export default function ValuationStaffDashboard() {
   const bgColor = useColorModeValue("white", "gray.800");
   const navigate = useNavigate();
@@ -700,42 +698,39 @@ export default function ValuationStaffDashboard() {
                         Submit
                       </Button>
                     </Center>
-                    <Flex justify={"center"}>
-                      <SimpleGrid columns={4}>
-                        {diamondImages?.map((image, index) => {
-                          return (
-                            <>
-                              <Flex direction={"column"} key={image}>
-                                <AdvancedImage
-                                  key={index}
-                                  cldImg={cld
-                                    .image(image)
-                                    .resize(thumbnail().width(200).height(200))}
-                                  plugins={[
-                                    lazyload(),
-                                    placeholder({ mode: "blur" }),
-                                  ]}
-                                />
-                                <Button
-                                  isDisabled={isDeleted}
-                                  isLoading={isDeleted}
-                                  colorScheme="red"
-                                  onClick={() => {
-                                    deleteImages(image);
-                                  }}
-                                >
-                                  Delete
-                                </Button>
-                              </Flex>
-                            </>
-                          );
-                        })}
-                      </SimpleGrid>
-                    </Flex>
                   </Flex>
                 </Form>
               )}
             </Formik>
+            <Flex justify={"center"}>
+              <SimpleGrid columns={4}>
+                {diamondImages?.map((image, index) => {
+                  return (
+                    <>
+                      <Flex direction={"column"} key={image}>
+                        <AdvancedImage
+                          key={index}
+                          cldImg={cld
+                            .image(image)
+                            .resize(thumbnail().width(200).height(200))}
+                          plugins={[lazyload(), placeholder({ mode: "blur" })]}
+                        />
+                        <Button
+                          isDisabled={isDeleted}
+                          isLoading={isDeleted}
+                          colorScheme="red"
+                          onClick={() => {
+                            deleteImages(image);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </Flex>
+                    </>
+                  );
+                })}
+              </SimpleGrid>
+            </Flex>
           </ModalBody>
           <ModalFooter justifyContent={"center"}>
             <Flex direction={"column"}>
