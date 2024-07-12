@@ -1,12 +1,7 @@
 package com.diamond_shop.diamond_shop.controller;
 
-import com.diamond_shop.diamond_shop.dto.AccountDTO;
-import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
-import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
-import com.diamond_shop.diamond_shop.dto.LoginDTO;
-import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
+import com.diamond_shop.diamond_shop.dto.*;
 import com.diamond_shop.diamond_shop.service.AccountService;
-
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +34,7 @@ public class Api {
 
     //No need token
     @PostMapping(path = "/login")
-    public ResponseEntity<?> loginCustomer(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<?> loginCustomer(@Valid @RequestBody LoginDTO loginDTO) {
         return accountService.loginAccount(loginDTO);
     }
 
@@ -49,7 +44,7 @@ public class Api {
     }
 
     @PostMapping(path = "/forget-password")
-    public ResponseEntity<?> CreateForgotPassword(@RequestBody ForgetPasswordDTO forgetPasswordDTO) {
+    public ResponseEntity<?> CreateForgotPassword(@Valid @RequestBody ForgetPasswordDTO forgetPasswordDTO) {
         return accountService.forgotPassword(forgetPasswordDTO);
     }
 
