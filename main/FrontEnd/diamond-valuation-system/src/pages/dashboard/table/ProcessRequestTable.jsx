@@ -29,12 +29,13 @@ import {
 import { ViewIcon } from "@chakra-ui/icons";
 import { GiDiamondTrophy } from "react-icons/gi";
 import ZaloChat from "../../../components/zalo/ZaloChat";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
 import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
+import { useReactToPrint } from "react-to-print";
 export default function ProcessRequestTable() {
   const toast = useToast();
   const user = useContext(UserContext);
@@ -50,6 +51,10 @@ export default function ProcessRequestTable() {
   const [selectedProcessRequest, setSelectedProcessRequest] = useState(null);
   const [selectedValuationRequest, setSelectedValuationRequest] =
     useState(null);
+  const valuationResultRef = useRef();
+  const handlePrintValuationResult = useReactToPrint({
+    content: () => valuationResultRef.current,
+  });
   const [selectedValuationResult, setSelectedValuationResult] = useState(null);
   const [selectedValuationReceipt, setSelectedValuationReceipt] =
     useState(null);
@@ -154,7 +159,9 @@ export default function ProcessRequestTable() {
   };
   const checkValuationRequestFinished = async (
     processRequestId,
-    setIsChecked
+    setIsChecked,
+    customerId,
+    consultingStaffId
   ) => {
     await axios
       .get(
@@ -317,6 +324,7 @@ export default function ProcessRequestTable() {
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/sealing-letter/create?valuationRequestId=${valuationRequestId}`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${user.userAuth.token}`,
@@ -330,6 +338,8 @@ export default function ProcessRequestTable() {
             toast({
               title: "Success",
               description: response.data,
+              position: "top-right",
+
               status: "success",
               duration: 3000,
               isClosable: true,
@@ -338,6 +348,8 @@ export default function ProcessRequestTable() {
             toast({
               title: "Failed",
               description: response.data,
+              position: "top-right",
+
               status: "warning",
               duration: 3000,
               isClosable: true,
@@ -376,6 +388,8 @@ export default function ProcessRequestTable() {
             toast({
               title: "Success",
               description: response.data,
+              position: "top-right",
+
               status: "success",
               duration: 3000,
               isClosable: true,
@@ -384,6 +398,8 @@ export default function ProcessRequestTable() {
             toast({
               title: "Failed",
               description: response.data,
+              position: "top-right",
+
               status: "warning",
               duration: 3000,
               isClosable: true,
@@ -432,7 +448,8 @@ export default function ProcessRequestTable() {
       .post(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/commitment/create?valuationRequestId=${valuationRequestId}`,
+        }/commitment/manager/create?valuationRequestId=${valuationRequestId}`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${user.userAuth.token}`,
@@ -446,6 +463,8 @@ export default function ProcessRequestTable() {
             toast({
               title: "Success",
               description: response.data,
+              position: "top-right",
+
               status: "success",
               duration: 3000,
               isClosable: true,
@@ -454,6 +473,8 @@ export default function ProcessRequestTable() {
             toast({
               title: "Failed",
               description: response.data,
+              position: "top-right",
+
               status: "warning",
               duration: 3000,
               isClosable: true,
@@ -481,16 +502,26 @@ export default function ProcessRequestTable() {
           </Text>
         </Center>
         {totalPages === 0 ? (
-          <Center >No process request to show</Center>
+          <Center>No process request to show</Center>
         ) : (
           <Skeleton isLoaded={processRequest.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
-              <Table >
-                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+              <Table>
+                <Thead
+                  bg="gray.600"
+                  color="white"
+                  mb={5}
+                  boxShadow="sm"
+                  borderRadius="md"
+                  maxW="100%"
+                  minW="100%"
+                >
                   <Tr>
                     <Th color="white">ID</Th>
                     {(user.userAuth.roleid === 2 ||
-                      user.userAuth.roleid === 3) && <Th color="white">Customer ID</Th>}
+                      user.userAuth.roleid === 3) && (
+                      <Th color="white">Customer ID</Th>
+                    )}
                     <Th color="white">Customer Name</Th>
                     {(user.userAuth.roleid === 2 ||
                       user.userAuth.roleid === 3) && (
@@ -804,9 +835,43 @@ export default function ProcessRequestTable() {
                         </>
                       )) ||
                       (selectedProcessRequest?.status === "Sealed" && (
-                        <ZaloChat
-                          phone={selectedProcessRequest?.customerPhone}
-                        />
+                        <SimpleGrid columns={2} spacing={5}>
+                          <Button
+                            colorScheme="teal"
+                            onClick={() => {
+                              fetchValuationResult(
+                                selectedValuationRequest?.id
+                              );
+                              viewValuationResult.onOpen();
+                            }}
+                          >
+                            View
+                          </Button>
+                          <ZaloChat
+                            phone={selectedProcessRequest?.customerPhone}
+                            type={"customer"}
+                          />
+                          <Button
+                            isLoading={isUpdateProcess}
+                            colorScheme="blue"
+                            onClick={() => {
+                              updateProcessRequest(
+                                selectedProcessRequest?.id,
+                                "Done"
+                              );
+                            }}
+                          >
+                            Cust. Received
+                          </Button>
+                          <Button
+                            colorScheme="red"
+                            onClick={() => {
+                              createCommitment(selectedValuationRequest?.id);
+                            }}
+                          >
+                            Lost Receipt
+                          </Button>
+                        </SimpleGrid>
                       ))}
                   </ModalFooter>
                 )) ||
@@ -877,7 +942,7 @@ export default function ProcessRequestTable() {
             size={"full"}
           >
             <ModalOverlay />
-            <ModalContent p={5}>
+            <ModalContent ref={valuationResultRef} p={5}>
               <ModalHeader>
                 <Skeleton isLoaded={selectedValuationResult !== null}>
                   <Flex direction={"row"} gap={5}>
@@ -899,8 +964,8 @@ export default function ProcessRequestTable() {
                     </Flex>
                     <SimpleGrid columns={2} spacing={10}>
                       <Flex direction={"column"} bg={"blue.100"} gap={5} p={5}>
-                        <Text bg={"blue.400"} p={2}>
-                          Grading Report
+                        <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
+                          GRADING REPORT
                         </Text>
                         <Text>
                           <strong>ID</strong>: {selectedValuationResult?.id}
@@ -929,8 +994,8 @@ export default function ProcessRequestTable() {
                           <strong>Price: </strong>
                           {selectedValuationResult?.price}
                         </Text>
-                        <Text bg={"blue.400"} p={2}>
-                          4C Grading Result
+                        <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
+                          4C GRADING REPORT
                         </Text>
                         {selectedValuationResult?.serviceStatistic?.includes(
                           "Carat"
@@ -966,8 +1031,8 @@ export default function ProcessRequestTable() {
                         )}
                       </Flex>
                       <Flex direction={"column"} gap={5} bg={"blue.100"} p={5}>
-                        <Text bg={"blue.400"} p={2}>
-                          Additional Grading Information
+                        <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
+                          ADDITIONAL GRADING INFORMATION
                         </Text>
                         {selectedValuationResult?.serviceStatistic?.includes(
                           "Symmetry"
@@ -1032,13 +1097,7 @@ export default function ProcessRequestTable() {
               </ModalBody>
               <ModalFooter justifyContent={"space-around"}>
                 <Skeleton isLoaded={selectedValuationResult !== null}>
-                  <Button
-                    onClick={() => {
-                      window.print();
-                    }}
-                  >
-                    Print
-                  </Button>
+                  <Button onClick={handlePrintValuationResult}>Print</Button>
                 </Skeleton>
               </ModalFooter>
             </ModalContent>

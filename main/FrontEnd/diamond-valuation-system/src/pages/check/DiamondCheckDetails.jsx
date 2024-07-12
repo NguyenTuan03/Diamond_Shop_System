@@ -1,6 +1,7 @@
 import {
   Badge,
   Button,
+  Center,
   Flex,
   Grid,
   GridItem,
@@ -16,9 +17,10 @@ import React, { useEffect, useState } from "react";
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
+import routes from "../../config/Config";
 export default function DiamondCheckDetails() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -29,6 +31,8 @@ export default function DiamondCheckDetails() {
     },
   });
   const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("black", "white");
+  const bgColor1 = useColorModeValue("blue.400", "#DBA843");
   const [diamond, setDiamond] = useState({});
   const [diamondImages, setDiamondImages] = useState([]);
 
@@ -45,13 +49,15 @@ export default function DiamondCheckDetails() {
             toast({
               title: "Error",
               description: "Diamond not found",
+              position: "top-right",
+
               status: "error",
               duration: 3000,
               isClosable: true,
             });
           }, 2000);
           setTimeout(() => {
-            navigate(-1);
+            navigate(routes.diamondCheck);
           }, 3000);
         }
         console.log(response.data);
@@ -62,6 +68,8 @@ export default function DiamondCheckDetails() {
         toast({
           title: "Error",
           description: "Diamond not found",
+          position: "top-right",
+
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -140,7 +148,7 @@ export default function DiamondCheckDetails() {
           <ListItem>
             Fair Price Estimate:{" "}
             <Skeleton isLoaded={diamond !== null}>
-              <Text display={"inline"} color={"blue.400"} fontWeight={"bold"}>
+              <Text display={"inline"} color={bgColor1} fontWeight={"bold"}>
                 ${diamond?.price}
               </Text>
             </Skeleton>
@@ -150,7 +158,7 @@ export default function DiamondCheckDetails() {
           templateColumns="repeat(4, 1fr)"
           border={"2px solid"}
           borderRadius={"10px"}
-          borderColor={"blue.400"}
+          borderColor={bgColor1}
           p={5}
           gap={5}
         >
@@ -275,9 +283,16 @@ export default function DiamondCheckDetails() {
             </Skeleton>
           </GridItem>
         </Grid>
-        <Button colorScheme="blue" size={{ base: "sm", md: "md", lg: "lg" }}>
-          Run another check
-        </Button>
+        <Center>
+          <Link to={routes.diamondCheck}>
+            <Button
+              colorScheme="blue"
+              size={{ base: "sm", md: "md", lg: "lg" }}
+            >
+              Run another check
+            </Button>
+          </Link>
+        </Center>
       </Flex>
     </Flex>
   );

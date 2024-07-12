@@ -23,7 +23,7 @@ export default function Footer() {
       <Box
         bg={useColorModeValue("gray.200", "black")}
         color={fontColor}
-        mt={"25px"}
+        
       >
         <Container as={Stack} maxW={"9xl"}>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} p={10} gap={10}>

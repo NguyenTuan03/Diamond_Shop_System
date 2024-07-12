@@ -129,7 +129,6 @@ export default function AdminUpdateUsers({
                     onBlur={handleBlur}
                     value={values.email}
                   />
-                  <FormHelperText>abc@def.xyz</FormHelperText>
                   <FormErrorMessage>
                     {errors.email && touched.email && errors.email}
                   </FormErrorMessage>
@@ -152,7 +151,6 @@ export default function AdminUpdateUsers({
                       value={values.phoneNumber}
                     />
                   </InputGroup>
-                  <FormHelperText>Ex: 0832428279</FormHelperText>
                   <FormErrorMessage>
                     {errors.phoneNumber &&
                       touched.phoneNumber &&

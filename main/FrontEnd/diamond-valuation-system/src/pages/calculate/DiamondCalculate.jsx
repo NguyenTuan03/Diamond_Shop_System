@@ -157,7 +157,7 @@ export default function Calculate() {
   useEffect(() => {}, []);
 
   return (
-    <>
+    <Box bg={fontColor}>
       <ScrollToTop smooth style={{display:"flex" ,alignItems:"center", justifyContent:"center", padding:"4px"}}/>
       <Container maxW={"9xl"}>
         <Flex
@@ -402,6 +402,6 @@ export default function Calculate() {
         Avg: ${valuationResult.avg}$ \n
         Max: ${valuationResult.max}$ \n`}
       />
-    </>
+    </Box>
   );
 }

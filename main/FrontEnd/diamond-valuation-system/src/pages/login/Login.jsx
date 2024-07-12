@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
+  Box,
   Button,
   Flex,
   FormControl,
   FormLabel,
+  Icon,
   Input,
   InputGroup,
   InputRightElement,
@@ -15,10 +17,11 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../service/Login";
+import { login, loginWithGoogle } from "../../service/Login";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SignUp from "../signUp/SignUp";
@@ -27,6 +30,7 @@ import { jwtDecode } from "jwt-decode";
 import { FiEye } from "react-icons/fi";
 import { IoEyeOffOutline } from "react-icons/io5";
 import routes from "../../config/Config";
+
 export default function Login({ signIn, signUp }) {
   const [isLoading, setIsLoading] = useState(false);
   const auth = useContext(UserContext);
@@ -34,12 +38,11 @@ export default function Login({ signIn, signUp }) {
   const [show, setShow] = useState(false);
   const handleShowPassWord = () => setShow(!show);
   const nav = useNavigate();
+
   async function fetchApi(username, password) {
     setIsLoading(true);
     try {
-      console.log(username, password);
       const result = await login(username, password);
-      console.log(result);
       if (!result?.status) {
         toast.error("Login failed. Try again later", {
           position: "top-right",
@@ -68,10 +71,9 @@ export default function Login({ signIn, signUp }) {
           theme: "light",
           transition: Bounce,
         });
-        localStorage.setItem("user", JSON.stringify(result.data ));
+        localStorage.setItem("user", JSON.stringify(result.data));
       }
     } catch (error) {
-      console.error(error);
       toast.error("An error occurred. Please try again later.", {
         position: "top-right",
         autoClose: 2000,
@@ -87,14 +89,36 @@ export default function Login({ signIn, signUp }) {
       setIsLoading(false);
     }
   }
-  const handleCredentialResponse = (response) => {
-    var decoded = jwtDecode(response.credential);
-    auth.loginUser(decoded);
-    setIsLogin(true);
-    console.log("google: ",decoded);
-    
-    document.getElementById("buttonDiv").hidden = true;
+
+  const handleCredentialResponse = async (response) => {
+    try {
+      var decoded = jwtDecode(response.credential);
+      auth.loginUser(decoded);
+      setIsLogin(true);
+      console.log("google: ", decoded);
+      const res = await loginWithGoogle(decoded.email, decoded.name);
+      if (res) {
+        toast.success("Login Successful", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        localStorage.setItem("user", JSON.stringify(res));
+      } else {
+        localStorage.setItem("user", JSON.stringify(res));
+      }
+      document.getElementById("buttonDiv").hidden = true;
+    } catch (error) {
+      console.error("Error handling Google login:", error);
+    }
   };
+
   useEffect(() => {
     if (signIn.isOpen) {
       const timer = setTimeout(() => {
@@ -112,6 +136,7 @@ export default function Login({ signIn, signUp }) {
       return () => clearTimeout(timer);
     }
   }, [signIn.isOpen]);
+
   return (
     <>
       <ToastContainer />
@@ -133,13 +158,7 @@ export default function Login({ signIn, signUp }) {
                   }, 400);
                 }}
               >
-                {({
-                  values,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  isSubmitting,
-                }) => (
+                {({ values, handleChange, handleSubmit, isSubmitting }) => (
                   <Form onSubmit={handleSubmit}>
                     <FormControl isRequired>
                       <FormLabel>Username</FormLabel>
@@ -147,7 +166,6 @@ export default function Login({ signIn, signUp }) {
                         name="username"
                         type="text"
                         onChange={handleChange}
-                        onBlur={handleBlur}
                         value={values.username}
                       />
                     </FormControl>
@@ -158,7 +176,6 @@ export default function Login({ signIn, signUp }) {
                           name="password"
                           type={show ? "text" : "password"}
                           onChange={handleChange}
-                          onBlur={handleBlur}
                           value={values.password}
                         />
                         <InputRightElement>
@@ -174,7 +191,14 @@ export default function Login({ signIn, signUp }) {
                       justifyContent={"space-between"}
                       m={"10px"}
                     >
-                      <Text onClick={() => nav(routes.forgetPassword)} cursor={"pointer"} fontSize={"sm"} _hover={{color: "blue"}}>Forgot password ?</Text>
+                      <Text
+                        onClick={() => nav(routes.forgetPassword)}
+                        cursor={"pointer"}
+                        fontSize={"sm"}
+                        _hover={{ color: "blue.400" }}
+                      >
+                        Forgot password ?
+                      </Text>
                       <Button
                         isLoading={isLoading}
                         type="submit"
@@ -196,9 +220,9 @@ export default function Login({ signIn, signUp }) {
                 w={"100%"}
                 gap={5}
               >
-                <Text>
-                  <div id="buttonDiv"></div>
-                </Text>
+                {/* <Text>
+                                    <div id="buttonDiv"></div>
+                                </Text> */}
                 <Text fontSize={"sm"} display={"flex"} gap={2}>
                   <div>Don't have an account? </div>
                   <Link>
