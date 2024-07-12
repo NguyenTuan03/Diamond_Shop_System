@@ -114,7 +114,6 @@ public class EmailService {
         }
         mailSender.send(mimeMessage);
     }
-
     public boolean isEmailValid(String email) {
         boolean result = true;
         try {
