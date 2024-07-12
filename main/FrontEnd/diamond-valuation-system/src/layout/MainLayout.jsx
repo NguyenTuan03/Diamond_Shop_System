@@ -24,8 +24,8 @@ export default function MainLayout({ children }) {
     const handleCreateRequest = () => {
       if (!auth.userAuth) {
         toast({
-          title: "You need to logIn first!",
-          status: "info",
+          title: "You need to login first!",
+          status: "warning",
           position:'top-right',
           duration: 3000,
           isClosable: true,
@@ -38,7 +38,7 @@ export default function MainLayout({ children }) {
         else {
           toast({
             title: "You are not allowed to make request!",
-            status: "info",
+            status: "warning",
             position:'top-right',
             duration: 3000,
             isClosable: true,
