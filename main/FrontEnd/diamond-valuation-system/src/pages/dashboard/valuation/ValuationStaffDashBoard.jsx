@@ -114,6 +114,8 @@ export default function ValuationStaffDashboard() {
           toast({
             title: "Success",
             description: response.data,
+            position: "top-right",
+
             status: "success",
             duration: 3000,
             isClosable: true,
@@ -125,6 +127,8 @@ export default function ValuationStaffDashboard() {
         toast({
           title: "Error",
           description: error.response.data,
+          position: "top-right",
+
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -197,6 +201,8 @@ export default function ValuationStaffDashboard() {
           toast({
             title: "Success",
             description: response.data,
+            position: "top-right",
+
             status: "success",
             duration: 3000,
             isClosable: true,
@@ -217,9 +223,17 @@ export default function ValuationStaffDashboard() {
           </Text>
         </Center>
         <Skeleton isLoaded={processResult.length > 0} height={"200px"}>
-          <TableContainer whiteSpace={"wrap"} bg="gray.600" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
-            <Table >
-              <Thead >
+          <TableContainer
+            whiteSpace={"wrap"}
+            bg="gray.600"
+            mb={5}
+            boxShadow="sm"
+            borderRadius="md"
+            maxW="100%"
+            minW="100%"
+          >
+            <Table>
+              <Thead>
                 <Tr>
                   <Th color="white">No</Th>
                   <Th color="white">ID</Th>
@@ -295,13 +309,7 @@ export default function ValuationStaffDashboard() {
                 setSubmitting(false);
               }}
             >
-              {({
-                values,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-              }) => (
+              {({ values, handleChange, handleSubmit, isSubmitting }) => (
                 <Form onSubmit={handleSubmit}>
                   <Flex direction={"column"} gap={5}>
                     <SimpleGrid columns={2} spacing={5}>
@@ -315,7 +323,6 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a origin"
                             value={values.origin}
                             onChange={handleChange}
-                            onBlur={handleBlur}
                           >
                             <option value="Natural">Natural</option>
                             <option value="Lab Grown">Lab Grown</option>
@@ -332,7 +339,6 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a shape"
                             value={values.shape}
                             onChange={handleChange}
-                            onBlur={handleBlur}
                           >
                             <option value="Round">Round</option>
                             <option value="Triangle">Triangle</option>
@@ -388,7 +394,6 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a color"
                             value={values.color}
                             onChange={handleChange}
-                            onBlur={handleBlur}
                           >
                             <option value="D">D</option>
                             <option value="E">E</option>
@@ -414,7 +419,6 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a cut"
                             value={values.cut}
                             onChange={handleChange}
-                            onBlur={handleBlur}
                           >
                             <option value="Excellent">Excellent</option>
                             <option value="Very Good">Very Good</option>
@@ -434,7 +438,6 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a clarity"
                             value={values.clarity}
                             onChange={handleChange}
-                            onBlur={handleBlur}
                           >
                             <option value={"IF"}>IF</option>
                             <option value={"VVS1"}>VVS1</option>
@@ -459,7 +462,6 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a symmetry"
                             value={values.symmetry}
                             onChange={handleChange}
-                            onBlur={handleBlur}
                           >
                             <option value="Excellent">Excellent</option>
                             <option value="Very Good">Very Good</option>
@@ -479,7 +481,6 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a polish"
                             value={values.polish}
                             onChange={handleChange}
-                            onBlur={handleBlur}
                           >
                             <option value="Excellent">Excellent</option>
                             <option value="VeryGood">Very Good</option>
@@ -499,7 +500,6 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a fluorescence"
                             value={values.fluorescence}
                             onChange={handleChange}
-                            onBlur={handleBlur}
                           >
                             <option value="None">None</option>
                             <option value="Faint">Faint</option>
@@ -518,7 +518,6 @@ export default function ValuationStaffDashboard() {
                             name="measurements"
                             type="text"
                             onChange={handleChange}
-                            onBlur={handleBlur}
                             value={values.measurements}
                           />
                         </FormControl>
@@ -683,7 +682,6 @@ export default function ValuationStaffDashboard() {
                           name="price"
                           type="text"
                           onChange={handleChange}
-                          onBlur={handleBlur}
                           value={values.price}
                         />
                         <InputRightElement children="$" />

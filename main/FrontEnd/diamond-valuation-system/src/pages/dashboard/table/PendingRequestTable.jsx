@@ -92,7 +92,8 @@ export default function PendingRequestTable() {
         if (response.data === "Have already received !") {
           toast({
             title: response.data,
-            status: "warning",
+            status: "warning",      position: "top-right",
+
             duration: 3000,
             isClosable: true,
           });

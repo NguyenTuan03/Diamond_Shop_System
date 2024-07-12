@@ -37,7 +37,7 @@ export default function Login({ signIn, signUp }) {
     const [isLogin, setIsLogin] = useState(false);
     const [show, setShow] = useState(false);
     const handleShowPassWord = () => setShow(!show);
-    const nav = useNavigate();    
+    const nav = useNavigate();
 
     async function fetchApi(username, password) {
         setIsLoading(true);
@@ -167,7 +167,6 @@ export default function Login({ signIn, signUp }) {
                                 {({
                                     values,
                                     handleChange,
-                                    handleBlur,
                                     handleSubmit,
                                     isSubmitting,
                                 }) => (
@@ -178,7 +177,6 @@ export default function Login({ signIn, signUp }) {
                                                 name="username"
                                                 type="text"
                                                 onChange={handleChange}
-                                                onBlur={handleBlur}
                                                 value={values.username}
                                             />
                                         </FormControl>
@@ -193,7 +191,6 @@ export default function Login({ signIn, signUp }) {
                                                             : "password"
                                                     }
                                                     onChange={handleChange}
-                                                    onBlur={handleBlur}
                                                     value={values.password}
                                                 />
                                                 <InputRightElement>
@@ -224,7 +221,7 @@ export default function Login({ signIn, signUp }) {
                                                 }
                                                 cursor={"pointer"}
                                                 fontSize={"sm"}
-                                                _hover={{ color: "blue" }}
+                                                _hover={{ color: "blue.400" }}
                                             >
                                                 Forgot password ?
                                             </Text>
@@ -249,9 +246,9 @@ export default function Login({ signIn, signUp }) {
                                 w={"100%"}
                                 gap={5}
                             >
-                                <Text>
+                                {/* <Text>
                                     <div id="buttonDiv"></div>
-                                </Text>
+                                </Text> */}
                                 <Text fontSize={"sm"} display={"flex"} gap={2}>
                                     <div>Don't have an account? </div>
                                     <Link>

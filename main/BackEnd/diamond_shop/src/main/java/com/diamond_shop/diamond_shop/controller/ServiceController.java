@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.UpdateServiceDTO;
 import com.diamond_shop.diamond_shop.pojo.ServiceResultPojo;
 import com.diamond_shop.diamond_shop.service.DiamondService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class ServiceController {
     }
 
     @PutMapping("/update")
-    public String updateService(@RequestBody UpdateServiceDTO updateServiceDTO) {
+    public String updateService(@Valid @RequestBody UpdateServiceDTO updateServiceDTO) {
         return diamondService.updateService(updateServiceDTO);
     }
 }

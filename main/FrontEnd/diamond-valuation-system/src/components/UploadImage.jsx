@@ -114,6 +114,7 @@ export default function UploadImage({ diamondId }) {
                 toast({
                   title: "Image already uploaded",
                   description: "This image has already been uploaded",
+                  position: "top-right",
                   status: "error",
                   duration: 3000,
                   isClosable: true,

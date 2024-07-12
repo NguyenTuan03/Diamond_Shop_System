@@ -1,6 +1,7 @@
 import {
   Badge,
   Button,
+  Center,
   Flex,
   Grid,
   GridItem,
@@ -16,9 +17,10 @@ import React, { useEffect, useState } from "react";
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
+import routes from "../../config/Config";
 export default function DiamondCheckDetails() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -47,13 +49,15 @@ export default function DiamondCheckDetails() {
             toast({
               title: "Error",
               description: "Diamond not found",
+              position: "top-right",
+
               status: "error",
               duration: 3000,
               isClosable: true,
             });
           }, 2000);
           setTimeout(() => {
-            navigate(-1);
+            navigate(routes.diamondCheck);
           }, 3000);
         }
         console.log(response.data);
@@ -64,6 +68,8 @@ export default function DiamondCheckDetails() {
         toast({
           title: "Error",
           description: "Diamond not found",
+          position: "top-right",
+
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -277,9 +283,16 @@ export default function DiamondCheckDetails() {
             </Skeleton>
           </GridItem>
         </Grid>
-        <Button bg={bgColor1} color={bgColor} size={{ base: "sm", md: "md", lg: "lg" }}>
-          Run another check
-        </Button>
+        <Center>
+          <Link to={routes.diamondCheck}>
+            <Button
+              colorScheme="blue"
+              size={{ base: "sm", md: "md", lg: "lg" }}
+            >
+              Run another check
+            </Button>
+          </Link>
+        </Center>
       </Flex>
     </Flex>
   );

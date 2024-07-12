@@ -57,7 +57,8 @@ export default function DiamondValuationRequest() {
       .then(function (response) {
         if (response.data.includes("already")) {
           toast({
-            title: response.data,
+            title: response.data,      position: "top-right",
+
             status: "warning",
             duration: 3000,
             isClosable: true,
@@ -126,7 +127,6 @@ export default function DiamondValuationRequest() {
             {({
               values,
               handleChange,
-              handleBlur,
               handleSubmit,
               isSubmitting,
             }) => (
@@ -137,7 +137,6 @@ export default function DiamondValuationRequest() {
                       name="description"
                       value={values.description}
                       onChange={handleChange}
-                      onBlur={handleBlur}
                       h={"200px"}
                       w={{ base: "70vw", md: "50vw", lg: "40vw" }}
                       placeholder="Please write your request description here..."
