@@ -5,6 +5,7 @@ import { forgetPassword } from '../../service/ForgotPassword';
 export default function ForgotPassword() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const toast = useToast();
   const handleResetPassword = async () => {
     const result = await forgetPassword(username, email);
     if (result) {
@@ -16,7 +17,17 @@ export default function ForgotPassword() {
           duration: 3000,
           isClosable: true,
         })
-      }
+    }
+    else {
+        toast({
+            title: result,
+            description: "We've sent you email, check this out!.",
+            status: 'success',
+            position:'top-right',
+            duration: 3000,
+            isClosable: true,
+          })
+    }
   }
   return (
     <Box
