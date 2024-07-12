@@ -49,11 +49,11 @@ export default function CommitmentTable() {
       if (user.userAuth.authorities[0].authority === "Manager") {
         url = `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/commitment/get/all?page=${page}`;
+        }/api/commitment/get/all?page=${page}`;
       } else if (user.userAuth.authorities[0].authority === "Customer") {
         url = `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/commitment/get?page=${page}&customerId=${user.userAuth.id}`;
+        }/api/commitment/get?page=${page}&customerId=${user.userAuth.id}`;
       }
       axios.get(url).then(function (response) {
         console.log(response.data);

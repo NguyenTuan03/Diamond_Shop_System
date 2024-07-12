@@ -64,7 +64,7 @@ export default function ForgotPassword() {
                 <Text fontSize={"2xl"} mb={"12px"}>
                     We'll email you instructions on how to reset your password
                 </Text>
-                <Button onClick={() => handleResetPassword} colorScheme='blue' mb={"12px"}>Send</Button>
+                <Button onClick={handleResetPassword} colorScheme='blue' mb={"12px"}>Send</Button>
                 <Text
                     fontSize={"xl"}
                     fontFamily={"Playwrite France Traditionnelle"}
