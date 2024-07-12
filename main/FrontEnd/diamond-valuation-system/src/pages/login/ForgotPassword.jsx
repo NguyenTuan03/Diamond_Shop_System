@@ -5,6 +5,7 @@ import { forgetPassword } from '../../service/ForgotPassword';
 export default function ForgotPassword() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const toast = useToast();
   const handleResetPassword = async () => {
     const result = await forgetPassword(username, email);
     if (result) {
@@ -16,7 +17,17 @@ export default function ForgotPassword() {
           duration: 3000,
           isClosable: true,
         })
-      }
+    }
+    else {
+        toast({
+            title: result,
+            description: "We've sent you email, check this out!.",
+            status: 'success',
+            position:'top-right',
+            duration: 3000,
+            isClosable: true,
+          })
+    }
   }
   return (
     <Box
@@ -53,7 +64,7 @@ export default function ForgotPassword() {
                 <Text fontSize={"2xl"} mb={"12px"}>
                     We'll email you instructions on how to reset your password
                 </Text>
-                <Button onClick={() => handleResetPassword} colorScheme='blue' mb={"12px"}>Send</Button>
+                <Button onClick={handleResetPassword} colorScheme='blue' mb={"12px"}>Send</Button>
                 <Text
                     fontSize={"xl"}
                     fontFamily={"Playwrite France Traditionnelle"}
