@@ -89,7 +89,6 @@ public class ValuationRequestImpl implements ValuationRequestService {
             if (processRequest.isEmpty())
                 return "Process request not found";
             if (!processRequest.get().getStatus().equals("Sealed")
-                    && !processRequest.get().getStatus().equals("Finished")
                     && !processRequest.get().getStatus().equals("Done")) {
                 processRequest.get().setStatus("Sealed");
                 processRequestRepository.save(processRequest.get());
