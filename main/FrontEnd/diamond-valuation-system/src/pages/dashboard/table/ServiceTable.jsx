@@ -153,6 +153,7 @@ export default function ServiceTable() {
                           toast({
                             title: "Update successfully",
                             message: response.data,
+                            position: "top-right",
                             status: "success",
                             duration: 3000,
                             isClosable: true,
@@ -165,6 +166,7 @@ export default function ServiceTable() {
                       toast({
                         title: "Update failed",
                         message: error.response.data,
+                        position: "top-right",
                         status: "error",
                         duration: 3000,
                         isClosable: true,
