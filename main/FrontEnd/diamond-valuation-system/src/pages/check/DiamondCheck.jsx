@@ -20,7 +20,7 @@ export default function DiamondCheck() {
   const fontColor = useColorModeValue("blue.400", "#DBA843");
   return (
     <Box bg={bgColor}>
-      <Container maxW="100vw">
+      <Container maxW="100vw" h={"90vh"}>
         <Flex
           direction={{ base: "column", md: "row", lg: "row" }}
           alignItems="center"

@@ -21,7 +21,7 @@ export default function FAQs() {
       mx="auto"
       h={"100vh"}
       bg={bgColor}
-      background={`linear-gradient(${overlayColor}, ${overlayColor}), url('https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_hinh-anh-dau-cham-hoi-trong-powerpoint-29.jpg')`}
+      background={`linear-gradient(${overlayColor}, ${overlayColor}), url("/images/bgFAQ.png")`}
       bgSize="cover"
       bgPosition="center"
     >
