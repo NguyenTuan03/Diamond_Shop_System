@@ -20,8 +20,6 @@ public class EmailService {
     String backend_url;
 
     public void sendActivationEmail(String email, String activationCode, String name) {
-
-
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
