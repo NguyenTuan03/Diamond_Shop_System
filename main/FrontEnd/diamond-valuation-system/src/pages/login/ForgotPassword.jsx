@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Icon, Input, Text, useToast  } from '@chakra-ui/react'
+import { Box, Button, Flex, Icon, Input, Text, useColorModeValue, useToast  } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { GiDiamondTrophy } from "react-icons/gi";
 import { forgetPassword } from '../../service/ForgotPassword';
@@ -6,6 +6,8 @@ export default function ForgotPassword() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const toast = useToast();
+  const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("blue.400", "#DBA843");
   const handleResetPassword = async () => {
     const result = await forgetPassword(username, email);
     if (result) {
@@ -30,15 +32,16 @@ export default function ForgotPassword() {
     }
   }
   return (
-    <Box
+    <Box    
+            bg={bgColor}
             w={"100%"}
-            height={"80vh"}
+            height={"100vh"}
             display={"flex"}
             alignItems={"center"}
             justifyContent={"center"}
         >
-            <Box border={"1px solid #00000036"} padding={"70px 80px"}>
-                <Flex>
+            <Box border={"1px solid grey"} padding={"70px 80px"}>
+                <Flex color={fontColor}>
                     <Icon
                         as={GiDiamondTrophy}
                         w={{ base: 5, md: 8, lg: 10 }}
@@ -64,7 +67,7 @@ export default function ForgotPassword() {
                 <Text fontSize={"2xl"} mb={"12px"}>
                     We'll email you instructions on how to reset your password
                 </Text>
-                <Button onClick={handleResetPassword} colorScheme='blue' mb={"12px"}>Send</Button>
+                <Button onClick={handleResetPassword} bg={fontColor} color={bgColor}  mb={"12px"}>Send</Button>
                 <Text
                     fontSize={"xl"}
                     fontFamily={"Playwrite France Traditionnelle"}
