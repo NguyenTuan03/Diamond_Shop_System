@@ -39,7 +39,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import UploadImage from "../../../components/UploadImage";
@@ -49,7 +49,9 @@ import { lazyload, placeholder } from "@cloudinary/react";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
 import PageIndicator from "../../../components/PageIndicator";
+import { useDebounce } from "@uidotdev/usehooks";
 export default function ValuationStaffDashboard() {
+  const image = useRef();
   const bgColor = useColorModeValue("white", "gray.800");
   const navigate = useNavigate();
   const toast = useToast();
@@ -115,7 +117,6 @@ export default function ValuationStaffDashboard() {
             title: "Success",
             description: response.data,
             position: "top-right",
-
             status: "success",
             duration: 3000,
             isClosable: true,
@@ -128,7 +129,6 @@ export default function ValuationStaffDashboard() {
           title: "Error",
           description: error.response.data,
           position: "top-right",
-
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -202,7 +202,6 @@ export default function ValuationStaffDashboard() {
             title: "Success",
             description: response.data,
             position: "top-right",
-
             status: "success",
             duration: 3000,
             isClosable: true,
@@ -213,6 +212,59 @@ export default function ValuationStaffDashboard() {
           console.log(response.data);
         });
     }
+  };
+  const generatePrice = async (values) => {
+    setIsGeneratePrice(true);
+    await axios
+      .post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/diamond/calculate`,
+        {
+          gradingLab: "",
+          carat: values.carat,
+          shape: values.shape,
+          color: values.color,
+          cut: values.cut,
+          clarity: values.clarity,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data.body);
+        setIsGeneratePrice(false);
+        const test = new DOMParser().parseFromString(
+          response.data.body,
+          "text/xml"
+        );
+        const jsonResult = {};
+        for (const child of test.querySelector("pr").children) {
+          jsonResult[child.tagName.toLowerCase()] = child.textContent;
+        }
+        if (jsonResult.price === "There is no available data for this query.") {
+          toast({
+            title: "Diamond Valuation",
+            description: "There is no available data for this query.",
+            position: "top-right",
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+          });
+          values.price = 0;
+        } else {
+          toast({
+            title: "Diamond Valuation",
+            description: "Diamond has been valuated successfully",
+            position: "top-right",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          values.price = jsonResult.price;
+        }
+      });
   };
   return (
     <>
@@ -338,7 +390,12 @@ export default function ValuationStaffDashboard() {
                             name="shape"
                             placeholder="Select a shape"
                             value={values.shape}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                              if (!isGeneratePrice) {
+                                handleChange(e);
+                                generatePrice(values);
+                              }
+                            }}
                           >
                             <option value="Round">Round</option>
                             <option value="Triangle">Triangle</option>
@@ -370,7 +427,10 @@ export default function ValuationStaffDashboard() {
                               step={0.1}
                               {...field}
                               onChange={(val) => {
-                                form.setFieldValue(field.name, val);
+                                if (!isGeneratePrice) {
+                                  form.setFieldValue(field.name, val);
+                                  generatePrice(values);
+                                }
                               }}
                             >
                               <NumberInputField />
@@ -393,7 +453,12 @@ export default function ValuationStaffDashboard() {
                             name="color"
                             placeholder="Select a color"
                             value={values.color}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                              if (!isGeneratePrice) {
+                                handleChange(e);
+                                generatePrice(values);
+                              }
+                            }}
                           >
                             <option value="D">D</option>
                             <option value="E">E</option>
@@ -418,7 +483,12 @@ export default function ValuationStaffDashboard() {
                             name="cut"
                             placeholder="Select a cut"
                             value={values.cut}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                              if (!isGeneratePrice) {
+                                handleChange(e);
+                                generatePrice(values);
+                              }
+                            }}
                           >
                             <option value="Excellent">Excellent</option>
                             <option value="Very Good">Very Good</option>
@@ -437,7 +507,12 @@ export default function ValuationStaffDashboard() {
                             name="clarity"
                             placeholder="Select a clarity"
                             value={values.clarity}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                              if (!isGeneratePrice) {
+                                handleChange(e);
+                                generatePrice(values);
+                              }
+                            }}
                           >
                             <option value={"IF"}>IF</option>
                             <option value={"VVS1"}>VVS1</option>
@@ -612,80 +687,40 @@ export default function ValuationStaffDashboard() {
                         isLoading={isGeneratePrice}
                         isDisabled={isGeneratePrice}
                         onClick={() => {
-                          setIsGeneratePrice(true);
-                          axios
-                            .post(
-                              `${
-                                import.meta.env.VITE_REACT_APP_BASE_URL
-                              }/api/diamond/calculate`,
-                              {
-                                gradingLab: "",
-                                carat: values.carat,
-                                shape: values.shape,
-                                color: values.color,
-                                cut: values.cut,
-                                clarity: values.clarity,
-                              },
-                              {
-                                headers: {
-                                  Authorization: `Bearer ${user.userAuth.token}`,
-                                },
-                              }
-                            )
-                            .then((response) => {
-                              console.log(response.data.body);
-                              setIsGeneratePrice(false);
-                              const test = new DOMParser().parseFromString(
-                                response.data.body,
-                                "text/xml"
-                              );
-                              const jsonResult = {};
-                              for (const child of test.querySelector("pr")
-                                .children) {
-                                jsonResult[child.tagName.toLowerCase()] =
-                                  child.textContent;
-                              }
-                              if (
-                                jsonResult.price ===
-                                "There is no available data for this query."
-                              ) {
-                                toast({
-                                  title: "Diamond Valuation",
-                                  description:
-                                    "There is no available data for this query.",
-                                  status: "warning",
-                                  duration: 3000,
-                                  isClosable: true,
-                                });
-                                values.price = 0;
-                              } else {
-                                toast({
-                                  title: "Diamond Valuation",
-                                  description:
-                                    "Diamond has been valuated successfully",
-                                  status: "success",
-                                  duration: 3000,
-                                  isClosable: true,
-                                });
-                                values.price = jsonResult.price;
-                              }
-                            });
+                          generatePrice(values);
                         }}
                       >
                         Generate price
                       </Button>
                     </Tooltip>
                     <FormControl>
-                      <FormLabel>Price</FormLabel>
-                      <InputGroup>
-                        <Input
-                          name="price"
-                          type="text"
-                          onChange={handleChange}
-                          value={values.price}
-                        />
-                        <InputRightElement children="$" />
-                      </InputGroup>
+                      <Field name="price">
+                        {({ field, form }) => (
+                          <Tooltip
+                            label="Price must be greater than 0 and less than 100000"
+                            hasArrow
+                          >
+                            <FormControl>
+                              <FormLabel>Price</FormLabel>
+                              <NumberInput
+                                min={1}
+                                max={100000}
+                                step={1}
+                                {...field}
+                                onChange={(val) => {
+                                  form.setFieldValue(field.name, val);
+                                }}
+                              >
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                  <NumberIncrementStepper />
+                                  <NumberDecrementStepper />
+                                </NumberInputStepper>
+                              </NumberInput>
+                            </FormControl>
+                          </Tooltip>
+                        )}
+                      </Field>
                     </FormControl>
                     <Center>
                       <Button
@@ -703,31 +738,36 @@ export default function ValuationStaffDashboard() {
             </Formik>
             <Flex justify={"center"}>
               <SimpleGrid columns={4}>
-                {diamondImages?.map((image, index) => {
-                  return (
-                    <>
-                      <Flex direction={"column"} key={image}>
-                        <AdvancedImage
-                          key={index}
-                          cldImg={cld
-                            .image(image)
-                            .resize(thumbnail().width(200).height(200))}
-                          plugins={[lazyload(), placeholder({ mode: "blur" })]}
-                        />
-                        <Button
-                          isDisabled={isDeleted}
-                          isLoading={isDeleted}
-                          colorScheme="red"
-                          onClick={() => {
-                            deleteImages(image);
-                          }}
-                        >
-                          Delete
-                        </Button>
-                      </Flex>
-                    </>
-                  );
-                })}
+                <Skeleton isLoaded={diamondImages.length > 0} height={"200px"}>
+                  {diamondImages?.map((image, index) => {
+                    return (
+                      <>
+                        <Flex direction={"column"} key={image}>
+                          <AdvancedImage
+                            key={index}
+                            cldImg={cld
+                              .image(image)
+                              .resize(thumbnail().width(200).height(200))}
+                            plugins={[
+                              lazyload(),
+                              placeholder({ mode: "blur" }),
+                            ]}
+                          />
+                          <Button
+                            isDisabled={isDeleted}
+                            isLoading={isDeleted}
+                            colorScheme="red"
+                            onClick={() => {
+                              deleteImages(image);
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </Flex>
+                      </>
+                    );
+                  })}
+                </Skeleton>
               </SimpleGrid>
             </Flex>
           </ModalBody>
