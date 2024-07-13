@@ -76,7 +76,8 @@ export default function DiamondCheck() {
                       />
                     </FormControl>
                     <Button
-                      colorScheme="blue"
+                      bg={fontColor}
+                      color={bgColor}
                       type="submit"
                       isLoading={isSubmitting}
                       isDisabled={isSubmitting}

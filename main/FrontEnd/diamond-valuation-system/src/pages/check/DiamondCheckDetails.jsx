@@ -286,7 +286,8 @@ export default function DiamondCheckDetails() {
         <Center>
           <Link to={routes.diamondCheck}>
             <Button
-              colorScheme="blue"
+              bg={bgColor1}
+              color={bgColor}
               size={{ base: "sm", md: "md", lg: "lg" }}
             >
               Run another check
