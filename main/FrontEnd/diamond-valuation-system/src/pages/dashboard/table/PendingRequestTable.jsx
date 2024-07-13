@@ -171,11 +171,11 @@ export default function PendingRequestTable() {
       <Flex direction={"column"} gap={10} >
         <Center>
           <Text fontSize="4xl" fontWeight="bold">
-            Pending Request
+            Appointments
           </Text>
         </Center>
         {totalPages === 0 ? (
-          <Center >No pending request to show</Center>
+          <Center >No appointment to show</Center>
         ) : (
           <Skeleton isLoaded={pendingRequest.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">

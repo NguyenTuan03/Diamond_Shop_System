@@ -89,9 +89,9 @@ export default function UploadImage({ diamondId }) {
         <FormLabel
           display={"inline-block"}
           cursor={"pointer"}
-          bgColor={"blue.100"}
+          bgColor={"gray.400"}
           borderRadius={"10px"}
-          _hover={{ bgColor: "blue.200" }}
+          _hover={{ bgColor: "gray.600" }}
           m={"10px"}
           p={3}
         >

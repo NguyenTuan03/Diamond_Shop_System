@@ -139,6 +139,7 @@ export default function Natural() {
                       bg: bgColor1,
                       borderRadius: "md",
                     }}
+                    _hover={{ bg: bgColor1, borderRadius: "md" }}
                   >
                     <Flex
                       color="gray"
