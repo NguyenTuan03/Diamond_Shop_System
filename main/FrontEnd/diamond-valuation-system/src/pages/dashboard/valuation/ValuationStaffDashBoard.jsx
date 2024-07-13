@@ -768,6 +768,7 @@ export default function ValuationStaffDashboard() {
               <UploadImage
                 diamondId={selectedProcessResult?.valuationResultId}
               />
+
             </Flex>
           </ModalFooter>
         </ModalContent>
