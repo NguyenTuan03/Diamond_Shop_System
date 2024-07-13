@@ -1,5 +1,7 @@
 package com.diamond_shop.diamond_shop.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,5 +27,7 @@ public class ValuationResultDTO {
     private BigDecimal diamondTable;
     private BigDecimal depth;
     private BigDecimal lengthToWidthRatio;
+    @Min(1)
+    @Max(100000)
     private BigDecimal price;
 }

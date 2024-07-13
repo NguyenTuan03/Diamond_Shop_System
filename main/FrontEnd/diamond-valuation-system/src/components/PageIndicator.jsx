@@ -9,7 +9,7 @@ export default function PageIndicator({ totalPages, setCurrentPage }) {
         <Button
           key={i}
           colorScheme="teal"
-          variant={"outline"}
+          // variant={"outline"}
           onClick={() => {
             setCurrentPage(i);
           }}

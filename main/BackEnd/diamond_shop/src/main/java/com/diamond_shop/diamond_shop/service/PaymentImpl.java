@@ -3,15 +3,15 @@ package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.PaymentEntity;
-import com.diamond_shop.diamond_shop.pojo.VNpayBillPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -64,21 +64,12 @@ public class PaymentImpl implements PaymentService {
     }
 
     @Override
-    public List<VNpayBillPojo> getTransaction(int id) {
-        List<VNpayBillPojo> result = new ArrayList<>();
-        List<PaymentEntity> paymentEntities = paymentRepository.findByCustomerId(id);
+    public Page<PaymentEntity> getTransaction(int id, int page) {
+        int pageNumber = --page;
+        int pageSize = 5;
 
-        for (PaymentEntity entity : paymentEntities) {
-            VNpayBillPojo pojo = new VNpayBillPojo();
-            pojo.setCustomername(entity.getCustomerId().getFullname());
-            pojo.setDate(entity.getCreatedDate());
-            pojo.setBank(entity.getBank());
-            pojo.setAmount(entity.getAmount());
-            pojo.setTransaction(entity.getTransaction());
-            pojo.setOrder_info(entity.getOrderInfo());
-            result.add(pojo);
-        }
-        return result;
+
+        return paymentRepository.findByCustomerId(PageRequest.of(pageNumber, pageSize), id);
     }
 
     @Override
