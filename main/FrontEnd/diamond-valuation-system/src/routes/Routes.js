@@ -36,7 +36,7 @@ const Logout = lazy(() => import("../pages/logout/Logout.jsx"));
 const Prices = lazy(() => import("../pages/prices/Prices.jsx"));
 const Error = lazy(() => import("../pages/error/Error.jsx"));
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
-import DashBoard from "../pages/dashboard/DashBoard.jsx";
+const DashBoard = lazy(() => import("../pages/dashboard/DashBoard.jsx"));
 import DashBoardNotification from "../pages/dashboard/DashBoardNotification.jsx";
 import DashBoardAppoint from "../pages/dashboard/DashBoardAppoint.jsx";
 import Login from "../pages/login/Login.jsx";
