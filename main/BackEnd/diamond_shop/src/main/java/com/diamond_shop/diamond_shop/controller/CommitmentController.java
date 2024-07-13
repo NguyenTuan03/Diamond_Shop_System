@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
- @RequestMapping("commitment")
 @RequiredArgsConstructor
 public class CommitmentController {
 
@@ -19,12 +18,12 @@ public class CommitmentController {
         return commitmentImpl.createCommitmentByValuationRequestId(valuationRequestId);
     }
 
-    @GetMapping(path = "/get/all")
+    @GetMapping(path = "api/commitment/get/all")
     public Page<CommitmentLetterEntity> getAll(@RequestParam("page") int page) {
         return commitmentImpl.findAll(page);
     }
 
-    @GetMapping(path = "/get")
+    @GetMapping(path = "api/manager/get")
     public Page<CommitmentLetterEntity> getAllByCustomerId(@RequestParam("page") int page, @RequestParam("customerId") int customerId) {
         return commitmentImpl.findAllByCustomerId(page, customerId);
     }

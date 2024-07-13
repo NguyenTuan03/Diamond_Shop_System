@@ -33,6 +33,7 @@ export default function Header() {
   const { isOpen, onToggle } = useDisclosure();
   const bgColor = useColorModeValue("white", "black");
   const fontColor = useColorModeValue("black", "#DBA843");
+  const fontColor1 = useColorModeValue("bule.400", "#DBA843");
   const modalSignIn = useDisclosure();
   const modalSignUp = useDisclosure();
   const auth = useContext(UserContext);
@@ -112,6 +113,7 @@ export default function Header() {
           </Flex>
           <Link to={routes.home}>
             <Flex
+            
               direction={"row"}
               flex={{ base: 6, md: 1, lg: 1 }}
               alignItems={"center"}
@@ -122,6 +124,7 @@ export default function Header() {
               }}
             >
               <Icon
+              
                 as={GiDiamondTrophy}
                 w={{ base: 5, md: 8, lg: 10 }}
                 h={{ base: 5, md: 8, lg: 10 }}

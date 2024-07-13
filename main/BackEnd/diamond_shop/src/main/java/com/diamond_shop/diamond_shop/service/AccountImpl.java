@@ -243,9 +243,30 @@ public class AccountImpl implements AccountService {
         RoleEntity roleEntity = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
         AccountEntity accountEntity = new AccountEntity();
         if (acc != null) {
-            return ResponseEntity.ok("Email has been registered!");
+            UserDetailsImpl userDetails = new UserDetailsImpl(
+                acc.getId(), 
+                acc.getUsername(),
+                acc.getEmail(),
+                acc.getPassword(),
+                List.of(new SimpleGrantedAuthority(roleEntity.getName()))
+            );
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                userDetails.getPassword(),
+                userDetails.getAuthorities()
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = JWTUtil.generateJwtToken(authentication);
+            return ResponseEntity.ok(
+                new LoginPojo(
+                    jwt,
+                    userDetails.getId(),
+                    userDetails.getUsername(),
+                    userDetails.getEmail(),
+                    userDetails.getAuthorities()
+                )
+            );
         }
-
             accountEntity.setRole(roleEntity); 
             accountEntity.setUsername(googleLoginRequestDTO.getName());
             accountEntity.setPassword(passwordEncoder.encode("null"));
