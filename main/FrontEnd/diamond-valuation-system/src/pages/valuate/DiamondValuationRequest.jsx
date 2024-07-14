@@ -57,8 +57,8 @@ export default function DiamondValuationRequest() {
       .then(function (response) {
         if (response.data.includes("already")) {
           toast({
-            title: response.data,      position: "top-right",
-
+            title: response.data,
+            position: "top-right",
             status: "warning",
             duration: 3000,
             isClosable: true,
@@ -124,12 +124,7 @@ export default function DiamondValuationRequest() {
               }
             }}
           >
-            {({
-              values,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-            }) => (
+            {({ values, handleChange, handleSubmit, isSubmitting }) => (
               <Form onSubmit={handleSubmit}>
                 <Flex direction={"column"} align={"center"} gap={10}>
                   <FormControl>

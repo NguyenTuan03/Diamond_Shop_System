@@ -29,7 +29,7 @@ public class ValuationResultController {
     }
 
     @PutMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String valuateDiamond(@RequestParam("id") String id, @RequestBody ValuationResultDTO valuationResultDTO) {
+    public String valuateDiamond(@RequestParam("id") String id, @Valid @RequestBody ValuationResultDTO valuationResultDTO) {
         return valuationResultService.valuateDiamond(id, valuationResultDTO);
     }
 

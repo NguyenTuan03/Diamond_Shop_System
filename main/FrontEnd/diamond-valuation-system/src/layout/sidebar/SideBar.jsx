@@ -26,6 +26,8 @@ import {
 } from "react-icons/io5";
 import { IoIosNotificationsOutline, IoMdSearch } from "react-icons/io";
 import { CiCalendar, CiSettings } from "react-icons/ci";
+import { RiHistoryLine } from "react-icons/ri";
+import { MdOutlinePendingActions } from "react-icons/md";
 import { PiCalculatorThin } from "react-icons/pi";
 import { VscServerProcess } from "react-icons/vsc";
 import { BsNewspaper } from "react-icons/bs";
@@ -109,7 +111,7 @@ const SideBar = () => {
     {
       role: ["Manager", "Consulting staff", "Customer"],
       path: routes.pendingRequest,
-      icon: IoNewspaperOutline,
+      icon: MdOutlinePendingActions,
       label: "Appointments",
     },
     {
@@ -127,7 +129,7 @@ const SideBar = () => {
     {
       role: ["Customer"],
       path: routes.dashboardTransaction,
-      icon: IoNewspaperOutline,
+      icon: RiHistoryLine,
       label: "Transaction history",
     },
   ];

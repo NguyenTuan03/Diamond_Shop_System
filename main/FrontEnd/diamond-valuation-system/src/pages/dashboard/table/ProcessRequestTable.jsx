@@ -942,7 +942,7 @@ export default function ProcessRequestTable() {
             size={"full"}
           >
             <ModalOverlay />
-            <ModalContent ref={valuationResultRef} p={5}>
+            <ModalContent ref={valuationResultRef} p={5} >
               <ModalHeader>
                 <Skeleton isLoaded={selectedValuationResult !== null}>
                   <Flex direction={"row"} gap={5}>
