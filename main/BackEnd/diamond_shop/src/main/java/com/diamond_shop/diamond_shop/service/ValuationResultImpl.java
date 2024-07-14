@@ -83,7 +83,6 @@ public class ValuationResultImpl implements ValuationResultService {
         ProcessResultEntity processResult = processResultRepository.findByValuationResultId(id);
         processResult.setStatus("Valuated");
         processResultRepository.save(processResult);
-
         Optional<ProcessRequestEntity> processRequest = processRequestRepository.findById(processResult.getValuationResultId().getValuationRequestId().getPendingRequestId().getProcessRequestEntity().getId());
         if (processRequest.isPresent()) {
             processRequest.get().setStatus("Valuated");

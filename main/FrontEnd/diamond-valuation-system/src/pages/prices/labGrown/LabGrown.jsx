@@ -135,13 +135,19 @@ export default function LabGrown() {
                       bg: bgColor1,
                       border: 0,
                     }}
+                    _hover={{ bg: bgColor1, borderRadius: "md" }}
                   >
                     <Flex
                       color="gray"
                       flexDirection={"column"}
                       alignItems={"center"}
                     >
-                        <LazyLoadImage width={32} height={32} src={tab.img} effect="blur" />
+                      <LazyLoadImage
+                        width={32}
+                        height={32}
+                        src={tab.img}
+                        effect="blur"
+                      />
                       {tab.shape}
                     </Flex>
                   </Tab>
@@ -322,12 +328,13 @@ export default function LabGrown() {
                           <Tr key={i}>
                             <Td>{priceItem.priceIndex}</Td>
                             <Td>
-                            <LazyLoadImage
+                              <LazyLoadImage
                                 width={100}
                                 src={priceItem.chart}
                                 alt="Price Image"
                                 effect="blur"
-                              />                            </Td>
+                              />{" "}
+                            </Td>
                             <Td>{priceItem.priceUsd}</Td>
                             <Td>
                               <Text
@@ -622,7 +629,11 @@ export default function LabGrown() {
                         <Tr key={i}>
                           <Td>{priceItem.priceIndex}</Td>
                           <Td>
-                          <LazyLoadImage width={100} src={priceItem.chart} effect="blur" />
+                            <LazyLoadImage
+                              width={100}
+                              src={priceItem.chart}
+                              effect="blur"
+                            />
                           </Td>
                           <Td>{priceItem.priceUsd}</Td>
                         </Tr>

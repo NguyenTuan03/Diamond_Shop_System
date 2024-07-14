@@ -235,7 +235,7 @@ export default function Home() {
                                 borderRadius="md"
                                 bg={bgColor}
                                 width={{ base: "100%", md: "45%", lg: "20%" }}
-                                minHeight="430px"
+                                minHeight="500px"
                                 position={"relative"}
                             >
                                 <Flex justifyContent="center" mb={5}>
