@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
 @RestController
 @CrossOrigin
 @RequestMapping("api/process-request")
@@ -44,5 +48,11 @@ public class ProcessRequestController {
     @GetMapping(path = "/total/done")
     public int totalDone() {
         return processRequestService.totalDone();
+    }
+
+    @PostMapping(path = "/receive-date/create")
+    public String createReceiveDate(@RequestParam("id") int id, @RequestParam("date") String date) {
+        LocalDateTime receiveDate = LocalDateTime.parse(date);
+        return processRequestService.createReceiveDate(id, Date.from(receiveDate.atZone(ZoneId.systemDefault()).toInstant()));
     }
 }

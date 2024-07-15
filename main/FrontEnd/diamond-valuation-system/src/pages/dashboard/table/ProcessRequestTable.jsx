@@ -25,6 +25,10 @@ import {
   Icon,
   UnorderedList,
   ListItem,
+  Input,
+  FormControl,
+  Tooltip,
+  Box,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 import { GiDiamondTrophy } from "react-icons/gi";
@@ -36,6 +40,24 @@ import PageIndicator from "../../../components/PageIndicator";
 import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
 import { useReactToPrint } from "react-to-print";
+import format from "date-fns/format";
+import { parseISO, set } from "date-fns";
+import { Form, Formik } from "formik";
+import { Cloudinary } from "@cloudinary/url-gen/index";
+import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
+import { thumbnail } from "@cloudinary/url-gen/actions/resize";
+import {
+  updateProcessRequest,
+  checkValuationRequestFinished,
+  checkValuationRequestSealed,
+  fetchValuationRequest,
+  fetchValuationResult,
+  createSealingLetter,
+  createReceipt,
+  fetchValuationReceipt,
+  createCommitment,
+  fetchPendingRequestImagesByProcessRequestId,
+} from "../../../service/ProcessRequestService";
 export default function ProcessRequestTable() {
   const toast = useToast();
   const user = useContext(UserContext);
@@ -86,13 +108,28 @@ export default function ProcessRequestTable() {
           if (response.status === 200) {
             Promise.all(
               response.data.content.map(async (item, index) => {
-                await checkValuationRequestFinished(item.id, setIsChecked);
-                await checkValuationRequestSealed(
-                  item.id,
-                  setIsChecked,
-                  item.customerId,
-                  item.consultingStaffId
-                );
+                if (
+                  item?.status !== "Finished" &&
+                  item?.status !== "Done" &&
+                  item?.status !== "Sealed"
+                ) {
+                  await checkValuationRequestFinished(
+                    item?.id,
+                    setIsChecked,
+                    item?.customerId,
+                    item?.consultingStaffId,
+                    toast
+                  );
+                }
+                if (item?.status !== "Done" && item?.status !== "Sealed") {
+                  await checkValuationRequestSealed(
+                    item?.id,
+                    setIsChecked,
+                    item?.customerId,
+                    item?.consultingStaffId,
+                    toast
+                  );
+                }
               })
             );
 
@@ -113,154 +150,6 @@ export default function ProcessRequestTable() {
     }
   };
 
-  const updateProcessRequest = (processRequestId, status) => {
-    setIsUpdateProcess(true);
-    axios
-      .put(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/process-request/update?id=${processRequestId}`,
-        {
-          status: status,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.userAuth.token}`,
-          },
-        }
-      )
-      .then(function (response) {
-        console.log(response.data);
-        if (response.status === 200) {
-          setIsUpdateProcess(false);
-          toast({
-            title: "Success",
-            description: response.data,
-            status: "success",
-            position: "top-right",
-            duration: 3000,
-            isClosable: true,
-          });
-          viewValuationRequest.onClose();
-          fetchProcessRequest(currentPage, user.userAuth.id);
-        }
-      })
-      .catch((error) => {
-        setIsUpdateProcess(false);
-        toast({
-          title: "Failed",
-          description: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  };
-  const checkValuationRequestFinished = async (
-    processRequestId,
-    setIsChecked,
-    customerId,
-    consultingStaffId
-  ) => {
-    await axios
-      .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-request/process-request/check-finished?id=${processRequestId}`
-      )
-      .then(function (response) {
-        if (response.status === 200) {
-          console.log(response.data);
-          if (response.data === "Finished request") {
-            var finishedRequest = [];
-            finishedRequest.push({
-              customerId: customerId,
-              consultingStaffId: consultingStaffId,
-              processRequestId: processRequestId,
-            });
-            localStorage.setItem(
-              "finishedRequests",
-              JSON.stringify(finishedRequest)
-            );
-            setIsChecked(true);
-            toast({
-              title: "Success",
-              description:
-                "Valuation request finished. Please contact customer to receive diamond.",
-              status: "success",
-              position: "top-right",
-              duration: 3000,
-              isClosable: true,
-            });
-          }
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Failed",
-          description: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  };
-  const checkValuationRequestSealed = async (
-    processRequestId,
-    setIsChecked,
-    customerId,
-    consultingStaffId
-  ) => {
-    await axios
-      .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-request/process-request/check-sealed?id=${processRequestId}`
-      )
-      .then(function (response) {
-        if (response.status === 200) {
-          console.log(response.data);
-          if (response.data === "Sealed request") {
-            var sealedRequests = [];
-            sealedRequests.push({
-              customerId: customerId,
-              consultingStaffId: consultingStaffId,
-              processRequestId: processRequestId,
-            });
-            localStorage.setItem(
-              "sealedRequests",
-              JSON.stringify(sealedRequests)
-            );
-            setIsChecked(true);
-            toast({
-              title: "Success",
-              description:
-                "Valuation request sealed. Please contact customer to notify.",
-              status: "success",
-              position: "top-right",
-              duration: 3000,
-              isClosable: true,
-            });
-          }
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Failed",
-          description: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  };
-  useEffect(() => {
-    fetchProcessRequest(currentPage, user.userAuth.id);
-  }, [currentPage]);
-
   useEffect(() => {
     if (isChecked) {
       fetchProcessRequest(currentPage, user.userAuth.id);
@@ -270,229 +159,13 @@ export default function ProcessRequestTable() {
   useEffect(() => {
     fetchProcessRequest(currentPage, user.userAuth.id);
   }, [currentPage]);
-  const fetchValuationRequest = (pendingRequestId) => {
-    setSelectedValuationRequest(null);
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-request/pending-request/get?id=${pendingRequestId}`
-      )
-      .then(function (response) {
-        console.log(response);
-        if (response.status === 200) {
-          setSelectedValuationRequest(response.data);
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Failed",
-          description: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  };
-  const fetchValuationResult = (valuationRequestId) => {
-    setSelectedValuationResult(null);
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-result/valuation-request/get?id=${valuationRequestId}`
-      )
-      .then(function (response) {
-        console.log(response.data);
-        setSelectedValuationResult(response.data);
-      })
-      .catch((error) => {
-        toast({
-          title: "Failed",
-          description: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  };
-  const createSealingLetter = (valuationRequestId) => {
-    axios
-      .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/sealing-letter/create?valuationRequestId=${valuationRequestId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${user.userAuth.token}`,
-          },
-        }
-      )
-      .then(function (response) {
-        console.log(response.data);
-        if (response.status === 200) {
-          if (response.data.includes("successful")) {
-            toast({
-              title: "Success",
-              description: response.data,
-              position: "top-right",
 
-              status: "success",
-              duration: 3000,
-              isClosable: true,
-            });
-          } else if (response.data.includes("already exists")) {
-            toast({
-              title: "Failed",
-              description: response.data,
-              position: "top-right",
-
-              status: "warning",
-              duration: 3000,
-              isClosable: true,
-            });
-          }
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Failed",
-          description: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  };
-  const createReceipt = (valuationRequestId) => {
-    axios
-      .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-receipt/create?valuationRequestId=${valuationRequestId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${user.userAuth.token}`,
-          },
-        }
-      )
-      .then(function (response) {
-        console.log(response.data);
-        if (response.status === 200) {
-          if (response.data.includes("successful")) {
-            toast({
-              title: "Success",
-              description: response.data,
-              position: "top-right",
-
-              status: "success",
-              duration: 3000,
-              isClosable: true,
-            });
-          } else if (response.data.includes("already exists")) {
-            toast({
-              title: "Failed",
-              description: response.data,
-              position: "top-right",
-
-              status: "warning",
-              duration: 3000,
-              isClosable: true,
-            });
-          }
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Failed",
-          description: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  };
-  const fetchValuationReceipt = (valuationRequestId) => {
-    setSelectedValuationReceipt(null);
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-receipt/valuation-request/get?id=${valuationRequestId}`
-      )
-      .then(function (response) {
-        console.log(response.data);
-        if (response.status === 200) {
-          setSelectedValuationReceipt(response.data);
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Failed",
-          description: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  };
-  const createCommitment = (valuationRequestId) => {
-    axios
-      .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BASE_URL
-        }/commitment/manager/create?valuationRequestId=${valuationRequestId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${user.userAuth.token}`,
-          },
-        }
-      )
-      .then(function (response) {
-        console.log(response.data);
-        if (response.status === 200) {
-          if (response.data.includes("successful")) {
-            toast({
-              title: "Success",
-              description: response.data,
-              position: "top-right",
-
-              status: "success",
-              duration: 3000,
-              isClosable: true,
-            });
-          } else if (response.data.includes("already exists")) {
-            toast({
-              title: "Failed",
-              description: response.data,
-              position: "top-right",
-
-              status: "warning",
-              duration: 3000,
-              isClosable: true,
-            });
-          }
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Failed",
-          description: error.response.data,
-          status: "error",
-          position: "top-right",
-          duration: 3000,
-          isClosable: true,
-        });
-      });
-  };
+  const [diamondImages, setDiamondImages] = useState([]);
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+    },
+  });
   return (
     <>
       <Flex direction={"column"} gap={10}>
@@ -528,6 +201,8 @@ export default function ProcessRequestTable() {
                       <Th color="white">Consulting Staff ID</Th>
                     )}
                     <Th color="white">Consulting Staff Name</Th>
+                    <Th color={"white"}>Created Date</Th>
+                    <Th color={"white"}>Receive Date</Th>
                     <Th color="white">Description</Th>
                     <Th color="white">Status</Th>
                     <Th color="white">View</Th>
@@ -547,6 +222,22 @@ export default function ProcessRequestTable() {
                         <Td>{item?.consultingStaffId || "N/A"}</Td>
                       )}
                       <Td>{item?.consultingStaffName}</Td>
+                      <Td>
+                        {item?.createdDate
+                          ? format(
+                              parseISO(item?.createdDate),
+                              "dd/MM/yyyy HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
+                      <Td>
+                        {item?.receiveDate
+                          ? format(
+                              parseISO(item?.receiveDate),
+                              "dd/MM/yyyy HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
                       <Td>{item?.description || "N/A"}</Td>
                       <Td>{item?.status || "N/A"}</Td>
                       <Td>
@@ -557,7 +248,15 @@ export default function ProcessRequestTable() {
                           onClick={() => {
                             setSelectedProcessRequest(item);
                             viewValuationRequest.onOpen();
-                            fetchValuationRequest(item?.pendingRequestId);
+                            fetchValuationRequest(
+                              item?.pendingRequestId,
+                              setSelectedValuationRequest,
+                              toast
+                            );
+                            fetchPendingRequestImagesByProcessRequestId(
+                              item?.id,
+                              setDiamondImages
+                            );
                           }}
                         />
                       </Td>
@@ -578,6 +277,7 @@ export default function ProcessRequestTable() {
       <Modal
         isOpen={viewValuationRequest.isOpen}
         onClose={viewValuationRequest.onClose}
+        size={"xl"}
       >
         <ModalOverlay />
         <ModalContent>
@@ -651,18 +351,164 @@ export default function ProcessRequestTable() {
                   <strong>Will valuate</strong>:{" "}
                   {selectedValuationRequest?.serviceStatistic || "N/A"}
                 </Text>
-                <Text>
+                {/* <Text>
                   <strong>Created Date</strong>:{" "}
-                  {selectedValuationRequest?.createdDate?.slice(0, 10) || "N/A"}
+                  {selectedValuationRequest?.createdDate
+                    ? format(
+                        parseISO(selectedValuationRequest?.createdDate),
+                        "dd/MM/yyyy HH:mm:ss"
+                      )
+                    : "N/A"}
+                </Text> */}
+                <Text>
+                  <strong>Receive Diamond Date</strong>:{" "}
+                  {selectedProcessRequest?.receiveDate
+                    ? format(
+                        parseISO(selectedProcessRequest?.receiveDate),
+                        "dd/MM/yyyy HH:mm:ss"
+                      )
+                    : " N/A"}
                 </Text>
+                {isUsers &&
+                  user.userAuth.authorities[0].authority ===
+                    "Consulting staff" && (
+                    <Formik
+                      initialValues={{
+                        receiveDate: selectedProcessRequest?.receiveDate
+                          ? format(
+                              parseISO(selectedProcessRequest?.receiveDate),
+                              "yyyy-MM-dd HH:mm"
+                            ).replace(" ", "T")
+                          : " ",
+                      }}
+                      onSubmit={(values, { setSubmitting }) => {
+                        axios
+                          .post(
+                            `${
+                              import.meta.env.VITE_REACT_APP_BASE_URL
+                            }/api/process-request/receive-date/create?id=${
+                              selectedProcessRequest?.id
+                            }&date=${values.receiveDate}`,
+                            {},
+                            {
+                              headers: {
+                                Authorization: `Bearer ${user.userAuth.token}`,
+                              },
+                            }
+                          )
+                          .then((res) => {
+                            console.log(res);
+                            setSubmitting(false);
+                            toast({
+                              title: "Success",
+                              description: res.data,
+                              status: "success",
+                              position: "top-right",
+                              duration: 3000,
+                              isClosable: true,
+                            });
+                            setTimeout(() => {
+                              fetchProcessRequest(
+                                currentPage,
+                                user.userAuth.id
+                              );
+                            }, 1000);
+                          })
+                          .catch((error) => {
+                            setSubmitting(false);
+                            toast({
+                              title: "Failed",
+                              description: error.response.data,
+                              status: "error",
+                              position: "top-right",
+                              duration: 3000,
+                              isClosable: true,
+                            });
+                            setTimeout(() => {
+                              fetchProcessRequest(
+                                currentPage,
+                                user.userAuth.id
+                              );
+                            }, 1000);
+                          });
+                      }}
+                    >
+                      {({
+                        values,
+                        handleChange,
+                        handleSubmit,
+                        isSubmitting,
+                      }) => (
+                        <Form onSubmit={handleSubmit}>
+                          <Flex direction={"column"}>
+                            <FormControl isRequired>
+                              <Input
+                                name="receiveDate"
+                                type="datetime-local"
+                                onChange={handleChange}
+                                value={values.receiveDate ?? ""}
+                              />
+                            </FormControl>
+                            <Button
+                              type="submit"
+                              isLoading={isSubmitting}
+                              isDisabled={isSubmitting}
+                            >
+                              Submit receive date
+                            </Button>
+                          </Flex>
+                        </Form>
+                      )}
+                    </Formik>
+                  )}
                 <Text>
                   <strong>Finish Date</strong>:{" "}
-                  {selectedValuationRequest?.finishDate?.slice(0, 10) || "N/A"}
+                  {selectedValuationRequest?.finishDate
+                    ? format(
+                        parseISO(selectedValuationRequest?.finishDate),
+                        "dd/MM/yyyy HH:mm:ss"
+                      )
+                    : "N/A"}
                 </Text>
                 <Text>
                   <strong>Sealing Date</strong>:{" "}
-                  {selectedValuationRequest?.sealingDate?.slice(0, 10) || "N/A"}
+                  {selectedValuationRequest?.sealingDate
+                    ? format(
+                        parseISO(selectedValuationRequest?.sealingDate),
+                        "dd/MM/yyyy HH:mm:ss"
+                      )
+                    : "N/A"}
                 </Text>
+                <SimpleGrid columns={4} spacing={5}>
+                  {diamondImages.map((image, index) => {
+                    return (
+                      <Flex direction={"column"} key={index}>
+                        <Tooltip label="Click to full view" placement="top">
+                          <Box
+                            transition={"transform .2s"}
+                            _hover={{
+                              transform: "scale(1.5)",
+                              boxShadow: "0 0 2px 1px rgba(0, 140, 186, 0.5)",
+                            }}
+                            onClick={() => {
+                              window.open(cld.image(image).toURL(), "_blank");
+                            }}
+                          >
+                            <AdvancedImage
+                              cldImg={cld
+                                .image(image)
+                                .resize(thumbnail().width(200).height(200))}
+                              plugins={[
+                                lazyload(),
+                                placeholder({ mode: "blur" }),
+                              ]}
+                            />
+                          </Box>
+                        </Tooltip>
+                      </Flex>
+                    );
+                  })}
+                </SimpleGrid>
               </Flex>
             </Skeleton>
           </ModalBody>
@@ -679,7 +525,11 @@ export default function ProcessRequestTable() {
                   {selectedProcessRequest?.status === "Sealed" && (
                     <Button
                       onClick={() => {
-                        createSealingLetter(selectedValuationRequest?.id);
+                        createSealingLetter(
+                          selectedValuationRequest?.id,
+                          user.userAuth.token,
+                          toast
+                        );
                       }}
                     >
                       Create sealing letter
@@ -695,11 +545,22 @@ export default function ProcessRequestTable() {
                       <>
                         <Button
                           isLoading={isUpdateProcess}
-                          onClick={() => {
-                            updateProcessRequest(
+                          onClick={async () => {
+                            await updateProcessRequest(
                               selectedProcessRequest?.id,
-                              "Contacted"
-                            );
+                              "Contacted",
+                              user.userAuth.token,
+                              setIsUpdateProcess,
+                              toast
+                            ).then(() => {
+                              setTimeout(() => {
+                                fetchProcessRequest(
+                                  currentPage,
+                                  user.userAuth.id
+                                );
+                                viewValuationRequest.onClose();
+                              }, 1000);
+                            });
                           }}
                         >
                           Contacted
@@ -720,12 +581,27 @@ export default function ProcessRequestTable() {
                         <>
                           <Button
                             isLoading={isUpdateProcess}
-                            onClick={() => {
-                              updateProcessRequest(
+                            onClick={async () => {
+                              await updateProcessRequest(
                                 selectedProcessRequest?.id,
-                                "Diamond Received"
-                              );
-                              createReceipt(selectedValuationRequest?.id);
+                                "Diamond Received",
+                                user.userAuth.token,
+                                setIsUpdateProcess,
+                                toast
+                              ).then(() => {
+                                createReceipt(
+                                  selectedValuationRequest?.id,
+                                  user.userAuth.token,
+                                  toast
+                                );
+                                setTimeout(() => {
+                                  fetchProcessRequest(
+                                    currentPage,
+                                    user.userAuth.id
+                                  );
+                                  viewValuationRequest.onClose();
+                                }, 1000);
+                              });
                             }}
                           >
                             Diamond Received
@@ -743,7 +619,9 @@ export default function ProcessRequestTable() {
                             onClick={() => {
                               viewReceipt.onOpen();
                               fetchValuationReceipt(
-                                selectedValuationRequest?.id
+                                selectedValuationRequest?.id,
+                                setSelectedValuationReceipt,
+                                toast
                               );
                             }}
                           >
@@ -761,7 +639,9 @@ export default function ProcessRequestTable() {
                             colorScheme="teal"
                             onClick={() => {
                               fetchValuationResult(
-                                selectedValuationRequest?.id
+                                selectedValuationRequest?.id,
+                                setSelectedValuationResult,
+                                toast
                               );
                               viewValuationResult.onOpen();
                             }}
@@ -781,7 +661,9 @@ export default function ProcessRequestTable() {
                               colorScheme="teal"
                               onClick={() => {
                                 fetchValuationResult(
-                                  selectedValuationRequest?.id
+                                  selectedValuationRequest?.id,
+                                  setSelectedValuationResult,
+                                  toast
                                 );
                                 viewValuationResult.onOpen();
                               }}
@@ -795,11 +677,22 @@ export default function ProcessRequestTable() {
                             <Button
                               isLoading={isUpdateProcess}
                               colorScheme="blue"
-                              onClick={() => {
-                                updateProcessRequest(
+                              onClick={async () => {
+                                await updateProcessRequest(
                                   selectedProcessRequest?.id,
-                                  "Done"
-                                );
+                                  "Done",
+                                  user.userAuth.token,
+                                  setIsUpdateProcess,
+                                  toast
+                                ).then(() => {
+                                  setTimeout(() => {
+                                    fetchProcessRequest(
+                                      currentPage,
+                                      user.userAuth.id
+                                    );
+                                    viewValuationRequest.onClose();
+                                  }, 1000);
+                                });
                               }}
                             >
                               Cust. Received
@@ -807,7 +700,11 @@ export default function ProcessRequestTable() {
                             <Button
                               colorScheme="red"
                               onClick={() => {
-                                createCommitment(selectedValuationRequest?.id);
+                                createCommitment(
+                                  selectedValuationRequest?.id,
+                                  user.userAuth.token,
+                                  toast
+                                );
                               }}
                             >
                               Lost Receipt
@@ -821,7 +718,9 @@ export default function ProcessRequestTable() {
                             colorScheme="teal"
                             onClick={() => {
                               fetchValuationResult(
-                                selectedValuationRequest?.id
+                                selectedValuationRequest?.id,
+                                setSelectedValuationResult,
+                                toast
                               );
                               viewValuationResult.onOpen();
                             }}
@@ -840,7 +739,9 @@ export default function ProcessRequestTable() {
                             colorScheme="teal"
                             onClick={() => {
                               fetchValuationResult(
-                                selectedValuationRequest?.id
+                                selectedValuationRequest?.id,
+                                setSelectedValuationResult,
+                                toast
                               );
                               viewValuationResult.onOpen();
                             }}
@@ -854,11 +755,22 @@ export default function ProcessRequestTable() {
                           <Button
                             isLoading={isUpdateProcess}
                             colorScheme="blue"
-                            onClick={() => {
-                              updateProcessRequest(
+                            onClick={async () => {
+                              await updateProcessRequest(
                                 selectedProcessRequest?.id,
-                                "Done"
-                              );
+                                "Done",
+                                user.userAuth.token,
+                                setIsUpdateProcess,
+                                toast
+                              ).then(() => {
+                                setTimeout(() => {
+                                  fetchProcessRequest(
+                                    currentPage,
+                                    user.userAuth.id
+                                  );
+                                  viewValuationRequest.onClose();
+                                }, 1000);
+                              });
                             }}
                           >
                             Cust. Received
@@ -866,7 +778,11 @@ export default function ProcessRequestTable() {
                           <Button
                             colorScheme="red"
                             onClick={() => {
-                              createCommitment(selectedValuationRequest?.id);
+                              createCommitment(
+                                selectedValuationRequest?.id,
+                                user.userAuth.token,
+                                toast
+                              );
                             }}
                           >
                             Lost Receipt
@@ -917,7 +833,9 @@ export default function ProcessRequestTable() {
                             onClick={() => {
                               viewValuationResult.onOpen();
                               fetchValuationResult(
-                                selectedValuationRequest?.id
+                                selectedValuationRequest?.id,
+                                setSelectedValuationResult,
+                                toast
                               );
                             }}
                           >
@@ -942,7 +860,7 @@ export default function ProcessRequestTable() {
             size={"full"}
           >
             <ModalOverlay />
-            <ModalContent ref={valuationResultRef} p={5} >
+            <ModalContent ref={valuationResultRef} p={5}>
               <ModalHeader>
                 <Skeleton isLoaded={selectedValuationResult !== null}>
                   <Flex direction={"row"} gap={5}>
@@ -1107,6 +1025,7 @@ export default function ProcessRequestTable() {
           <Modal
             isOpen={viewValuationResult.isOpen}
             onClose={viewValuationResult.onClose}
+            size={"xl"}
           >
             <ModalOverlay />
             <ModalContent>
