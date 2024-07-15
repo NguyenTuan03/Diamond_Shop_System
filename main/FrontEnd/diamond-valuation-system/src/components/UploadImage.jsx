@@ -9,13 +9,11 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { UserContext } from "./GlobalContext/AuthContext";
 
-export default function UploadImage({ diamondId }) {
+export default function UploadImage({ diamondId, type }) {
   const user = useContext(UserContext);
-  const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUpLoading] = useState(false);
   const toast = useToast();
@@ -51,24 +49,46 @@ export default function UploadImage({ diamondId }) {
             duration: 3000,
             isClosable: true,
           });
-          axios
-            .post(
-              `${
-                import.meta.env.VITE_REACT_APP_BASE_URL
-              }/api/valuation-result/image/create`,
-              {
-                id: data?.public_id,
-                valuationResultId: diamondId,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${user.userAuth.token}`,
+          if (type === "valuation_result") {
+            axios
+              .post(
+                `${
+                  import.meta.env.VITE_REACT_APP_BASE_URL
+                }/api/valuation-result/image/create`,
+                {
+                  id: data?.public_id,
+                  valuationResultId: diamondId,
                 },
-              }
-            )
-            .then(function (response) {
-              console.log(response.data);
-            });
+                {
+                  headers: {
+                    Authorization: `Bearer ${user.userAuth.token}`,
+                  },
+                }
+              )
+              .then(function (response) {
+                console.log(response.data);
+              }); 
+          }else if(type==="pending_request")
+          {
+            axios
+              .post(
+                `${
+                  import.meta.env.VITE_REACT_APP_BASE_URL
+                }/api/pending-request/image/create`,
+                {
+                  id: data?.public_id,
+                  pendingRequestId: diamondId,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${user.userAuth.token}`,
+                  },
+                }
+              )
+              .then(function (response) {
+                console.log(response.data);
+              });
+          }
         }
       }
     } catch (error) {
@@ -91,7 +111,7 @@ export default function UploadImage({ diamondId }) {
           cursor={"pointer"}
           bgColor={"gray.400"}
           borderRadius={"10px"}
-          _hover={{ bgColor: "gray.600" }}
+          _hover={{ bgColor: "gray.500" }}
           m={"10px"}
           p={3}
         >
@@ -135,8 +155,8 @@ export default function UploadImage({ diamondId }) {
                 <Image
                   src={URL.createObjectURL(image)}
                   alt="not found"
-                  w={"250px"}
-                  h={"250px"}
+                  w={"200px"}
+                  h={"200px"}
                 />
                 <Button
                   colorScheme="red"
