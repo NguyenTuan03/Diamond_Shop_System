@@ -110,6 +110,7 @@ export default function LabGrown() {
       try {
         const shape = tabs[selectedTab].api;
         const result = await labGrownDiamond(shape);
+        console.log(typeof result);
         setPrice(result);
         console.log(result);
       } catch (error) {
