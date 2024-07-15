@@ -36,6 +36,7 @@ import {
   Skeleton,
   useToast,
   Tooltip,
+  Box,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
@@ -422,7 +423,7 @@ export default function ValuationStaffDashboard() {
                               step={0.1}
                               {...field}
                               onChange={(val) => {
-                                  form.setFieldValue(field.name, val);
+                                form.setFieldValue(field.name, val);
                               }}
                             >
                               <NumberInputField />
@@ -730,36 +731,47 @@ export default function ValuationStaffDashboard() {
             </Formik>
             <Flex justify={"center"}>
               <SimpleGrid columns={4}>
-                <Skeleton isLoaded={diamondImages.length > 0} height={"200px"}>
-                  {diamondImages?.map((image, index) => {
-                    return (
-                      <>
-                        <Flex direction={"column"} key={image}>
-                          <AdvancedImage
-                            key={index}
-                            cldImg={cld
-                              .image(image)
-                              .resize(thumbnail().width(200).height(200))}
-                            plugins={[
-                              lazyload(),
-                              placeholder({ mode: "blur" }),
-                            ]}
-                          />
-                          <Button
-                            isDisabled={isDeleted}
-                            isLoading={isDeleted}
-                            colorScheme="red"
+                {diamondImages?.map((image, index) => {
+                  return (
+                    <>
+                      <Flex direction={"column"} key={image}>
+                        <Tooltip label="Click to full view" placement="top">
+                          <Box
+                            transition={"transform .2s"}
+                            _hover={{
+                              transform: "scale(1.5)",
+                              boxShadow: "0 0 2px 1px rgba(0, 140, 186, 0.5)",
+                            }}
                             onClick={() => {
-                              deleteImages(image);
+                              window.open(cld.image(image).toURL(), "_blank");
                             }}
                           >
-                            Delete
-                          </Button>
-                        </Flex>
-                      </>
-                    );
-                  })}
-                </Skeleton>
+                            <AdvancedImage
+                              key={index}
+                              cldImg={cld
+                                .image(image)
+                                .resize(thumbnail().width(200).height(200))}
+                              plugins={[
+                                lazyload(),
+                                placeholder({ mode: "blur" }),
+                              ]}
+                            />
+                          </Box>
+                        </Tooltip>
+                        <Button
+                          isDisabled={isDeleted}
+                          isLoading={isDeleted}
+                          colorScheme="red"
+                          onClick={() => {
+                            deleteImages(image);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </Flex>
+                    </>
+                  );
+                })}
               </SimpleGrid>
             </Flex>
           </ModalBody>
@@ -767,8 +779,8 @@ export default function ValuationStaffDashboard() {
             <Flex direction={"column"}>
               <UploadImage
                 diamondId={selectedProcessResult?.valuationResultId}
+                type={"valuation_result"}
               />
-
             </Flex>
           </ModalFooter>
         </ModalContent>
