@@ -34,4 +34,7 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Integer>
     @Query(value = "SELECT p.amount FROM PaymentEntity p")
     List<Integer> getIncome();
 
+    @Query(value = "SELECT p FROM PaymentEntity p")
+    List<PaymentEntity> findAll();
+
 }
