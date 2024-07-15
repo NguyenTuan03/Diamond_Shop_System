@@ -23,7 +23,7 @@ public class CommitmentController {
         return commitmentImpl.findAll(page);
     }
 
-    @GetMapping(path = "api/manager/get")
+    @GetMapping(path = "api/commitment/get")
     public Page<CommitmentLetterEntity> getAllByCustomerId(@RequestParam("page") int page, @RequestParam("customerId") int customerId) {
         return commitmentImpl.findAllByCustomerId(page, customerId);
     }

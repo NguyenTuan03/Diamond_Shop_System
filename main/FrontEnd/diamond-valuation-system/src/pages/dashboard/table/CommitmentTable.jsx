@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import PageIndicator from "../../../components/PageIndicator";
 import {
-  Box,
   Button,
   Center,
   Flex,
@@ -10,7 +9,6 @@ import {
   IconButton,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -79,17 +77,23 @@ export default function CommitmentTable() {
         ) : (
           <Skeleton isLoaded={commitment?.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
-              <Table >
-                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+              <Table>
+                <Thead
+                  bg="gray.600"
+                  color="white"
+                  mb={5}
+                  boxShadow="sm"
+                  borderRadius="md"
+                  maxW="100%"
+                  minW="100%"
+                >
                   <Tr>
                     <Th color="white">ID</Th>
                     <Th color="white">Request ID</Th>
 
-                    {isUsers &&
-                      user.userAuth.authorities[0].authority === "Manager" && (
-                        <Th color="white">Customer Name</Th>
-                      )}
+                    <Th color="white">Customer Name</Th>
                     <Th color="white">Created Date</Th>
+                    <Th color="white">Description</Th>
                     <Th color="white">View</Th>
                   </Tr>
                 </Thead>
@@ -98,10 +102,9 @@ export default function CommitmentTable() {
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
                       <Td>{item?.valuationRequestId || "N/A"}</Td>
-                      {user.userAuth.authorities[0].authority === "Manager" && (
-                        <Td>{item?.customerName || "N/A"}</Td>
-                      )}
+                      <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
+                      <Td>Customer lost receipt</Td>
                       <Td>
                         <IconButton
                           icon={<ViewIcon />}

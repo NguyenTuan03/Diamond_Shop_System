@@ -8,11 +8,12 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Title from "../../components/Title";
 import { Form, Formik } from "formik";
 import axios from "axios";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
+import UploadImage from "../../components/UploadImage";
 export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
   const isUsers =
