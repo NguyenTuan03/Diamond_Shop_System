@@ -16,4 +16,6 @@ public interface PaymentService {
     Page<PaymentEntity> getTransaction(int id, int page);
 
     int getIncome();
+
+    int getIncomeByMonth(int month);
 }
