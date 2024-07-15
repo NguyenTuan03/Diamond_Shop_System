@@ -11,7 +11,11 @@ import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,21 +36,21 @@ public class ProcessRequestImpl implements ProcessRequestService {
     public Page<ProcessRequestEntity> viewAllProcessRequests(int page) {
         int pageSize = 5;
         int pageNumber = --page;
-        return processRequestRepository.findAllProcessResults(PageRequest.of(pageNumber, pageSize));
+        return processRequestRepository.findAllProcessResults(PageRequest.of(pageNumber, pageSize, Sort.by("id")));
     }
 
     @Override
     public Page<ProcessRequestEntity> viewProcessRequestsByConsultingStaffId(int page, int consultingStaff) {
         int pageSize = 5;
         int pageNumber = --page;
-        return processRequestRepository.findProcessRequestsByConsultingStaffId(PageRequest.of(pageNumber, pageSize), consultingStaff);
+        return processRequestRepository.findProcessRequestsByConsultingStaffId(PageRequest.of(pageNumber, pageSize, Sort.by("id")), consultingStaff);
     }
 
     @Override
     public Page<ProcessRequestEntity> viewProcessRequestsByCustomerId(int page, int customerId) {
         int pageSize = 5;
         int pageNumber = --page;
-        return processRequestRepository.findProcessRequestsByCustomerId(PageRequest.of(pageNumber, pageSize), customerId);
+        return processRequestRepository.findProcessRequestsByCustomerId(PageRequest.of(pageNumber, pageSize, Sort.by("id")), customerId);
     }
 
     @Override
@@ -63,7 +67,8 @@ public class ProcessRequestImpl implements ProcessRequestService {
             processRequest = new ProcessRequestEntity(
                     consultingStaff,
                     pendingRequest,
-                    "Not resolved yet");
+                    "Not resolved yet",
+                    new Date());
             processRequestRepository.save(processRequest);
             return "Task assigned successfully!";
         } else return "Have already received !";
@@ -90,5 +95,20 @@ public class ProcessRequestImpl implements ProcessRequestService {
             }
         }
         return "Update process request successfully!";
+    }
+
+    @Override
+    public String createReceiveDate(int id, Date receiveDate) {
+        Optional<ProcessRequestEntity> processRequest = processRequestRepository.findById(id);
+        if (processRequest.isEmpty())
+            return "Cannot found process request with id" + id;
+        processRequest.get().setReceiveDate(receiveDate);
+        processRequestRepository.save(processRequest.get());
+        return "Create receive date successful!";
+    }
+
+    @Override
+    public String checkReceiveDate(int id) {
+        return "";
     }
 }
