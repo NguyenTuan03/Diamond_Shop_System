@@ -134,6 +134,47 @@ CREATE TABLE commiment_letters(
 	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id) ON DELETE SET NULL,
 )
 
+CREATE TABLE diamond_prices(
+	id BIGINT PRIMARY KEY IDENTITY(1,1),
+	change_down NVARCHAR(255),
+	change_up NVARCHAR(255),
+	chart NVARCHAR(255),
+	image_url NVARCHAR(255),
+	inv NVARCHAR(255),
+	inventory NVARCHAR(255),
+	inventory_change_down NVARCHAR(255),
+	inventory_change_up NVARCHAR(255),
+	name NVARCHAR(255),
+	price NVARCHAR(255),
+	price_change NVARCHAR(255),
+	price_index NVARCHAR(255),
+	price_usd NVARCHAR(255),
+	range NVARCHAR(255),
+	title NVARCHAR(255),
+	weight NVARCHAR(255),
+	shape NVARCHAR(255)
+)
+
+CREATE TABLE diamond_prices_natural(
+	id BIGINT PRIMARY KEY IDENTITY(1,1),
+	change_down NVARCHAR(255),
+	change_up NVARCHAR(255),
+	chart NVARCHAR(255),
+	image_url NVARCHAR(255),
+	inv NVARCHAR(255),
+	inventory NVARCHAR(255),
+	inventory_change_down NVARCHAR(255),
+	inventory_change_up NVARCHAR(255),
+	name NVARCHAR(255),
+	price NVARCHAR(255),
+	price_change NVARCHAR(255),
+	price_index NVARCHAR(255),
+	price_usd NVARCHAR(255),
+	range NVARCHAR(255),
+	title NVARCHAR(255),
+	weight NVARCHAR(255),
+	shape NVARCHAR(255)
+)
 INSERT INTO roles(name)
 VALUES
 ('Admin'),('Manager'),('Consulting staff'),('Valuation staff'),('Customer')

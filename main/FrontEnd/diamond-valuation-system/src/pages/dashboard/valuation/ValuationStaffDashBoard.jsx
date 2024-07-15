@@ -36,6 +36,7 @@ import {
     Skeleton,
     useToast,
     Tooltip,
+    Box,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
