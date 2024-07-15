@@ -4,6 +4,7 @@ import com.diamond_shop.diamond_shop.entity.PaymentEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
 import com.diamond_shop.diamond_shop.service.PaymentService;
+import com.diamond_shop.diamond_shop.service.ProcessResultService;
 import com.diamond_shop.diamond_shop.service.VNPayService;
 import com.diamond_shop.diamond_shop.service.ValuationRequestService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,8 @@ public class VNpayController {
     private final ValuationRequestService valuationRequestService;
 
     private final PaymentService paymentService;
+
+    private final ProcessResultService processResultService;
 
     private final ProcessRequestRepository processRequestRepository;
 

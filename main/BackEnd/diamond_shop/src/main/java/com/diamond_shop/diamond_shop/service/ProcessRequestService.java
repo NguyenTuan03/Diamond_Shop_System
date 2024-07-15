@@ -5,8 +5,6 @@ import com.diamond_shop.diamond_shop.dto.UpdateProcessRequestDTO;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import org.springframework.data.domain.Page;
 
-import java.util.Date;
-
 
 public interface ProcessRequestService {
     int totalDone();
@@ -15,6 +13,4 @@ public interface ProcessRequestService {
     Page<ProcessRequestEntity> viewProcessRequestsByCustomerId(int page, int customerId);
     String createProcessRequest(ReceivePendingRequestDTO receivePendingRequestDTO);
     String updateProcessRequest(int id, UpdateProcessRequestDTO updateProcessRequestDTO);
-    String createReceiveDate(int id, Date receiveDate);
-    String checkReceiveDate(int id);
 }
