@@ -81,4 +81,17 @@ public class PaymentImpl implements PaymentService {
         }
         return total;
     }
+
+    @Override
+    public int getIncomeByMonth(int month) {
+        List<PaymentEntity> payments = paymentRepository.findAll();
+        int total = 0;
+        for (PaymentEntity payment : payments) {
+            String[] dateParts = payment.getCreatedDate().toString().split("-");
+            if (Integer.parseInt(dateParts[1]) == month) {
+                total += payment.getAmount();
+            }
+        }
+        return total;
+    }
 }
