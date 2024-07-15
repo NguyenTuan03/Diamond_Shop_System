@@ -110,9 +110,7 @@ public class VNpayController {
 
             ProcessRequestEntity processRequest = processRequestRepository.findByPendingRequestId(pendingRequestId);
             processRequest.setStatus("Paid");
-            processRequestRepository.save(processRequest);
-
-            // processResultService.processResult(processRequest);
+            processRequestRepository.save(processRequest);            
 
             response.sendRedirect(frontend_url + "/?" + VNPayService.createQueryString(params));
             return "success";

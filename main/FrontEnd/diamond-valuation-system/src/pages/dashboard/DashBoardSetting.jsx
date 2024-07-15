@@ -31,7 +31,8 @@ import Title from "../../components/Title";
 import ScrollToTop from "react-scroll-to-top";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import { deleteHardAccount } from "../../service/DeleteHardAccount";
-
+import { IoMdArrowBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 export default function DashBoardSetting() {
 const auth = useContext(UserContext);
 const bgColor = useColorModeValue("white", "black");
@@ -40,6 +41,7 @@ const bgColor2 = useColorModeValue("blue.400", "yellow.400");
 const fontColor = useColorModeValue("#000", "#fff");
 const fontColor1 = useColorModeValue("#fff", "#000");
 const toast = useToast();
+const nav = useNavigate();
 const [isOpen, setIsOpen] = useState(false);
 const [isOpenUpdate, setIsOpenUpdate] = useState(false);
 const [updateInfo, setUpdateInfo] = useState({
@@ -121,6 +123,7 @@ return (
 
           <Text display={"flex"}>{auth.userAuth.fullname}</Text>
         </Flex>
+        <Text onClick={() => nav(-1)} _hover={{color:fontColor}} cursor={"pointer"} position={"absolute"} top={"50px"} left={"100px"} display={"flex"} alignItems={"center"}><IoMdArrowBack style={{marginRight:'10px'}}/>Back</Text>
         <Divider m={"20px 0 20px 0"} />
         <Box
           bg={bgColor}
