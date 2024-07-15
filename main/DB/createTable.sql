@@ -27,12 +27,18 @@ CREATE TABLE pending_requests(
 	created_date DATETIME,
 	FOREIGN KEY (customer_id) REFERENCES users(id) on DELETE SET NULL
 )
-
+CREATE TABLE pending_request_images(
+	id NVARCHAR(255) PRIMARY KEY,
+	pending_request_id BIGINT,
+	FOREIGN KEY (pending_request_id) REFERENCES pending_requests(id)
+)
 CREATE TABLE process_requests(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	consulting_staff_id BIGINT,
 	pending_request_id BIGINT,
-	status NVARCHAR(255)
+	status NVARCHAR(255),
+	created_date DATETIME,
+	receive_date DATETIME,
 	FOREIGN KEY (consulting_staff_id) REFERENCES users(id),
 	FOREIGN KEY (pending_request_id) REFERENCES pending_requests(id)
 )

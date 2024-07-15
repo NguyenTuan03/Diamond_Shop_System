@@ -423,7 +423,7 @@ export default function ValuationStaffDashboard() {
                               step={0.1}
                               {...field}
                               onChange={(val) => {
-                                  form.setFieldValue(field.name, val);
+                                form.setFieldValue(field.name, val);
                               }}
                             >
                               <NumberInputField />
@@ -769,7 +769,6 @@ export default function ValuationStaffDashboard() {
               <UploadImage
                 diamondId={selectedProcessResult?.valuationResultId}
               />
-
             </Flex>
           </ModalFooter>
         </ModalContent>

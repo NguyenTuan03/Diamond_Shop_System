@@ -23,6 +23,8 @@ public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEn
             "p.id, " +
             "p.status," +
             "p.pendingRequestId.description, " +
+            "p.createdDate," +
+            "p.receiveDate," +
             "p.pendingRequestId.id," +
             "p.staffId.id," +
             "p.staffId.fullname, " +
@@ -39,7 +41,9 @@ public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEn
             "NEW com.diamond_shop.diamond_shop.pojo.ProcessRequestPojo(" +
             "p.id, " +
             "p.status," +
-            "p.pendingRequestId.description, " +
+            "p.pendingRequestId.description," +
+            "p.createdDate," +
+            "p.receiveDate, " +
             "p.pendingRequestId.id," +
             "p.staffId.id," +
             "p.staffId.fullname, " +
@@ -57,6 +61,8 @@ public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEn
             "p.id, " +
             "p.status," +
             "p.pendingRequestId.description, " +
+            "p.createdDate," +
+            "p.receiveDate," +
             "p.pendingRequestId.id," +
             "p.staffId.id," +
             "p.staffId.fullname, " +
