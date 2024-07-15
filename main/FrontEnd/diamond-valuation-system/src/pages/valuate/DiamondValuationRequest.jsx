@@ -13,6 +13,7 @@ import Title from "../../components/Title";
 import { Form, Formik } from "formik";
 import axios from "axios";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
+import UploadImage from "../../components/UploadImage";
 export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
   const isUsers =
