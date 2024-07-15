@@ -226,7 +226,7 @@ export default function Natural() {
                           </Flex>
                           <Flex>
                             <LazyLoadImage
-                              width={300}
+                              width={"100%"}
                               src={priceItem.imageUrl}
                               alt="Price Image"
                               effect="blur"
@@ -332,7 +332,7 @@ export default function Natural() {
                             <Td>{priceItem.priceIndex}</Td>
                             <Td>
                               <LazyLoadImage
-                                width={100}
+                                width={"100%"}
                                 src={priceItem.chart}
                                 alt="Price Image"
                                 effect="blur"
