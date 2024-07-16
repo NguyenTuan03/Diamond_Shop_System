@@ -16,7 +16,7 @@ import { getCustomerTransaction } from "../../service/GetCustomerTransaction";
 import { UserContext } from "./../../components/GlobalContext/AuthContext";
 import { format } from "date-fns";
 import PageIndicator from "./../../components/PageIndicator";
-export default function DashBoardTransaction() {
+export default function DashBoardTransaction({hidePagination}) {
   const [transaction, setTransaction] = useState([]);
   const auth = useContext(UserContext);
   const [loading, setLoading] = useState(true);
@@ -54,7 +54,7 @@ export default function DashBoardTransaction() {
           <Table variant="simple" bg="gray.200" color="black">
             <Thead>
               <Tr>
-                <Th color="black">ID</Th>
+                <Th color="black">No</Th>
                 <Th color="black">Transaction No</Th>
                 <Th color="black">Name</Th>
                 <Th color="black">Bank</Th>
@@ -115,10 +115,11 @@ export default function DashBoardTransaction() {
                 </>
               )}
               {transaction &&
-                transaction.map((transaction, index) => {
+                transaction.sort((transactionA, transactionB) => new Date(transactionB.date) - new Date(transactionA.date))
+                .map((transaction, index) => {
                   return (
                     <Tr key={index}>
-                      <Td>{transaction?.id}</Td>
+                      <Td>{index+1}</Td>
                       <Td>{transaction?.transaction}</Td>
                       <Td>{transaction?.customerName}</Td>
                       <Td>{transaction?.bank}</Td>
@@ -130,7 +131,7 @@ export default function DashBoardTransaction() {
                       <Td>
                         {format(
                           new Date(transaction?.date),
-                          "dd/MM/yyyy HH:mm:ss"
+                          "dd/MM/yyyy - HH:mm:ss"
                         )}
                       </Td>
                       <Td>{transaction?.order_info}</Td>
@@ -141,9 +142,11 @@ export default function DashBoardTransaction() {
           </Table>
         </TableContainer>
       </Box>
-      <Center>
-        <PageIndicator totalPages={totalPage} setCurrentPage={setCurrentPage} />
-      </Center>
+      {!hidePagination && (
+        <Center>
+          <PageIndicator totalPages={totalPage} setCurrentPage={setCurrentPage} />
+        </Center>
+      )}
     </>
   );
 }

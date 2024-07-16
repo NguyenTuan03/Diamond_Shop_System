@@ -43,6 +43,8 @@ import {
     Legend,
     ArcElement,
 } from "chart.js";
+import { Link } from "react-router-dom";
+import routes from "../../config/Config";
 ChartJS.register(
     ArcElement,
     CategoryScale,
@@ -116,6 +118,7 @@ export default function DashBoardAppoint() {
             {isUsers &&
             user.userAuth.authorities[0].authority === "Customer" ? (
                 <Box>
+                    <Link to={routes.processRequest}>
                     <Box
                         bg="gray.600"
                         color="white"
@@ -151,7 +154,6 @@ export default function DashBoardAppoint() {
                                             <Th color="black">
                                                 Date Create Request
                                             </Th>
-
                                             <Th color="black">Description</Th>
                                             <Th color="black">Status</Th>
                                         </Tr>
@@ -178,8 +180,8 @@ export default function DashBoardAppoint() {
                                 </Table>
                             </TableContainer>
                         )}
-                    </Box>
-                    <DashBoardTransaction />
+                    </Box></Link>
+                    <DashBoardTransaction hidePagination/>
                     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
                         <Box
                             bg="gray.600"

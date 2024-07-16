@@ -41,6 +41,7 @@ import {
 } from "../../../service/PendingRequestService";
 import { deleteCloudinaryImage } from "../../../service/CloudinaryService";
 import { format, parseISO } from "date-fns";
+import { AiOutlineFileSearch } from "react-icons/ai";
 export default function PendingRequestTable() {
   const toast = useToast();
   const user = useContext(UserContext);
@@ -113,10 +114,10 @@ export default function PendingRequestTable() {
                   minW="100%"
                 >
                   <Tr>
-                    <Th color="white">ID</Th>
-                    <Th color="white">Customer Name</Th>
+                    <Th color="white">No</Th>
+                    <Th color="white">Customer</Th>
                     <Th color="white">Email</Th>
-                    <Th color="white">Phone Number</Th>
+                    <Th color="white">Phone</Th>
                     <Th color="white">Description</Th>
                     <Th color="white">Created Date</Th>
                     <Th color="white">View</Th>
@@ -125,7 +126,7 @@ export default function PendingRequestTable() {
                 <Tbody variant="simple" bg="gray.200" color="black">
                   {pendingRequest.map((item, index) => (
                     <Tr key={index}>
-                      <Td>{item?.id}</Td>
+                      <Td>{index+1}</Td>
                       <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.customerEmail || "N/A"}</Td>
                       <Td>{item?.customerPhone || "N/A"}</Td>
@@ -140,7 +141,7 @@ export default function PendingRequestTable() {
                       </Td>
                       <Td>
                         <IconButton
-                          icon={<ViewIcon />}
+                          icon={<AiOutlineFileSearch />}
                           bgColor={"transparent"}
                           color="black"
                           onClick={() => {
@@ -181,28 +182,29 @@ export default function PendingRequestTable() {
           </ModalHeader>
           <ModalBody>
             <Skeleton isLoaded={selectedPendingRequest !== null}>
-              <Flex direction={"column"} gap={5}>
-                <Text>
-                  <strong>Created Date</strong>:{" "}
-                  {selectedPendingRequest?.createdDate?.slice(0, 10) || "N/A"}
-                </Text>
-                <Text>
-                  <strong>Description</strong>:{" "}
-                  {selectedPendingRequest?.description || "N/A"}
-                </Text>
-                <Text>
-                  <strong>Customer Name</strong>:{" "}
-                  {selectedPendingRequest?.customerName || "N/A"}
-                </Text>
-                <Text>
-                  <strong>Email</strong>:{" "}
-                  {selectedPendingRequest?.customerEmail || "N/A"}
-                </Text>
-                <Text>
-                  <strong>Phone Number</strong>:{" "}
-                  {selectedPendingRequest?.customerPhone || "N/A"}
-                </Text>
-              </Flex>
+            <Flex direction={"column"} gap={5} p={5} borderRadius="md" fontWeight="bold">
+              <Box display="grid" gridTemplateColumns="150px 1fr" gap={3} >
+                <Text color={"gray.600"}>Customer:</Text>
+                <Text textTransform="uppercase">{selectedPendingRequest?.customerName || "N/A"}</Text>
+              </Box>
+              <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                <Text color={"gray.600"}>Phone:</Text>
+                <Text>{selectedPendingRequest?.customerPhone || "N/A"}</Text>
+              </Box>
+              <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                <Text color={"gray.600"}>Description:</Text>
+                <Text>{selectedPendingRequest?.description || "N/A"}</Text>
+              </Box>
+              <Box display="grid" gridTemplateColumns="150px 1fr" gap={3} >
+                <Text color={"gray.600"}>Email:</Text>
+                <Text>{selectedPendingRequest?.customerEmail || "N/A"}</Text>
+              </Box>
+              <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                <Text color={"gray.600"}>Created Date:</Text>
+                <Text>{selectedPendingRequest?.createdDate?.slice(0, 10) || "N/A"}</Text>
+              </Box>
+            </Flex>
+
             </Skeleton>
           </ModalBody>
           <Skeleton isLoaded={selectedPendingRequest !== null}>
