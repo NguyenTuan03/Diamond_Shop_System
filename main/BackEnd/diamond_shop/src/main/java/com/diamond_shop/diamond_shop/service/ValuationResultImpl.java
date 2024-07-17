@@ -101,7 +101,7 @@ public class ValuationResultImpl implements ValuationResultService {
 
     @Override
     public String createValuationResult(ProcessRequestEntity processRequest) {
-        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findById(processRequest.getPendingRequestId().getValuationRequestEntity().getId());
+        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.getById(processRequest.getPendingRequestId().getValuationRequestEntity().getId());
         if (valuationRequest.isEmpty()) return "Could not find valuation request";
         Date createdDate = new Date();
         long randomId = (long) (Math.random() * Math.pow(10, 10));
