@@ -14,6 +14,7 @@ import { Form, Formik } from "formik";
 import axios from "axios";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import UploadImage from "../../components/UploadImage";
+import { useNavigate } from "react-router-dom"; 
 export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
   const isUsers =
@@ -22,6 +23,7 @@ export default function DiamondValuationRequest() {
     user.userAuth.authorities.length > 0;
   const bgColor = useColorModeValue("white", "black");
   const toast = useToast();
+  const navigate = useNavigate();
   const createPendingRequest = async (customerId, description, token) => {
     await axios
       .post(
@@ -45,6 +47,7 @@ export default function DiamondValuationRequest() {
             duration: 3000,
             isClosable: true,
           });
+          navigate('/');
         }
       });
   };

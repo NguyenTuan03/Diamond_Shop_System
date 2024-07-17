@@ -42,6 +42,8 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
+import { Link } from "react-router-dom";
+import routes from "../../config/Config";
 ChartJS.register(
   ArcElement,
   CategoryScale,
