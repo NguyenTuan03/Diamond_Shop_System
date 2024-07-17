@@ -7,10 +7,12 @@ import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;
+import java.util.Optional;
 
 
 public interface ProcessRequestService {
     int statusTotal(String status);
+    Optional<ProcessRequestEntity> getProcessRequestById(int id);
     Page<ProcessRequestEntity> viewAllProcessRequests(int page);
     Page<ProcessRequestEntity> viewProcessRequestsByConsultingStaffId(int page, int consultingStaff);
     Page<ProcessRequestEntity> viewProcessRequestsByCustomerId(int page, int customerId);

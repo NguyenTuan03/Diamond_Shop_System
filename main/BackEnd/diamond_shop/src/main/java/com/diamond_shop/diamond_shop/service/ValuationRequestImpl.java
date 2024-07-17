@@ -53,6 +53,11 @@ public class ValuationRequestImpl implements ValuationRequestService {
     }
 
     @Override
+    public Optional<ValuationRequestEntity> getValuationRequest(int id) {
+        return valuationRequestRepository.findById(id);
+    }
+
+    @Override
     public Optional<ValuationRequestEntity> getValuationRequestByPendingRequestId(int pendingId) {
         return valuationRequestRepository.findByPendingRequestId(pendingId);
     }
