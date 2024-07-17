@@ -24,7 +24,7 @@ export const receivePendingRequest = async (
       setIsReceived(false);
       if (res.data === "Have already received !") {
         toast({
-          title: res.data,
+          title: res.data.message,
           status: "warning",
           position: "top-right",
           duration: 3000,
@@ -32,7 +32,7 @@ export const receivePendingRequest = async (
         });
       } else {
         toast({
-          title: res.data,
+          title: res.data.message,
           status: "success",
           position: "top-right",
           duration: 3000,

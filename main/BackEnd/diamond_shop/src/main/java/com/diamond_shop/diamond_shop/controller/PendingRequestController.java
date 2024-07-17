@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.CreatePendingRequestImgDTO;
 import com.diamond_shop.diamond_shop.dto.PendingRequestDTO;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
+import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import com.diamond_shop.diamond_shop.service.PendingRequestService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -31,10 +32,8 @@ public class PendingRequestController {
     }
 
     @PostMapping(path = "/create")
-    public String createPendingRequest(@Valid @RequestBody PendingRequestDTO pendingRequestDTO) {
-        if (pendingRequestService.makePendingRequest(pendingRequestDTO) != 0)
-            return "Successful. Our team will contact you soon !";
-        else return "Please login first !";
+    public ResponsePojo createPendingRequest(@Valid @RequestBody PendingRequestDTO pendingRequestDTO) {
+        return pendingRequestService.makePendingRequest(pendingRequestDTO);
     }
 
     @DeleteMapping(path = "/delete")

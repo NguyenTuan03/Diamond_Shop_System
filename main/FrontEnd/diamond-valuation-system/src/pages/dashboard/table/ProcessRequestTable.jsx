@@ -111,7 +111,8 @@ export default function ProcessRequestTable() {
                 if (
                   item?.status !== "Finished" &&
                   item?.status !== "Done" &&
-                  item?.status !== "Sealed"
+                  item?.status !== "Sealed" &&
+                  item?.status !== "Lost Receipt"
                 ) {
                   await checkValuationRequestFinished(
                     item?.id,
@@ -121,7 +122,11 @@ export default function ProcessRequestTable() {
                     toast
                   );
                 }
-                if (item?.status !== "Done" && item?.status !== "Sealed") {
+                if (
+                  item?.status !== "Done" &&
+                  item?.status !== "Sealed" &&
+                  item?.status !== "Lost Receipt"
+                ) {
                   await checkValuationRequestSealed(
                     item?.id,
                     setIsChecked,
@@ -541,7 +546,7 @@ export default function ProcessRequestTable() {
             {(isUsers &&
               user.userAuth.authorities[0].authority === "Manager" && (
                 <ModalFooter justifyContent={"space-around"}>
-                  {selectedProcessRequest?.status === "Sealed" && (
+                  {(selectedProcessRequest?.status === "Sealed" && (
                     <Button
                       onClick={() => {
                         createSealingLetter(
@@ -553,7 +558,20 @@ export default function ProcessRequestTable() {
                     >
                       Create sealing letter
                     </Button>
-                  )}
+                  )) ||
+                    (selectedProcessRequest?.status === "Lost Receipt" && (
+                      <Button
+                        onClick={() => {
+                          createCommitment(
+                            selectedValuationRequest?.id,
+                            user.userAuth.token,
+                            toast
+                          );
+                        }}
+                      >
+                        Create commitment letter
+                      </Button>
+                    ))}
                 </ModalFooter>
               )) ||
               (isUsers &&
@@ -673,7 +691,8 @@ export default function ProcessRequestTable() {
                           />
                         </>
                       )) ||
-                      (selectedProcessRequest?.status === "Finished" && (
+                      ((selectedProcessRequest?.status === "Finished" ||
+                        selectedProcessRequest?.status === "Sealed") && (
                         <>
                           <SimpleGrid columns={2} spacing={5}>
                             <Button
@@ -718,12 +737,22 @@ export default function ProcessRequestTable() {
                             </Button>
                             <Button
                               colorScheme="red"
-                              onClick={() => {
-                                createCommitment(
-                                  selectedValuationRequest?.id,
+                              onClick={async () => {
+                                await updateProcessRequest(
+                                  selectedProcessRequest?.id,
+                                  "Lost Receipt",
                                   user.userAuth.token,
+                                  setIsUpdateProcess,
                                   toast
-                                );
+                                ).then(() => {
+                                  setTimeout(() => {
+                                    fetchProcessRequest(
+                                      currentPage,
+                                      user.userAuth.id
+                                    );
+                                    viewValuationRequest.onClose();
+                                  }, 1000);
+                                });
                               }}
                             >
                               Lost Receipt
@@ -751,62 +780,6 @@ export default function ProcessRequestTable() {
                             type={"customer"}
                           />
                         </>
-                      )) ||
-                      (selectedProcessRequest?.status === "Sealed" && (
-                        <SimpleGrid columns={2} spacing={5}>
-                          <Button
-                            colorScheme="teal"
-                            onClick={() => {
-                              fetchValuationResult(
-                                selectedValuationRequest?.id,
-                                setSelectedValuationResult,
-                                toast
-                              );
-                              viewValuationResult.onOpen();
-                            }}
-                          >
-                            View
-                          </Button>
-                          <ZaloChat
-                            phone={selectedProcessRequest?.customerPhone}
-                            type={"customer"}
-                          />
-                          <Button
-                            isLoading={isUpdateProcess}
-                            colorScheme="blue"
-                            onClick={async () => {
-                              await updateProcessRequest(
-                                selectedProcessRequest?.id,
-                                "Done",
-                                user.userAuth.token,
-                                setIsUpdateProcess,
-                                toast
-                              ).then(() => {
-                                setTimeout(() => {
-                                  fetchProcessRequest(
-                                    currentPage,
-                                    user.userAuth.id
-                                  );
-                                  viewValuationRequest.onClose();
-                                }, 1000);
-                              });
-                            }}
-                          >
-                            Cust. Received
-                          </Button>
-                          <Button
-                            colorScheme="red"
-                            onClick={() => {
-                              createCommitment(
-                                selectedValuationRequest?.id,
-                                user.userAuth.token,
-                                toast
-                              );
-                            }}
-                          >
-                            Lost Receipt
-                          </Button>
-                        </SimpleGrid>
                       ))}
                   </ModalFooter>
                 )) ||

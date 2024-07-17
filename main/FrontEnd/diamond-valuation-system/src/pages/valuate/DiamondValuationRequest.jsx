@@ -41,7 +41,7 @@ export default function DiamondValuationRequest() {
       .then(function (response) {
         if (response.status === 200) {
           toast({
-            title: response.data,
+            title: response.data.message,
             status: "success",
             position: "top-right",
             duration: 3000,
