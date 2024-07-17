@@ -19,7 +19,7 @@ public class ValuationReceiptImpl implements ValuationReceiptService {
 
     @Override
     public String createReceipt(int valuationRequestId) {
-        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findById(valuationRequestId);
+        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.getById(valuationRequestId);
         if (valuationRequest.isEmpty())
             return "Cannot find valuation request";
         Optional<ValuationReceiptEntity> valuationReceipt = valuationReceiptRepository.checkByValuationRequestId(valuationRequestId);
