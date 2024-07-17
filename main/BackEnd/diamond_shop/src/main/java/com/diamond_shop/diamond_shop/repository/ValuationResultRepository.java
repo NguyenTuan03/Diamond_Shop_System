@@ -114,6 +114,13 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "WHERE v.valuationRequestId.id=:valuationRequestId")
     Optional<ValuationResultEntity> getValuationResultByValuationRequestId(@Param("valuationRequestId") int valuationRequestId);
 
-    @Query(value = "SELECT COUNT(v.id) FROM ValuationResultEntity v WHERE v.processResults.status='Valuated'")
+    @Query(value = "SELECT COUNT(v.id) " +
+            "FROM ValuationResultEntity v " +
+            "WHERE v.processResults.status='Valuated'")
     int totalValuationResults();
+
+    @Query(value = "SELECT COUNT(v.id) " +
+            "FROM ValuationResultEntity v " +
+            "WHERE v.processResults.status!='Valuated'")
+    int totalNotDoneValuationResults();
 }
