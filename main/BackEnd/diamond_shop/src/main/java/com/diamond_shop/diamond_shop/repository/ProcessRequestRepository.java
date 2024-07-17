@@ -15,8 +15,8 @@ public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEn
 
     @Query(value = "SELECT COUNT(p.id) " +
             "FROM ProcessRequestEntity p " +
-            "WHERE p.status='Done'")
-    int totalDone();
+            "WHERE p.status=:status")
+    int statusTotal(@Param("status") String status);
 
     @Query(value = "SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ProcessRequestPojo(" +

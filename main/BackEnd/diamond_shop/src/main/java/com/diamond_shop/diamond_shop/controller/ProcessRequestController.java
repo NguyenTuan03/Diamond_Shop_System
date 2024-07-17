@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.ReceivePendingRequestDTO;
 import com.diamond_shop.diamond_shop.dto.UpdateProcessRequestDTO;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
+import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import com.diamond_shop.diamond_shop.service.ProcessRequestService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class ProcessRequestController {
     }
 
     @PostMapping(path = "/create")
-    public String createProcessRequest(@Valid @RequestBody ReceivePendingRequestDTO receivePendingRequestDTO) {
+    public ResponsePojo createProcessRequest(@Valid @RequestBody ReceivePendingRequestDTO receivePendingRequestDTO) {
         return processRequestService.createProcessRequest(receivePendingRequestDTO);
     }
 
@@ -45,9 +46,9 @@ public class ProcessRequestController {
         return processRequestService.updateProcessRequest(id, updateProcessRequestDTO);
     }
 
-    @GetMapping(path = "/total/done")
-    public int totalDone() {
-        return processRequestService.totalDone();
+    @GetMapping(path = "/total")
+    public int statusTotal(@RequestParam("status") String status) {
+        return processRequestService.statusTotal(status);
     }
 
     @PostMapping(path = "/receive-date/create")

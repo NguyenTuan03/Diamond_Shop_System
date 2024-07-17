@@ -5,6 +5,7 @@ import com.diamond_shop.diamond_shop.dto.UpdateProcessRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
+import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PendingRepository;
 import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
@@ -28,8 +29,8 @@ public class ProcessRequestImpl implements ProcessRequestService {
     private final ProcessResultService processResultService;
 
     @Override
-    public int totalDone() {
-        return processRequestRepository.totalDone();
+    public int statusTotal(String status) {
+        return processRequestRepository.statusTotal(status);
     }
 
     @Override
@@ -54,14 +55,20 @@ public class ProcessRequestImpl implements ProcessRequestService {
     }
 
     @Override
-    public String createProcessRequest(ReceivePendingRequestDTO receivePendingRequestDTO) {
+    public ResponsePojo createProcessRequest(ReceivePendingRequestDTO receivePendingRequestDTO) {
         AccountEntity consultingStaff = accountRepository.findById(receivePendingRequestDTO.getConsultingStaffId()).orElse(null);
-        if (consultingStaff == null)
-            return "Cannot found this consulting staff with id: " + receivePendingRequestDTO.getConsultingStaffId();
+        ResponsePojo responsePojo = new ResponsePojo();
+        if (consultingStaff == null) {
+            responsePojo.setId(0);
+            responsePojo.setMessage("Cannot found this consulting staff with id: " + receivePendingRequestDTO.getConsultingStaffId());
+            return responsePojo;
+        }
         PendingRequestsEntity pendingRequest = pendingRepository.findById(receivePendingRequestDTO.getPendingRequestId()).orElse(null);
-        if (pendingRequest == null)
-            return "Cannot found pending request with id: " + receivePendingRequestDTO.getPendingRequestId();
-
+        if (pendingRequest == null) {
+            responsePojo.setId(0);
+            responsePojo.setMessage("Cannot found pending request with id: " + receivePendingRequestDTO.getPendingRequestId());
+            return responsePojo;
+        }
         ProcessRequestEntity processRequest = processRequestRepository.findByPendingRequestId(pendingRequest.getId());
         if (processRequest == null) {
             processRequest = new ProcessRequestEntity(
@@ -70,8 +77,14 @@ public class ProcessRequestImpl implements ProcessRequestService {
                     "Not resolved yet",
                     new Date());
             processRequestRepository.save(processRequest);
-            return "Task assigned successfully!";
-        } else return "Have already received !";
+            responsePojo.setId(processRequest.getId());
+            responsePojo.setMessage("Successfully created process request");
+            return responsePojo;
+        } else {
+            responsePojo.setId(0);
+            responsePojo.setMessage("Have already received !");
+            return responsePojo;
+        }
     }
 
     @Override
@@ -80,7 +93,7 @@ public class ProcessRequestImpl implements ProcessRequestService {
         if (processRequest == null)
             return "Cannot found this process request with id: " + id;
         switch (updateProcessRequestDTO.getStatus()) {
-            case "Contacted", "Done" -> {
+            case "Contacted", "Done", "Lost Receipt" -> {
                 processRequest.setStatus(updateProcessRequestDTO.getStatus());
                 processRequestRepository.save(processRequest);
             }
@@ -89,9 +102,6 @@ public class ProcessRequestImpl implements ProcessRequestService {
                 processResultService.processResult(processRequest);
                 processRequest.setStatus(updateProcessRequestDTO.getStatus());
                 processRequestRepository.save(processRequest);
-            }
-            case "Lost Receipt" -> {
-
             }
         }
         return "Update process request successfully!";
