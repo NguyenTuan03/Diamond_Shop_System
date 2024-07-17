@@ -28,8 +28,13 @@ public class ValuationResultController {
         return valuationResultService.totalValuationResults();
     }
 
+    @GetMapping("/total/not-done")
+    public int totalNotDoneValuationResult() {
+        return valuationResultService.totalNotDoneValuationResults();
+    }
+
     @PutMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String valuateDiamond(@RequestParam("id") String id, @Valid @RequestBody ValuationResultDTO valuationResultDTO) {
+    public String valuateDiamond(@RequestParam("id") String id, @RequestBody ValuationResultDTO valuationResultDTO) {
         return valuationResultService.valuateDiamond(id, valuationResultDTO);
     }
 

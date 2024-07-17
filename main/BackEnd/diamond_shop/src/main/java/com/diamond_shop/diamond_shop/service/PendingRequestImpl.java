@@ -1,9 +1,13 @@
 package com.diamond_shop.diamond_shop.service;
 
+import com.diamond_shop.diamond_shop.dto.CreatePendingRequestImgDTO;
 import com.diamond_shop.diamond_shop.dto.PendingRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
+import com.diamond_shop.diamond_shop.entity.PendingRequestImageEntity;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
+import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
+import com.diamond_shop.diamond_shop.repository.PendingImageRepository;
 import com.diamond_shop.diamond_shop.repository.PendingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,12 +16,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PendingRequestImpl implements PendingRequestService {
     private final PendingRepository pendingRepository;
     private final AccountRepository accountRepository;
+    private final PendingImageRepository imageRepository;
 
 
     @Override
@@ -35,11 +41,14 @@ public class PendingRequestImpl implements PendingRequestService {
     }
 
     @Override
-    public int makePendingRequest(PendingRequestDTO pendingRequestDTO) {
-
+    public ResponsePojo makePendingRequest(PendingRequestDTO pendingRequestDTO) {
         AccountEntity acc = accountRepository.findById(pendingRequestDTO.getCustomerId()).orElse(null);
+        ResponsePojo response = new ResponsePojo();
         if (acc == null)
-            return 0;
+        {
+            response.setId(0);
+            response.setMessage("Cannot find account with id " + pendingRequestDTO.getCustomerId());
+        }
         Date createdDate = new Date();
         PendingRequestsEntity pendingRequestsEntity = new PendingRequestsEntity(
                 acc,
@@ -47,14 +56,20 @@ public class PendingRequestImpl implements PendingRequestService {
                 createdDate
         );
         pendingRepository.save(pendingRequestsEntity);
-        return pendingRequestsEntity.getId();
+        response.setId(pendingRequestsEntity.getId());
+        response.setMessage("Successful. Our team will contact you soon !");
+        return response;
     }
 
     @Override
-    public String cancelPendingRequest(int pendingRequestId) {
-        PendingRequestsEntity pendingRequest = pendingRepository.findById(pendingRequestId).orElse(null);
+    public String cancelPendingRequest(int id, String type) {
+        PendingRequestsEntity pendingRequest = new PendingRequestsEntity();
+        if (type.equals("Pending request"))
+            pendingRequest = pendingRepository.findById(id).orElse(null);
+        else if (type.equals("Process request"))
+            pendingRequest = pendingRepository.findByProcessRequestId(id).orElse(null);
         if (pendingRequest == null)
-            return "Cannot found pending request with id " + pendingRequestId;
+            return "Cannot found pending request with id " + id;
         pendingRepository.delete(pendingRequest);
         return "Cancel successful";
     }
@@ -65,5 +80,31 @@ public class PendingRequestImpl implements PendingRequestService {
         if (!pendingRequests.isEmpty())
             return "You has already made a request";
         return "";
+    }
+
+    @Override
+    public List<String> getPendingRequestImage(int pendingRequestId) {
+        return imageRepository.findImageIdsByPendingRequestId(pendingRequestId);
+    }
+
+    @Override
+    public List<String> getPendingRequestImageByProcessId(int processId) {
+        return imageRepository.findImageIdsByProcessRequestId(processId);
+    }
+
+    @Override
+    public String createPendingRequestImage(CreatePendingRequestImgDTO createPendingRequestImgDTO) {
+        Optional<PendingRequestsEntity> pendingRequests = pendingRepository.findById(createPendingRequestImgDTO.getPendingRequestId());
+        if (pendingRequests.isEmpty())
+            return "Could not find pending request with id " + createPendingRequestImgDTO.getPendingRequestId();
+        PendingRequestImageEntity pendingRequestImageEntity = new PendingRequestImageEntity(createPendingRequestImgDTO.getId(), pendingRequests.get());
+        imageRepository.save(pendingRequestImageEntity);
+        return "Create image successful";
+    }
+
+    @Override
+    public String deletePendingRequestImage(String imageId) {
+        imageRepository.deleteById(imageId);
+        return "Delete successful";
     }
 }

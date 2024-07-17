@@ -30,7 +30,7 @@ import {
   Tooltip,
   Box,
 } from "@chakra-ui/react";
-import { ViewIcon } from "@chakra-ui/icons";
+import { PiFileTextBold } from "react-icons/pi";
 import { GiDiamondTrophy } from "react-icons/gi";
 import ZaloChat from "../../../components/zalo/ZaloChat";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -111,7 +111,8 @@ export default function ProcessRequestTable() {
                 if (
                   item?.status !== "Finished" &&
                   item?.status !== "Done" &&
-                  item?.status !== "Sealed"
+                  item?.status !== "Sealed" &&
+                  item?.status !== "Lost Receipt"
                 ) {
                   await checkValuationRequestFinished(
                     item?.id,
@@ -121,7 +122,11 @@ export default function ProcessRequestTable() {
                     toast
                   );
                 }
-                if (item?.status !== "Done" && item?.status !== "Sealed") {
+                if (
+                  item?.status !== "Done" &&
+                  item?.status !== "Sealed" &&
+                  item?.status !== "Lost Receipt"
+                ) {
                   await checkValuationRequestSealed(
                     item?.id,
                     setIsChecked,
@@ -166,6 +171,11 @@ export default function ProcessRequestTable() {
       cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
     },
   });
+  const sortProcessRequest = [...processRequest].sort((a, b) => {
+    const dateA = a.createdDate ? new Date(a.createdDate) : new Date(0);
+    const dateB = b.createdDate ? new Date(b.createdDate) : new Date(0);
+    return dateB - dateA;
+  });
   return (
     <>
       <Flex direction={"column"} gap={10}>
@@ -190,12 +200,12 @@ export default function ProcessRequestTable() {
                   minW="100%"
                 >
                   <Tr>
-                    <Th color="white">ID</Th>
+                    <Th color="white">No</Th>
                     {(user.userAuth.roleid === 2 ||
                       user.userAuth.roleid === 3) && (
                       <Th color="white">Customer ID</Th>
                     )}
-                    <Th color="white">Customer Name</Th>
+                    <Th color="white">Customer</Th>
                     {(user.userAuth.roleid === 2 ||
                       user.userAuth.roleid === 3) && (
                       <Th color="white">Consulting Staff ID</Th>
@@ -209,9 +219,9 @@ export default function ProcessRequestTable() {
                   </Tr>
                 </Thead>
                 <Tbody variant="simple" bg="gray.200" color="black">
-                  {processRequest.map((item, index) => (
+                  {sortProcessRequest.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
-                      <Td>{item?.id}</Td>
+                      <Td>{index + 1}</Td>
                       {(user.userAuth.roleid === 2 ||
                         user.userAuth.roleid === 3) && (
                         <Td>{item?.customerId || "N/A"}</Td>
@@ -226,7 +236,7 @@ export default function ProcessRequestTable() {
                         {item?.createdDate
                           ? format(
                               parseISO(item?.createdDate),
-                              "dd/MM/yyyy HH:mm:ss"
+                              "dd/MM/yyyy - HH:mm:ss"
                             )
                           : "N/A"}
                       </Td>
@@ -234,7 +244,7 @@ export default function ProcessRequestTable() {
                         {item?.receiveDate
                           ? format(
                               parseISO(item?.receiveDate),
-                              "dd/MM/yyyy HH:mm:ss"
+                              "dd/MM/yyyy - HH:mm:ss"
                             )
                           : "N/A"}
                       </Td>
@@ -242,7 +252,7 @@ export default function ProcessRequestTable() {
                       <Td>{item?.status || "N/A"}</Td>
                       <Td>
                         <IconButton
-                          icon={<ViewIcon />}
+                          icon={<PiFileTextBold />}
                           bg={"transparent"}
                           color="black"
                           onClick={() => {
@@ -307,48 +317,57 @@ export default function ProcessRequestTable() {
                     user.userAuth.authorities[0].authority ===
                       "Consulting staff") && (
                     <>
+                    <Flex>
+                      <Flex w={"50%"}>
+                        <strong>Customer: </strong>
+                        <Text textTransform="uppercase">{selectedProcessRequest?.customerName || "N/A"}</Text>
+                      </Flex> 
                       <Text>
-                        <strong>Customer Name</strong>:{" "}
-                        {selectedProcessRequest?.customerName || "N/A"}
-                      </Text>
+                        <strong>Phone</strong>:{" "}
+                        {selectedProcessRequest?.customerPhone || "N/A"}
+                      </Text></Flex>
                       <Text>
                         <strong>Customer Email</strong>:{" "}
                         {selectedProcessRequest?.customerEmail || "N/A"}
                       </Text>
-                      <Text>
-                        <strong>Customer Phone</strong>:{" "}
-                        {selectedProcessRequest?.customerPhone || "N/A"}
-                      </Text>
+                     
                     </>
                   )}
                 {isUsers &&
                   (user.userAuth.authorities[0].authority === "Manager" ||
                     user.userAuth.authorities[0].authority === "Customer") && (
                     <>
+                      <Flex>
+                        <Text w={"50%"}>
+                          <strong>Staff Name: </strong>
+                          {selectedProcessRequest?.consultingStaffName || "N/A"}
+                        </Text>
+                        <Text>
+                          <strong>Phone: </strong>
+                          {selectedProcessRequest?.consultingStaffPhone ||
+                            "N/A"}
+                        </Text>
+                      </Flex>
+                      
                       <Text>
-                        <strong>Staff Name</strong>:{" "}
-                        {selectedProcessRequest?.consultingStaffName || "N/A"}
-                      </Text>
-                      <Text>
-                        <strong>Staff Email</strong>:{" "}
-                        {selectedProcessRequest?.consultingStaffEmail || "N/A"}
-                      </Text>
-                      <Text>
-                        <strong>Staff Phone</strong>:{" "}
-                        {selectedProcessRequest?.consultingStaffPhone || "N/A"}
-                      </Text>
+                          <strong>Staff Email: </strong>
+                          {selectedProcessRequest?.consultingStaffEmail ||
+                            "N/A"}
+                        </Text>
                     </>
                   )}
+                <Flex>
+                  <Text w={"50%"}>
+                    <strong>Service Type: </strong>
+                    {selectedValuationRequest?.serviceName || "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>Price: </strong>
+                    {selectedValuationRequest?.servicePrice || "N/A"} VND
+                  </Text>
+                </Flex>
                 <Text>
-                  <strong>Service Type</strong>:{" "}
-                  {selectedValuationRequest?.serviceName || "N/A"}
-                </Text>
-                <Text>
-                  <strong>Price</strong>:{" "}
-                  {selectedValuationRequest?.servicePrice || "N/A"} vnd
-                </Text>
-                <Text>
-                  <strong>Will valuate</strong>:{" "}
+                  <strong>Will valuate: </strong>
                   {selectedValuationRequest?.serviceStatistic || "N/A"}
                 </Text>
                 {/* <Text>
@@ -361,11 +380,11 @@ export default function ProcessRequestTable() {
                     : "N/A"}
                 </Text> */}
                 <Text>
-                  <strong>Receive Diamond Date</strong>:{" "}
+                  <strong>Receive Diamond Date: </strong>
                   {selectedProcessRequest?.receiveDate
                     ? format(
                         parseISO(selectedProcessRequest?.receiveDate),
-                        "dd/MM/yyyy HH:mm:ss"
+                        "dd/MM/yyyy - HH:mm:ss"
                       )
                     : " N/A"}
                 </Text>
@@ -461,24 +480,29 @@ export default function ProcessRequestTable() {
                       )}
                     </Formik>
                   )}
-                <Text>
-                  <strong>Finish Date</strong>:{" "}
-                  {selectedValuationRequest?.finishDate
-                    ? format(
-                        parseISO(selectedValuationRequest?.finishDate),
-                        "dd/MM/yyyy HH:mm:ss"
-                      )
-                    : "N/A"}
-                </Text>
-                <Text>
-                  <strong>Sealing Date</strong>:{" "}
-                  {selectedValuationRequest?.sealingDate
-                    ? format(
-                        parseISO(selectedValuationRequest?.sealingDate),
-                        "dd/MM/yyyy HH:mm:ss"
-                      )
-                    : "N/A"}
-                </Text>
+                <Flex fontWeight={"bold"}>
+                  <Text minW={"180px"}>Finish Date: </Text>
+                  <Text color={"green"}>
+                    {selectedValuationRequest?.finishDate
+                      ? format(
+                          parseISO(selectedValuationRequest?.finishDate),
+                          "dd/MM/yyyy - HH:mm:ss"
+                        )
+                      : "N/A"}
+                  </Text>
+                </Flex>
+                <Flex fontWeight={"bold"}>
+                  <Text minW={"180px"}>Sealing Date: </Text>
+                  <Text color={"red.500"}>
+                    {" "}
+                    {selectedValuationRequest?.sealingDate
+                      ? format(
+                          parseISO(selectedValuationRequest?.sealingDate),
+                          "dd/MM/yyyy - HH:mm:ss"
+                        )
+                      : "N/A"}
+                  </Text>
+                </Flex>
                 <SimpleGrid columns={4} spacing={5}>
                   {diamondImages.map((image, index) => {
                     return (
@@ -522,7 +546,7 @@ export default function ProcessRequestTable() {
             {(isUsers &&
               user.userAuth.authorities[0].authority === "Manager" && (
                 <ModalFooter justifyContent={"space-around"}>
-                  {selectedProcessRequest?.status === "Sealed" && (
+                  {(selectedProcessRequest?.status === "Sealed" && (
                     <Button
                       onClick={() => {
                         createSealingLetter(
@@ -534,7 +558,20 @@ export default function ProcessRequestTable() {
                     >
                       Create sealing letter
                     </Button>
-                  )}
+                  )) ||
+                    (selectedProcessRequest?.status === "Lost Receipt" && (
+                      <Button
+                        onClick={() => {
+                          createCommitment(
+                            selectedValuationRequest?.id,
+                            user.userAuth.token,
+                            toast
+                          );
+                        }}
+                      >
+                        Create commitment letter
+                      </Button>
+                    ))}
                 </ModalFooter>
               )) ||
               (isUsers &&
@@ -654,7 +691,8 @@ export default function ProcessRequestTable() {
                           />
                         </>
                       )) ||
-                      (selectedProcessRequest?.status === "Finished" && (
+                      ((selectedProcessRequest?.status === "Finished" ||
+                        selectedProcessRequest?.status === "Sealed") && (
                         <>
                           <SimpleGrid columns={2} spacing={5}>
                             <Button
@@ -699,12 +737,22 @@ export default function ProcessRequestTable() {
                             </Button>
                             <Button
                               colorScheme="red"
-                              onClick={() => {
-                                createCommitment(
-                                  selectedValuationRequest?.id,
+                              onClick={async () => {
+                                await updateProcessRequest(
+                                  selectedProcessRequest?.id,
+                                  "Lost Receipt",
                                   user.userAuth.token,
+                                  setIsUpdateProcess,
                                   toast
-                                );
+                                ).then(() => {
+                                  setTimeout(() => {
+                                    fetchProcessRequest(
+                                      currentPage,
+                                      user.userAuth.id
+                                    );
+                                    viewValuationRequest.onClose();
+                                  }, 1000);
+                                });
                               }}
                             >
                               Lost Receipt
@@ -732,62 +780,6 @@ export default function ProcessRequestTable() {
                             type={"customer"}
                           />
                         </>
-                      )) ||
-                      (selectedProcessRequest?.status === "Sealed" && (
-                        <SimpleGrid columns={2} spacing={5}>
-                          <Button
-                            colorScheme="teal"
-                            onClick={() => {
-                              fetchValuationResult(
-                                selectedValuationRequest?.id,
-                                setSelectedValuationResult,
-                                toast
-                              );
-                              viewValuationResult.onOpen();
-                            }}
-                          >
-                            View
-                          </Button>
-                          <ZaloChat
-                            phone={selectedProcessRequest?.customerPhone}
-                            type={"customer"}
-                          />
-                          <Button
-                            isLoading={isUpdateProcess}
-                            colorScheme="blue"
-                            onClick={async () => {
-                              await updateProcessRequest(
-                                selectedProcessRequest?.id,
-                                "Done",
-                                user.userAuth.token,
-                                setIsUpdateProcess,
-                                toast
-                              ).then(() => {
-                                setTimeout(() => {
-                                  fetchProcessRequest(
-                                    currentPage,
-                                    user.userAuth.id
-                                  );
-                                  viewValuationRequest.onClose();
-                                }, 1000);
-                              });
-                            }}
-                          >
-                            Cust. Received
-                          </Button>
-                          <Button
-                            colorScheme="red"
-                            onClick={() => {
-                              createCommitment(
-                                selectedValuationRequest?.id,
-                                user.userAuth.token,
-                                toast
-                              );
-                            }}
-                          >
-                            Lost Receipt
-                          </Button>
-                        </SimpleGrid>
                       ))}
                   </ModalFooter>
                 )) ||
