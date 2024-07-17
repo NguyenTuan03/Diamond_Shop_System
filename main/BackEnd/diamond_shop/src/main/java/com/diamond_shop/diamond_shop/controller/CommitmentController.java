@@ -16,7 +16,7 @@ public class CommitmentController {
 
     private final CommitmentImpl commitmentImpl;
 
-    @PostMapping(path = "manager/create")
+    @PostMapping(path = "commitment/manager/create")
     public String createCommitmentByValuationRequestId(@RequestParam("valuationRequestId") int valuationRequestId) {
         return commitmentImpl.createCommitmentByValuationRequestId(valuationRequestId);
     }
