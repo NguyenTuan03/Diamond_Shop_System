@@ -119,7 +119,8 @@ CREATE TABLE process_results(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	valuation_staff_id BIGINT,
 	valuation_result_id NVARCHAR(50),
-	status NVARCHAR(25)
+	status NVARCHAR(25),
+	created_date DATETIME,
 	FOREIGN KEY (valuation_staff_id) REFERENCES users(id) ON DELETE SET NULL,
 	FOREIGN KEY (valuation_result_id) REFERENCES valuation_results(id)
 )

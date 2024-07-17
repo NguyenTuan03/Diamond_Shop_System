@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -20,6 +21,11 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class ProcessRequestController {
     private final ProcessRequestService processRequestService;
+
+    @GetMapping(path = "/get")
+    public Optional<ProcessRequestEntity> getProcessRequest(@RequestParam("id") int id) {
+        return processRequestService.getProcessRequestById(id);
+    }
 
     @GetMapping(path = "/get/all")
     public Page<ProcessRequestEntity> viewAllProcessRequest(@RequestParam("page") int page) {

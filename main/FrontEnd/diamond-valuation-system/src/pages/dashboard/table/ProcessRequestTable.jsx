@@ -37,7 +37,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import routes from "../../../config/Config";
 import { useReactToPrint } from "react-to-print";
 import format from "date-fns/format";
@@ -47,10 +47,12 @@ import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import {
+  fetchProcessRequestById,
   updateProcessRequest,
   checkValuationRequestFinished,
   checkValuationRequestSealed,
-  fetchValuationRequest,
+  fetchValuationRequestById,
+  fetchValuationRequestByPendingRequestId,
   fetchValuationResult,
   createSealingLetter,
   createReceipt,
@@ -59,6 +61,7 @@ import {
   fetchPendingRequestImagesByProcessRequestId,
 } from "../../../service/ProcessRequestService";
 export default function ProcessRequestTable() {
+  const preProcessRequestId = useLocation().state?.processRequestId;
   const toast = useToast();
   const user = useContext(UserContext);
   const isUsers =
@@ -201,6 +204,7 @@ export default function ProcessRequestTable() {
                 >
                   <Tr>
                     <Th color="white">No</Th>
+                    <Th color="white">ID</Th>
                     {(user.userAuth.roleid === 2 ||
                       user.userAuth.roleid === 3) && (
                       <Th color="white">Customer ID</Th>
@@ -220,8 +224,23 @@ export default function ProcessRequestTable() {
                 </Thead>
                 <Tbody variant="simple" bg="gray.200" color="black">
                   {sortProcessRequest.map((item, index) => (
-                    <Tr key={index} _hover={{ bg: "gray.100" }}>
+                    <Tr
+                      key={index}
+                      bg={
+                        preProcessRequestId && item?.id === preProcessRequestId
+                          ? "green.100"
+                          : "gray.200"
+                      }
+                      _hover={{
+                        bg:
+                          preProcessRequestId &&
+                          item?.id === preProcessRequestId
+                            ? "green.200"
+                            : "gray.100",
+                      }}
+                    >
                       <Td>{index + 1}</Td>
+                      <Td>{item?.id}</Td>
                       {(user.userAuth.roleid === 2 ||
                         user.userAuth.roleid === 3) && (
                         <Td>{item?.customerId || "N/A"}</Td>
@@ -258,7 +277,7 @@ export default function ProcessRequestTable() {
                           onClick={() => {
                             setSelectedProcessRequest(item);
                             viewValuationRequest.onOpen();
-                            fetchValuationRequest(
+                            fetchValuationRequestByPendingRequestId(
                               item?.pendingRequestId,
                               setSelectedValuationRequest,
                               toast
@@ -300,7 +319,8 @@ export default function ProcessRequestTable() {
               }
             >
               <ModalCloseButton />
-              Valuation Request ID: {selectedValuationRequest?.id || "N/A"}
+              Valuation Request ID:{" "}
+              {selectedProcessRequest?.pendingRequestId || "N/A"}
             </Skeleton>
           </ModalHeader>
           <ModalBody>
@@ -317,20 +337,22 @@ export default function ProcessRequestTable() {
                     user.userAuth.authorities[0].authority ===
                       "Consulting staff") && (
                     <>
-                    <Flex>
-                      <Flex w={"50%"}>
-                        <strong>Customer: </strong>
-                        <Text textTransform="uppercase">{selectedProcessRequest?.customerName || "N/A"}</Text>
-                      </Flex> 
-                      <Text>
-                        <strong>Phone</strong>:{" "}
-                        {selectedProcessRequest?.customerPhone || "N/A"}
-                      </Text></Flex>
+                      <Flex>
+                        <Flex w={"50%"}>
+                          <strong>Customer: </strong>
+                          <Text textTransform="uppercase">
+                            {selectedProcessRequest?.customerName || "N/A"}
+                          </Text>
+                        </Flex>
+                        <Text>
+                          <strong>Phone</strong>:{" "}
+                          {selectedProcessRequest?.customerPhone || "N/A"}
+                        </Text>
+                      </Flex>
                       <Text>
                         <strong>Customer Email</strong>:{" "}
                         {selectedProcessRequest?.customerEmail || "N/A"}
                       </Text>
-                     
                     </>
                   )}
                 {isUsers &&
@@ -348,12 +370,11 @@ export default function ProcessRequestTable() {
                             "N/A"}
                         </Text>
                       </Flex>
-                      
+
                       <Text>
-                          <strong>Staff Email: </strong>
-                          {selectedProcessRequest?.consultingStaffEmail ||
-                            "N/A"}
-                        </Text>
+                        <strong>Staff Email: </strong>
+                        {selectedProcessRequest?.consultingStaffEmail || "N/A"}
+                      </Text>
                     </>
                   )}
                 <Flex>

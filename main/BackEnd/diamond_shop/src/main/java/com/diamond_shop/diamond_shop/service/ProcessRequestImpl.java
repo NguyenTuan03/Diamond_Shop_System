@@ -34,24 +34,29 @@ public class ProcessRequestImpl implements ProcessRequestService {
     }
 
     @Override
+    public Optional<ProcessRequestEntity> getProcessRequestById(int id) {
+        return processRequestRepository.findProcessRequestById(id);
+    }
+
+    @Override
     public Page<ProcessRequestEntity> viewAllProcessRequests(int page) {
         int pageSize = 5;
         int pageNumber = --page;
-        return processRequestRepository.findAllProcessResults(PageRequest.of(pageNumber, pageSize, Sort.by("id")));
+        return processRequestRepository.findAllProcessResults(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()));
     }
 
     @Override
     public Page<ProcessRequestEntity> viewProcessRequestsByConsultingStaffId(int page, int consultingStaff) {
         int pageSize = 5;
         int pageNumber = --page;
-        return processRequestRepository.findProcessRequestsByConsultingStaffId(PageRequest.of(pageNumber, pageSize, Sort.by("id")), consultingStaff);
+        return processRequestRepository.findProcessRequestsByConsultingStaffId(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()), consultingStaff);
     }
 
     @Override
     public Page<ProcessRequestEntity> viewProcessRequestsByCustomerId(int page, int customerId) {
         int pageSize = 5;
         int pageNumber = --page;
-        return processRequestRepository.findProcessRequestsByCustomerId(PageRequest.of(pageNumber, pageSize, Sort.by("id")), customerId);
+        return processRequestRepository.findProcessRequestsByCustomerId(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()), customerId);
     }
 
     @Override

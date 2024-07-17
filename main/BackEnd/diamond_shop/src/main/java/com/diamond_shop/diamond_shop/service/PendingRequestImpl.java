@@ -12,6 +12,7 @@ import com.diamond_shop.diamond_shop.repository.PendingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -37,15 +38,14 @@ public class PendingRequestImpl implements PendingRequestService {
     public Page<PendingRequestsEntity> getAllByCustomerId(int page, int customerId) {
         int pageSize = 5;
         int pageNumber = --page;
-        return pendingRepository.findAllByCustomerId(PageRequest.of(pageNumber, pageSize), customerId);
+        return pendingRepository.findAllByCustomerId(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()), customerId);
     }
 
     @Override
     public ResponsePojo makePendingRequest(PendingRequestDTO pendingRequestDTO) {
         AccountEntity acc = accountRepository.findById(pendingRequestDTO.getCustomerId()).orElse(null);
         ResponsePojo response = new ResponsePojo();
-        if (acc == null)
-        {
+        if (acc == null) {
             response.setId(0);
             response.setMessage("Cannot find account with id " + pendingRequestDTO.getCustomerId());
         }

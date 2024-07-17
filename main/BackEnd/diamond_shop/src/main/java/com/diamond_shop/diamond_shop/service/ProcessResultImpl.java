@@ -8,8 +8,10 @@ import com.diamond_shop.diamond_shop.repository.ValuationResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,7 +26,7 @@ public class ProcessResultImpl implements ProcessResultService {
     @Override
     public Page<ProcessResultEntity> getAllByValuationStaffId(int page, int valuationStaffId) {
         int pageSize = 5, pageNumber = --page;
-        return processResultRepository.findAllByValuationStaffId(PageRequest.of(pageNumber, pageSize), valuationStaffId);
+        return processResultRepository.findAllByValuationStaffId(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()), valuationStaffId);
     }
 
     @Override
@@ -43,7 +45,8 @@ public class ProcessResultImpl implements ProcessResultService {
         ProcessResultEntity processResult = new ProcessResultEntity(
                 leastOccupiedValuationStaff,
                 valuationResult,
-                "Not resolved yet");
+                "Not resolved yet",
+                new Date());
         processResultRepository.save(processResult);
         return "Task assigned successfully!";
     }

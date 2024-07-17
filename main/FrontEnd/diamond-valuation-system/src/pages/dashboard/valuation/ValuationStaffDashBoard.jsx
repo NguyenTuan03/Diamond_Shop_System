@@ -118,6 +118,7 @@ export default function ValuationStaffDashboard() {
             isClosable: true,
           });
           fetchProcessResult(currentPage, user.userAuth.id);
+          viewValuationResult.onClose();
         }
       })
       .catch((error) => {
@@ -211,9 +212,15 @@ export default function ValuationStaffDashboard() {
   };
   const generatePrice = async (values) => {
     setIsGeneratePrice(true);
-    if(values.carat===0||values.shape===""||values.color===""||values.cut===""||values.clarity===""){
-        setIsGeneratePrice(false);
-        return;
+    if (
+      values.carat === 0 ||
+      values.shape === "" ||
+      values.color === "" ||
+      values.cut === "" ||
+      values.clarity === ""
+    ) {
+      setIsGeneratePrice(false);
+      return;
     }
     await axios
       .post(
@@ -264,7 +271,8 @@ export default function ValuationStaffDashboard() {
           });
           values.price = jsonResult.price;
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         setIsGeneratePrice(false);
         toast({
           title: "Diamond Valuation",
@@ -274,7 +282,7 @@ export default function ValuationStaffDashboard() {
           duration: 3000,
           isClosable: true,
         });
-      })
+      });
   };
   return (
     <>
@@ -299,6 +307,7 @@ export default function ValuationStaffDashboard() {
                 <Tr>
                   <Th color="white">No</Th>
                   <Th color="white">ID</Th>
+                  <Th color="white">Created Date</Th>
                   <Th color="white">Service</Th>
                   <Th color="white">Status</Th>
                   <Th color="white">View</Th>
@@ -309,6 +318,7 @@ export default function ValuationStaffDashboard() {
                   <Tr key={index}>
                     <Td>{index + 1}</Td>
                     <Td>{item?.valuationResultId}</Td>
+                    <Td>{item?.createdDate || "N/A"}</Td>
                     <Td>{item?.serviceName}</Td>
                     <Td>{item?.status}</Td>
                     <Td>
