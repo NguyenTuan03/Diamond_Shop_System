@@ -5,6 +5,7 @@ import com.diamond_shop.diamond_shop.dto.PendingRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.PendingRequestImageEntity;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
+import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PendingImageRepository;
 import com.diamond_shop.diamond_shop.repository.PendingRepository;
@@ -40,11 +41,14 @@ public class PendingRequestImpl implements PendingRequestService {
     }
 
     @Override
-    public int makePendingRequest(PendingRequestDTO pendingRequestDTO) {
-
+    public ResponsePojo makePendingRequest(PendingRequestDTO pendingRequestDTO) {
         AccountEntity acc = accountRepository.findById(pendingRequestDTO.getCustomerId()).orElse(null);
+        ResponsePojo response = new ResponsePojo();
         if (acc == null)
-            return 0;
+        {
+            response.setId(0);
+            response.setMessage("Cannot find account with id " + pendingRequestDTO.getCustomerId());
+        }
         Date createdDate = new Date();
         PendingRequestsEntity pendingRequestsEntity = new PendingRequestsEntity(
                 acc,
@@ -52,7 +56,9 @@ public class PendingRequestImpl implements PendingRequestService {
                 createdDate
         );
         pendingRepository.save(pendingRequestsEntity);
-        return pendingRequestsEntity.getId();
+        response.setId(pendingRequestsEntity.getId());
+        response.setMessage("Successful. Our team will contact you soon !");
+        return response;
     }
 
     @Override
