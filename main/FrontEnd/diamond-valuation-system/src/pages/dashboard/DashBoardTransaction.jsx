@@ -16,7 +16,7 @@ import { getCustomerTransaction } from "../../service/GetCustomerTransaction";
 import { UserContext } from "./../../components/GlobalContext/AuthContext";
 import { format } from "date-fns";
 import PageIndicator from "./../../components/PageIndicator";
-export default function DashBoardTransaction({hidePagination}) {
+export default function DashBoardTransaction({ hidePagination }) {
   const [transaction, setTransaction] = useState([]);
   const auth = useContext(UserContext);
   const [loading, setLoading] = useState(true);
@@ -115,11 +115,10 @@ export default function DashBoardTransaction({hidePagination}) {
                 </>
               )}
               {transaction &&
-                transaction.sort((transactionA, transactionB) => new Date(transactionB.date) - new Date(transactionA.date))
-                .map((transaction, index) => {
+                transaction.map((transaction, index) => {
                   return (
                     <Tr key={index}>
-                      <Td>{index+1}</Td>
+                      <Td>{index + 1}</Td>
                       <Td>{transaction?.transaction}</Td>
                       <Td>{transaction?.customerName}</Td>
                       <Td>{transaction?.bank}</Td>
@@ -144,7 +143,10 @@ export default function DashBoardTransaction({hidePagination}) {
       </Box>
       {!hidePagination && (
         <Center>
-          <PageIndicator totalPages={totalPage} setCurrentPage={setCurrentPage} />
+          <PageIndicator
+            totalPages={totalPage}
+            setCurrentPage={setCurrentPage}
+          />
         </Center>
       )}
     </>
