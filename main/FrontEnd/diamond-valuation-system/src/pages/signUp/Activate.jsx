@@ -1,21 +1,22 @@
 import { Box, Flex, Icon, Text, useToast } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { activateAccount } from "../../service/ActivateAccount";
-export default function Activate() {
+export default function Activate() {    
     let param = useParams();
     let toast = useToast();
     let nav = useNavigate();
     let searchParams = new URLSearchParams(window.location.search);
     useEffect(() => {
         let code = searchParams.get("code");
+        console.log(code);
         if (!code) {
             code = "";
         } else {
             let check = setInterval(async () => {
                 let result = await activateAccount(code);
-                if (result != null) {
+                if (result) {
                     toast({
                         title: result,
                         description: "We've created your account for you.",
@@ -25,6 +26,7 @@ export default function Activate() {
                         isClosable: true,
                     });
                     nav("/");
+                    // localStorage.setItem("driver",JSON.stringify(true));
                     clearInterval(check);
                 }
             }, 3000);
