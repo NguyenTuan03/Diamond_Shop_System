@@ -72,6 +72,10 @@ export default function Login({ signIn, signUp }) {
                     transition: Bounce,
                 });
                 localStorage.setItem("user", JSON.stringify(result.data));
+                const driver =  JSON.parse(localStorage.getItem("driver"))
+                if (!driver) {
+                    localStorage.setItem("driver", JSON.stringify(true));
+                }
             }
         } catch (error) {
             toast.error("An error occurred. Please try again later.", {
