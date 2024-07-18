@@ -21,6 +21,7 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
   UnorderedList,
   useDisclosure,
@@ -28,6 +29,10 @@ import {
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import { ViewIcon } from "@chakra-ui/icons";
 import { GiDiamondTrophy } from "react-icons/gi";
+import { format, parseISO } from "date-fns";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import routes from "../../../config/Config";
 
 export default function CommitmentTable() {
   const user = useContext(UserContext);
@@ -90,7 +95,6 @@ export default function CommitmentTable() {
                   <Tr>
                     <Th color="white">ID</Th>
                     <Th color="white">Request ID</Th>
-
                     <Th color="white">Customer Name</Th>
                     <Th color="white">Created Date</Th>
                     <Th color="white">Description</Th>
@@ -101,9 +105,35 @@ export default function CommitmentTable() {
                   {commitment?.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
-                      <Td>{item?.valuationRequestId || "N/A"}</Td>
+                      <Td>
+                        <Link
+                          to={routes.processRequest}
+                          state={{ processRequestId: item?.processRequestId }}
+                        >
+                          <Tooltip label="Click to view process request">
+                            <Flex
+                              p={2}
+                              gap={2}
+                              align={"center"}
+                              justify={"space-around"}
+                              borderRadius={"20px"}
+                              _hover={{ bg: "blue.100" }}
+                            >
+                              {item?.processRequestId || "N/A"}
+                              <FaExternalLinkAlt />
+                            </Flex>
+                          </Tooltip>
+                        </Link>
+                      </Td>
                       <Td>{item?.customerName || "N/A"}</Td>
-                      <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
+                      <Td>
+                        {item?.createdDate
+                          ? format(
+                              parseISO(item?.createdDate),
+                              "dd/MM/yyyy - HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
                       <Td>Customer lost receipt</Td>
                       <Td>
                         <IconButton
