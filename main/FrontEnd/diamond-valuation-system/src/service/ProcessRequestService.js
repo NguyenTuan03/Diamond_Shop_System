@@ -1,5 +1,33 @@
 import axios from "axios";
 
+export const fetchProcessRequestById = async (
+  id,
+  setSelectedProcessRequest,
+  toast
+) => {
+  await axios
+    .get(
+      `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/process-request/get?id=${id}`
+    )
+    .then((res) => {
+      console.log(res.data);
+      setSelectedProcessRequest(res.data);
+      return res.data; // Return the response data
+    })
+    .catch((err) => {
+      toast({
+        title: "Error",
+        description: err.response.data,
+        status: "error",
+        position: "top-right",
+        duration: 3000,
+        isClosable: true,
+      });
+    });
+};
+
 export const updateProcessRequest = async (
   processRequestId,
   status,
@@ -147,7 +175,36 @@ export const checkValuationRequestSealed = async (
       });
     });
 };
-export const fetchValuationRequest = async (
+export const fetchValuationRequestById = async (
+  id,
+  setSelectedValuationRequest,
+  toast
+) => {
+  setSelectedValuationRequest(null);
+  await axios
+    .get(
+      `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/valuation-request/get?id=${id}`
+    )
+    .then(function (response) {
+      console.log(response);
+      if (response.status === 200) {
+        setSelectedValuationRequest(response.data);
+      }
+    })
+    .catch((error) => {
+      toast({
+        title: "Failed",
+        description: error.response.data,
+        status: "error",
+        position: "top-right",
+        duration: 3000,
+        isClosable: true,
+      });
+    });
+};
+export const fetchValuationRequestByPendingRequestId = async (
   pendingRequestId,
   setSelectedValuationRequest,
   toast

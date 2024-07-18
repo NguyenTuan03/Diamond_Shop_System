@@ -40,15 +40,7 @@ export default function UploadImage({ diamondId, type }) {
         if (res) {
           const data = await res.json();
           console.log(data.public_id);
-          setIsUpLoading(false);
-          toast({
-            title: "Sending successful!",
-            position: "top-right",
-            description: "Your diamond image has been submitted successfully",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-          });
+
           if (type === "valuation_result") {
             axios
               .post(
@@ -67,9 +59,20 @@ export default function UploadImage({ diamondId, type }) {
               )
               .then(function (response) {
                 console.log(response.data);
-              }); 
-          }else if(type==="pending_request")
-          {
+              })
+              .catch((err) => {
+                setIsUpLoading(false);
+                toast({
+                  title: "Sending successful!",
+                  position: "top-right",
+                  description:
+                    "Your diamond image has been submitted successfully",
+                  status: "success",
+                  duration: 3000,
+                  isClosable: true,
+                });
+              });
+          } else if (type === "pending_request") {
             axios
               .post(
                 `${
@@ -87,10 +90,23 @@ export default function UploadImage({ diamondId, type }) {
               )
               .then(function (response) {
                 console.log(response.data);
+              })
+              .catch((err) => {
+                console.log(err);
+                return;
               });
           }
         }
       }
+      setIsUpLoading(false);
+      toast({
+        title: "Sending successful!",
+        position: "top-right",
+        description: "Your diamond image has been submitted successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
       setIsUpLoading(false);
       toast({

@@ -191,37 +191,39 @@ export default function DashBoardAppoint() {
                 There's no API available
               </Box>
             ) : (
-              <TableContainer>
-                <Table variant="simple" bg="gray.200" color="black">
-                  <Thead>
-                    <Tr>
-                      <Th color="black">No</Th>
-                      <Th color="black">Name</Th>
-                      <Th color="black">Date Create Request</Th>
-
-                      <Th color="black">Description</Th>
-                      <Th color="black">Status</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {request.map((req, i) => {
-                      return (
-                        <Tr key={i}>
-                          <Td>{i + 1}</Td>
-                          <Td>{req.customerName}</Td>
-                          <Td>{req.createdDate?.slice(0, 10)}</Td>
-
-                          <Td>{req.description}</Td>
-                          <Td>Contacting...</Td>
-                        </Tr>
-                      );
-                    })}
-                  </Tbody>
-                </Table>
-              </TableContainer>
+              <Link to={routes.dashboardAppoint}>
+                <TableContainer>
+                  <Table variant="simple" bg="gray.200" color="black">
+                    <Thead>
+                      <Tr>
+                        <Th color="black">No</Th>
+                        <Th color="black">Name</Th>
+                        <Th color="black">Date Create Request</Th>
+                        <Th color="black">Description</Th>
+                        <Th color="black">Status</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {request.map((req, i) => {
+                        return (
+                          <Tr key={i}>
+                            <Td>{i + 1}</Td>
+                            <Td>{req.customerName}</Td>
+                            <Td>{req.createdDate?.slice(0, 10)}</Td>
+                            <Td>{req.description}</Td>
+                            <Td>Contacting...</Td>
+                          </Tr>
+                        );
+                      })}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              </Link>
             )}
           </Box>
-          <DashBoardTransaction />
+          <Link to={routes.dashboardTransaction}>
+            <DashBoardTransaction hidePagination={true} />
+          </Link>
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
             <Box
               bg="gray.600"

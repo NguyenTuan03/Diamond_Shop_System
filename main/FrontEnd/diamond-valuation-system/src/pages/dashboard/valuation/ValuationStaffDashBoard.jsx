@@ -118,6 +118,7 @@ export default function ValuationStaffDashboard() {
             isClosable: true,
           });
           fetchProcessResult(currentPage, user.userAuth.id);
+          viewValuationResult.onClose();
         }
       })
       .catch((error) => {
@@ -156,64 +157,70 @@ export default function ValuationStaffDashboard() {
   const [isDeleted, setIsDeleted] = useState(false);
   const deleteImages = async (imageId) => {
     setIsDeleted(true);
-    const timestamp = Date.now() / 1000;
-    const formData = new FormData();
-    formData.append("public_id", imageId);
-    formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY);
-    formData.append("timestamp", timestamp);
-    formData.append(
-      "signature",
-      sha1(
-        `public_id=${imageId}&timestamp=${timestamp}${
-          import.meta.env.VITE_CLOUDINARY_API_SECRET
-        }`
+    // const timestamp = Date.now() / 1000;
+    // const formData = new FormData();
+    // formData.append("public_id", imageId);
+    // formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY);
+    // formData.append("timestamp", timestamp);
+    // formData.append(
+    //   "signature",
+    //   sha1(
+    //     `public_id=${imageId}&timestamp=${timestamp}${
+    //       import.meta.env.VITE_CLOUDINARY_API_SECRET
+    //     }`
+    //   )
+    // );
+    // const res = await fetch(
+    //   `https://api.cloudinary.com/v1_1/${
+    //     import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+    //   }/image/destroy`,
+    //   {
+    //     method: "POST",
+    //     body: formData,
+    //   }
+    // );
+    // if (res) {
+    // const data = await res.json();
+    // console.log(data);
+    await axios
+      .delete(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-result/image/delete?id=${imageId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
+        }
       )
-    );
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${
-        import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
-      }/image/destroy`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    if (res) {
-      const data = await res.json();
-      console.log(data);
-      axios
-        .delete(
-          `${
-            import.meta.env.VITE_REACT_APP_BASE_URL
-          }/api/valuation-result/image/delete?id=${imageId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.userAuth.token}`,
-            },
-          }
-        )
-        .then(function (response) {
-          setIsDeleted(false);
-          toast({
-            title: "Success",
-            description: response.data,
-            position: "top-right",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-          });
-          setTimeout(() => {
-            navigate(0);
-          }, 1000);
-          console.log(response.data);
+      .then(function (response) {
+        setIsDeleted(false);
+        toast({
+          title: "Success",
+          description: response.data,
+          position: "top-right",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
         });
-    }
+        setTimeout(() => {
+          navigate(0);
+        }, 1000);
+        console.log(response.data);
+      });
+    // }
   };
   const generatePrice = async (values) => {
     setIsGeneratePrice(true);
-    if(values.carat===0||values.shape===""||values.color===""||values.cut===""||values.clarity===""){
-        setIsGeneratePrice(false);
-        return;
+    if (
+      values.carat === 0 ||
+      values.shape === "" ||
+      values.color === "" ||
+      values.cut === "" ||
+      values.clarity === ""
+    ) {
+      setIsGeneratePrice(false);
+      return;
     }
     await axios
       .post(
@@ -264,7 +271,8 @@ export default function ValuationStaffDashboard() {
           });
           values.price = jsonResult.price;
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         setIsGeneratePrice(false);
         toast({
           title: "Diamond Valuation",
@@ -274,7 +282,7 @@ export default function ValuationStaffDashboard() {
           duration: 3000,
           isClosable: true,
         });
-      })
+      });
   };
   return (
     <>
@@ -299,6 +307,7 @@ export default function ValuationStaffDashboard() {
                 <Tr>
                   <Th color="white">No</Th>
                   <Th color="white">ID</Th>
+                  <Th color="white">Created Date</Th>
                   <Th color="white">Service</Th>
                   <Th color="white">Status</Th>
                   <Th color="white">View</Th>
@@ -309,6 +318,7 @@ export default function ValuationStaffDashboard() {
                   <Tr key={index}>
                     <Td>{index + 1}</Td>
                     <Td>{item?.valuationResultId}</Td>
+                    <Td>{item?.createdDate || "N/A"}</Td>
                     <Td>{item?.serviceName}</Td>
                     <Td>{item?.status}</Td>
                     <Td>
@@ -699,6 +709,22 @@ export default function ValuationStaffDashboard() {
                         isLoading={isGeneratePrice}
                         isDisabled={isGeneratePrice}
                         onClick={() => {
+                          if (
+                            values.carat === 0 ||
+                            values.shape === "" ||
+                            values.color === "" ||
+                            values.cut === "" ||
+                            values.clarity === ""
+                          ) {
+                            toast({
+                              title: "Diamond Valuation",
+                              description: "Please fill in all the Shape and 4C fields",
+                              position: "top-right",
+                              status: "warning",
+                              duration: 3000,
+                              isClosable: true,
+                            });
+                          }
                           generatePrice(values);
                         }}
                       >
@@ -749,12 +775,12 @@ export default function ValuationStaffDashboard() {
               )}
             </Formik>
             <Flex justify={"center"}>
-              <SimpleGrid columns={4}>
-                <Skeleton isLoaded={diamondImages.length > 0} height={"200px"}>
+              <Skeleton isLoaded={diamondImages.length > 0} height={"200px"}>
+                <SimpleGrid columns={4} spacing={10}>
                   {diamondImages?.map((image, index) => {
                     return (
                       <>
-                        <Flex direction={"column"} key={image}>
+                        <Flex direction={"column"} key={index}>
                           <AdvancedImage
                             key={index}
                             cldImg={cld
@@ -781,14 +807,15 @@ export default function ValuationStaffDashboard() {
                       </>
                     );
                   })}
-                </Skeleton>
-              </SimpleGrid>
+                </SimpleGrid>
+              </Skeleton>
             </Flex>
           </ModalBody>
           <ModalFooter justifyContent={"center"}>
             <Flex direction={"column"}>
               <UploadImage
                 diamondId={selectedProcessResult?.valuationResultId}
+                type={"valuation_result"}
               />
             </Flex>
           </ModalFooter>

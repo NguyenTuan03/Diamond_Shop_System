@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ValuationResultImpl implements ValuationResultService {
+    private final PendingRepository pendingRepository;
+    private final PendingImageRepository pendingImageRepository;
     private final ValuationResultRepository valuationResultRepository;
     private final ProcessResultRepository processResultRepository;
     private final ProcessRequestRepository processRequestRepository;
@@ -101,12 +103,20 @@ public class ValuationResultImpl implements ValuationResultService {
 
     @Override
     public String createValuationResult(ProcessRequestEntity processRequest) {
-        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findById(processRequest.getPendingRequestId().getValuationRequestEntity().getId());
+        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.getById(processRequest.getPendingRequestId().getValuationRequestEntity().getId());
         if (valuationRequest.isEmpty()) return "Could not find valuation request";
         Date createdDate = new Date();
         long randomId = (long) (Math.random() * Math.pow(10, 10));
         ValuationResultEntity valuationResultEntity = new ValuationResultEntity(Long.toString(randomId), valuationRequest.get(), createdDate, "", "", new BigDecimal(0), "", "", "", "", "", "", "", new BigDecimal(0), new BigDecimal(0), new BigDecimal(0), new BigDecimal(0));
         valuationResultRepository.save(valuationResultEntity);
+        Optional<PendingRequestsEntity> pendingRequest = pendingRepository.findByProcessRequestId(processRequest.getId());
+        if (pendingRequest.isPresent()) {
+            List<String> pendingRequestImages = pendingImageRepository.findImageIdsByPendingRequestId(pendingRequest.get().getId());
+            for (String imageId : pendingRequestImages) {
+                ValuationResultImageEntity valuationResultImage = new ValuationResultImageEntity(imageId, valuationResultEntity);
+                valuationResultImageRepository.save(valuationResultImage);
+            }
+        }
         return "Assigned successfully!";
     }
 
