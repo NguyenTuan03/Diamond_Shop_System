@@ -42,6 +42,7 @@ import {
 import { deleteCloudinaryImage } from "../../../service/CloudinaryService";
 import { format, parseISO } from "date-fns";
 import { AiOutlineFileSearch } from "react-icons/ai";
+import ZaloChat from "../../../components/zalo/ZaloChat";
 export default function PendingRequestTable() {
   const toast = useToast();
   const user = useContext(UserContext);
@@ -126,7 +127,7 @@ export default function PendingRequestTable() {
                 <Tbody variant="simple" bg="gray.200" color="black">
                   {pendingRequest.map((item, index) => (
                     <Tr key={index}>
-                      <Td>{index+1}</Td>
+                      <Td>{index + 1}</Td>
                       <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.customerEmail || "N/A"}</Td>
                       <Td>{item?.customerPhone || "N/A"}</Td>
@@ -182,29 +183,38 @@ export default function PendingRequestTable() {
           </ModalHeader>
           <ModalBody>
             <Skeleton isLoaded={selectedPendingRequest !== null}>
-            <Flex direction={"column"} gap={5} p={5} borderRadius="md" fontWeight="bold">
-              <Box display="grid" gridTemplateColumns="150px 1fr" gap={3} >
-                <Text color={"gray.600"}>Customer:</Text>
-                <Text textTransform="uppercase">{selectedPendingRequest?.customerName || "N/A"}</Text>
-              </Box>
-              <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                <Text color={"gray.600"}>Phone:</Text>
-                <Text>{selectedPendingRequest?.customerPhone || "N/A"}</Text>
-              </Box>
-              <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                <Text color={"gray.600"}>Description:</Text>
-                <Text>{selectedPendingRequest?.description || "N/A"}</Text>
-              </Box>
-              <Box display="grid" gridTemplateColumns="150px 1fr" gap={3} >
-                <Text color={"gray.600"}>Email:</Text>
-                <Text>{selectedPendingRequest?.customerEmail || "N/A"}</Text>
-              </Box>
-              <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                <Text color={"gray.600"}>Created Date:</Text>
-                <Text>{selectedPendingRequest?.createdDate?.slice(0, 10) || "N/A"}</Text>
-              </Box>
-            </Flex>
-
+              <Flex
+                direction={"column"}
+                gap={5}
+                p={5}
+                borderRadius="md"
+                fontWeight="bold"
+              >
+                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                  <Text color={"gray.600"}>Customer:</Text>
+                  <Text textTransform="uppercase">
+                    {selectedPendingRequest?.customerName || "N/A"}
+                  </Text>
+                </Box>
+                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                  <Text color={"gray.600"}>Phone:</Text>
+                  <Text>{selectedPendingRequest?.customerPhone || "N/A"}</Text>
+                </Box>
+                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                  <Text color={"gray.600"}>Description:</Text>
+                  <Text>{selectedPendingRequest?.description || "N/A"}</Text>
+                </Box>
+                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                  <Text color={"gray.600"}>Email:</Text>
+                  <Text>{selectedPendingRequest?.customerEmail || "N/A"}</Text>
+                </Box>
+                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                  <Text color={"gray.600"}>Created Date:</Text>
+                  <Text>
+                    {selectedPendingRequest?.createdDate?.slice(0, 10) || "N/A"}
+                  </Text>
+                </Box>
+              </Flex>
             </Skeleton>
           </ModalBody>
           <Skeleton isLoaded={selectedPendingRequest !== null}>
@@ -278,24 +288,19 @@ export default function PendingRequestTable() {
                                 isDisabled={isDeleted}
                                 isLoading={isDeleted}
                                 onClick={async () => {
-                                  await deleteCloudinaryImage(
+                                  await deletePendingRequestImage(
                                     image,
-                                    setIsDeleted
-                                  ).then(async () => {
-                                    await deletePendingRequestImage(
-                                      image,
-                                      user.userAuth.token,
-                                      setIsDeleted,
-                                      toast
-                                    ).then(() => {
-                                      setTimeout(() => {
-                                        fetchPendingRequest(
-                                          currentPage,
-                                          user.userAuth.id
-                                        );
-                                        viewPendingRequest.onClose();
-                                      }, 1000);
-                                    });
+                                    user.userAuth.token,
+                                    setIsDeleted,
+                                    toast
+                                  ).then(() => {
+                                    setTimeout(() => {
+                                      fetchPendingRequest(
+                                        currentPage,
+                                        user.userAuth.id
+                                      );
+                                      viewPendingRequest.onClose();
+                                    }, 1000);
                                   });
                                 }}
                               >
@@ -322,54 +327,70 @@ export default function PendingRequestTable() {
                   <ModalFooter justifyContent={"space-around"}>
                     <Flex direction={"column"} gap={5}>
                       <Flex justify={"space-around"} gap={10}>
-                        <Button
-                          isLoading={isReceived}
-                          isDisabled={isReceived}
-                          colorScheme="teal"
-                          onClick={async () => {
-                            await receivePendingRequest(
-                              user?.userAuth?.id,
-                              selectedPendingRequest?.id,
-                              user.userAuth.token,
-                              setIsReceived,
-                              toast
-                            ).then(() => {
-                              setTimeout(() => {
-                                fetchPendingRequest(
-                                  currentPage,
-                                  user.userAuth.id
-                                );
-                                viewPendingRequest.onClose();
-                              }, 1000);
-                            });
-                          }}
+                        <Tooltip
+                          label="Please contact with customer after receive their request"
+                          placement="top"
+                          hasArrow
                         >
-                          Receive
-                        </Button>
-                        <Button
-                          isLoading={isCanceled}
-                          isDisabled={isCanceled}
-                          colorScheme="red"
-                          onClick={async () => {
-                            await cancelPendingRequest(
-                              selectedPendingRequest?.id,
-                              "Pending request",
-                              user.userAuth.token,
-                              setIsCanceled,
-                              toast
-                            ).then(() => {
-                              setTimeout(() => {
-                                fetchPendingRequest(
-                                  currentPage,
-                                  user.userAuth.id
-                                );
-                                viewPendingRequest.onClose();
-                              }, 1000);
-                            });
-                          }}
+                          <Button
+                            isLoading={isReceived}
+                            isDisabled={isReceived}
+                            colorScheme="teal"
+                            onClick={async () => {
+                              await receivePendingRequest(
+                                user?.userAuth?.id,
+                                selectedPendingRequest?.id,
+                                user.userAuth.token,
+                                setIsReceived,
+                                toast
+                              ).then(() => {
+                                setTimeout(() => {
+                                  fetchPendingRequest(
+                                    currentPage,
+                                    user.userAuth.id
+                                  );
+                                  viewPendingRequest.onClose();
+                                }, 1000);
+                              });
+                            }}
+                          >
+                            Receive
+                          </Button>
+                        </Tooltip>
+                        <ZaloChat
+                          type={"customer"}
+                          phone={selectedPendingRequest?.customerPhone}
+                        />
+                        <Tooltip
+                          label="Please contact with customer after cancel their request"
+                          placement="top"
+                          hasArrow
                         >
-                          Cancel
-                        </Button>
+                          <Button
+                            isLoading={isCanceled}
+                            isDisabled={isCanceled}
+                            colorScheme="red"
+                            onClick={async () => {
+                              await cancelPendingRequest(
+                                selectedPendingRequest?.id,
+                                "Pending request",
+                                user.userAuth.token,
+                                setIsCanceled,
+                                toast
+                              ).then(() => {
+                                setTimeout(() => {
+                                  fetchPendingRequest(
+                                    currentPage,
+                                    user.userAuth.id
+                                  );
+                                  viewPendingRequest.onClose();
+                                }, 1000);
+                              });
+                            }}
+                          >
+                            Cancel
+                          </Button>
+                        </Tooltip>
                       </Flex>
                       <SimpleGrid columns={4} spacing={5}>
                         {diamondImages?.map((image, index) => {
