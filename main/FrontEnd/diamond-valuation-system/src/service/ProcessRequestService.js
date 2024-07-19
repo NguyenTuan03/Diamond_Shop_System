@@ -54,7 +54,7 @@ export const updateProcessRequest = async (
       setIsUpdateProcess(false);
       toast({
         title: "Success",
-        description: res.data,
+        description: res.data.message,
         status: "success",
         position: "top-right",
         duration: 3000,
@@ -73,11 +73,38 @@ export const updateProcessRequest = async (
       });
     });
 };
+export const checkProcessRequestReceiveDate = async (
+  processRequestId,
+  setIsChecked,
+  toast
+) => {
+  await axios
+    .get(
+      `${
+        import.meta.env.VITE_REACT_APP_BASE_URL
+      }/api/process-request/receive-date/check?id=${processRequestId}`
+    )
+    .then((res) => {
+      console.log(res.data);
+      if (res.status === 200) {
+        if (res.data === "Canceled request") {
+          setIsChecked(true);
+          toast({
+            title: "Success",
+            description:
+              "Canceled request because customer does not come to give their diamond on time to staff.",
+            status: "success",
+            position: "top-right",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
+      }
+    });
+};
 export const checkValuationRequestFinished = async (
   processRequestId,
   setIsChecked,
-  customerId,
-  consultingStaffId,
   toast
 ) => {
   await axios
@@ -87,18 +114,9 @@ export const checkValuationRequestFinished = async (
       }/api/valuation-request/process-request/check-finished?id=${processRequestId}`
     )
     .then(function (response) {
+      console.log(response.data);
       if (response.status === 200) {
         if (response.data === "Finished request") {
-          var finishedRequest = [];
-          finishedRequest.push({
-            customerId: customerId,
-            consultingStaffId: consultingStaffId,
-            processRequestId: processRequestId,
-          });
-          localStorage.setItem(
-            "finishedRequests",
-            JSON.stringify(finishedRequest)
-          );
           setIsChecked(true);
           toast({
             title: "Success",
@@ -127,8 +145,6 @@ export const checkValuationRequestFinished = async (
 export const checkValuationRequestSealed = async (
   processRequestId,
   setIsChecked,
-  customerId,
-  consultingStaffId,
   toast
 ) => {
   await axios
@@ -141,16 +157,6 @@ export const checkValuationRequestSealed = async (
       console.log(response.data);
       if (response.status === 200) {
         if (response.data === "Sealed request") {
-          var sealedRequests = [];
-          sealedRequests.push({
-            customerId: customerId,
-            consultingStaffId: consultingStaffId,
-            processRequestId: processRequestId,
-          });
-          localStorage.setItem(
-            "sealedRequests",
-            JSON.stringify(sealedRequests)
-          );
           setIsChecked(true);
           toast({
             title: "Success",
