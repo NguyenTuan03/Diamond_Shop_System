@@ -22,6 +22,7 @@ export default function DiamondValuationRequest() {
     user.userAuth.authorities &&
     user.userAuth.authorities.length > 0;
   const bgColor = useColorModeValue("white", "black");
+  const bgColor1 = useColorModeValue("blue.400", "yellow.500");
   const toast = useToast();
   const navigate = useNavigate();
   const createPendingRequest = async (customerId, description, token) => {
@@ -144,7 +145,8 @@ export default function DiamondValuationRequest() {
                   {console.log(isSubmitting)}
                   <Button
                     type="submit"
-                    colorScheme="blue"
+                    color={bgColor}
+                    bg={bgColor1}
                     isLoading={isSubmitting}
                     isDisabled={isSubmitting}
                     m={"0 0 100px 0"}

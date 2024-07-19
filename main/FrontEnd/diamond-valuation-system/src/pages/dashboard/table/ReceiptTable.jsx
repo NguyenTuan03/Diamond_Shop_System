@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
 import ReceiptModal from "../modal/ReceiptModal";
 import { ViewIcon } from "@chakra-ui/icons";
-
+import { PiFileTextBold } from "react-icons/pi";
 export default function ReceiptTable() {
   const user = useContext(UserContext);
   const isUsers =
@@ -140,7 +140,7 @@ export default function ReceiptTable() {
                       <Td>{receipt.description}</Td>
                       <Td>
                         <IconButton
-                          icon={<ViewIcon />}
+                          icon={<PiFileTextBold />}
                           bg={"transparent"}
                           color={"black"}
                           onClick={() => {

@@ -24,7 +24,7 @@ import ValuationResultModal from "../modal/ValuationResultModal";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
-
+import { PiFileTextBold } from "react-icons/pi";
 export default function ValuatedDiamondTable() {
   const user = useContext(UserContext);
   const isUsers =
@@ -119,7 +119,7 @@ export default function ValuatedDiamondTable() {
                       <Td>{valuationResult.clarity || "N/A"}</Td>
                       <Td>
                         <IconButton
-                          icon={<ViewIcon />}
+                          icon={<PiFileTextBold />}
                           bg={"transparent"}
                           color={"black"}
                           onClick={() => {
