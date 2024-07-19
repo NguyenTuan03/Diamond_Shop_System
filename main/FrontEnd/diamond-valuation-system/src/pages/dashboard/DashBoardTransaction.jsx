@@ -125,7 +125,8 @@ export default function DashBoardTransaction({ hidePagination }) {
                       <Td>
                         {new Intl.NumberFormat("vi-VN").format(
                           transaction?.amount
-                        )}
+                        )}{" "}
+                        vnd
                       </Td>
                       <Td>
                         {format(
@@ -145,6 +146,7 @@ export default function DashBoardTransaction({ hidePagination }) {
         <Center>
           <PageIndicator
             totalPages={totalPage}
+            currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />
         </Center>

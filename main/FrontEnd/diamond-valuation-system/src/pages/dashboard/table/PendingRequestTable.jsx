@@ -163,6 +163,7 @@ export default function PendingRequestTable() {
             <Center m={"50px 0 0 0"}>
               <PageIndicator
                 totalPages={totalPages}
+                currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
             </Center>
