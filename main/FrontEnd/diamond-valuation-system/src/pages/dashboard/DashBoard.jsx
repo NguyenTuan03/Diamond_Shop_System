@@ -102,6 +102,7 @@ export default function DashBoardAppoint() {
 
   const [requestStatus, setRequestStatus] = useState([
     { status: "Not resolved yet", total: 0 },
+    { status: "Canceled", total: 0 },
     { status: "Contacted", total: 0 },
     { status: "Paid", total: 0 },
     { status: "Diamond Received", total: 0 },
@@ -357,7 +358,10 @@ export default function DashBoardAppoint() {
               </CardHeader>
               <CardBody>
                 <Center gap={2}>
-                  <Text fontSize={"5xl"}>{income}</Text>vnd
+                  <Text fontSize={"5xl"}>
+                    {new Intl.NumberFormat("vi-VN").format(income)}
+                  </Text>
+                  vnd
                 </Center>
               </CardBody>
             </Card>
@@ -463,10 +467,11 @@ export default function DashBoardAppoint() {
                         data: requestStatus.map((item) => item.total),
                         backgroundColor: [
                           "RGBA(0, 0, 0, 0.24)",
+                          "#F56565",
                           "rgb(54, 162, 235)",
                           "#B794F4",
                           "#F687B3",
-                          "#F56565",
+                          "#F6AD55",
                           "rgb(255, 205, 86)",
                           "#68D391",
                           "#2D3748",

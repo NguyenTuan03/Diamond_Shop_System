@@ -24,6 +24,7 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
   UnorderedList,
   useDisclosure,
@@ -122,14 +123,19 @@ export default function SealingLetterTable() {
                             processRequestId: item?.processRequestId,
                           }}
                         >
-                          <Flex
-                            gap={2}
-                            align={"center"}
-                            justify={"space-around"}
-                          >
-                            {item?.processRequestId || "N/A"}
-                            <FaExternalLinkAlt />
-                          </Flex>
+                          <Tooltip label="Click to view process request">
+                            <Flex
+                              p={2}
+                              gap={2}
+                              align={"center"}
+                              justify={"space-around"}
+                              borderRadius={"20px"}
+                              _hover={{ bg: "blue.100" }}
+                            >
+                              {item?.processRequestId || "N/A"}
+                              <FaExternalLinkAlt />
+                            </Flex>
+                          </Tooltip>
                         </Link>
                       </Td>
                       <Td>{item?.customerName || "N/A"}</Td>
@@ -176,6 +182,7 @@ export default function SealingLetterTable() {
             <Center m={"50px 0 0 0"}>
               <PageIndicator
                 totalPages={totalPages}
+                currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
             </Center>

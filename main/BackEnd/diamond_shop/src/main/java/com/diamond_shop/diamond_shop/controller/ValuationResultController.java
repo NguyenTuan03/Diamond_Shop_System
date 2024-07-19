@@ -43,6 +43,11 @@ public class ValuationResultController {
         return valuationResultService.getAllValuationResults(page);
     }
 
+    @GetMapping(path = "/get/all/valuated")
+    public Page<ValuationResultEntity> getAllValuatedValuationResults(@RequestParam("page") int page) {
+        return valuationResultService.getAllValuatedValuationResults(page);
+    }
+
     @GetMapping(path = "/get")
     public Optional<ValuationResultEntity> getValuationResult(@RequestParam("id") String id) {
         return valuationResultService.getValuationResultById(id);
