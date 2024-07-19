@@ -5,6 +5,7 @@ import com.diamond_shop.diamond_shop.dto.UpdateProcessRequestDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.PendingRequestsEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
+import com.diamond_shop.diamond_shop.pojo.DiamondReceivedPojo;
 import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PendingRepository;
@@ -93,23 +94,37 @@ public class ProcessRequestImpl implements ProcessRequestService {
     }
 
     @Override
-    public String updateProcessRequest(int id, UpdateProcessRequestDTO updateProcessRequestDTO) {
+    public DiamondReceivedPojo updateProcessRequest(int id, UpdateProcessRequestDTO updateProcessRequestDTO) {
+        DiamondReceivedPojo diamondReceivedPojo = new DiamondReceivedPojo();
+        String valuationResultId = "";
+        int processResultId = 0;
         ProcessRequestEntity processRequest = processRequestRepository.findById(id).orElse(null);
-        if (processRequest == null)
-            return "Cannot found this process request with id: " + id;
+        if (processRequest == null) {
+            diamondReceivedPojo.setProcessRequestId(id);
+            diamondReceivedPojo.setValuationResultId(valuationResultId);
+            diamondReceivedPojo.setProcessResultId(processResultId);
+            diamondReceivedPojo.setMessage("Cannot found this process request with id: " + id);
+            return diamondReceivedPojo;
+        }
+
         switch (updateProcessRequestDTO.getStatus()) {
             case "Contacted", "Done", "Lost Receipt" -> {
                 processRequest.setStatus(updateProcessRequestDTO.getStatus());
                 processRequestRepository.save(processRequest);
             }
             case "Diamond Received" -> {
-                valuationResultService.createValuationResult(processRequest);
-                processResultService.processResult(processRequest);
+                valuationResultId = valuationResultService.createValuationResult(processRequest);
+                processResultId = processResultService.processResult(processRequest);
                 processRequest.setStatus(updateProcessRequestDTO.getStatus());
                 processRequestRepository.save(processRequest);
             }
         }
-        return "Update process request successfully!";
+
+        diamondReceivedPojo.setProcessRequestId(id);
+        diamondReceivedPojo.setValuationResultId(valuationResultId);
+        diamondReceivedPojo.setProcessResultId(processResultId);
+        diamondReceivedPojo.setMessage("Update process request successfully!");
+        return diamondReceivedPojo;
     }
 
     @Override
@@ -124,6 +139,21 @@ public class ProcessRequestImpl implements ProcessRequestService {
 
     @Override
     public String checkReceiveDate(int id) {
-        return "";
+        Optional<ProcessRequestEntity> processRequest = processRequestRepository.findById(id);
+        if (processRequest.isEmpty())
+            return "Cannot found process request with id" + id;
+
+        if (processRequest.get().getReceiveDate() == null)
+            return "Receive date is not be set!";
+
+        Date currentDate = new Date();
+        if (currentDate.after(processRequest.get().getReceiveDate())) {
+            if (processRequest.get().getStatus().equals("Not resolved yet")) {
+                processRequest.get().setStatus("Canceled");
+                processRequestRepository.save(processRequest.get());
+                return "Canceled request";
+            } else return "Already resolved";
+        }
+        return "Not get receive date";
     }
 }

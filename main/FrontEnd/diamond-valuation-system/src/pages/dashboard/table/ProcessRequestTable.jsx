@@ -22,26 +22,21 @@ import {
   ModalFooter,
   Button,
   SimpleGrid,
-  Icon,
-  UnorderedList,
-  ListItem,
   Input,
   FormControl,
   Tooltip,
   Box,
 } from "@chakra-ui/react";
 import { PiFileTextBold } from "react-icons/pi";
-import { GiDiamondTrophy } from "react-icons/gi";
 import ZaloChat from "../../../components/zalo/ZaloChat";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
 import { Link, useLocation } from "react-router-dom";
 import routes from "../../../config/Config";
-import { useReactToPrint } from "react-to-print";
 import format from "date-fns/format";
-import { parseISO, set } from "date-fns";
+import { parseISO } from "date-fns";
 import { Form, Formik } from "formik";
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
@@ -49,6 +44,7 @@ import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import {
   fetchProcessRequestById,
   updateProcessRequest,
+  checkProcessRequestReceiveDate,
   checkValuationRequestFinished,
   checkValuationRequestSealed,
   fetchValuationRequestById,
@@ -60,6 +56,8 @@ import {
   createCommitment,
   fetchPendingRequestImagesByProcessRequestId,
 } from "../../../service/ProcessRequestService";
+import ReceiptModal from "../modal/ReceiptModal";
+import ValuationResultModal from "../modal/ValuationResultModal";
 export default function ProcessRequestTable() {
   const preProcessRequestId = useLocation().state?.processRequestId;
   const toast = useToast();
@@ -76,10 +74,6 @@ export default function ProcessRequestTable() {
   const [selectedProcessRequest, setSelectedProcessRequest] = useState(null);
   const [selectedValuationRequest, setSelectedValuationRequest] =
     useState(null);
-  const valuationResultRef = useRef();
-  const handlePrintValuationResult = useReactToPrint({
-    content: () => valuationResultRef.current,
-  });
   const [selectedValuationResult, setSelectedValuationResult] = useState(null);
   const [selectedValuationReceipt, setSelectedValuationReceipt] =
     useState(null);
@@ -111,6 +105,13 @@ export default function ProcessRequestTable() {
           if (response.status === 200) {
             Promise.all(
               response.data.content.map(async (item, index) => {
+                if (item?.status === "Not resolved yet") {
+                  await checkProcessRequestReceiveDate(
+                    item?.id,
+                    setIsChecked,
+                    toast
+                  );
+                }
                 if (
                   item?.status !== "Finished" &&
                   item?.status !== "Done" &&
@@ -120,8 +121,6 @@ export default function ProcessRequestTable() {
                   await checkValuationRequestFinished(
                     item?.id,
                     setIsChecked,
-                    item?.customerId,
-                    item?.consultingStaffId,
                     toast
                   );
                 }
@@ -133,8 +132,6 @@ export default function ProcessRequestTable() {
                   await checkValuationRequestSealed(
                     item?.id,
                     setIsChecked,
-                    item?.customerId,
-                    item?.consultingStaffId,
                     toast
                   );
                 }
@@ -297,6 +294,7 @@ export default function ProcessRequestTable() {
             <Center m={"50px 0 0 0"}>
               <PageIndicator
                 totalPages={totalPages}
+                currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
             </Center>
@@ -315,7 +313,8 @@ export default function ProcessRequestTable() {
               isLoaded={
                 selectedValuationRequest !== null ||
                 selectedProcessRequest?.status === "Not resolved yet" ||
-                selectedProcessRequest?.status === "Contacted"
+                selectedProcessRequest?.status === "Contacted" ||
+                selectedProcessRequest?.status === "Canceled"
               }
             >
               <ModalCloseButton />
@@ -328,7 +327,8 @@ export default function ProcessRequestTable() {
               isLoaded={
                 selectedValuationRequest !== null ||
                 selectedProcessRequest?.status === "Not resolved yet" ||
-                selectedProcessRequest?.status === "Contacted"
+                selectedProcessRequest?.status === "Contacted" ||
+                selectedProcessRequest?.status === "Canceled"
               }
             >
               <Flex direction={"column"} gap={5}>
@@ -339,8 +339,8 @@ export default function ProcessRequestTable() {
                     <>
                       <Flex>
                         <Flex w={"50%"}>
-                          <strong>Customer: </strong>
-                          <Text textTransform="uppercase">
+                          <Text>
+                            <strong>Customer</strong>:{" "}
                             {selectedProcessRequest?.customerName || "N/A"}
                           </Text>
                         </Flex>
@@ -411,7 +411,8 @@ export default function ProcessRequestTable() {
                 </Text>
                 {isUsers &&
                   user.userAuth.authorities[0].authority ===
-                    "Consulting staff" && (
+                    "Consulting staff" &&
+                  selectedProcessRequest?.status === "Not resolved yet" && (
                     <Formik
                       initialValues={{
                         receiveDate: selectedProcessRequest?.receiveDate
@@ -554,6 +555,19 @@ export default function ProcessRequestTable() {
                     );
                   })}
                 </SimpleGrid>
+                {selectedProcessRequest?.status === "Canceled" && (
+                  <Center>
+                    <Flex direction={"column"} align={"center"} p={10} gap={5}>
+                      <Text textTransform={"uppercase"} color={"tomato"}>
+                        Your request has been canceled because you didn't send
+                        your diamond to us on time.
+                      </Text>
+                      <Text>
+                        Please contact with our staff for more information
+                      </Text>
+                    </Flex>
+                  </Center>
+                )}
               </Flex>
             </Skeleton>
           </ModalBody>
@@ -561,7 +575,8 @@ export default function ProcessRequestTable() {
             isLoaded={
               selectedValuationRequest !== null ||
               selectedProcessRequest?.status === "Not resolved yet" ||
-              selectedProcessRequest?.status === "Contacted"
+              selectedProcessRequest?.status === "Contacted" ||
+              selectedProcessRequest?.status === "Canceled"
             }
           >
             {(isUsers &&
@@ -629,7 +644,8 @@ export default function ProcessRequestTable() {
                         />
                       </>
                     )) ||
-                      (selectedProcessRequest?.status === "Contacted" && (
+                      ((selectedProcessRequest?.status === "Contacted" ||
+                        selectedProcessRequest?.status === "Canceled") && (
                         <ZaloChat
                           phone={selectedProcessRequest?.customerPhone}
                           type={"customer"}
@@ -713,7 +729,8 @@ export default function ProcessRequestTable() {
                         </>
                       )) ||
                       ((selectedProcessRequest?.status === "Finished" ||
-                        selectedProcessRequest?.status === "Sealed") && (
+                        selectedProcessRequest?.status === "Sealed" ||
+                        selectedProcessRequest?.status === "Lost Receipt") && (
                         <>
                           <SimpleGrid columns={2} spacing={5}>
                             <Button
@@ -756,28 +773,31 @@ export default function ProcessRequestTable() {
                             >
                               Cust. Received
                             </Button>
-                            <Button
-                              colorScheme="red"
-                              onClick={async () => {
-                                await updateProcessRequest(
-                                  selectedProcessRequest?.id,
-                                  "Lost Receipt",
-                                  user.userAuth.token,
-                                  setIsUpdateProcess,
-                                  toast
-                                ).then(() => {
-                                  setTimeout(() => {
-                                    fetchProcessRequest(
-                                      currentPage,
-                                      user.userAuth.id
-                                    );
-                                    viewValuationRequest.onClose();
-                                  }, 1000);
-                                });
-                              }}
-                            >
-                              Lost Receipt
-                            </Button>
+                            {selectedProcessRequest?.status !==
+                              "Lost Receipt" && (
+                              <Button
+                                colorScheme="red"
+                                onClick={async () => {
+                                  await updateProcessRequest(
+                                    selectedProcessRequest?.id,
+                                    "Lost Receipt",
+                                    user.userAuth.token,
+                                    setIsUpdateProcess,
+                                    toast
+                                  ).then(() => {
+                                    setTimeout(() => {
+                                      fetchProcessRequest(
+                                        currentPage,
+                                        user.userAuth.id
+                                      );
+                                      viewValuationRequest.onClose();
+                                    }, 1000);
+                                  });
+                                }}
+                              >
+                                Lost Receipt
+                              </Button>
+                            )}
                           </SimpleGrid>
                         </>
                       )) ||
@@ -807,7 +827,8 @@ export default function ProcessRequestTable() {
               (isUsers &&
                 user.userAuth.authorities[0].authority === "Customer" && (
                   <ModalFooter justifyContent={"space-around"}>
-                    {(selectedProcessRequest?.status === "Not resolved yet" && (
+                    {((selectedProcessRequest?.status === "Not resolved yet" ||
+                      selectedProcessRequest?.status === "Canceled") && (
                       <ZaloChat
                         phone={selectedProcessRequest?.consultingStaffPhone}
                         type={"staff"}
@@ -865,447 +886,14 @@ export default function ProcessRequestTable() {
           </Skeleton>
         </ModalContent>
       </Modal>
-      {(isUsers &&
-        user.userAuth.authorities[0].authority === "Consulting staff" && (
-          <Modal
-            isOpen={viewValuationResult.isOpen}
-            onClose={viewValuationResult.onClose}
-            size={"full"}
-          >
-            <ModalOverlay />
-            <ModalContent ref={valuationResultRef} p={5}>
-              <ModalHeader>
-                <Skeleton isLoaded={selectedValuationResult !== null}>
-                  <Flex direction={"row"} gap={5}>
-                    <Icon as={GiDiamondTrophy} w={16} h={16} />
-                    <Text fontFamily={"The Nautigal"} fontSize={"5xl"}>
-                      DiamondVal
-                    </Text>
-                  </Flex>
-                </Skeleton>
-              </ModalHeader>
-              <ModalBody>
-                <Skeleton isLoaded={selectedValuationResult !== null}>
-                  <Flex direction={"column"} gap={2} p={5}>
-                    <Flex direction={"column"} align={"center"} gap={5}>
-                      <Text fontSize={"2xl"}>
-                        <strong>Valuation Result ID</strong>:{" "}
-                        {selectedValuationResult?.id || "N/A"}
-                      </Text>
-                    </Flex>
-                    <SimpleGrid columns={2} spacing={10}>
-                      <Flex direction={"column"} bg={"blue.100"} gap={5} p={5}>
-                        <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
-                          GRADING REPORT
-                        </Text>
-                        <Text>
-                          <strong>ID</strong>: {selectedValuationResult?.id}
-                        </Text>
-                        <Text>
-                          <strong>Valuated Date</strong>:{" "}
-                          {selectedValuationResult?.createdDate?.slice(0, 10)}
-                        </Text>
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Origin"
-                        ) && (
-                          <Text>
-                            <strong>Origin: </strong>
-                            {selectedValuationResult?.origin}
-                          </Text>
-                        )}
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Shape"
-                        ) && (
-                          <Text>
-                            <strong>Shape: </strong>
-                            {selectedValuationResult?.shape}
-                          </Text>
-                        )}
-                        <Text>
-                          <strong>Price: </strong>
-                          {selectedValuationResult?.price}
-                        </Text>
-                        <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
-                          4C GRADING REPORT
-                        </Text>
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Carat"
-                        ) && (
-                          <Text>
-                            <strong>Carat: </strong>
-                            {selectedValuationResult?.carat}
-                          </Text>
-                        )}
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Color"
-                        ) && (
-                          <Text>
-                            <strong>Color: </strong>
-                            {selectedValuationResult?.color}
-                          </Text>
-                        )}
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Cut"
-                        ) && (
-                          <Text>
-                            <strong>Cut: </strong>
-                            {selectedValuationResult?.cut}
-                          </Text>
-                        )}
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Clarity"
-                        ) && (
-                          <Text>
-                            <strong>Clarity: </strong>
-                            {selectedValuationResult?.clarity}
-                          </Text>
-                        )}
-                      </Flex>
-                      <Flex direction={"column"} gap={5} bg={"blue.100"} p={5}>
-                        <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
-                          ADDITIONAL GRADING INFORMATION
-                        </Text>
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Symmetry"
-                        ) && (
-                          <Text>
-                            <strong>Symmetry: </strong>
-                            {selectedValuationResult?.symmetry}
-                          </Text>
-                        )}
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Polish"
-                        ) && (
-                          <Text>
-                            <strong>Polish: </strong>
-                            {selectedValuationResult?.polish}
-                          </Text>
-                        )}
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Fluorescence"
-                        ) && (
-                          <Text>
-                            <strong>Fluorescence: </strong>
-                            {selectedValuationResult?.fluorescence}
-                          </Text>
-                        )}
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Measurements"
-                        ) && (
-                          <Text>
-                            <strong>Measurements: </strong>
-                            {selectedValuationResult?.measurements}
-                          </Text>
-                        )}
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Table"
-                        ) && (
-                          <Text>
-                            <strong>Table: </strong>
-                            {selectedValuationResult?.diamondTable}
-                          </Text>
-                        )}
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "Depth"
-                        ) && (
-                          <Text>
-                            <strong>Depth: </strong>
-                            {selectedValuationResult?.depth}
-                          </Text>
-                        )}
-                        {selectedValuationResult?.serviceStatistic?.includes(
-                          "L/W Ratio"
-                        ) && (
-                          <Text>
-                            <strong>L/W Ratio: </strong>
-                            {selectedValuationResult?.lengthToWidthRatio}
-                          </Text>
-                        )}
-                      </Flex>
-                    </SimpleGrid>
-                  </Flex>
-                </Skeleton>
-              </ModalBody>
-              <ModalFooter justifyContent={"space-around"}>
-                <Skeleton isLoaded={selectedValuationResult !== null}>
-                  <Button onClick={handlePrintValuationResult}>Print</Button>
-                </Skeleton>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        )) ||
-        (isUsers && user.userAuth.authorities[0].authority === "Customer" && (
-          <Modal
-            isOpen={viewValuationResult.isOpen}
-            onClose={viewValuationResult.onClose}
-            size={"xl"}
-          >
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>
-                <Skeleton isLoaded={selectedValuationResult !== null}>
-                  <ModalCloseButton />
-                  Valuation Result ID: {selectedValuationResult?.id}
-                </Skeleton>
-              </ModalHeader>
-              <ModalBody>
-                <Skeleton isLoaded={selectedValuationResult !== null}>
-                  <Flex direction={"column"} gap={5} p={5}>
-                    <Text>
-                      <strong>ID</strong>: {selectedValuationResult?.id}
-                    </Text>
-                    <Text>
-                      <strong>Valuated Date</strong>:{" "}
-                      {selectedValuationResult?.createdDate?.slice(0, 10)}
-                    </Text>
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Origin"
-                    ) && (
-                      <Text>
-                        <strong>Origin: </strong>
-                        {selectedValuationResult?.origin}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Shape"
-                    ) && (
-                      <Text>
-                        <strong>Shape: </strong>
-                        {selectedValuationResult?.shape}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Carat"
-                    ) && (
-                      <Text>
-                        <strong>Carat: </strong>
-                        {selectedValuationResult?.carat}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Color"
-                    ) && (
-                      <Text>
-                        <strong>Color: </strong>
-                        {selectedValuationResult?.color}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Cut"
-                    ) && (
-                      <Text>
-                        <strong>Cut: </strong>
-                        {selectedValuationResult?.cut}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Clarity"
-                    ) && (
-                      <Text>
-                        <strong>Clarity: </strong>
-                        {selectedValuationResult?.clarity}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Symmetry"
-                    ) && (
-                      <Text>
-                        <strong>Symmetry: </strong>
-                        {selectedValuationResult?.symmetry}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Polish"
-                    ) && (
-                      <Text>
-                        <strong>Polish: </strong>
-                        {selectedValuationResult?.polish}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Fluorescence"
-                    ) && (
-                      <Text>
-                        <strong>Fluorescence: </strong>
-                        {selectedValuationResult?.fluorescence}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Measurements"
-                    ) && (
-                      <Text>
-                        <strong>Measurements: </strong>
-                        {selectedValuationResult?.measurements}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Table"
-                    ) && (
-                      <Text>
-                        <strong>Table: </strong>
-                        {selectedValuationResult?.diamondTable}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "Depth"
-                    ) && (
-                      <Text>
-                        <strong>Depth: </strong>
-                        {selectedValuationResult?.depth}
-                      </Text>
-                    )}
-                    {selectedValuationResult?.serviceStatistic?.includes(
-                      "L/W Ratio"
-                    ) && (
-                      <Text>
-                        <strong>L/W Ratio: </strong>
-                        {selectedValuationResult?.lengthToWidthRatio}
-                      </Text>
-                    )}
-                    <Center>
-                      <Text color={"blue.400"} fontSize={"3xl"}>
-                        {selectedValuationResult?.price} $
-                      </Text>
-                    </Center>
-                  </Flex>
-                </Skeleton>
-              </ModalBody>
-              <Skeleton isLoaded={selectedValuationResult !== null}>
-                <ModalFooter></ModalFooter>
-              </Skeleton>
-            </ModalContent>
-          </Modal>
-        ))}
-      <Modal
-        isOpen={viewReceipt.isOpen}
-        onClose={viewReceipt.onClose}
-        size={"full"}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Skeleton isLoaded={selectedValuationReceipt !== null}>
-              <Flex gap={5}>
-                <Icon as={GiDiamondTrophy} w={16} h={16} />
-                <Text fontFamily={"The Nautigal"} fontSize={"5xl"}>
-                  DiamondVal
-                </Text>
-              </Flex>
-            </Skeleton>
-          </ModalHeader>
-          <ModalBody>
-            <Skeleton isLoaded={selectedValuationReceipt !== null}>
-              <Flex direction={"column"} gap={5} p={5}>
-                <Flex direction={"column"} align={"center"} gap={5}>
-                  <Text fontSize={"3xl"} fontWeight={"bold"}>
-                    Receipt
-                  </Text>
-                </Flex>
-                <Text>
-                  <strong>Company</strong>: DiamondVal
-                </Text>
-                <Text>
-                  <strong>Date</strong>:{" "}
-                  {selectedValuationReceipt?.createdDate?.slice(0, 10) || "N/A"}
-                </Text>
-                <Text>
-                  <strong>RE</strong>: Diamond Valuation Receipt
-                </Text>
-                <Text>We include: </Text>
-                <Flex gap={10}>
-                  <Flex direction={"column"} align={"start"} gap={5}>
-                    <Text fontWeight={"bold"}>
-                      Customer side (Send diamond)
-                    </Text>
-                    <UnorderedList spacing={2}>
-                      <ListItem>
-                        Name: {selectedValuationReceipt?.customerName || "N/A"}
-                      </ListItem>
-                      <ListItem>
-                        Phone Number:{" "}
-                        {selectedValuationReceipt?.customerPhone || "N/A"}
-                      </ListItem>
-                    </UnorderedList>
-                  </Flex>
-                  <Flex direction={"column"} align={"start"} gap={5}>
-                    <Text fontWeight={"bold"}>
-                      Company side (Receive diamond)
-                    </Text>
-                    <UnorderedList spacing={2}>
-                      <ListItem>
-                        Name:{" "}
-                        {selectedValuationReceipt?.consultingStaffName || "N/A"}
-                      </ListItem>
-                      <ListItem>
-                        Phone Number:{" "}
-                        {selectedValuationReceipt?.consultingStaffPhone ||
-                          "N/A"}
-                      </ListItem>
-                    </UnorderedList>
-                  </Flex>
-                </Flex>
-                <Text>
-                  Both are agree to about give and receive the diamond below
-                </Text>
-                <TableContainer>
-                  <Table size={"sm"} colorScheme="blue">
-                    <Thead bg={"blue.400"}>
-                      <Tr>
-                        <Th>No</Th>
-                        <Th>Type</Th>
-                        <Th>Quantity</Th>
-                        <Th>Description</Th>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      <Tr>
-                        <Td>1</Td>
-                        <Td>Diamond</Td>
-                        <Td>1</Td>
-                        <Td>
-                          {selectedValuationReceipt?.description || "N/A"}
-                        </Td>
-                      </Tr>
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-                <Text>
-                  Company side confirmed that Customer side has given to Company
-                  side the right diamond with that quantity.
-                </Text>
-                <Text>
-                  Both are agreed to the above information and signed below &
-                  the receipt will be copied for both sides. Each will receive a
-                  copy and they both have the same validity.
-                </Text>
-                <Flex justify={"space-between"} p={10}>
-                  <Flex direction={"column"} align={"start"} gap={5}>
-                    <Text>Customer side</Text>
-                    <Text>Signature</Text>
-                  </Flex>
-                  <Flex direction={"column"} align={"end"} gap={5}>
-                    <Text>Company side</Text>
-                    <Text>Signature</Text>
-                  </Flex>
-                </Flex>
-              </Flex>
-            </Skeleton>
-          </ModalBody>
-          <ModalFooter>
-            <Skeleton isLoaded={selectedValuationReceipt !== null}>
-              <Flex justify={"flex-end"} p={5}>
-                <Button
-                  onClick={() => {
-                    window.print();
-                  }}
-                >
-                  Print
-                </Button>
-              </Flex>
-            </Skeleton>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <ValuationResultModal
+        viewValuationResult={viewValuationResult}
+        selectedValuationResult={selectedValuationResult}
+      />
+      <ReceiptModal
+        viewReceipt={viewReceipt}
+        selectedValuationReceipt={selectedValuationReceipt}
+      />
     </>
   );
 }

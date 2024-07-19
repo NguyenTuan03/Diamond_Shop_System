@@ -26,7 +26,6 @@ export default function Activate() {
                         isClosable: true,
                     });
                     nav("/");
-                    // localStorage.setItem("driver",JSON.stringify(true));
                     clearInterval(check);
                 }
             }, 3000);

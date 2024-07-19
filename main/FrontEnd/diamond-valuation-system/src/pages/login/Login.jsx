@@ -71,6 +71,10 @@ export default function Login({ signIn, signUp }) {
                     theme: "light",
                     transition: Bounce,
                 });
+                const driver =  JSON.parse(localStorage.getItem("driver"))
+                if ( driver!== null && driver === false) {
+                    localStorage.setItem("driver", JSON.stringify(true));
+                }
                 localStorage.setItem("user", JSON.stringify(result.data));
                 const driver =  JSON.parse(localStorage.getItem("driver"))
                 if (!driver) {

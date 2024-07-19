@@ -108,7 +108,7 @@ public class AccountImpl implements AccountService {
             accountEntity.setActivate_code(null);
             accountRepository.save(accountEntity);
             try {
-                response.sendRedirect(frontendUrl);
+                response.sendRedirect(frontendUrl+"/?code=00");
             } catch (IOException e) {
                 e.printStackTrace();
             }

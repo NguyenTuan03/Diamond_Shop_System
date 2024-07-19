@@ -26,7 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/vnpay")
 @RequiredArgsConstructor
-public class VNpayController {
+public class VNPAYController {
     private final ValuationRequestService valuationRequestService;
 
     private final PaymentService paymentService;

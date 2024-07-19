@@ -30,14 +30,14 @@ public class ProcessResultImpl implements ProcessResultService {
     }
 
     @Override
-    public String processResult(ProcessRequestEntity p) {
+    public int processResult(ProcessRequestEntity p) {
         RoleEntity roleEntity = roleRepository.findById(4).orElse(null);
         if (roleEntity == null) {
-            return "Role with id 4 not found";
+            return 0;
         }
         List<AccountEntity> accountEntities = accountRepository.findAllByRoleId(roleEntity);
         if (accountEntities.isEmpty())
-            return "There is no valuation staff";
+            return 0;
 
 
         AccountEntity leastOccupiedValuationStaff = getLeastOccupiedValuationStaff(accountEntities);
@@ -48,7 +48,7 @@ public class ProcessResultImpl implements ProcessResultService {
                 "Not resolved yet",
                 new Date());
         processResultRepository.save(processResult);
-        return "Task assigned successfully!";
+        return processResult.getId();
     }
 
     public AccountEntity getLeastOccupiedValuationStaff(List<AccountEntity> valuationStaff) {
