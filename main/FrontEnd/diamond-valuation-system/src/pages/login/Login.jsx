@@ -250,9 +250,9 @@ export default function Login({ signIn, signUp }) {
                                 w={"100%"}
                                 gap={5}
                             >
-                                {/* <Text>
+                                 <Text>
                                     <div id="buttonDiv"></div>
-                                </Text> */}
+                                </Text> 
                                 <Text fontSize={"sm"} display={"flex"} gap={2}>
                                     <div>Don't have an account? </div>
                                     <Link>
