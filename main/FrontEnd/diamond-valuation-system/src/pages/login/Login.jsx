@@ -71,11 +71,11 @@ export default function Login({ signIn, signUp }) {
                     theme: "light",
                     transition: Bounce,
                 });
-                localStorage.setItem("user", JSON.stringify(result.data));
                 const driver =  JSON.parse(localStorage.getItem("driver"))
-                if (!driver) {
+                if ( driver!== null && driver === false) {
                     localStorage.setItem("driver", JSON.stringify(true));
                 }
+                localStorage.setItem("user", JSON.stringify(result.data));
             }
         } catch (error) {
             toast.error("An error occurred. Please try again later.", {

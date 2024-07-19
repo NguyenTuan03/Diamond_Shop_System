@@ -42,7 +42,7 @@ export default function Header() {
   const nav = useNavigate();
   useEffect(() => {
     const driver =  JSON.parse(localStorage.getItem("driver"))
-    if (driver) {
+    if (driver === true) {
       driverRun.driverObj.drive();
       localStorage.removeItem("driver");
     } 
