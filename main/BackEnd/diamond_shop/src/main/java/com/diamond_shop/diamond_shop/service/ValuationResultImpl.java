@@ -54,6 +54,13 @@ public class ValuationResultImpl implements ValuationResultService {
     }
 
     @Override
+    public Page<ValuationResultEntity> getAllValuatedValuationResults(int page) {
+        int pageNumber = page - 1;
+        int pageSize = 5;
+        return valuationResultRepository.findAllValuatedValuationResults(PageRequest.of(pageNumber, pageSize));
+    }
+
+    @Override
     public Optional<ValuationResultEntity> getValuationResultById(String id) {
         return valuationResultRepository.findValuationResultById(id);
     }
@@ -104,7 +111,7 @@ public class ValuationResultImpl implements ValuationResultService {
     @Override
     public String createValuationResult(ProcessRequestEntity processRequest) {
         Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.getById(processRequest.getPendingRequestId().getValuationRequestEntity().getId());
-        if (valuationRequest.isEmpty()) return "Could not find valuation request";
+        if (valuationRequest.isEmpty()) return "";
         Date createdDate = new Date();
         long randomId = (long) (Math.random() * Math.pow(10, 10));
         ValuationResultEntity valuationResultEntity = new ValuationResultEntity(Long.toString(randomId), valuationRequest.get(), createdDate, "", "", new BigDecimal(0), "", "", "", "", "", "", "", new BigDecimal(0), new BigDecimal(0), new BigDecimal(0), new BigDecimal(0));
@@ -117,7 +124,7 @@ public class ValuationResultImpl implements ValuationResultService {
                 valuationResultImageRepository.save(valuationResultImage);
             }
         }
-        return "Assigned successfully!";
+        return valuationResultEntity.getId();
     }
 
     @Override
