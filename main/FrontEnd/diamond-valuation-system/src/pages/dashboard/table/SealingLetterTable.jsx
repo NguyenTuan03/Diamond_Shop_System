@@ -35,6 +35,7 @@ import { format, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { PiFileTextBold } from "react-icons/pi";
 export default function SealingLetterTable() {
   const user = useContext(UserContext);
   const isUsers =
@@ -165,7 +166,7 @@ export default function SealingLetterTable() {
                       </Td>
                       <Td>
                         <IconButton
-                          icon={<ViewIcon />}
+                          icon={<PiFileTextBold />}
                           bg={"transparent"}
                           color="black"
                           onClick={() => {

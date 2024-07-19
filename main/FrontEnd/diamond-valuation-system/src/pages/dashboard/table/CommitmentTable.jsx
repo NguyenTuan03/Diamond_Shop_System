@@ -27,7 +27,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
-import { ViewIcon } from "@chakra-ui/icons";
+import { PiFileTextBold } from "react-icons/pi";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { format, parseISO } from "date-fns";
 import { FaExternalLinkAlt } from "react-icons/fa";
@@ -137,7 +137,7 @@ export default function CommitmentTable() {
                       <Td>Customer lost receipt</Td>
                       <Td>
                         <IconButton
-                          icon={<ViewIcon />}
+                          icon={<PiFileTextBold />}
                           bg={"transparent"}
                           color="black"
                           onClick={() => {
