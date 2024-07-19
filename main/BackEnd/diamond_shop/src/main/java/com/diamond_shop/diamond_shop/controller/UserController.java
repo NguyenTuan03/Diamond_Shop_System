@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("api/account")
 @RequiredArgsConstructor
-public class Api {
+public class UserController {
 
     private final AccountService accountService;
 

@@ -24,8 +24,8 @@ import {
   IoNewspaperOutline,
   IoDiamondSharp,
 } from "react-icons/io5";
-import { IoIosNotificationsOutline, IoMdSearch } from "react-icons/io";
-import { CiCalendar, CiSettings } from "react-icons/ci";
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { CiSettings } from "react-icons/ci";
 import { RiHistoryLine } from "react-icons/ri";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { PiCalculatorThin } from "react-icons/pi";
@@ -42,6 +42,8 @@ import routes from "../../config/Config";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import Profile from "../../components/Profile";
 import { Bounce, ToastContainer, toast } from "react-toastify";
+import { TfiReceipt } from "react-icons/tfi";
+import { TbDiamond } from "react-icons/tb";
 
 const SideBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -64,7 +66,7 @@ const SideBar = () => {
       draggable: true,
       progress: undefined,
       theme: "light",
-      transition: Bounce
+      transition: Bounce,
     });
   };
   const isUsers =
@@ -73,7 +75,7 @@ const SideBar = () => {
     auth.userAuth.authorities.length > 0;
   const menuItems = [
     {
-      role: ["Manager","Consulting staff", "Valuation staff", "Customer"],
+      role: ["Manager", "Consulting staff", "Valuation staff", "Customer"],
       path: routes.dasboardNotification,
       icon: IoIosNotificationsOutline,
       label: "Notifications",
@@ -90,23 +92,24 @@ const SideBar = () => {
       icon: GiCheckeredDiamond,
       label: "Manage Service",
     },
-    {
-      role: ["Manager", "Customer"],
-      path: routes.sealingLetter,
-      icon: IoNewspaperOutline,
-      label: "Sealing Letter",
-    },
-    {
-      role: ["Manager", "Customer"],
-      path: routes.commitment,
-      icon: RiBookMarkedFill,
-      label: "Commitment",
-    },
+
     {
       role: ["Manager"],
       path: "#",
       icon: IoDiamondSharp,
       label: "Valuated Diamond",
+    },
+    {
+      role: ["Customer"],
+      path: routes.dashboardTransaction,
+      icon: RiHistoryLine,
+      label: "Transaction history",
+    },
+    {
+      role: ["Consulting staff", "Customer"],
+      path: routes.receipt,
+      icon: TfiReceipt,
+      label: "Receipt",
     },
     {
       role: ["Manager", "Consulting staff", "Customer"],
@@ -128,9 +131,21 @@ const SideBar = () => {
     },
     {
       role: ["Customer"],
-      path: routes.dashboardTransaction,
-      icon: RiHistoryLine,
-      label: "Transaction history",
+      path: routes.valuatedDiamond,
+      icon: TbDiamond ,
+      label: "Valuated Diamond",
+    },
+    {
+      role: ["Manager", "Customer"],
+      path: routes.sealingLetter,
+      icon: IoNewspaperOutline,
+      label: "Sealing Letter",
+    },
+    {
+      role: ["Manager", "Customer"],
+      path: routes.commitment,
+      icon: RiBookMarkedFill,
+      label: "Commitment",
     },
   ];
 
@@ -173,7 +188,7 @@ const SideBar = () => {
         }}
       >
         <Icon />
-        
+
         <Text ml="4">{label}</Text>
       </Flex>
     </Link>
@@ -183,7 +198,7 @@ const SideBar = () => {
     <>
       {isMobile ? (
         <>
-        <ToastContainer />
+          <ToastContainer />
           <IconButton
             icon={<HamburgerIcon />}
             onClick={onOpen}
@@ -242,27 +257,26 @@ const SideBar = () => {
                     .map(renderMenuItem)}
                 </VStack>
                 <Flex
-                align="center"
-                p="3"
-                mx="4"
-                borderRadius="lg"
-                role="group"
-                cursor="pointer"
-                _hover={{
-                  bg: hoverBg,
-                  color: "white",
-                }}
-                onClick={handleLogout}
-              >
-                <FiLogOut />
-                <Text ml="4">Logout</Text>
-              </Flex>
+                  align="center"
+                  p="3"
+                  mx="4"
+                  borderRadius="lg"
+                  role="group"
+                  cursor="pointer"
+                  _hover={{
+                    bg: hoverBg,
+                    color: "white",
+                  }}
+                  onClick={handleLogout}
+                >
+                  <FiLogOut />
+                  <Text ml="4">Logout</Text>
+                </Flex>
               </DrawerBody>
             </DrawerContent>
           </Drawer>
         </>
       ) : (
-        
         <Box
           bg={bg}
           color={color}
@@ -271,7 +285,7 @@ const SideBar = () => {
           pos="fixed"
           borderRight="1px"
           borderColor="gray.200"
-          maxH="100vh" 
+          maxH="100vh"
           overflowY="auto"
         >
           <ToastContainer />
@@ -295,14 +309,15 @@ const SideBar = () => {
                 <Text ml="4">Dashboard</Text>
               </Flex>
             </Link>
-            {isUsers&&menuItems
-              .filter((item) => {
-                return (
-                  item.role.length === 0 ||
-                  item.role.includes(auth.userAuth.authorities[0].authority)
-                );
-              })
-              .map(renderMenuItem)}
+            {isUsers &&
+              menuItems
+                .filter((item) => {
+                  return (
+                    item.role.length === 0 ||
+                    item.role.includes(auth.userAuth.authorities[0].authority)
+                  );
+                })
+                .map(renderMenuItem)}
           </VStack>
           <Spacer />
           <Divider my="8" borderColor="gray.600" />
@@ -321,20 +336,20 @@ const SideBar = () => {
               .map(renderMenuItem)}
           </VStack>
           <Flex
-                align="center"
-                p="3"
-                mx="4"
-                borderRadius="lg"
-                role="group"
-                cursor="pointer"
-                _hover={{
-                  bg: hoverBg,
-                  color: "white",
-                }}
-                onClick={handleLogout}
-              >
-                <FiLogOut />
-                <Text ml="4">Logout</Text>
+            align="center"
+            p="3"
+            mx="4"
+            borderRadius="lg"
+            role="group"
+            cursor="pointer"
+            _hover={{
+              bg: hoverBg,
+              color: "white",
+            }}
+            onClick={handleLogout}
+          >
+            <FiLogOut />
+            <Text ml="4">Logout</Text>
           </Flex>
         </Box>
       )}

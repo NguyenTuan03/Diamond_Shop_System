@@ -3,6 +3,7 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.ReceivePendingRequestDTO;
 import com.diamond_shop.diamond_shop.dto.UpdateProcessRequestDTO;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
+import com.diamond_shop.diamond_shop.pojo.DiamondReceivedPojo;
 import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import com.diamond_shop.diamond_shop.service.ProcessRequestService;
 import jakarta.validation.Valid;
@@ -48,7 +49,7 @@ public class ProcessRequestController {
     }
 
     @PutMapping(path = "/update")
-    public String updateProcessRequest(@Valid @RequestParam("id") int id, @RequestBody UpdateProcessRequestDTO updateProcessRequestDTO) {
+    public DiamondReceivedPojo updateProcessRequest(@Valid @RequestParam("id") int id, @RequestBody UpdateProcessRequestDTO updateProcessRequestDTO) {
         return processRequestService.updateProcessRequest(id, updateProcessRequestDTO);
     }
 
@@ -61,5 +62,10 @@ public class ProcessRequestController {
     public String createReceiveDate(@RequestParam("id") int id, @RequestParam("date") String date) {
         LocalDateTime receiveDate = LocalDateTime.parse(date);
         return processRequestService.createReceiveDate(id, Date.from(receiveDate.atZone(ZoneId.systemDefault()).toInstant()));
+    }
+
+    @GetMapping(path = "/receive-date/check")
+    public String checkReceiveDate(@RequestParam("id") int id) {
+        return processRequestService.checkReceiveDate(id);
     }
 }

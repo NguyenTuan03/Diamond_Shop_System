@@ -14,8 +14,13 @@ import java.util.Optional;
 public interface ValuationResultService {
 
     int totalValuationResults();
+
     int totalNotDoneValuationResults();
+
     Page<ValuationResultEntity> getAllValuationResults(int page);
+
+    Page<ValuationResultEntity> getAllValuatedValuationResults(int page);
+
     Optional<ValuationResultEntity> getValuationResultById(String id);
 
     Page<ValuationResultEntity> getValuationResultsByCustomerId(int page, int customerId);

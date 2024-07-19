@@ -1,42 +1,39 @@
 import { ViewIcon } from "@chakra-ui/icons";
 import {
-    Button,
-    Center,
-    Flex,
-    FormControl,
-    FormLabel,
-    IconButton,
-    Input,
-    InputGroup,
-    InputRightElement,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    NumberDecrementStepper,
-    NumberIncrementStepper,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    Select,
-    SimpleGrid,
-    Table,
-    TableContainer,
-    Tbody,
-    Td,
-    Text,
-    Th,
-    Thead,
-    Tr,
-    useColorModeValue,
-    useDisclosure,
-    Skeleton,
-    useToast,
-    Tooltip,
-    Box,
+  Button,
+  Center,
+  Flex,
+  FormControl,
+  FormLabel,
+  IconButton,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Select,
+  SimpleGrid,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue,
+  useDisclosure,
+  Skeleton,
+  useToast,
+  Tooltip,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
@@ -50,8 +47,8 @@ import { lazyload, placeholder } from "@cloudinary/react";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
 import PageIndicator from "../../../components/PageIndicator";
+import { format } from "date-fns";
 export default function ValuationStaffDashboard() {
-  const bgColor = useColorModeValue("white", "gray.800");
   const navigate = useNavigate();
   const toast = useToast();
   const user = useContext(UserContext);
@@ -318,7 +315,11 @@ export default function ValuationStaffDashboard() {
                   <Tr key={index}>
                     <Td>{index + 1}</Td>
                     <Td>{item?.valuationResultId}</Td>
-                    <Td>{item?.createdDate || "N/A"}</Td>
+                    <Td>
+                      {item?.createdDate
+                        ? format(item?.createdDate, "dd/MM/yyyy - HH:mm:ss")
+                        : "N/A"}
+                    </Td>
                     <Td>{item?.serviceName}</Td>
                     <Td>{item?.status}</Td>
                     <Td>
@@ -341,6 +342,7 @@ export default function ValuationStaffDashboard() {
           <Center m={"50px 0 0 0"}>
             <PageIndicator
               totalPages={totalPages}
+              currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
           </Center>
@@ -718,7 +720,8 @@ export default function ValuationStaffDashboard() {
                           ) {
                             toast({
                               title: "Diamond Valuation",
-                              description: "Please fill in all the Shape and 4C fields",
+                              description:
+                                "Please fill in all the Shape and 4C fields",
                               position: "top-right",
                               status: "warning",
                               duration: 3000,
@@ -775,40 +778,38 @@ export default function ValuationStaffDashboard() {
               )}
             </Formik>
             <Flex justify={"center"}>
-              <Skeleton isLoaded={diamondImages.length > 0} height={"200px"}>
-                <SimpleGrid columns={4} spacing={10}>
-                  {diamondImages?.map((image, index) => {
-                    return (
-                      <>
-                        <Flex direction={"column"} key={index}>
-                          <AdvancedImage
-                            key={index}
-                            cldImg={cld
-                              .image(image)
-                              .resize(thumbnail().width(200).height(200))}
-                            plugins={[
-                              lazyload(),
-                              placeholder({
-                                mode: "blur",
-                              }),
-                            ]}
-                          />
-                          <Button
-                            isDisabled={isDeleted}
-                            isLoading={isDeleted}
-                            colorScheme="red"
-                            onClick={() => {
-                              deleteImages(image);
-                            }}
-                          >
-                            Delete
-                          </Button>
-                        </Flex>
-                      </>
-                    );
-                  })}
-                </SimpleGrid>
-              </Skeleton>
+              <SimpleGrid columns={4} spacing={10}>
+                {diamondImages?.map((image, index) => {
+                  return (
+                    <>
+                      <Flex direction={"column"} key={index}>
+                        <AdvancedImage
+                          key={index}
+                          cldImg={cld
+                            .image(image)
+                            .resize(thumbnail().width(200).height(200))}
+                          plugins={[
+                            lazyload(),
+                            placeholder({
+                              mode: "blur",
+                            }),
+                          ]}
+                        />
+                        <Button
+                          isDisabled={isDeleted}
+                          isLoading={isDeleted}
+                          colorScheme="red"
+                          onClick={() => {
+                            deleteImages(image);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </Flex>
+                    </>
+                  );
+                })}
+              </SimpleGrid>
             </Flex>
           </ModalBody>
           <ModalFooter justifyContent={"center"}>
