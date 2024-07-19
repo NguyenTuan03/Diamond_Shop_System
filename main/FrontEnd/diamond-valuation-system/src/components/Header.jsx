@@ -28,7 +28,9 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./GlobalContext/AuthContext";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import { DriveContext } from "./GlobalContext/DriverContext";
 export default function Header() {
+  const driverRun = useContext(DriveContext);
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
   const bgColor = useColorModeValue("white", "black");
@@ -38,6 +40,13 @@ export default function Header() {
   const modalSignUp = useDisclosure();
   const auth = useContext(UserContext);
   const nav = useNavigate();
+  useEffect(() => {
+    const driver =  JSON.parse(localStorage.getItem("driver"))
+    if (driver) {
+      driverRun.driverObj.drive();
+      localStorage.removeItem("driver");
+    } 
+  },[])
   const handleLogout = () => {
     localStorage.removeItem("user");
     setTimeout(() => {
@@ -113,7 +122,7 @@ export default function Header() {
           </Flex>
           <Link to={routes.home}>
             <Flex
-            
+              className="step0"
               direction={"row"}
               flex={{ base: 6, md: 1, lg: 1 }}
               alignItems={"center"}
@@ -147,17 +156,17 @@ export default function Header() {
             justify={"center"}
             gap={20}
           >
-            <Link to={routes.diamondCheck}>
+            <Link to={routes.diamondCheck} className="step1">
               <Text fontSize={"lg"} fontWeight={"bold"}>
                 Diamond Check
               </Text>
             </Link>
-            <Link to={routes.diamondCalculate}>
+            <Link to={routes.diamondCalculate} className="step2">
               <Text fontSize={"lg"} fontWeight={"bold"}>
                 Valuation
               </Text>
             </Link>
-            <Link to={routes.prices}>
+            <Link to={routes.prices} className="step3">
               <Text fontSize={"lg"} fontWeight={"bold"}>
                 Price
               </Text>
@@ -171,7 +180,7 @@ export default function Header() {
               >
                 <Link to={"/"}>
                   <Flex direction={"row"} gap={2} alignItems={"center"}>
-                    <Text fontSize={"lg"} fontWeight={"bold"}>
+                    <Text fontSize={"lg"} fontWeight={"bold"} className="step4">
                       Education
                     </Text>
                     <ChevronDownIcon />
@@ -238,7 +247,7 @@ export default function Header() {
                   rightIcon={<ChevronDownIcon />}
                   bg={colorMode}
                 >
-                  <Avatar
+                  <Avatar className="step5"
                     name={auth.userAuth.fullname || auth.userAuth.username}
                     src={auth.userAuth.picture}
                   />
