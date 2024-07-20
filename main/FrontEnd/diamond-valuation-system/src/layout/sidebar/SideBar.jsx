@@ -51,7 +51,7 @@ const SideBar = () => {
   const bg = useColorModeValue("gray.800", "black");
   const color = useColorModeValue("white", "gray.200");
   const hoverBg = useColorModeValue("gray.700", "gray.600");
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobile] = useMediaQuery("(max-width: 856px)");
   const handleLogout = () => {
     localStorage.removeItem("user");
     setTimeout(() => {
