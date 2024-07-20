@@ -44,7 +44,7 @@ import Profile from "../../components/Profile";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { TfiReceipt } from "react-icons/tfi";
 import { TbDiamond } from "react-icons/tb";
-
+import { GoBlocked } from "react-icons/go";
 const SideBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const auth = useContext(UserContext);
@@ -87,12 +87,17 @@ const SideBar = () => {
       label: "Manage Account",
     },
     {
+      role: ["Admin"],
+      path: routes.inactiveAccount,
+      icon: GoBlocked,
+      label: "Inactive Account",
+    },
+    {
       role: ["Manager"],
       path: routes.manageService,
       icon: GiCheckeredDiamond,
       label: "Manage Service",
     },
-
     {
       role: ["Manager"],
       path: "#",
@@ -309,6 +314,7 @@ const SideBar = () => {
                 <Text ml="4">Dashboard</Text>
               </Flex>
             </Link>
+            {console.log(auth.userAuth)}
             {isUsers &&
               menuItems
                 .filter((item) => {

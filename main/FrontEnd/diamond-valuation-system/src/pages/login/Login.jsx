@@ -96,11 +96,11 @@ export default function Login({ signIn, signUp }) {
 
     const handleCredentialResponse = async (response) => {
         try {
-            var decoded = jwtDecode(response.credential);
+            const decoded = jwtDecode(response.credential);
             auth.loginUser(decoded);
             setIsLogin(true);
-            console.log("google: ", decoded);
             const res = await loginWithGoogle(decoded.email, decoded.name);
+            console.log(res);            
             if (res) {
                 toast.success("Login Successful", {
                     position: "top-right",
@@ -113,11 +113,15 @@ export default function Login({ signIn, signUp }) {
                     theme: "light",
                     transition: Bounce,
                 });
+                window.location.reload();
                 localStorage.setItem("user", JSON.stringify(res));
             } else {
                 localStorage.setItem("user", JSON.stringify(res));
             }
-            document.getElementById("buttonDiv").hidden = true;
+            const buttonDiv = document.getElementById("buttonDiv");
+            if (buttonDiv) {
+                buttonDiv.hidden = true;
+            }
         } catch (error) {
             console.error("Error handling Google login:", error);
         }

@@ -182,12 +182,12 @@ export default function DashBoardAppoint() {
             boxShadow="sm"
             borderRadius="md"
             maxW="100%"
-            minW="100%"
+            
           >
             <Text py={3} fontSize="lg" pl={4}>
               APPOINTMENTS
             </Text>
-            {request.length === 0 ? (
+            {request?.length === 0 ? (
               <Box variant="simple" bg="gray.200" color="black" p={3}>
                 There's no API available
               </Box>
@@ -205,7 +205,7 @@ export default function DashBoardAppoint() {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {request.map((req, i) => {
+                      {request?.map((req, i) => {
                         return (
                           <Tr key={i}>
                             <Td>{i + 1}</Td>
