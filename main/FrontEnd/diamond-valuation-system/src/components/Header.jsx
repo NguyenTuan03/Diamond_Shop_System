@@ -27,10 +27,7 @@ import Login from "../pages/login/Login";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./GlobalContext/AuthContext";
 import { Bounce, ToastContainer, toast } from "react-toastify";
-import { jwtDecode } from "jwt-decode";
-import { DriveContext } from "./GlobalContext/DriverContext";
 export default function Header() {
-    const driverRun = useContext(DriveContext);
     const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onToggle } = useDisclosure();
     const bgColor = useColorModeValue("white", "black");
@@ -40,13 +37,6 @@ export default function Header() {
     const modalSignUp = useDisclosure();
     const auth = useContext(UserContext);
     const nav = useNavigate();
-    useEffect(() => {
-        const driver = JSON.parse(localStorage.getItem("driver"));
-        if (driver === true) {
-            driverRun.driverObj.drive();
-            localStorage.removeItem("driver");
-        }
-    }, []);
     const handleLogout = () => {
         localStorage.removeItem("user");
         setTimeout(() => {
