@@ -289,9 +289,19 @@ export default function ServiceTable() {
           </Button>
         </Center>
         <Skeleton isLoaded={service.length > 0} h={"300px"}>
-          <TableContainer shadow={"md"} borderRadius={"md"}>
-            <Table>
-              <Thead bg={"blue.400"}>
+          <TableContainer
+            whiteSpace={"wrap"}
+            mb={5}
+            p={8}
+            border={"2px solid"}
+            borderColor={"gray.100"}
+            boxShadow="sm"
+            borderRadius="24px"
+            maxW="100%"
+            minW="100%"
+          >
+            <Table variant={"unstyled"}>
+              <Thead>
                 <Tr>
                   <Th>ID</Th>
                   <Th>Name</Th>

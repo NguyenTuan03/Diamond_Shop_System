@@ -81,27 +81,29 @@ export default function CommitmentTable() {
           <Center>No commitment to show</Center>
         ) : (
           <Skeleton isLoaded={commitment?.length > 0} height={"200px"}>
-            <TableContainer shadow="md" borderRadius="md">
-              <Table>
-                <Thead
-                  bg="gray.600"
-                  color="white"
-                  mb={5}
-                  boxShadow="sm"
-                  borderRadius="md"
-                  maxW="100%"
-                  minW="100%"
-                >
+            <TableContainer
+              whiteSpace={"wrap"}
+              mb={5}
+              p={8}
+              border={"2px solid"}
+              borderColor={"gray.100"}
+              boxShadow="sm"
+              borderRadius="24px"
+              maxW="100%"
+              minW="100%"
+            >
+              <Table variant={"unstyled"}>
+                <Thead>
                   <Tr>
-                    <Th color="white">ID</Th>
-                    <Th color="white">Request ID</Th>
-                    <Th color="white">Customer Name</Th>
-                    <Th color="white">Created Date</Th>
-                    <Th color="white">Description</Th>
-                    <Th color="white">View</Th>
+                    <Th>ID</Th>
+                    <Th>Request ID</Th>
+                    <Th>Customer Name</Th>
+                    <Th>Created Date</Th>
+                    <Th>Description</Th>
+                    <Th>View</Th>
                   </Tr>
                 </Thead>
-                <Tbody variant="simple" bg="gray.200" color="black">
+                <Tbody >
                   {commitment?.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>

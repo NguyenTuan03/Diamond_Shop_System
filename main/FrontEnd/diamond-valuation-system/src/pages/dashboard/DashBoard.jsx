@@ -187,9 +187,9 @@ export default function DashBoardAppoint() {
             <Text py={3} fontSize="lg" pl={4}>
               APPOINTMENTS
             </Text>
-            {request.length === 0 ? (
+            {request?.length === 0 ? (
               <Box variant="simple" bg="gray.200" color="black" p={3}>
-                There's no API available
+                No appointment to show
               </Box>
             ) : (
               <Link to={routes.dashboardAppoint}>
@@ -374,7 +374,7 @@ export default function DashBoardAppoint() {
               </CardHeader>
               <CardBody>
                 <Center gap={2}>
-                  <Text fontSize={"5xl"}>{requestStatus[0].total}</Text>
+                  <Text fontSize={"5xl"}>{requestStatus[7].total}</Text>
                 </Center>
               </CardBody>
             </Card>

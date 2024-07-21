@@ -133,15 +133,15 @@ export default function ValuatedDiamondTable() {
                 </Tbody>
               </Table>
             </TableContainer>
+            <Center m={"50px 0 0 0"}>
+              <PageIndicator
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </Center>
           </Skeleton>
         )}
-        <Center m={"50px 0 0 0"}>
-          <PageIndicator
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </Center>
       </Flex>
       <ValuationResultModal
         selectedValuationResult={selectedValuationResult}

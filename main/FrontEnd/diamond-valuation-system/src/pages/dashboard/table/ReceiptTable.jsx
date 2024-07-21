@@ -154,16 +154,17 @@ export default function ReceiptTable() {
                 </Tbody>
               </Table>
             </TableContainer>
+            <Center m={"50px 0 0 0"}>
+              <PageIndicator
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </Center>
           </Skeleton>
         )}
-        <Center m={"50px 0 0 0"}>
-          <PageIndicator
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </Center>
       </Flex>
+
       <ReceiptModal
         viewReceipt={viewReceipt}
         selectedValuationReceipt={selectedValuationReceipt}
