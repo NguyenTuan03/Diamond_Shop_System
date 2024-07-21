@@ -33,6 +33,7 @@ import { format, parseISO } from "date-fns";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
+import { motion } from "framer-motion";
 
 export default function CommitmentTable() {
   const user = useContext(UserContext);
@@ -103,9 +104,15 @@ export default function CommitmentTable() {
                     <Th>View</Th>
                   </Tr>
                 </Thead>
-                <Tbody >
+                <Tbody>
                   {commitment?.map((item, index) => (
-                    <Tr key={index} _hover={{ bg: "gray.100" }}>
+                    <Tr
+                      key={index}
+                      as={motion.tr}
+                      whileHover={{ scale: 1.02 }}
+                      transition="0.1s linear"
+                      _hover={{ bg: "gray.100" }}
+                    >
                       <Td>{item?.id}</Td>
                       <Td>
                         <Link
