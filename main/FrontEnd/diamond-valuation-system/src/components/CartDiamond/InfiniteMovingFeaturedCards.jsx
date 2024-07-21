@@ -56,7 +56,7 @@ const InfiniteMovingFeaturedCards = () => {
             isLoaded={valuationResult?.length > 0}
             noOfLines={3}
           >
-            <Link
+            {/* <Link
               to={routes?.diamondCheck + "/" + valuationResult[index]?.id}
               reloadDocument
               key={index}
@@ -67,7 +67,7 @@ const InfiniteMovingFeaturedCards = () => {
                 title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
                 title3={`ID ${valuationResult[index]?.id}`}
               />
-            </Link>
+            </Link> */}
           </Skeleton>
         ))}
         {images?.map((image, index) => (
