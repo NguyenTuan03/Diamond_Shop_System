@@ -15,6 +15,7 @@ export default function PageIndicator({
           colorScheme="blue"
           variant={"outline"}
           border={"none"}
+          bg={currentPage === i ? "blue.100" : "transparent"}
           onClick={() => {
             setCurrentPage(i);
           }}
