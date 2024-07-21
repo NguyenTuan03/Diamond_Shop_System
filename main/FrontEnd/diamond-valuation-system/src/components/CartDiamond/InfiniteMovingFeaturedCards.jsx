@@ -53,7 +53,7 @@ const InfiniteMovingFeaturedCards = () => {
         {images.map((image, index) => (
           <Skeleton
             key={index}
-            isLoaded={valuationResult.length > 0}
+            isLoaded={valuationResult?.length > 0}
             noOfLines={3}
           >
             <Link
@@ -73,7 +73,7 @@ const InfiniteMovingFeaturedCards = () => {
         {images.map((image, index) => (
           <Skeleton
             key={index}
-            isLoaded={valuationResult.length > 0}
+            isLoaded={valuationResult?.length > 0}
             noOfLines={3}
           >
             <Link
@@ -82,7 +82,7 @@ const InfiniteMovingFeaturedCards = () => {
               key={index}
             >
               <FeaturedCard
-                key={index + images.length}
+                key={index + images?.length}
                 imageSrc={image.src}
                 title1={`${valuationResult[index]?.shape} · ${valuationResult[index]?.carat} Carat · ${valuationResult[index]?.color} Color`}
                 title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
