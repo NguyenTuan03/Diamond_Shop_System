@@ -57,7 +57,7 @@ const InfiniteMovingFeaturedCards = () => {
             noOfLines={3}
           >
             <Link
-              to={routes.diamondCheck + "/" + valuationResult[index]?.id}
+              to={routes?.diamondCheck + "/" + valuationResult[index]?.id}
               reloadDocument
               key={index}
             >
