@@ -50,7 +50,7 @@ const InfiniteMovingFeaturedCards = () => {
         animation="marquee 20s linear infinite"
         display="inline-flex"
       >
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <Skeleton
             key={index}
             isLoaded={valuationResult?.length > 0}
@@ -70,7 +70,7 @@ const InfiniteMovingFeaturedCards = () => {
             </Link>
           </Skeleton>
         ))}
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <Skeleton
             key={index}
             isLoaded={valuationResult?.length > 0}
@@ -83,7 +83,7 @@ const InfiniteMovingFeaturedCards = () => {
             >
               <FeaturedCard
                 key={index + images?.length}
-                imageSrc={image.src}
+                imageSrc={image?.src}
                 title1={`${valuationResult[index]?.shape} · ${valuationResult[index]?.carat} Carat · ${valuationResult[index]?.color} Color`}
                 title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
                 title3={`ID ${valuationResult[index]?.id}`}
