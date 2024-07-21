@@ -49,7 +49,7 @@ const InfiniteMovingFeaturedCards = () => {
             maxWidth="70vw"
             margin="0 auto"
         >
-            {valuationResult.length <= 0 ? (
+            {valuationResult?.length <= 0 ? (
                 <>
                     <Box textAlign={"center"}>There has not any diamond valuated yet.</Box>
                 </>
@@ -59,7 +59,7 @@ const InfiniteMovingFeaturedCards = () => {
                     animation="marquee 20s linear infinite"
                     display="inline-flex"
                 >
-                    {valuationResult.map((image, index) => (
+                    {valuationResult?.map((image, index) => (
                         <Skeleton
                             key={index}
                             isLoaded={image.length > 0}
@@ -73,7 +73,7 @@ const InfiniteMovingFeaturedCards = () => {
                                 key={index}
                             >
                                 <FeaturedCard
-                                    imageSrc={image.src}
+                                    imageSrc={image?.src}
                                     title1={`${image[index]?.shape} · ${image[index]?.carat} Carat · ${image[index]?.color} Color`}
                                     title2={`${image[index]?.origin} · ${image[index]?.clarity} Clarity · ${image[index]?.cut}`}
                                     title3={`ID ${image[index]?.id}`}
