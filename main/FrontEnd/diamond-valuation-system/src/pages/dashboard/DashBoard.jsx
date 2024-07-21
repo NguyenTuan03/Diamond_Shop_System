@@ -210,7 +210,7 @@ export default function DashBoardAppoint() {
                           <Tr key={i}>
                             <Td>{i + 1}</Td>
                             <Td>{req.customerName}</Td>
-                            <Td>{req.createdDate?.slice(0, 10)}</Td>
+                            <Td>{req.createdDate?.slice(0, 3)}</Td>
                             <Td>{req.description}</Td>
                             <Td>Contacting...</Td>
                           </Tr>

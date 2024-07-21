@@ -73,89 +73,111 @@ export default function ReceiptModal({
         </ModalHeader>
         <ModalBody>
           <Skeleton isLoaded={selectedValuationReceipt !== null}>
-            <Flex direction={"column"} gap={5} p={5}>
-              <Flex direction={"column"} align={"center"} gap={5}>
+            <Flex
+              direction={"column"}
+              gap={5}
+              p={5}
+              maxW="container.lg"
+              mx="auto"
+            >
+              {/* Header */}
+              <Flex direction={"column"} align={"center"} mb={5}>
                 <Text fontSize={"3xl"} fontWeight={"bold"}>
-                  Receipt
+                  Receipt Transaction
                 </Text>
               </Flex>
-              <Text>
-                <strong>ID</strong>: {selectedValuationReceipt?.id || "N/A"}
-              </Text>
-              <Text>
-                <strong>Company</strong>: DiamondVal
-              </Text>
-              <Text>
-                <strong>Date</strong>:{" "}
-                {selectedValuationReceipt?.createdDate
-                  ? format(
-                      parseISO(selectedValuationReceipt?.createdDate),
-                      "dd/MM/yyyy - HH:mm:ss"
-                    )
-                  : "N/A"}
-              </Text>
-              <Text>
-                <strong>RE</strong>: Diamond Valuation Receipt
-              </Text>
-              <Text>
-                <strong>Transaction No</strong>:{" "}
-                {selectedValuationReceipt?.transactionNo || "N/A"}
-              </Text>
-              <Text>
-                <strong>Payment Date</strong>:{" "}
-                {selectedValuationReceipt?.paymentDate
-                  ? format(
-                      parseISO(selectedValuationReceipt?.paymentDate),
-                      "dd/MM/yyyy - HH:mm:ss"
-                    )
-                  : "N/A"}
-              </Text>
-              <Text>
-                <strong>Bank</strong>: {selectedValuationReceipt?.bank || "N/A"}
-              </Text>
-              <Text>
-                <strong>Amount</strong>:{" "}
-                {selectedValuationReceipt?.amount || "N/A"}
-              </Text>
-              <Text>
-                <strong>Order Info</strong>:{" "}
-                {selectedValuationReceipt?.orderInfo || "N/A"}
-              </Text>
 
-              <Text>We include: </Text>
-              <Flex gap={10}>
-                <Flex direction={"column"} align={"start"} gap={5}>
-                  <Text fontWeight={"bold"}>Customer side (Send diamond)</Text>
-                  <UnorderedList spacing={2}>
-                    <ListItem>
-                      Name: {selectedValuationReceipt?.customerName || "N/A"}
+              {/* Receipt Details */}
+              <Flex direction={"column"} gap={3} mb={5}>
+                <Text>
+                  <strong>ID</strong>: {selectedValuationReceipt?.id || "N/A"}
+                </Text>
+                <Text>
+                  <strong>Company</strong>: Diamond Valuation
+                </Text>
+                <Text>
+                  <strong>Date Create Receipt</strong>:{" "}
+                  {selectedValuationReceipt?.createdDate
+                    ? format(
+                        parseISO(selectedValuationReceipt?.createdDate),
+                        "dd/MM/yyyy - HH:mm:ss"
+                      )
+                    : "N/A"}
+                </Text>
+                <Text>
+                  <strong>RE</strong>: Diamond Valuation Receipt
+                </Text>
+                <Flex>
+                  <Text w={"50%"}>
+                    <strong>Transaction No</strong>:{" "}
+                    {selectedValuationReceipt?.transactionNo || "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>Payment Date</strong>:{" "}
+                    {selectedValuationReceipt?.paymentDate
+                      ? format(
+                          parseISO(selectedValuationReceipt?.paymentDate),
+                          "dd/MM/yyyy - HH:mm:ss"
+                        )
+                      : "N/A"}
+                  </Text>
+                </Flex>
+                <Flex>
+                  <Text w={"50%"}>
+                    <strong>Bank</strong>:{" "}
+                    {selectedValuationReceipt?.bank || "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>Amount</strong>:{" "}
+                    {selectedValuationReceipt?.amount || "N/A"} VND
+                  </Text>
+                </Flex>
+                <Text>
+                  <strong>Order Info</strong>:{" "}
+                  {selectedValuationReceipt?.orderInfo || "N/A"}
+                </Text>
+              </Flex>
+
+              <Text fontWeight={"bold"} fontStyle={"italic"}>RELATED PARIES :</Text>
+              <Flex justify={"space-between"} mb={5}>
+                <Flex direction={"column"} align={"start"} gap={2} flex="1">
+                  <Text fontWeight={"bold"} >Customer Side (Send diamond)</Text>
+                  <UnorderedList spacing={1}>
+                    <ListItem fontWeight={"bold"}>
+                      Customer:{" "}
+                      <strong  style={{fontFamily: "'Lucida Calligraphy', cursive" }}>
+                        {selectedValuationReceipt?.customerName ||
+                          "N/A"}
+                      </strong>
                     </ListItem>
                     <ListItem>
-                      Phone Number:{" "}
-                      {selectedValuationReceipt?.customerPhone || "N/A"}
+                     <strong>Phone: </strong> {selectedValuationReceipt?.customerPhone || "N/A"}
                     </ListItem>
                   </UnorderedList>
                 </Flex>
-                <Flex direction={"column"} align={"start"} gap={5}>
+                <Flex direction={"column"} align={"start"} gap={2} flex="1">
                   <Text fontWeight={"bold"}>
-                    Company side (Receive diamond)
+                    Company Side (Receive diamond)
                   </Text>
-                  <UnorderedList spacing={2}>
-                    <ListItem>
-                      Name:{" "}
-                      {selectedValuationReceipt?.consultingStaffName || "N/A"}
+                  <UnorderedList spacing={1}>
+                    <ListItem fontWeight={"bold"}>
+                      Staff:{" "}
+                      <strong  style={{fontFamily: "'Lucida Calligraphy', cursive" }}>
+                        {selectedValuationReceipt?.consultingStaffName ||
+                          "N/A"}
+                      </strong>
                     </ListItem>
                     <ListItem>
-                      Phone Number:{" "}
+                      <strong>Phone: </strong>
                       {selectedValuationReceipt?.consultingStaffPhone || "N/A"}
                     </ListItem>
                   </UnorderedList>
                 </Flex>
               </Flex>
-              <Text>
-                Both are agree to about give and receive the diamond below
+              <Text mb={5}>
+                Both are agreed about giving and receiving the diamond below.
               </Text>
-              <TableContainer>
+              <TableContainer mb={5}>
                 <Table size={"sm"} colorScheme="blue">
                   <Thead bg={"blue.400"}>
                     <Tr>
@@ -175,35 +197,37 @@ export default function ReceiptModal({
                   </Tbody>
                 </Table>
               </TableContainer>
-              <SimpleGrid columns={4} spacing={5}>
-                {diamondImages.map((image, index) => {
-                  return (
-                    <Flex direction={"column"} key={index}>
-                      <AdvancedImage
-                        cldImg={cld
-                          .image(image)
-                          .resize(thumbnail().width(200).height(200))}
-                        plugins={[lazyload(), placeholder({ mode: "blur" })]}
-                      />
-                    </Flex>
-                  );
-                })}
+
+              {/* Diamond Images */}
+              <SimpleGrid columns={4} spacing={5} mb={5}>
+                {diamondImages.map((image, index) => (
+                  <Flex direction={"column"} key={index}>
+                    <AdvancedImage
+                      cldImg={cld
+                        .image(image)
+                        .resize(thumbnail().width(200).height(200))}
+                      plugins={[lazyload(), placeholder({ mode: "blur" })]}
+                    />
+                  </Flex>
+                ))}
               </SimpleGrid>
-              <Text>
-                Company side confirmed that Customer side has given to Company
-                side the right diamond with that quantity.
+
+              {/* Footer */}
+              <Text mb={5}>
+                Company side confirmed that Customer side has given the right
+                diamond with the correct quantity.
               </Text>
-              <Text>
-                Both are agreed to the above information and signed below & the
-                receipt will be copied for both sides. Each will receive a copy
+              <Text mb={5}>
+                Both are agreed to the above information and signed below. The
+                receipt will be copied for both sides. Each will receive a copy,
                 and they both have the same validity.
               </Text>
-              <Flex justify={"space-between"} p={10}>
-                <Flex direction={"column"} align={"start"} gap={5}>
+              <Flex justify={"space-between"} px={10} fontWeight={"bold"}>
+                <Flex direction={"column"} align={"center"} gap={2}>
                   <Text>Customer side</Text>
                   <Text>Signature</Text>
                 </Flex>
-                <Flex direction={"column"} align={"end"} gap={5}>
+                <Flex direction={"column"} align={"center"} gap={2}>
                   <Text>Company side</Text>
                   <Text>Signature</Text>
                 </Flex>
