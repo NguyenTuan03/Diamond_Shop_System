@@ -33,6 +33,7 @@ export default function DiamondValuationRequest() {
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUpLoading] = useState(false);
   const bgColor = useColorModeValue("white", "black");
+  const bgColor1 = useColorModeValue("blue.400", "yellow.500");
   const toast = useToast();
   const navigate = useNavigate();
   const createPendingRequest = async (customerId, description, token) => {
