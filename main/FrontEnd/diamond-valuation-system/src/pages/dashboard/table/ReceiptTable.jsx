@@ -1,6 +1,4 @@
 import {
-  Box,
-  Button,
   Center,
   Flex,
   IconButton,
@@ -14,9 +12,7 @@ import {
   Thead,
   Tooltip,
   Tr,
-  useBreakpointValue,
   useDisclosure,
-  VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
@@ -28,7 +24,8 @@ import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
 import ReceiptModal from "../modal/ReceiptModal";
 import { ViewIcon } from "@chakra-ui/icons";
-import { PiFileTextBold } from "react-icons/pi";
+import { motion } from "framer-motion";
+
 export default function ReceiptTable() {
   const user = useContext(UserContext);
   const isUsers =
@@ -63,8 +60,6 @@ export default function ReceiptTable() {
   useEffect(() => {
     fetchReceipt(user.userAuth.id, currentPage);
   }, []);
-
-  const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <>
       <Flex direction={"column"} gap={10}>
@@ -76,179 +71,109 @@ export default function ReceiptTable() {
         {totalPages === 0 ? (
           <Center>No receipt to show</Center>
         ) : (
-          <Skeleton isLoaded={receipts.length > 0} height={"100px"}>
-            {isMobile ? (
-              <>
-                {receipts.map((receipt, index) => (
-                  <Box
-                    key={index}
-                    shadow="md"
-                    borderWidth="1px"
-                    borderRadius="md"
-                    w="100%"
-                    bg="gray.50"
-                    p={4}
-                    marginBottom={"20px"}
-                  >
-                    <Text>
-                      <strong>Request ID: </strong>
-                      {receipt.processRequestId || "N/A"}
-                    </Text>
-                    <Text>
-                      <strong>Created Date:</strong>{" "}
-                      {receipt.createdDate
-                        ? format(parseISO(receipt.createdDate), "dd/MM/yyyy")
-                        : "N/A"}
-                    </Text>
-                    <Text>
-                      <strong>Payment Date:</strong>{" "}
-                      {receipt.paymentDate
-                        ? format(parseISO(receipt.paymentDate), "dd/MM/yyyy")
-                        : "N/A"}
-                    </Text>
-                    <Text>
-                      <strong>Customer: </strong>
-                      {receipt.customerName.toUpperCase()}
-                    </Text>
-                    <Text>
-                      <strong>Staff Name: </strong>
-                      {receipt.consultingStaffName}
-                    </Text>
-                    <Text>
-                      <strong>Description: </strong>
-                      {receipt.description}
-                    </Text>
-                    <Flex justify={"right"}>
-                      <Button
-                        borderRadius={"100px"}
-                        bg={"blue.300"}
-                        color={"white"}
-                        cursor={"pointer"}
-                        _hover={{ bg: "blue.500" }}
-                        onClick={() => {
-                          setSelectedValuationReceipt(receipt);
-                          viewReceipt.onOpen();
-                        }}
-                        aria-label="View Receipt"
-                      >
-                        Detail
-                      </Button>
-                    </Flex>
-                  </Box>
-                ))}
-                <Center mt={"30px"}>
-                  <PageIndicator
-                    totalPages={totalPages}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                  />
-                </Center>
-              </>
-            ) : (
-              <Box overflowX="auto">
-                <TableContainer shadow={"md"} borderRadius={"md"}>
-                  <Table>
-                    <Thead
-                      bg="gray.600"
-                      color="white"
-                      mb={5}
-                      boxShadow="sm"
-                      borderRadius="md"
-                      maxW="100%"
-                      minW="100%"
+          <Skeleton isLoaded={receipts.length > 0} height={"200px"}>
+            <TableContainer
+              whiteSpace={"wrap"}
+              mb={5}
+              p={8}
+              border={"2px solid"}
+              borderColor={"gray.100"}
+              boxShadow="sm"
+              borderRadius="24px"
+              maxW="100%"
+              minW="100%"
+            >
+              <Table variant={"unstyled"}>
+                <Thead>
+                  <Tr>
+                    <Th>No</Th>
+                    <Th>Request ID</Th>
+                    <Th>Created Date</Th>
+                    <Th>Payment Date</Th>
+                    <Th>Customer Name</Th>
+                    <Th>Staff Name</Th>
+                    <Th>Description</Th>
+                    <Th>View</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {receipts.map((receipt, index) => (
+                    <Tr
+                      key={index}
+                      as={motion.tr}
+                      whileHover={{ scale: 1.02 }}
+                      transition="0.1s linear"
+                      _hover={{ bg: "gray.100" }}
                     >
-                      <Tr>
-                        <Th color="white">No</Th>
-                        <Th color="white">Request ID</Th>
-                        <Th color="white">Created Date</Th>
-                        <Th color="white">Payment Date</Th>
-                        <Th color="white">Customer Name</Th>
-                        <Th color="white">Staff Name</Th>
-                        <Th color="white">Description</Th>
-                        <Th color="white">View</Th>
-                      </Tr>
-                    </Thead>
-                    <Tbody variant="simple" bg="gray.200" color="black">
-                      {receipts.map((receipt, index) => (
-                        <Tr key={index} _hover={{ bg: "gray.100" }}>
-                          <Td>{index + 1}</Td>
-                          <Td>
-                            <Link
-                              to={routes.processRequest}
-                              state={{
-                                processRequestId: receipt?.processRequestId,
-                              }}
+                      <Td>{index + 1}</Td>
+                      <Td>
+                        <Link
+                          to={routes.processRequest}
+                          state={{
+                            processRequestId: receipt?.processRequestId,
+                          }}
+                        >
+                          <Tooltip label="Click to view process request">
+                            <Flex
+                              p={2}
+                              gap={2}
+                              align={"center"}
+                              justify={"space-around"}
+                              borderRadius={"20px"}
+                              _hover={{ bg: "blue.100" }}
                             >
-                              <Tooltip label="Click to view process request">
-                                <Flex
-                                  p={2}
-                                  gap={2}
-                                  align={"center"}
-                                  justify={"space-around"}
-                                  borderRadius={"20px"}
-                                  _hover={{ bg: "blue.100" }}
-                                >
-                                  {receipt.processRequestId || "N/A"}
-                                  <FaExternalLinkAlt />
-                                </Flex>
-                              </Tooltip>
-                            </Link>
-                          </Td>
-                          <Td>
-                            {receipt.createdDate
-                              ? format(
-                                  parseISO(receipt.createdDate),
-                                  "dd/MM/yyyy - HH:mm:ss"
-                                )
-                              : "N/A"}
-                          </Td>
-                          <Td>
-                            {receipt.paymentDate
-                              ? format(
-                                  parseISO(receipt.paymentDate),
-                                  "dd/MM/yyyy - HH:mm:ss"
-                                )
-                              : "N/A"}
-                          </Td>
-                          <Td>{receipt.customerName}</Td>
-                          <Td>{receipt.consultingStaffName}</Td>
-                          <Td>{receipt.description}</Td>
-                          <Td>
-                            <IconButton
-                              icon={<PiFileTextBold />}
-                              bg={"transparent"}
-                              color={"black"}
-                              onClick={() => {
-                                setSelectedValuationReceipt(receipt);
-                                viewReceipt.onOpen();
-                              }}
-                              aria-label="View Receipt"
-                            />
-                          </Td>
-                        </Tr>
-                      ))}
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-                <Center mt={"30vh"}>
-                  <PageIndicator
-                    totalPages={totalPages}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                  />
-                </Center>
-              </Box>
-            )}
+                              {receipt.processRequestId || "N/A"}
+                              <FaExternalLinkAlt />
+                            </Flex>
+                          </Tooltip>
+                        </Link>
+                      </Td>
+                      <Td>
+                        {receipt.createdDate
+                          ? format(
+                              parseISO(receipt.createdDate),
+                              "dd/MM/yyyy - HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
+                      <Td>
+                        {receipt.paymentDate
+                          ? format(
+                              parseISO(receipt.paymentDate),
+                              "dd/MM/yyyy - HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
+                      <Td>{receipt.customerName}</Td>
+                      <Td>{receipt.consultingStaffName}</Td>
+                      <Td>{receipt.description}</Td>
+                      <Td>
+                        <IconButton
+                          icon={<ViewIcon />}
+                          bg={"transparent"}
+                          color={"black"}
+                          onClick={() => {
+                            setSelectedValuationReceipt(receipt);
+                            viewReceipt.onOpen();
+                          }}
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+            <Center m={"50px 0 0 0"}>
+              <PageIndicator
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </Center>
           </Skeleton>
         )}
-        {/* <Center mt={"50vh"}>
-          <PageIndicator
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </Center> */}
       </Flex>
+
       <ReceiptModal
         viewReceipt={viewReceipt}
         selectedValuationReceipt={selectedValuationReceipt}
