@@ -23,7 +23,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
 import ReceiptModal from "../modal/ReceiptModal";
-import { ViewIcon } from "@chakra-ui/icons";
+import { TbReceipt } from "react-icons/tb";
 import { motion } from "framer-motion";
 
 export default function ReceiptTable() {
@@ -85,7 +85,7 @@ export default function ReceiptTable() {
             >
               <Table variant={"unstyled"}>
                 <Thead>
-                  <Tr>
+                  <Tr bg={"gray.400"}>
                     <Th>No</Th>
                     <Th>Request ID</Th>
                     <Th>Created Date</Th>
@@ -93,7 +93,7 @@ export default function ReceiptTable() {
                     <Th>Customer Name</Th>
                     <Th>Staff Name</Th>
                     <Th>Description</Th>
-                    <Th>View</Th>
+                    <Th>Detail</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -149,7 +149,7 @@ export default function ReceiptTable() {
                       <Td>{receipt.description}</Td>
                       <Td>
                         <IconButton
-                          icon={<ViewIcon />}
+                          icon={<TbReceipt />}
                           bg={"transparent"}
                           color={"black"}
                           onClick={() => {

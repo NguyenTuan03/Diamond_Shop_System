@@ -227,7 +227,7 @@ export default function ProcessRequestTable() {
             >
               <Table variant={"unstyled"}>
                 <Thead>
-                  <Tr>
+                  <Tr bg={"gray.400"}>
                     <Th>ID</Th>
                     {(user.userAuth.roleid === 2 ||
                       user.userAuth.roleid === 3) && <Th>Customer ID</Th>}
