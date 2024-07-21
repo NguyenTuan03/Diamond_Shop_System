@@ -44,7 +44,9 @@ const testimonials = [
 export default function Home() {
     const [currentImage, setCurrentImage] = useState(0);
     const bgColor = useColorModeValue("white", "gray.900");
+    const bgColor1 = useColorModeValue("blue.400", "#CA901C");
     const fontColor = useColorModeValue("gray.600", "yellow.200");
+    const fontColor1 = useColorModeValue("blue.100", "yellow.100");
     const toast = useToast();
     let searchParams = new URLSearchParams(window.location.search);
     useEffect(() => {
@@ -143,7 +145,7 @@ export default function Home() {
                                     md: "left",
                                     lg: "left",
                                 }}
-                                color="#CA901C"
+                                color={bgColor1}
                             >
                                 Compare Top-Rated Jewelers & Save
                             </Text>
@@ -155,7 +157,7 @@ export default function Home() {
                                     md: "left",
                                     lg: "left",
                                 }}
-                                color="yellow.100"
+                                color={fontColor1}
                             >
                                 Navigate the diamond market effortlessly.
                             </Text>
@@ -176,7 +178,7 @@ export default function Home() {
                                             md: "md",
                                             lg: "lg",
                                         }}
-                                        backgroundColor=" #DBA843"
+                                        backgroundColor={bgColor1}
                                         colorScheme="DBA843"
                                         variant="solid"
                                         height="60px"
@@ -198,7 +200,7 @@ export default function Home() {
                                             md: "md",
                                             lg: "lg",
                                         }}
-                                        color="#DBA843"
+                                        color={bgColor1}
                                         colorScheme="DBA843"
                                         variant="outline"
                                         height="60px"
