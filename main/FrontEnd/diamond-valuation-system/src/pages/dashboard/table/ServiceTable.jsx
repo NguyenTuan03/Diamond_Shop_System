@@ -45,6 +45,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import { IoMdCreate } from "react-icons/io";
 import ConfirmAlert from "../../../components/ConfirmAlert";
+import { motion } from "framer-motion";
 
 export default function ServiceTable() {
   const user = useContext(UserContext);
@@ -314,7 +315,13 @@ export default function ServiceTable() {
               </Thead>
               <Tbody>
                 {service?.map((item, index) => (
-                  <Tr key={index} _hover={{ bg: "gray.100" }}>
+                  <Tr
+                    key={index}
+                    as={motion.tr}
+                    whileHover={{ scale: 1.02 }}
+                    transition="0.1s linear"
+                    _hover={{ bg: "gray.100" }}
+                  >
                     <Td>{item?.id}</Td>
                     <Td>{item?.name}</Td>
                     <Td>

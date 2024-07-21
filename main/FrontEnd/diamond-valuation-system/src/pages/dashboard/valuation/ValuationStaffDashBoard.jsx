@@ -50,6 +50,7 @@ import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
 import PageIndicator from "../../../components/PageIndicator";
 import { format } from "date-fns";
+import { motion } from "framer-motion";
 export default function ValuationStaffDashboard() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -316,7 +317,13 @@ export default function ValuationStaffDashboard() {
               </Thead>
               <Tbody>
                 {processResult.map((item, index) => (
-                  <Tr key={index} _hover={{ bg: "gray.100" }}>
+                  <Tr
+                    key={index}
+                    as={motion.tr}
+                    whileHover={{ scale: 1.02 }}
+                    transition="0.1s linear"
+                    _hover={{ bg: "gray.100" }}
+                  >
                     <Td isNumeric>{index + 1}</Td>
                     <Td isNumeric>{item?.valuationResultId}</Td>
                     <Td>

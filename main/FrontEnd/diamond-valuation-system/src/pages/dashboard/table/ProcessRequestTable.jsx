@@ -59,6 +59,7 @@ import {
 import ReceiptModal from "../modal/ReceiptModal";
 import ValuationResultModal from "../modal/ValuationResultModal";
 import ConfirmAlert from "../../../components/ConfirmAlert";
+import { motion } from "framer-motion";
 export default function ProcessRequestTable() {
   const navigate = useNavigate();
   const preProcessRequestId = useLocation().state?.processRequestId;
@@ -232,6 +233,9 @@ export default function ProcessRequestTable() {
                   {sortProcessRequest.map((item, index) => (
                     <Tr
                       key={index}
+                      as={motion.tr}
+                      whileHover={{ scale: 1.02 }}
+                      transition="0.1s linear"
                       bg={
                         preProcessRequestId && item?.id === preProcessRequestId
                           ? "green.100"

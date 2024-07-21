@@ -36,6 +36,7 @@ import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { PiFileTextBold } from "react-icons/pi";
+import { motion } from "framer-motion";
 export default function SealingLetterTable() {
   const user = useContext(UserContext);
   const isUsers =
@@ -109,7 +110,13 @@ export default function SealingLetterTable() {
                 </Thead>
                 <Tbody>
                   {sealingLetter.map((item, index) => (
-                    <Tr key={index} _hover={{ bg: "gray.100" }}>
+                    <Tr
+                      key={index}
+                      as={motion.tr}
+                      whileHover={{ scale: 1.02 }}
+                      transition="0.1s linear"
+                      _hover={{ bg: "gray.100" }}
+                    >
                       <Td>{item?.id}</Td>
                       <Td>
                         {item?.createdDate

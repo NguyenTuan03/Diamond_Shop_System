@@ -46,6 +46,7 @@ import ZaloChat from "../../../components/zalo/ZaloChat";
 import { useNavigate } from "react-router-dom";
 import routes from "../../../config/Config";
 import ConfirmAlert from "../../../components/ConfirmAlert";
+import { motion } from "framer-motion";
 export default function PendingRequestTable() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -138,7 +139,13 @@ export default function PendingRequestTable() {
                 </Thead>
                 <Tbody>
                   {pendingRequest.map((item, index) => (
-                    <Tr key={index} _hover={{bg:"gray.100"}}>
+                    <Tr
+                      key={index}
+                      as={motion.tr}
+                      whileHover={{ scale: 1.02 }}
+                      transition="0.1s linear"
+                      _hover={{ bg: "gray.100" }}
+                    >
                       <Td>{index + 1}</Td>
                       <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.customerEmail || "N/A"}</Td>
