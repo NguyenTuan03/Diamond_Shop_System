@@ -82,45 +82,54 @@ export default function ReceiptModal({
               <Text>
                 <strong>ID</strong>: {selectedValuationReceipt?.id || "N/A"}
               </Text>
-              <Text>
-                <strong>Company</strong>: DiamondVal
-              </Text>
-              <Text>
-                <strong>Date</strong>:{" "}
-                {selectedValuationReceipt?.createdDate
-                  ? format(
-                      parseISO(selectedValuationReceipt?.createdDate),
-                      "dd/MM/yyyy - HH:mm:ss"
-                    )
-                  : "N/A"}
-              </Text>
-              <Text>
-                <strong>RE</strong>: Diamond Valuation Receipt
-              </Text>
-              <Text>
-                <strong>Transaction No</strong>:{" "}
-                {selectedValuationReceipt?.transactionNo || "N/A"}
-              </Text>
-              <Text>
-                <strong>Payment Date</strong>:{" "}
-                {selectedValuationReceipt?.paymentDate
-                  ? format(
-                      parseISO(selectedValuationReceipt?.paymentDate),
-                      "dd/MM/yyyy - HH:mm:ss"
-                    )
-                  : "N/A"}
-              </Text>
-              <Text>
-                <strong>Bank</strong>: {selectedValuationReceipt?.bank || "N/A"}
-              </Text>
-              <Text>
-                <strong>Amount</strong>:{" "}
-                {selectedValuationReceipt?.amount || "N/A"}
-              </Text>
-              <Text>
-                <strong>Order Info</strong>:{" "}
-                {selectedValuationReceipt?.orderInfo || "N/A"}
-              </Text>
+              <Flex gap={10}>
+                <Flex direction={"column"} align={"start"} gap={5}>
+                  <Text>
+                    <strong>Company</strong>: DiamondVal
+                  </Text>
+                  <Text>
+                    <strong>Date</strong>:{" "}
+                    {selectedValuationReceipt?.createdDate
+                      ? format(
+                          parseISO(selectedValuationReceipt?.createdDate),
+                          "dd/MM/yyyy - HH:mm:ss"
+                        )
+                      : "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>RE</strong>: Diamond Valuation Receipt
+                  </Text>
+                </Flex>
+                <Flex direction={"column"} align={"start"} gap={5}>
+                  <Text>
+                    <strong>Transaction No</strong>:{" "}
+                    {selectedValuationReceipt?.transactionNo || "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>Payment Date</strong>:{" "}
+                    {selectedValuationReceipt?.paymentDate
+                      ? format(
+                          parseISO(selectedValuationReceipt?.paymentDate),
+                          "dd/MM/yyyy - HH:mm:ss"
+                        )
+                      : "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>Bank</strong>:{" "}
+                    {selectedValuationReceipt?.bank || "N/A"}
+                  </Text>
+                </Flex>
+                <Flex direction={"column"} align={"start"} gap={5}>
+                  <Text>
+                    <strong>Amount</strong>:{" "}
+                    {selectedValuationReceipt?.amount || "N/A"}
+                  </Text>
+                  <Text>
+                    <strong>Order Info</strong>:{" "}
+                    {selectedValuationReceipt?.orderInfo || "N/A"}
+                  </Text>
+                </Flex>
+              </Flex>
 
               <Text>We include: </Text>
               <Flex gap={10}>

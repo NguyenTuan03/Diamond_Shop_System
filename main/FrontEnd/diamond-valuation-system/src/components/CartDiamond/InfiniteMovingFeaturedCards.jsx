@@ -26,63 +26,59 @@ const images = [
 ];
 
 const InfiniteMovingFeaturedCards = () => {
-    const [valuationResult, setValuationResult] = useState([]);
-    const fetchValuatedValuationResult = async () => {
-        axios
-            .get(
-                `${
-                    import.meta.env.VITE_REACT_APP_BASE_URL
-                }/api/valuation-result/get/all/valuated?page=${1}`
-            )
-            .then((response) => {
-                setValuationResult(response.data.content);
-            });
-    };
-    useEffect(() => {
-        fetchValuatedValuationResult();
-        console.log(valuationResult);
-    }, []);
-    return (
-        <Box
-            overflow="hidden"
-            whiteSpace="nowrap"
-            maxWidth="70vw"
-            margin="0 auto"
-        >
-            {valuationResult.length <= 0 ? (
-                <>
-                    <Box textAlign={"center"}>There has not any diamond valuated yet.</Box>
-                </>
-            ) : (
-                <Flex
-                    as="div"
-                    animation="marquee 20s linear infinite"
-                    display="inline-flex"
-                >
-                    {valuationResult.map((image, index) => (
-                        <Skeleton
-                            key={index}
-                            isLoaded={image.length > 0}
-                            noOfLines={3}
-                        >
-                            <Link
-                                to={
-                                    routes.diamondCheck + "/" + image[index]?.id
-                                }
-                                reloadDocument
-                                key={index}
-                            >
-                                <FeaturedCard
-                                    imageSrc={image.src}
-                                    title1={`${image[index]?.shape} · ${image[index]?.carat} Carat · ${image[index]?.color} Color`}
-                                    title2={`${image[index]?.origin} · ${image[index]?.clarity} Clarity · ${image[index]?.cut}`}
-                                    title3={`ID ${image[index]?.id}`}
-                                />
-                            </Link>
-                        </Skeleton>
-                    ))}
-                </Flex>
-            )}
+  const [valuationResult, setValuationResult] = useState([]);
+  const fetchValuatedValuationResult = async () => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-result/get/all/valuated?page=${1}`
+      )
+      .then((response) => {
+        setValuationResult(response.data.content);
+      });
+  };
+  useEffect(() => {
+    fetchValuatedValuationResult();
+    console.log(valuationResult);
+  }, []);
+  return (
+    <Box overflow="hidden" whiteSpace="nowrap" maxWidth="70vw" margin="0 auto">
+      <Flex
+        as="div"
+        animation="marquee 20s linear infinite"
+        display="inline-flex"
+      >
+        {images.map((image, index) => (
+          <Link
+            to={routes.diamondCheck + "/" + valuationResult[index]?.id}
+            reloadDocument
+            key={index}
+          >
+            <FeaturedCard
+              imageSrc={image.src}
+              title1={`${valuationResult[index]?.shape} · ${valuationResult[index]?.carat} Carat · ${valuationResult[index]?.color} Color`}
+              title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
+              title3={`ID ${valuationResult[index]?.id}`}
+            />
+          </Link>
+        ))}
+        {images.map((image, index) => (
+          <Link
+            to={routes.diamondCheck + "/" + valuationResult[index]?.id}
+            reloadDocument
+            key={index}
+          >
+            <FeaturedCard
+              key={index + images.length}
+              imageSrc={image.src}
+              title1={`${valuationResult[index]?.shape} · ${valuationResult[index]?.carat} Carat · ${valuationResult[index]?.color} Color`}
+              title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
+              title3={`ID ${valuationResult[index]?.id}`}
+            />
+          </Link>
+        ))}
+      </Flex>
 
             <style jsx>{`
                 @keyframes marquee {

@@ -69,6 +69,7 @@ export default function DiamondCheck() {
                     <FormControl isRequired>
                       <Input
                         name="id"
+                        type="number"
                         onChange={handleChange}
                         value={values.id}
                         placeholder="Enter Valuate ID"

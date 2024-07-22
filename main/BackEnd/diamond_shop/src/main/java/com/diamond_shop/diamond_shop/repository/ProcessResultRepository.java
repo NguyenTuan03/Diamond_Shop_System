@@ -23,7 +23,7 @@ public interface ProcessResultRepository extends JpaRepository<ProcessResultEnti
             "p.createdDate," +
             "p.valuationStaffId.fullname," +
             "p.valuationResultId.valuationRequestId.serviceId.name, " +
-            "p.valuationResultId.valuationRequestId.serviceId.statistic_id.name," +
+            "p.valuationResultId.valuationRequestId.serviceId.statistic," +
             "p.status," +
             "p.valuationResultId.origin," +
             "p.valuationResultId.shape," +

@@ -1,11 +1,7 @@
 package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.config.JWTUtil;
-import com.diamond_shop.diamond_shop.dto.AccountDTO;
-import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
-import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
-import com.diamond_shop.diamond_shop.dto.LoginDTO;
-import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
+import com.diamond_shop.diamond_shop.dto.*;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.RoleEntity;
 import com.diamond_shop.diamond_shop.pojo.LoginPojo;
@@ -117,6 +113,7 @@ public class AccountImpl implements AccountService {
             return "Invalid activation code!";
         }
     }
+
 
     @Override
     public String createAccount(AccountDTO accountDTO) {
@@ -231,6 +228,9 @@ public class AccountImpl implements AccountService {
                         jwt,
                         userDetails.getId(),
                         userDetails.getUsername(),
+                        userDetails.getFullname(),
+                        userDetails.getPhonenumber(),
+                        userDetails.getAddress(),
                         userDetails.getEmail(),
                         userDetails.getAuthorities()
                 )
@@ -249,6 +249,8 @@ public class AccountImpl implements AccountService {
             UserDetailsImpl userDetails = new UserDetailsImpl(
                 acc.getId(), 
                 acc.getUsername(),
+                acc.getFullname(), acc.getPhone_number(),
+                acc.getAddress(),
                 acc.getEmail(),
                 acc.getPassword(),
                 List.of(new SimpleGrantedAuthority(roleEntity.getName()))
@@ -265,6 +267,8 @@ public class AccountImpl implements AccountService {
                     jwt,
                     userDetails.getId(),
                     userDetails.getUsername(),
+                    userDetails.getFullname(), userDetails.getPhonenumber(),
+                    userDetails.getAddress(),
                     userDetails.getEmail(),
                     userDetails.getAuthorities()
                 )
@@ -281,6 +285,8 @@ public class AccountImpl implements AccountService {
         UserDetailsImpl userDetails = new UserDetailsImpl(
             accountEntity.getId(), 
             accountEntity.getUsername(),
+            accountEntity.getFullname(), accountEntity.getPhone_number(),
+            accountEntity.getAddress(),
             accountEntity.getEmail(),
             accountEntity.getPassword(),
             List.of(new SimpleGrantedAuthority(roleEntity.getName()))
@@ -297,6 +303,8 @@ public class AccountImpl implements AccountService {
                 jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
+                userDetails.getFullname(), userDetails.getPhonenumber(),
+                userDetails.getAddress(),
                 userDetails.getEmail(),
                 userDetails.getAuthorities()
             )
@@ -317,6 +325,22 @@ public class AccountImpl implements AccountService {
         return ResponseEntity.ok("Reset password email sent");
     }
 
+    @Override
+    public String updateAccount(int id, UpdateAccountDTO updateAccountDTO) {
+        AccountEntity accountEntity = accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        AccountEntity existingAccount = accountRepository.findByPhoneNumber(updateAccountDTO.getPhone());
+        if (existingAccount == null || existingAccount.getId() == id) {
+            accountEntity.setFullname(updateAccountDTO.getFullname());
+            accountEntity.setPhone_number(updateAccountDTO.getPhone());
+            accountEntity.setAddress(updateAccountDTO.getAddress());
+            accountRepository.save(accountEntity);
+            return "Update successful";
+        } else {
+            return "Phone number already exists!";
+        }
+    }
 
     @Override
     public ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {

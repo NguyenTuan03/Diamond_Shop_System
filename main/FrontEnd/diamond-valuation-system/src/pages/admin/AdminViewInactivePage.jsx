@@ -26,19 +26,28 @@ import {
 import { ViewIcon } from "@chakra-ui/icons";
 import { FaUserCheck } from "react-icons/fa";
 import { adminActiveAccount } from "../../service/AdminActiveAccount";
+import { motion } from "framer-motion";
+import PageIndicator from "../../components/PageIndicator";
 export default function AdminViewInactivePage() {
     const bgHoverColor = useColorModeValue("gray.100", "gray.700");
     const [accounts, setAccounts] = useState([]);
     const [currentAcc, setCurrentAcc] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
-    const [active,setActive] = useState({});
+    const [active, setActive] = useState({});
     const [totalPage, setTotalPage] = useState(null);
     const [filter, setFilter] = useState("");
     const toast = useToast();
     const activeUser = useDisclosure();
     const pageIndicator = [];
     useEffect(() => {
-        viewInactiveAccount("", currentPage, "", setAccounts, setTotalPage, toast);
+        viewInactiveAccount(
+            "",
+            currentPage,
+            "",
+            setAccounts,
+            setTotalPage,
+            toast
+        );
     }, [currentPage]);
 
     const handleActivateUser = async () => {
@@ -50,29 +59,30 @@ export default function AdminViewInactivePage() {
                     title: "Error activating user.",
                     description: error.message,
                     status: "error",
-                    position:'top-right',
+                    position: "top-right",
                     duration: 3000,
                     isClosable: true,
                 });
-            }
-            else {
+            } else {
                 activeUser.onClose();
                 toast({
                     title: "User activated.",
                     description: "The user has been successfully activated.",
                     status: "success",
-                    position:'top-right',
+                    position: "top-right",
                     duration: 3000,
                     isClosable: true,
                 });
-                setAccounts(accounts.filter(account => account.id !== active));
+                setAccounts(
+                    accounts.filter((account) => account.id !== active)
+                );
             }
         } catch (error) {
             toast({
                 title: "Error activating user.",
                 description: error.message,
                 status: "error",
-                position:'top-right',
+                position: "top-right",
                 duration: 3000,
                 isClosable: true,
             });
@@ -80,25 +90,36 @@ export default function AdminViewInactivePage() {
     };
     for (let i = 1; i <= totalPage; i++) {
         pageIndicator.push(
-          <Button
-            key={i}
-            mb={"12px"}
-            colorScheme="teal"
-            variant="outline"
-            onClick={() => {
-              setCurrentPage(i);
-              console.log("current:" + currentPage);
-            }}
-          >
-            {i}
-          </Button>
+            <Button
+                key={i}
+                mb={"12px"}
+                colorScheme="teal"
+                variant="outline"
+                onClick={() => {
+                    setCurrentPage(i);
+                    console.log("current:" + currentPage);
+                }}
+            >
+                {i}
+            </Button>
         );
-      }
+    }
     return (
         <>
-            <TableContainer display={{ base: "block", md: "none" }} whiteSpace={"wrap"} h={"100vh"} shadow="md" borderRadius="md">
-                <Table size={"md"} colorScheme="blue">
-                    <Thead bgColor={"blue.500"}>
+            <TableContainer
+                display={{ base: "block", md: "none" }}
+                whiteSpace={"wrap"}
+                mb={5}
+                p={8}
+                border={"2px solid"}
+                borderColor={"gray.100"}
+                boxShadow="sm"
+                borderRadius="24px"
+                maxW="100%"
+                minW="100%"
+            >
+                <Table variant={"unstyled"}>
+                    <Thead>
                         <Tr>
                             <Th>No</Th>
                             <Th>Role</Th>
@@ -108,7 +129,13 @@ export default function AdminViewInactivePage() {
                     </Thead>
                     <Tbody>
                         {accounts.map((account, index) => (
-                            <Tr key={index} _hover={{ bg: bgHoverColor }}>
+                            <Tr
+                                key={index}
+                                as={motion.tr}
+                                whileHover={{ scale: 1.02 }}
+                                transition="0.1s linear"
+                                _hover={{ bg: bgHoverColor }}
+                            >
                                 <Td>{index + 1}</Td>
                                 <Td>{account?.roleName}</Td>
                                 <Td>{account?.fullName}</Td>
@@ -129,10 +156,21 @@ export default function AdminViewInactivePage() {
                     </Tbody>
                 </Table>
             </TableContainer>
-            
-            <TableContainer display={{ base: "none", md: "block" }} whiteSpace={"wrap"} shadow="md" borderRadius="md">
-                <Table size={"md"} colorScheme="blue">
-                    <Thead bgColor={"blue.500"}>
+
+            <TableContainer
+                display={{ base: "none", md: "block" }}
+                whiteSpace={"wrap"}
+                mb={5}
+                p={8}
+                border={"2px solid"}
+                borderColor={"gray.100"}
+                boxShadow="sm"
+                borderRadius="24px"
+                maxW="100%"
+                minW="100%"
+            >
+                <Table variant={"unstyled"}>
+                    <Thead>
                         <Tr>
                             <Th>No</Th>
                             <Th>Role</Th>
@@ -147,7 +185,13 @@ export default function AdminViewInactivePage() {
                     </Thead>
                     <Tbody>
                         {accounts.map((account, index) => (
-                            <Tr key={index} _hover={{ bg: bgHoverColor }}>
+                            <Tr
+                                key={index}
+                                as={motion.tr}
+                                whileHover={{ scale: 1.02 }}
+                                transition="0.1s linear"
+                                _hover={{ bg: bgHoverColor }}
+                            >
                                 <Td>{index + 1}</Td>
                                 <Td>{account?.roleName}</Td>
                                 <Td>{account?.username}</Td>
@@ -155,7 +199,11 @@ export default function AdminViewInactivePage() {
                                 <Td>{account?.fullName}</Td>
                                 <Td>{account?.email}</Td>
                                 <Td>{account?.phoneNumber}</Td>
-                                <Td overflow={"hidden"} textOverflow={"ellipsis"} maxW={"300px"}>
+                                <Td
+                                    overflow={"hidden"}
+                                    textOverflow={"ellipsis"}
+                                    maxW={"300px"}
+                                >
                                     {account?.address}
                                 </Td>
                                 <Td>
@@ -175,11 +223,14 @@ export default function AdminViewInactivePage() {
                         ))}
                     </Tbody>
                 </Table>
-                <Flex direction={"row"} gap={5} justifyContent="center" mt={4}>
-                    {pageIndicator}
-                </Flex>
             </TableContainer>
-
+            <Center>
+                <PageIndicator
+                    totalPages={totalPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                />
+            </Center>
             <Modal isOpen={activeUser.isOpen} onClose={activeUser.onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -189,10 +240,16 @@ export default function AdminViewInactivePage() {
                         Are you sure you want to activate this user?
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={3} onClick={handleActivateUser}>
+                        <Button
+                            colorScheme="blue"
+                            mr={3}
+                            onClick={handleActivateUser}
+                        >
                             Confirm
                         </Button>
-                        <Button variant="ghost" onClick={activeUser.onClose}>Cancel</Button>
+                        <Button variant="ghost" onClick={activeUser.onClose}>
+                            Cancel
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

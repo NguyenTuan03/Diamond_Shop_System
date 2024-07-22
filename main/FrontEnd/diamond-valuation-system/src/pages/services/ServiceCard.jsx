@@ -85,7 +85,9 @@ export default function ServiceCard({
         </Heading>
       </CardHeader>
       <Flex direction={"column"} align={"center"}>
-        <Text fontSize={"5xl"}>{price}vnd</Text>
+        <Text fontSize={"5xl"}>
+          {new Intl.NumberFormat("vi-VN").format(price)}vnd
+        </Text>
         <Text fontSize={"lg"}>
           Valuation time: <strong>{time} days</strong>
         </Text>
