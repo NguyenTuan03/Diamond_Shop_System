@@ -16,7 +16,7 @@ import { getCustomerTransaction } from "../../service/GetCustomerTransaction";
 import { UserContext } from "./../../components/GlobalContext/AuthContext";
 import { format } from "date-fns";
 import PageIndicator from "./../../components/PageIndicator";
-export default function DashBoardTransaction() {
+export default function DashBoardTransaction({ hidePagination }) {
   const [transaction, setTransaction] = useState([]);
   const auth = useContext(UserContext);
   const [loading, setLoading] = useState(true);
@@ -38,29 +38,34 @@ export default function DashBoardTransaction() {
   }, [currentPage]);
   return (
     <>
-      <Box
-        bg="gray.600"
-        color="white"
+      <Box>
+        <Center mb={5}>
+          <Text fontSize={"4xl"} fontWeight={"bold"}>
+            Transacations
+          </Text>
+        </Center>
+        
+        <TableContainer
+        whiteSpace={"wrap"}
         mb={5}
+        p={8}
+        border={"2px solid"}
+        borderColor={"gray.100"}
         boxShadow="sm"
-        borderRadius="md"
+        borderRadius="24px"
         maxW="100%"
         minW="100%"
-      >
-        <Text py={3} fontSize="lg" pl={4}>
-          TRANSACTIONS
-        </Text>
-        <TableContainer>
-          <Table variant="simple" bg="gray.200" color="black">
+        >
+          <Table variant="unstyled">
             <Thead>
               <Tr>
-                <Th color="black">ID</Th>
-                <Th color="black">Transaction No</Th>
-                <Th color="black">Name</Th>
-                <Th color="black">Bank</Th>
-                <Th color="black">Amount</Th>
-                <Th color="black">Date</Th>
-                <Th color="black">Description</Th>
+                <Th >No</Th>
+                <Th >Transaction No</Th>
+                <Th >Name</Th>
+                <Th >Bank</Th>
+                <Th >Amount</Th>
+                <Th >Date</Th>
+                <Th >Description</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -118,19 +123,20 @@ export default function DashBoardTransaction() {
                 transaction.map((transaction, index) => {
                   return (
                     <Tr key={index}>
-                      <Td>{transaction?.id}</Td>
+                      <Td>{index + 1}</Td>
                       <Td>{transaction?.transaction}</Td>
                       <Td>{transaction?.customerName}</Td>
                       <Td>{transaction?.bank}</Td>
                       <Td>
                         {new Intl.NumberFormat("vi-VN").format(
                           transaction?.amount
-                        )}
+                        )}{" "}
+                        vnd
                       </Td>
                       <Td>
                         {format(
                           new Date(transaction?.date),
-                          "dd/MM/yyyy HH:mm:ss"
+                          "dd/MM/yyyy - HH:mm:ss"
                         )}
                       </Td>
                       <Td>{transaction?.order_info}</Td>
@@ -141,9 +147,15 @@ export default function DashBoardTransaction() {
           </Table>
         </TableContainer>
       </Box>
-      <Center>
-        <PageIndicator totalPages={totalPage} setCurrentPage={setCurrentPage} />
-      </Center>
+      {!hidePagination && (
+        <Center>
+          <PageIndicator
+            totalPages={totalPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </Center>
+      )}
     </>
   );
 }

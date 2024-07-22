@@ -8,6 +8,7 @@ import com.diamond_shop.diamond_shop.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -67,9 +68,7 @@ public class PaymentImpl implements PaymentService {
     public Page<PaymentEntity> getTransaction(int id, int page) {
         int pageNumber = --page;
         int pageSize = 5;
-
-
-        return paymentRepository.findByCustomerId(PageRequest.of(pageNumber, pageSize), id);
+        return paymentRepository.findByCustomerId(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()), id);
     }
 
     @Override
@@ -78,6 +77,19 @@ public class PaymentImpl implements PaymentService {
         List<Integer> allPaymentAmount = paymentRepository.getIncome();
         for (Integer amount : allPaymentAmount) {
             total += amount;
+        }
+        return total;
+    }
+
+    @Override
+    public int getIncomeByMonth(int month) {
+        List<PaymentEntity> payments = paymentRepository.findAll();
+        int total = 0;
+        for (PaymentEntity payment : payments) {
+            String[] dateParts = payment.getCreatedDate().toString().split("-");
+            if (Integer.parseInt(dateParts[1]) == month) {
+                total += payment.getAmount();
+            }
         }
         return total;
     }

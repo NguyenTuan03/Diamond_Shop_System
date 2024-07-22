@@ -17,10 +17,12 @@ import React, { useEffect, useState } from "react";
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import routes from "../../config/Config";
+import { format, parseISO } from "date-fns";
+import { pixelate, vignette } from "@cloudinary/url-gen/actions/effect";
 export default function DiamondCheckDetails() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -31,7 +33,6 @@ export default function DiamondCheckDetails() {
     },
   });
   const bgColor = useColorModeValue("white", "black");
-  const fontColor = useColorModeValue("black", "white");
   const bgColor1 = useColorModeValue("blue.400", "#DBA843");
   const [diamond, setDiamond] = useState({});
   const [diamondImages, setDiamondImages] = useState([]);
@@ -122,7 +123,8 @@ export default function DiamondCheckDetails() {
               key={index}
               cldImg={cld
                 .image(image)
-                .resize(thumbnail().width(200).height(200))}
+                .resize(thumbnail().width(200).height(200))
+              }
               plugins={[lazyload(), placeholder({ mode: "blur" })]}
             />
           );
@@ -131,24 +133,34 @@ export default function DiamondCheckDetails() {
       <Flex direction={"column"} gap={5}>
         <Flex direction={"row"} alignItems={"center"} gap={5}>
           <Skeleton isLoaded={diamond !== null}>
-            <Text fontSize="xl" fontWeight={"bold"}>
+            <Text fontSize="3xl" fontWeight={"bold"}>
               ID {diamond?.id}
             </Text>
           </Skeleton>
           <Skeleton isLoaded={diamond !== null}>
-            <Badge colorScheme="green">{diamond?.origin} Diamond</Badge>
+            <Badge colorScheme="green" fontSize={"xl"}>
+              {diamond?.origin} Diamond
+            </Badge>
           </Skeleton>
         </Flex>
         <Skeleton isLoaded={diamond !== null}>
-          <Text fontSize="sm" color={"gray"}>
-            Valuated Date: {diamond?.createdDate?.slice(0, 10) || "N/A"}
+          <Text fontSize="lg" color={"gray"}>
+            Valuated Date:{" "}
+            {diamond?.createdDate
+              ? format(parseISO(diamond?.createdDate), "dd/MM/yyyy HH:mm")
+              : "N/A"}
           </Text>
         </Skeleton>
         <UnorderedList>
-          <ListItem>
+          <ListItem fontSize={"lg"}>
             Fair Price Estimate:{" "}
             <Skeleton isLoaded={diamond !== null}>
-              <Text display={"inline"} color={bgColor1} fontWeight={"bold"}>
+              <Text
+                display={"inline"}
+                color={bgColor1}
+                fontWeight={"bold"}
+                fontSize={"3xl"}
+              >
                 ${diamond?.price}
               </Text>
             </Skeleton>
@@ -160,124 +172,124 @@ export default function DiamondCheckDetails() {
           borderRadius={"10px"}
           borderColor={bgColor1}
           p={5}
-          gap={5}
+          gap={10}
         >
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Shape
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.shape || "N/A"}
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Carat
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.carat || "0"} ct.
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Color
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.color || "N/A"}
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Cut
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.cut || "N/A"}
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Clarity
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.clarity || "N/A"}
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Symmetry
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.symmetry || "N/A"}
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Polish
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.polish || "N/A"}
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Fluorescence
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.fluorescence || "N/A"}
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Measurement
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.measurements || "N/A"}
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Table
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.diamondTable || "N/A"}
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Depth
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.depth || "N/A"}
               </Text>
             </Skeleton>
           </GridItem>
           <GridItem>
-            <Text fontSize="xs" fontWeight={"bold"} color={"gray"}>
+            <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
               Lenght to Width Ratio
             </Text>
             <Skeleton isLoaded={diamond !== null}>
-              <Text fontSize="sm" fontWeight={"bold"}>
+              <Text fontSize="xl" fontWeight={"bold"}>
                 {diamond?.lengthToWidthRatio || "N/A"}
               </Text>
             </Skeleton>

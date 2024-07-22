@@ -4,13 +4,18 @@ import "./index.css";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import AuthContext from "./components/GlobalContext/AuthContext.jsx";
 import theme from "./themes/theme.js";
-
+import DriverContext from "./components/GlobalContext/DriverContext.jsx";
+import { NotificationProvider } from "./components/GlobalContext/NotificationContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider>
-    <AuthContext>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <App />
-    </AuthContext>
+    <DriverContext>
+      <AuthContext>
+      <NotificationProvider>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+          <App />
+          </NotificationProvider>   
+      </AuthContext>
+    </DriverContext>
   </ChakraProvider>
 );

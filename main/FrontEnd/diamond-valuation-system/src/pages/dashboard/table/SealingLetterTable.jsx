@@ -24,12 +24,19 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
   UnorderedList,
   useDisclosure,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
 import { GiDiamondTrophy } from "react-icons/gi";
+import { format, parseISO } from "date-fns";
+import { Link } from "react-router-dom";
+import routes from "../../../config/Config";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { PiFileTextBold } from "react-icons/pi";
+import { motion } from "framer-motion";
 export default function SealingLetterTable() {
   const user = useContext(UserContext);
   const isUsers =
@@ -61,9 +68,7 @@ export default function SealingLetterTable() {
       });
     }
   };
-  useEffect(() => {
-    fetchSealingLetter(currentPage, user.userAuth.id);
-  }, []);
+
   useEffect(() => {
     fetchSealingLetter(currentPage, user.userAuth.id);
   }, [currentPage]);
@@ -79,34 +84,98 @@ export default function SealingLetterTable() {
           <Center>No sealing letter to show</Center>
         ) : (
           <Skeleton isLoaded={sealingLetter.length > 0} height={"200px"}>
-            <TableContainer shadow="md" borderRadius="md">
-              <Table >
-                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+            <TableContainer
+              whiteSpace={"wrap"}
+              mb={5}
+              p={8}
+              border={"2px solid"}
+              borderColor={"gray.100"}
+              boxShadow="sm"
+              borderRadius="24px"
+              maxW="100%"
+              minW="100%"
+            >
+              <Table variant={"unstyled"}>
+                <Thead>
                   <Tr>
-                    <Th color="white">ID</Th>
-                    <Th color="white">Request ID</Th>
-                    {isUsers &&
-                      user.userAuth.authorities[0].authority === "Manager" && (
-                        <Th color="white">Customer Name</Th>
-                      )}
-                    <Th color="white">Created Date</Th>
-                    <Th color="white">Sealing Date</Th>
-                    <Th color="white">View</Th>
+                    <Th>ID</Th>
+                    <Th>Created Date</Th>
+                    <Th>Request ID</Th>
+                    <Th>Customer Name</Th>
+                    <Th>Receive Date</Th>
+                    <Th>Finish Date</Th>
+                    <Th>Sealing Date</Th>
+                    <Th>View</Th>
                   </Tr>
                 </Thead>
-                <Tbody variant="simple" bg="gray.200" color="black">
+                <Tbody>
                   {sealingLetter.map((item, index) => (
-                    <Tr key={index} _hover={{ bg: "gray.100" }}>
+                    <Tr
+                      key={index}
+                      as={motion.tr}
+                      whileHover={{ scale: 1.02 }}
+                      transition="0.1s linear"
+                      _hover={{ bg: "gray.100" }}
+                    >
                       <Td>{item?.id}</Td>
-                      <Td>{item?.valuationRequestId || "N/A"}</Td>
-                      {isUsers &&
-                        user.userAuth.authorities[0].authority ===
-                          "Manager" && <Td>{item?.customerName || "N/A"}</Td>}
-                      <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
-                      <Td>{item?.sealingDate?.slice(0, 10) || "N/A"}</Td>
+                      <Td>
+                        {item?.createdDate
+                          ? format(
+                              parseISO(item?.createdDate),
+                              "dd/MM/yyyy - HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
+                      <Td>
+                        <Link
+                          to={routes.processRequest}
+                          state={{
+                            processRequestId: item?.processRequestId,
+                          }}
+                        >
+                          <Tooltip label="Click to view process request">
+                            <Flex
+                              p={2}
+                              gap={2}
+                              align={"center"}
+                              justify={"space-around"}
+                              borderRadius={"20px"}
+                              _hover={{ bg: "blue.100" }}
+                            >
+                              {item?.processRequestId || "N/A"}
+                              <FaExternalLinkAlt />
+                            </Flex>
+                          </Tooltip>
+                        </Link>
+                      </Td>
+                      <Td>{item?.customerName || "N/A"}</Td>
+                      <Td>
+                        {item?.receivedDate
+                          ? format(
+                              parseISO(item?.receivedDate),
+                              "dd/MM/yyyy - HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
+                      <Td>
+                        {item?.finishDate
+                          ? format(
+                              parseISO(item?.finishDate),
+                              "dd/MM/yyyy - HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
+                      <Td>
+                        {item?.sealingDate
+                          ? format(
+                              parseISO(item?.sealingDate),
+                              "dd/MM/yyyy - HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
                       <Td>
                         <IconButton
-                          icon={<ViewIcon />}
+                          icon={<PiFileTextBold />}
                           bg={"transparent"}
                           color="black"
                           onClick={() => {
@@ -123,6 +192,7 @@ export default function SealingLetterTable() {
             <Center m={"50px 0 0 0"}>
               <PageIndicator
                 totalPages={totalPages}
+                currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
             </Center>
@@ -208,7 +278,6 @@ export default function SealingLetterTable() {
           </ModalBody>
           <ModalFooter>
             <Skeleton isLoaded={selectedSealingLetter !== null}>
-              i
               {isUsers &&
                 user.userAuth.authorities[0].authority === "Manager" && (
                   <Button

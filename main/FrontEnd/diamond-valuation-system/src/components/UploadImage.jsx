@@ -9,13 +9,12 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { UserContext } from "./GlobalContext/AuthContext";
+import { LuUpload } from "react-icons/lu";
 
-export default function UploadImage({ diamondId }) {
+export default function UploadImage({ diamondId, type }) {
   const user = useContext(UserContext);
-  const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUpLoading] = useState(false);
   const toast = useToast();
@@ -42,35 +41,73 @@ export default function UploadImage({ diamondId }) {
         if (res) {
           const data = await res.json();
           console.log(data.public_id);
-          setIsUpLoading(false);
-          toast({
-            title: "Sending successful!",
-            position: "top-right",
-            description: "Your diamond image has been submitted successfully",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-          });
-          axios
-            .post(
-              `${
-                import.meta.env.VITE_REACT_APP_BASE_URL
-              }/api/valuation-result/image/create`,
-              {
-                id: data?.public_id,
-                valuationResultId: diamondId,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${user.userAuth.token}`,
+
+          if (type === "valuation_result") {
+            axios
+              .post(
+                `${
+                  import.meta.env.VITE_REACT_APP_BASE_URL
+                }/api/valuation-result/image/create`,
+                {
+                  id: data?.public_id,
+                  valuationResultId: diamondId,
                 },
-              }
-            )
-            .then(function (response) {
-              console.log(response.data);
-            });
+                {
+                  headers: {
+                    Authorization: `Bearer ${user.userAuth.token}`,
+                  },
+                }
+              )
+              .then(function (response) {
+                console.log(response.data);
+              })
+              .catch((err) => {
+                setIsUpLoading(false);
+                toast({
+                  title: "Sending successful!",
+                  position: "top-right",
+                  description:
+                    "Your diamond image has been submitted successfully",
+                  status: "success",
+                  duration: 3000,
+                  isClosable: true,
+                });
+              });
+          } else if (type === "pending_request") {
+            axios
+              .post(
+                `${
+                  import.meta.env.VITE_REACT_APP_BASE_URL
+                }/api/pending-request/image/create`,
+                {
+                  id: data?.public_id,
+                  pendingRequestId: diamondId,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${user.userAuth.token}`,
+                  },
+                }
+              )
+              .then(function (response) {
+                console.log(response.data);
+              })
+              .catch((err) => {
+                console.log(err);
+                return;
+              });
+          }
         }
       }
+      setIsUpLoading(false);
+      toast({
+        title: "Sending successful!",
+        position: "top-right",
+        description: "Your diamond image has been submitted successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
       setIsUpLoading(false);
       toast({
@@ -89,13 +126,16 @@ export default function UploadImage({ diamondId }) {
         <FormLabel
           display={"inline-block"}
           cursor={"pointer"}
-          bgColor={"gray.400"}
+          bgColor={"gray.200"}
           borderRadius={"10px"}
-          _hover={{ bgColor: "gray.600" }}
+          _hover={{ bgColor: "gray.300" }}
           m={"10px"}
           p={3}
         >
-          Upload your diamond images
+          <Flex direction={"row"} alignItems={"center"} gap={2}>
+            <LuUpload />
+            Upload diamond images
+          </Flex>
         </FormLabel>
         <Input
           type="file"
@@ -135,8 +175,8 @@ export default function UploadImage({ diamondId }) {
                 <Image
                   src={URL.createObjectURL(image)}
                   alt="not found"
-                  w={"250px"}
-                  h={"250px"}
+                  w={"200px"}
+                  h={"200px"}
                 />
                 <Button
                   colorScheme="red"

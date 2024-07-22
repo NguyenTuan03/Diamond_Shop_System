@@ -28,19 +28,19 @@ const images = [
 
 const InfiniteMovingFeaturedCards = () => {
   const [valuationResult, setValuationResult] = useState([]);
-  const fetchValuationResult = async () => {
+  const fetchValuatedValuationResult = async () => {
     axios
       .get(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-result/get/all?page=${1}`
+        }/api/valuation-result/get/all/valuated?page=${1}`
       )
       .then((response) => {
         setValuationResult(response.data.content);
       });
   };
   useEffect(() => {
-    fetchValuationResult();
+    fetchValuatedValuationResult();
     console.log(valuationResult);
   }, []);
   return (
@@ -50,10 +50,14 @@ const InfiniteMovingFeaturedCards = () => {
         animation="marquee 20s linear infinite"
         display="inline-flex"
       >
-        {images.map((image, index) => (
-          <Skeleton key={index} isLoaded={valuationResult.length > 0} noOfLines={3}>
-            <Link
-              to={routes.diamondCheck + "/" + valuationResult[index]?.id}
+        {images?.map((image, index) => (
+          <Skeleton
+            key={index}
+            isLoaded={valuationResult?.length > 0}
+            noOfLines={3}
+          >
+            {/* <Link
+              to={routes?.diamondCheck + "/" + valuationResult[index]?.id}
               reloadDocument
               key={index}
             >
@@ -63,19 +67,23 @@ const InfiniteMovingFeaturedCards = () => {
                 title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
                 title3={`ID ${valuationResult[index]?.id}`}
               />
-            </Link>
+            </Link> */}
           </Skeleton>
         ))}
-        {images.map((image, index) => (
-          <Skeleton key={index} isLoaded={valuationResult.length > 0} noOfLines={3}>
+        {images?.map((image, index) => (
+          <Skeleton
+            key={index}
+            isLoaded={valuationResult?.length > 0}
+            noOfLines={3}
+          >
             <Link
               to={routes.diamondCheck + "/" + valuationResult[index]?.id}
               reloadDocument
               key={index}
             >
               <FeaturedCard
-                key={index + images.length}
-                imageSrc={image.src}
+                key={index + images?.length}
+                imageSrc={image?.src}
                 title1={`${valuationResult[index]?.shape} · ${valuationResult[index]?.carat} Carat · ${valuationResult[index]?.color} Color`}
                 title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
                 title3={`ID ${valuationResult[index]?.id}`}
