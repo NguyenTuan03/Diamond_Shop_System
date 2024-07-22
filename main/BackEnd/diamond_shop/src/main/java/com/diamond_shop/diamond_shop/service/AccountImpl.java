@@ -231,6 +231,8 @@ public class AccountImpl implements AccountService {
                         jwt,
                         userDetails.getId(),
                         userDetails.getUsername(),
+                        userDetails.getFullname(),
+                        userDetails.getAddress(),
                         userDetails.getEmail(),
                         userDetails.getAuthorities()
                 )
@@ -249,6 +251,8 @@ public class AccountImpl implements AccountService {
             UserDetailsImpl userDetails = new UserDetailsImpl(
                 acc.getId(), 
                 acc.getUsername(),
+                acc.getFullname(),
+                acc.getAddress(),
                 acc.getEmail(),
                 acc.getPassword(),
                 List.of(new SimpleGrantedAuthority(roleEntity.getName()))
@@ -265,6 +269,8 @@ public class AccountImpl implements AccountService {
                     jwt,
                     userDetails.getId(),
                     userDetails.getUsername(),
+                    userDetails.getFullname(),
+                    userDetails.getAddress(),
                     userDetails.getEmail(),
                     userDetails.getAuthorities()
                 )
@@ -281,6 +287,8 @@ public class AccountImpl implements AccountService {
         UserDetailsImpl userDetails = new UserDetailsImpl(
             accountEntity.getId(), 
             accountEntity.getUsername(),
+            accountEntity.getFullname(),
+            accountEntity.getAddress(),
             accountEntity.getEmail(),
             accountEntity.getPassword(),
             List.of(new SimpleGrantedAuthority(roleEntity.getName()))
@@ -297,6 +305,8 @@ public class AccountImpl implements AccountService {
                 jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
+                userDetails.getFullname(),
+                userDetails.getAddress(),
                 userDetails.getEmail(),
                 userDetails.getAuthorities()
             )
