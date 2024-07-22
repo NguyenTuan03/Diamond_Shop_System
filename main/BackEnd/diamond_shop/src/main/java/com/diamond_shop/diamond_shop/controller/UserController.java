@@ -37,7 +37,6 @@ public class UserController {
         return accountService.addAccount(accountDTO);
     }
 
-    //No need token
     @PostMapping(path = "/login")
     public ResponseEntity<?> loginCustomer(@RequestBody LoginDTO loginDTO) {
         return accountService.loginAccount(loginDTO);

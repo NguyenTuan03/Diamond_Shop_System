@@ -24,7 +24,7 @@ import {
   SimpleGrid,
   Tooltip,
 } from "@chakra-ui/react";
-import { ViewIcon } from "@chakra-ui/icons";
+import { TbPhotoCancel } from "react-icons/tb";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import axios from "axios";
@@ -127,7 +127,7 @@ export default function PendingRequestTable() {
             >
               <Table variant={"unstyled"}>
                 <Thead>
-                  <Tr>
+                  <Tr bg={"gray.400"}>
                     <Th>No</Th>
                     <Th>Customer</Th>
                     <Th>Email</Th>
@@ -279,7 +279,7 @@ export default function PendingRequestTable() {
                                       cldImg={cld
                                         .image(image)
                                         .resize(
-                                          thumbnail().width(200).height(200)
+                                          thumbnail().width(250).height(300)
                                         )}
                                       plugins={[
                                         lazyload(),
@@ -289,15 +289,16 @@ export default function PendingRequestTable() {
                                   </Box>
                                 </Tooltip>
                               )}
-
                               <Button
                                 colorScheme="red"
+                                size="sm" 
+                                fontSize="sm"
                                 onClick={() => {
                                   setSelectedImages(image);
                                   viewConfirmDeleteImage.onOpen();
-                                }}
+                                }} 
                               >
-                                Delete
+                                <TbPhotoCancel  style={{ marginRight: '5px' }}/>Delete
                               </Button>
                             </Flex>
                           </>

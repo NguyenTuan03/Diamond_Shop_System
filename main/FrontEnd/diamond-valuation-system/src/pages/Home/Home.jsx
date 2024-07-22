@@ -44,7 +44,9 @@ const testimonials = [
 export default function Home() {
     const [currentImage, setCurrentImage] = useState(0);
     const bgColor = useColorModeValue("white", "gray.900");
+    const bgColor1 = useColorModeValue("blue.400", "#CA901C");
     const fontColor = useColorModeValue("gray.600", "yellow.200");
+    const fontColor1 = useColorModeValue("blue.100", "yellow.100");
     const toast = useToast();
     let searchParams = new URLSearchParams(window.location.search);
     useEffect(() => {
@@ -90,7 +92,7 @@ export default function Home() {
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+            setCurrentImage((prevImage) => (prevImage + 1) % images?.length);
         }, 5000);
 
         return () => clearInterval(intervalId);
@@ -143,7 +145,7 @@ export default function Home() {
                                     md: "left",
                                     lg: "left",
                                 }}
-                                color="#CA901C"
+                                color={bgColor1}
                             >
                                 Compare Top-Rated Jewelers & Save
                             </Text>
@@ -155,7 +157,7 @@ export default function Home() {
                                     md: "left",
                                     lg: "left",
                                 }}
-                                color="yellow.100"
+                                color={fontColor1}
                             >
                                 Navigate the diamond market effortlessly.
                             </Text>
@@ -176,7 +178,7 @@ export default function Home() {
                                             md: "md",
                                             lg: "lg",
                                         }}
-                                        backgroundColor=" #DBA843"
+                                        backgroundColor={bgColor1}
                                         colorScheme="DBA843"
                                         variant="solid"
                                         height="60px"
@@ -198,7 +200,7 @@ export default function Home() {
                                             md: "md",
                                             lg: "lg",
                                         }}
-                                        color="#DBA843"
+                                        color={bgColor1}
                                         colorScheme="DBA843"
                                         variant="outline"
                                         height="60px"
@@ -226,7 +228,7 @@ export default function Home() {
                     borderColor={"gray.700"}
                     mt={3}
                 >
-                    {stats.map((stat, index) => (
+                    {stats?.map((stat, index) => (
                         <Box key={index} p={4} textAlign="center">
                             <Text
                                 fontSize="2xl"
@@ -291,7 +293,7 @@ export default function Home() {
                         wrap="wrap"
                         mt={5}
                     >
-                        {testimonials.map((testimonial, index) => (
+                        {testimonials?.map((testimonial, index) => (
                             <Box
                                 key={index}
                                 p={5}
@@ -305,7 +307,7 @@ export default function Home() {
                                 position={"relative"}
                             >
                                 <Flex justifyContent="center" mb={5}>
-                                    {[...Array(5)].map((_, i) => (
+                                    {[...Array(5)]?.map((_, i) => (
                                         <StarIcon key={i} color="teal.500" />
                                     ))}
                                 </Flex>

@@ -31,6 +31,7 @@ import { PiFileTextBold } from "react-icons/pi";
 import ZaloChat from "../../../components/zalo/ZaloChat";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
+import { NotificationContext } from "../../../components/GlobalContext/NotificationContext";
 import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -60,11 +61,13 @@ import ReceiptModal from "../modal/ReceiptModal";
 import ValuationResultModal from "../modal/ValuationResultModal";
 import ConfirmAlert from "../../../components/ConfirmAlert";
 import { motion } from "framer-motion";
+
 export default function ProcessRequestTable() {
   const navigate = useNavigate();
   const preProcessRequestId = useLocation().state?.processRequestId;
   const toast = useToast();
   const user = useContext(UserContext);
+  const { incrementNotifications } = useContext(NotificationContext);
   const isUsers =
     user.userAuth &&
     user.userAuth.authorities &&
@@ -72,6 +75,7 @@ export default function ProcessRequestTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const [processRequest, setProcessRequest] = useState([]);
+  const [previousStatuses, setPreviousStatuses] = useState({});
   const [isChecked, setIsChecked] = useState(false);
   const [isUpdateProcess, setIsUpdateProcess] = useState(false);
   const [selectedProcessRequest, setSelectedProcessRequest] = useState(null);
@@ -104,10 +108,21 @@ export default function ProcessRequestTable() {
       axios
         .get(url)
         .then(function (response) {
-          console.log(response.data);
           if (response.status === 200) {
+            const newStatuses = {};
+            response.data.content.forEach((item) => {
+              newStatuses[item.id] = item.status;
+              if (
+                previousStatuses[item.id] &&
+                previousStatuses[item.id] !== item.status
+              ) {
+                incrementNotifications();
+              }
+            });
+            setPreviousStatuses(newStatuses);
+
             Promise.all(
-              response.data.content.map(async (item, index) => {
+              response.data.content.map(async (item) => {
                 if (item?.status === "Not resolved yet") {
                   await checkProcessRequestReceiveDate(
                     item?.id,
@@ -214,7 +229,7 @@ export default function ProcessRequestTable() {
             >
               <Table variant={"unstyled"}>
                 <Thead>
-                  <Tr>
+                  <Tr bg={"gray.400"}>
                     <Th>ID</Th>
                     <Th>Customer</Th>
                     <Th>Consulting Staff</Th>
