@@ -327,17 +327,19 @@ public class AccountImpl implements AccountService {
 
     @Override
     public String updateAccount(int id, UpdateAccountDTO updateAccountDTO) {
-        AccountEntity accountEntity = accountRepository.findById(id).orElseThrow(null);
+        AccountEntity accountEntity = accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
 
-        if (updateAccountDTO.getPhone() == accountRepository.findByPhoneNumber(updateAccountDTO.getPhone()).getPhone_number()) {
-            return "Phone number already exist!";
+        AccountEntity existingAccount = accountRepository.findByPhoneNumber(updateAccountDTO.getPhone());
+        if (existingAccount == null || existingAccount.getId() == id) {
+            accountEntity.setFullname(updateAccountDTO.getFullname());
+            accountEntity.setPhone_number(updateAccountDTO.getPhone());
+            accountEntity.setAddress(updateAccountDTO.getAddress());
+            accountRepository.save(accountEntity);
+            return "Update successful";
+        } else {
+            return "Phone number already exists!";
         }
-
-        accountEntity.setFullname(updateAccountDTO.getFullname());
-        accountEntity.setPhone_number(updateAccountDTO.getPhone());
-        accountEntity.setAddress(updateAccountDTO.getAddress());
-        accountRepository.save(accountEntity);
-        return "Update successful";
     }
 
     @Override

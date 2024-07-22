@@ -63,8 +63,11 @@ public class UserController {
         return accountService.activate(code, response);
     }
     @PutMapping(path = "/update")
-    public String updateCustomer(@RequestParam("id") int id, @RequestBody UpdateAccountDTO updateAccountDTO)
+    public String updateCustomer(@RequestParam("id") int id,@Valid @RequestBody UpdateAccountDTO updateAccountDTO, Errors errors)
     {
+        if (errors.hasErrors()) {
+            return errors.getAllErrors().toString();
+        }
         return accountService.updateAccount(id,updateAccountDTO);
     }
 
