@@ -54,18 +54,12 @@ CREATE TABLE payments(
 	FOREIGN KEY (customer_id) REFERENCES users(id) on DELETE SET NULL
 )
 
-CREATE TABLE service_statistics(
-	id BIGINT PRIMARY KEY IDENTITY(1,1),
-	name NVARCHAR(255)
-)
-
 CREATE TABLE services(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	name nvarchar(25),
 	price INT,
 	time INT,
-	service_statistic_id BIGINT,
-	FOREIGN KEY (service_statistic_id) REFERENCES service_statistics(id)
+	statistic NVARCHAR(255),
 )
 
 CREATE TABLE valuation_requests(
@@ -85,6 +79,7 @@ CREATE TABLE valuation_results(
 	id NVARCHAR(50) PRIMARY KEY,
 	valuation_request_id BIGINT,
 	created_date DATETIME,
+	update_date DATETIME,
 	origin NVARCHAR(25),
 	shape NVARCHAR(25),
 	carat DECIMAL(4,2),
@@ -186,18 +181,8 @@ INSERT INTO roles(name)
 VALUES
 ('Admin'),('Manager'),('Consulting staff'),('Valuation staff'),('Customer')
 
-INSERT INTO service_statistics(
-    NAME
-) VALUES(
-    'Origin, Shape, Carat Weight, Color, Cut, Clarity'
-),
-(
-    'Origin, Shape, Carat Weight, Color, Cut, Clarity, Measurement, Polish'
-),
-(
-    'Origin, Shape, Carat Weight, Color, Cut, Clarity, Measurement, Polish, Symmetry, Fluorescence, Proportion')
 
-INSERT INTO Services(Name, Price, Time, service_statistic_id) VALUES('Normal', 200000, 30, 1),('Pro', 500000, 20, 2), ('Premium',1000000, 10, 3)
+INSERT INTO services(name, price, time, statistic) VALUES('Normal', 200000, 30, 'Origin, Shape, Carat, Cut, Color, Clarity, Proportions, Polish, Symmetry, Fluorescence'),('Pro', 500000, 20, 'Origin, Shape, Carat, Cut, Color, Clarity, Proportions, Polish, Symmetry, Fluorescence'), ('Premium',1000000, 10, 'Origin, Shape, Carat, Cut, Color, Clarity, Proportions, Polish, Symmetry, Fluorescence')
 
 INSERT INTO users(role_id, username, password, full_name, email, phone_number, address,is_active)
 VALUES

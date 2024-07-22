@@ -346,22 +346,8 @@ export default function PendingRequestTable() {
                         >
                           <Button
                             colorScheme="red"
-                            onClick={async () => {
-                              await cancelPendingRequest(
-                                selectedPendingRequest?.id,
-                                "Pending request",
-                                user.userAuth.token,
-                                setIsCanceled,
-                                toast
-                              ).then(() => {
-                                setTimeout(() => {
-                                  fetchPendingRequest(
-                                    currentPage,
-                                    user.userAuth.id
-                                  );
-                                  viewPendingRequest.onClose();
-                                }, 1000);
-                              });
+                            onClick={() => {
+                              viewConfirmCancelRequest.onOpen();
                             }}
                           >
                             Cancel
@@ -449,7 +435,7 @@ export default function PendingRequestTable() {
         cancelRef={cancelRef}
         header={"Confirm"}
         body={"Are you sure that want to cancel this valuation request ?"}
-        action={"Cancel"}
+        action={"Delete"}
         colorScheme={"red"}
         isDelete={isCanceled}
         onClickFunc={async () => {
@@ -462,7 +448,6 @@ export default function PendingRequestTable() {
           ).then(() => {
             setTimeout(() => {
               fetchPendingRequest(currentPage, user.userAuth.id);
-              viewConfirmCancelRequest.onClose();
               viewPendingRequest.onClose();
             }, 1000);
           });

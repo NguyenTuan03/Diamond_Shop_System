@@ -24,7 +24,7 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.id," +
             "v.createdDate, " +
             "v.valuationRequestId.serviceId.name," +
-            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.valuationRequestId.serviceId.statistic," +
             "v.origin," +
             "v.shape," +
             "v.carat," +
@@ -47,7 +47,7 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.id," +
             "v.createdDate, " +
             "v.valuationRequestId.serviceId.name," +
-            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.valuationRequestId.serviceId.statistic," +
             "v.origin," +
             "v.shape," +
             "v.carat," +
@@ -71,7 +71,7 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.id," +
             "v.createdDate, " +
             "v.valuationRequestId.serviceId.name," +
-            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.valuationRequestId.serviceId.statistic," +
             "v.origin," +
             "v.shape," +
             "v.carat," +
@@ -95,7 +95,7 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.id," +
             "v.createdDate," +
             "v.valuationRequestId.serviceId.name," +
-            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.valuationRequestId.serviceId.statistic," +
             "v.origin," +
             "v.shape," +
             "v.carat," +
@@ -119,7 +119,7 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.id," +
             "v.createdDate," +
             "v.valuationRequestId.serviceId.name," +
-            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.valuationRequestId.serviceId.statistic," +
             "v.origin," +
             "v.shape," +
             "v.carat," +

@@ -32,17 +32,17 @@ export default function DashBoardLayout({ children }) {
       <Flex width={"100vw"} minHeight={"100vh"} bg={bgColor}>
         {isMobile ? (
           <>
-              <SideBar/>  
+            <SideBar />
             <Box flex="1" pt={"20px"} mr={"60px"}>
               {children}
             </Box>
           </>
         ) : (
           <>
-            <Box w="256px">
+            <Box w="250px">
               <SideBar />
             </Box>
-            <Box flex="1" bg={bgColor} px={5} pt={"120px"}>
+            <Box flex="1" bg={bgColor} px={20} alignItems={"center"}>
               {children}
             </Box>
           </>
