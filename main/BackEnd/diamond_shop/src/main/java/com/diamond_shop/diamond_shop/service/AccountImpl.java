@@ -1,11 +1,7 @@
 package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.config.JWTUtil;
-import com.diamond_shop.diamond_shop.dto.AccountDTO;
-import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
-import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
-import com.diamond_shop.diamond_shop.dto.LoginDTO;
-import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
+import com.diamond_shop.diamond_shop.dto.*;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.RoleEntity;
 import com.diamond_shop.diamond_shop.pojo.LoginPojo;
@@ -117,6 +113,7 @@ public class AccountImpl implements AccountService {
             return "Invalid activation code!";
         }
     }
+
 
     @Override
     public String createAccount(AccountDTO accountDTO) {
@@ -328,6 +325,22 @@ public class AccountImpl implements AccountService {
         return ResponseEntity.ok("Reset password email sent");
     }
 
+    @Override
+    public String updateAccount(int id, UpdateAccountDTO updateAccountDTO) {
+        AccountEntity accountEntity = accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        AccountEntity existingAccount = accountRepository.findByPhoneNumber(updateAccountDTO.getPhone());
+        if (existingAccount == null || existingAccount.getId() == id) {
+            accountEntity.setFullname(updateAccountDTO.getFullname());
+            accountEntity.setPhone_number(updateAccountDTO.getPhone());
+            accountEntity.setAddress(updateAccountDTO.getAddress());
+            accountRepository.save(accountEntity);
+            return "Update successful";
+        } else {
+            return "Phone number already exists!";
+        }
+    }
 
     @Override
     public ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {
