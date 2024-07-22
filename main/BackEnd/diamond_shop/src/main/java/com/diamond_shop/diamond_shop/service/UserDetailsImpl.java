@@ -17,13 +17,17 @@ public class UserDetailsImpl implements UserDetails {
 
     private int id;
     private String username;
+    private String fullname;
+    private String address;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(int id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(int id, String username,String fullname,String address, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
+        this.fullname = fullname;
+        this.address = address;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
@@ -35,6 +39,8 @@ public class UserDetailsImpl implements UserDetails {
         return new UserDetailsImpl(
                 accountEntity.getId(),
                 accountEntity.getUsername(),
+                accountEntity.getFullname(),
+                accountEntity.getAddress(),
                 accountEntity.getEmail(),
                 accountEntity.getPassword(),
                 Collections.singletonList(authority));
