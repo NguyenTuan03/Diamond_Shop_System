@@ -13,16 +13,22 @@ import {
   Icon,
   Text,
   SimpleGrid,
+  InputGroup,
+  InputLeftAddon,
+  InputRightAddon,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import Title from "../../components/Title";
 import { Form, Formik } from "formik";
 import axios from "axios";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import routes from "../../config/Config";
 import { LuUpload } from "react-icons/lu";
+import { GrUpdate } from "react-icons/gr";
 
 export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
@@ -79,7 +85,6 @@ export default function DiamondValuationRequest() {
   };
   const handleSubmitImages = async (pendingRequestId) => {
     try {
-      setIsUpLoading(true);
       for (const image of selectedImages) {
         const formData = new FormData();
         formData.append("file", image);
@@ -115,7 +120,6 @@ export default function DiamondValuationRequest() {
           );
         }
       }
-      setIsUpLoading(false);
       toast({
         title: "Request submitted successfully",
         position: "top-right",
@@ -125,7 +129,6 @@ export default function DiamondValuationRequest() {
       });
       navigate(routes.pendingRequest);
     } catch (error) {
-      setIsUpLoading(false);
       toast({
         title: "Error",
         position: "top-right",
@@ -143,11 +146,10 @@ export default function DiamondValuationRequest() {
         minH={"100vh"}
         alignItems={"center"}
         bg={bgColor}
-        pt={"100px"}
+        pt={"20px"}
       >
         <Flex
           direction={"column"}
-          align={"center"}
           p={8}
           border={"1px solid gray"}
           borderRadius={"24px"}
@@ -161,11 +163,68 @@ export default function DiamondValuationRequest() {
             }
             width={"50vw"}
           />
+          <Flex direction={"column"} align={"start"} gap={5}>
+            <InputGroup>
+              <InputLeftAddon>Name</InputLeftAddon>
+              <Input
+                type="text"
+                value={user.userAuth.fullname || "N/A"}
+                isReadOnly
+              />
+              <InputRightAddon>
+                <Tooltip label="Update your name" hasArrow placement="top">
+                  <Link to={routes.dashboardSetting}>
+                    <Button>
+                      <GrUpdate />
+                    </Button>
+                  </Link>
+                </Tooltip>
+              </InputRightAddon>
+            </InputGroup>
+            <InputGroup>
+              <InputLeftAddon>Email</InputLeftAddon>
+              <Input
+                type="text"
+                value={user.userAuth.email || "N/A"}
+                isReadOnly
+              />
+              <InputRightAddon>
+                <Tooltip label="Update your email" hasArrow placement="top">
+                  <Link to={routes.dashboardSetting}>
+                    <Button>
+                      <GrUpdate />
+                    </Button>
+                  </Link>
+                </Tooltip>
+              </InputRightAddon>
+            </InputGroup>
+            <InputGroup>
+              <InputLeftAddon>Phone</InputLeftAddon>
+              <Input
+                type="number"
+                value={user.userAuth.phonenumber || 0}
+                isReadOnly
+              />
+              <InputRightAddon>
+                <Tooltip
+                  label="Update your phone number"
+                  hasArrow
+                  placement="top"
+                >
+                  <Link to={routes.dashboardSetting}>
+                    <Button>
+                      <GrUpdate />
+                    </Button>
+                  </Link>
+                </Tooltip>
+              </InputRightAddon>
+            </InputGroup>
+          </Flex>
           <Formik
             initialValues={{ description: "" }}
             onSubmit={async (values, { setSubmitting }) => {
+              setSubmitting(true);
               try {
-                setSubmitting(true);
                 if (localStorage.getItem("user") === null) {
                   toast({
                     title: "Please login first !",
@@ -186,11 +245,12 @@ export default function DiamondValuationRequest() {
                     isClosable: true,
                   });
                 } else {
-                  setSubmitting(true);
-                  checkCustomerPendingRequest(
+                  await checkCustomerPendingRequest(
                     user.userAuth.id,
                     values.description
-                  );
+                  ).then(() => {
+                    setSubmitting(false);
+                  });
                 }
               } catch (e) {
                 console.log(e);
@@ -201,14 +261,16 @@ export default function DiamondValuationRequest() {
               <Form onSubmit={handleSubmit}>
                 <Flex direction={"column"} align={"center"} gap={10}>
                   <FormControl>
-                    <Textarea
-                      name="description"
-                      value={values.description}
-                      onChange={handleChange}
-                      h={"150px"}
-                      w={{ base: "70vw", md: "50vw", lg: "40vw" }}
-                      placeholder="Please write your request description here..."
-                    />
+                    <Center>
+                      <Textarea
+                        name="description"
+                        value={values.description}
+                        onChange={handleChange}
+                        h={"150px"}
+                        w={"100%"}
+                        placeholder="Please write your request description here..."
+                      />
+                    </Center>
                   </FormControl>
                   <FormControl>
                     <Center>
@@ -290,9 +352,8 @@ export default function DiamondValuationRequest() {
                   <Button
                     type="submit"
                     colorScheme="blue"
-                    isLoading={isSubmitting || isUploading}
-                    isDisabled={isSubmitting || isUploading}
-                    m={"0 0 100px 0"}
+                    isLoading={isSubmitting}
+                    isDisabled={isSubmitting}
                   >
                     Submit
                   </Button>

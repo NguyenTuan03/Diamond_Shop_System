@@ -181,8 +181,6 @@ export default function DashBoardAppoint() {
             mb={5}
             boxShadow="sm"
             borderRadius="md"
-            maxW="100%"
-            
           >
             <Text py={3} fontSize="lg" pl={4}>
               APPOINTMENTS
@@ -230,8 +228,6 @@ export default function DashBoardAppoint() {
               bg="gray.600"
               color="white"
               borderRadius="md"
-              maxW="100%"
-              minW="100%"
             >
               <Text py={3} fontSize="lg" pl={4}>
                 SAVED DIAMONDS

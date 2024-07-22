@@ -48,8 +48,8 @@ import { GoBlocked } from "react-icons/go";
 const SideBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const auth = useContext(UserContext);
-  const bg = useColorModeValue("gray.800", "black");
-  const color = useColorModeValue("white", "gray.200");
+  const bg = useColorModeValue("gray.200", "gray.800");
+  const color = useColorModeValue("black", "white");
   const hoverBg = useColorModeValue("gray.700", "gray.600");
   const [isMobile] = useMediaQuery("(max-width: 856px)");
   const handleLogout = () => {
@@ -193,7 +193,6 @@ const SideBar = () => {
         }}
       >
         <Icon />
-
         <Text ml="4">{label}</Text>
       </Flex>
     </Link>
@@ -288,8 +287,6 @@ const SideBar = () => {
           minH="100vh"
           w="250px"
           pos="fixed"
-          borderRight="1px"
-          borderColor="gray.200"
           maxH="100vh"
           overflowY="auto"
         >
