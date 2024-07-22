@@ -18,15 +18,17 @@ public class UserDetailsImpl implements UserDetails {
     private int id;
     private String username;
     private String fullname;
+    private String phonenumber;
     private String address;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(int id, String username,String fullname,String address, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(int id, String username,String fullname,String phonenumber,String address, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.fullname = fullname;
+        this.phonenumber = phonenumber;
         this.address = address;
         this.email = email;
         this.password = password;
@@ -40,6 +42,7 @@ public class UserDetailsImpl implements UserDetails {
                 accountEntity.getId(),
                 accountEntity.getUsername(),
                 accountEntity.getFullname(),
+                accountEntity.getPhone_number(),
                 accountEntity.getAddress(),
                 accountEntity.getEmail(),
                 accountEntity.getPassword(),
