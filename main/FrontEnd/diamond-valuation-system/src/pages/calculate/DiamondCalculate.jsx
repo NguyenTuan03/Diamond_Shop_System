@@ -174,6 +174,7 @@ export default function Calculate() {
           justifyContent="center"
           bg={fontColor}
           paddingTop={10}
+          marginBottom={10}
         >
           <Text
             fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}
