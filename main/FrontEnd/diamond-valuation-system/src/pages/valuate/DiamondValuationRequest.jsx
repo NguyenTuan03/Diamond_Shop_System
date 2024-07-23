@@ -219,6 +219,27 @@ export default function DiamondValuationRequest() {
                 </Tooltip>
               </InputRightAddon>
             </InputGroup>
+            <InputGroup>
+              <InputLeftAddon>Address</InputLeftAddon>
+              <Input
+                type="text"
+                value={user.userAuth.address || "N/A"}
+                isReadOnly
+              />
+              <InputRightAddon>
+                <Tooltip
+                  label="Update your address"
+                  hasArrow
+                  placement="top"
+                >
+                  <Link to={routes.dashboardSetting}>
+                    <Button>
+                      <GrUpdate />
+                    </Button>
+                  </Link>
+                </Tooltip>
+              </InputRightAddon>
+            </InputGroup>
           </Flex>
           <Formik
             initialValues={{ description: "" }}
