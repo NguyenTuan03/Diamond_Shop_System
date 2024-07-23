@@ -151,7 +151,8 @@ export default function DiamondValuationRequest() {
         <Flex
           direction={"column"}
           p={8}
-          border={"1px solid gray"}
+          border={"1px solid"}
+          borderColor={bgColor1}
           borderRadius={"24px"}
           m={"10px"}
           gap={10}
@@ -165,16 +166,16 @@ export default function DiamondValuationRequest() {
           />
           <Flex direction={"column"} align={"start"} gap={5}>
             <InputGroup>
-              <InputLeftAddon>Name</InputLeftAddon>
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Name</InputLeftAddon>
               <Input
                 type="text"
                 value={user.userAuth.fullname || "N/A"}
                 isReadOnly
               />
-              <InputRightAddon>
+              <InputRightAddon >
                 <Tooltip label="Update your name" hasArrow placement="top">
-                  <Link to={routes.dashboardSetting}>
-                    <Button>
+                  <Link to={routes.dashboardSetting} >
+                    <Button  >
                       <GrUpdate />
                     </Button>
                   </Link>
@@ -182,7 +183,7 @@ export default function DiamondValuationRequest() {
               </InputRightAddon>
             </InputGroup>
             <InputGroup>
-              <InputLeftAddon>Email</InputLeftAddon>
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Email</InputLeftAddon>
               <Input
                 type="text"
                 value={user.userAuth.email || "N/A"}
@@ -199,7 +200,7 @@ export default function DiamondValuationRequest() {
               </InputRightAddon>
             </InputGroup>
             <InputGroup>
-              <InputLeftAddon>Phone</InputLeftAddon>
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Phone</InputLeftAddon>
               <Input
                 type="number"
                 value={user.userAuth.phonenumber || 0}
@@ -220,7 +221,7 @@ export default function DiamondValuationRequest() {
               </InputRightAddon>
             </InputGroup>
             <InputGroup>
-              <InputLeftAddon>Address</InputLeftAddon>
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Address</InputLeftAddon>
               <Input
                 type="text"
                 value={user.userAuth.address || "N/A"}
@@ -298,7 +299,8 @@ export default function DiamondValuationRequest() {
                       <FormLabel
                         display={"inline-block"}
                         cursor={"pointer"}
-                        bgColor={"gray.200"}
+                        color={bgColor}
+                        bgColor={bgColor1}
                         borderRadius={"20px"}
                         _hover={{ bgColor: "gray.300" }}
                         m={"10px"}
@@ -372,7 +374,8 @@ export default function DiamondValuationRequest() {
                   )}
                   <Button
                     type="submit"
-                    colorScheme="blue"
+                    color={bgColor}
+                        bgColor={bgColor1}
                     isLoading={isSubmitting}
                     isDisabled={isSubmitting}
                   >
