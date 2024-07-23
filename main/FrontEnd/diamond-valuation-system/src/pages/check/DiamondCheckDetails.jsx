@@ -41,6 +41,8 @@ export default function DiamondCheckDetails() {
     });
     const bgColor = useColorModeValue("white", "black");
     const bgColor1 = useColorModeValue("blue.400", "#DBA843");
+    const forntColor = useColorModeValue("black", "white");
+    const bgColor2 = useColorModeValue("rgb(45, 84, 119)", "#DBA843");
     const [diamond, setDiamond] = useState({});
     const [diamondImages, setDiamondImages] = useState([]);
 
@@ -106,8 +108,9 @@ export default function DiamondCheckDetails() {
         console.log(diamondImages);
     }, []);
     return (
-        <div>
-            <Grid templateColumns="repeat(3, 1fr)" gap={10} p={10} bg={bgColor}>
+        <Box bg={bgColor} paddingBottom={10} paddingTop={10}>
+            
+            <Grid templateColumns="repeat(2, 1fr)"  p={10} >
                 <GridItem
                     colSpan={1}
                     display={"flex"}
@@ -132,7 +135,7 @@ export default function DiamondCheckDetails() {
                                     cldImg={cld
                                         .image(image)
                                         .resize(
-                                            thumbnail().width(200).height(200)
+                                            thumbnail().width(500).height(500)
                                         )}
                                     plugins={[
                                         lazyload(),
@@ -143,7 +146,7 @@ export default function DiamondCheckDetails() {
                         })}
                     </SimpleGrid>
                 </GridItem>
-                <GridItem colSpan={2}>
+                <GridItem colSpan={1}>
                     <Flex direction={"column"} gap={5}>
                         <Flex direction={"row"} alignItems={"center"} gap={5}>
                             <Skeleton isLoaded={diamond !== null}>
@@ -155,8 +158,8 @@ export default function DiamondCheckDetails() {
                                 <Badge
                                     color={"rgb(22 163 74)"}
                                     fontSize={"xl"}
-                                    bg={"#f0fdf4"}
-                                    border={"1px solid #caedd6"}
+                                    bg={bgColor}
+                                    border={"1px solid"}
                                     p={"4px"}
                                     px={"6px"}
                                     borderRadius={"8px"}
@@ -336,28 +339,30 @@ export default function DiamondCheckDetails() {
                     </Flex>
                 </GridItem>
             </Grid>
-            <Container maxW="6xl" color="white" mb={"40px"}>
-                <HStack spacing="24px" justifyContent={"center"} mb={"40px"}>
+            <Box mt={10}>
+            <Container maxW="6xl" color="white"  >
+                <HStack spacing="24px" justifyContent={"center"} mb={"40px"} >
                     <Tag
                         alignItems={"center"}
                         p={"12px"}
-                        bg={"#fff"}
+                        bg={bgColor}
                         size={{ base: "sm", md: "md", lg: "lg" }}
                     >
                         <GrNotes style={{ marginRight: "12px" }} />
                         Diamond Details
                     </Tag>
                 </HStack>
-                <Grid templateColumns="repeat(2, 1fr)" gap={6} height={"100%"}>
+                <Grid templateColumns="repeat(2, 1fr)" gap={8} height={"100%"}>
                     <GridItem colSpan={1} w="100%" h={"100%"}>
                         <VStack>
                             <Box w={"100%"}>
                                 <Box
                                     fontWeight={"bold"}
                                     fontSize={"small"}
-                                    bg="rgb(45, 84, 119)"
+                                    bg={bgColor2}
                                     p={"8px 0 8px 10px"}
                                     mb={"8px"}
+                                    color={bgColor}
                                 >
                                     GIA REPORT DETAILS
                                 </Box>
@@ -371,7 +376,7 @@ export default function DiamondCheckDetails() {
                                                 Certificate Date
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {console.log(diamond)}
@@ -395,7 +400,7 @@ export default function DiamondCheckDetails() {
                                                 GIA Report Number
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {diamond?.id}
@@ -411,7 +416,7 @@ export default function DiamondCheckDetails() {
                                                 Shape
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {diamond?.shape}
@@ -427,7 +432,7 @@ export default function DiamondCheckDetails() {
                                                 Measurements
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {diamond?.measurements
@@ -442,9 +447,10 @@ export default function DiamondCheckDetails() {
                                 <Box
                                     fontWeight={"bold"}
                                     fontSize={"small"}
-                                    bg="rgb(45, 84, 119)"
+                                    bg={bgColor2}
                                     p={"8px 0 8px 10px"}
                                     mb={"8px"}
+                                    color={bgColor}
                                 >
                                     GRADING RESULTS
                                 </Box>
@@ -458,7 +464,7 @@ export default function DiamondCheckDetails() {
                                                 Carat Weight
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {diamond?.carat}
@@ -474,7 +480,7 @@ export default function DiamondCheckDetails() {
                                                 Color Grade
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {diamond?.color}
@@ -490,7 +496,7 @@ export default function DiamondCheckDetails() {
                                                 Clarity Grade
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {diamond?.clarity}
@@ -506,7 +512,7 @@ export default function DiamondCheckDetails() {
                                                 Cut Grade
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {diamond?.cut}
@@ -519,9 +525,10 @@ export default function DiamondCheckDetails() {
                                 <Box
                                     fontWeight={"bold"}
                                     fontSize={"small"}
-                                    bg="rgb(45, 84, 119)"
+                                    bg={bgColor2}
                                     p={"8px 0 8px 10px"}
                                     mb={"8px"}
+                                    color={bgColor}
                                 >
                                     ADDITIONAL GRADING INFORMATION
                                 </Box>
@@ -535,7 +542,7 @@ export default function DiamondCheckDetails() {
                                                 Polish
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {diamond?.polish}
@@ -551,7 +558,7 @@ export default function DiamondCheckDetails() {
                                                 Symmetry
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {diamond?.symmetry}
@@ -567,7 +574,7 @@ export default function DiamondCheckDetails() {
                                                 Fluorescence
                                             </Text>
                                             <Text
-                                                color={"#000"}
+                                                color={forntColor}
                                                 fontWeight={"bold"}
                                             >
                                                 {diamond?.fluorescence}
@@ -584,9 +591,10 @@ export default function DiamondCheckDetails() {
                                 <Box
                                     fontWeight={"bold"}
                                     fontSize={"small"}
-                                    bg="rgb(45, 84, 119)"
+                                    bg={bgColor2}
                                     p={"8px 0 8px 10px"}
                                     mb={"8px"}
+                                    color={bgColor}
                                 >
                                     GIA REPORT DETAILS
                                 </Box>
@@ -706,9 +714,10 @@ export default function DiamondCheckDetails() {
                                 <Box
                                     fontWeight={"bold"}
                                     fontSize={"small"}
-                                    bg="rgb(45, 84, 119)"
+                                    bg={bgColor2}
                                     p={"8px 0 8px 10px"}
                                     mb={"8px"}
+                                    color={bgColor}
                                 >
                                     CLARITY CHARACTERISTICS
                                 </Box>
@@ -753,6 +762,8 @@ export default function DiamondCheckDetails() {
                     </GridItem>
                 </Grid>
             </Container>
-        </div>
+            </Box>
+            
+        </Box>
     );
 }

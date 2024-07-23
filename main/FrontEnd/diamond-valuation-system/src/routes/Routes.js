@@ -7,7 +7,7 @@ const DiamondCheck = lazy(() => import("../pages/check/DiamondCheck.jsx"));
 const DiamondCheckDetails = lazy(() =>
   import("../pages/check/DiamondCheckDetails.jsx")
 );
-const Detail = lazy(() => import("../pages/detail/Detail.jsx"));
+const Detail = lazy(() => import("../pages/check/DiamondCheckDetails.jsx"));
 const DiamondService = lazy(() =>
   import("../pages/services/DiamondService.jsx")
 );
