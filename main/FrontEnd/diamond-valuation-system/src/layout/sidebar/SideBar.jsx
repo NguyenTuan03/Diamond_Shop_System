@@ -7,7 +7,6 @@ import {
   Divider,
   Spacer,
   useColorModeValue,
-  useBreakpointValue,
   IconButton,
   Drawer,
   DrawerBody,
