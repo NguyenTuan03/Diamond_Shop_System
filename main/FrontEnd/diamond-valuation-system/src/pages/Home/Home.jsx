@@ -77,6 +77,11 @@ export default function Home() {
                 duration: 2000,
                 isClosable: true,
             });
+            searchParams.delete("vnp_ResponseCode");
+            const newUrl = `${
+                window.location.pathname
+            }?${searchParams.toString()}`;
+            window.history.replaceState({}, "", newUrl);
         }
         if (status !== "00" && status !== null) {
             toast({
@@ -84,9 +89,14 @@ export default function Home() {
                 description: "Oohh, Something went wrong!",
                 status: "error",
                 position: "top-right",
-                duration: 2000,
+            duration: 2000,
                 isClosable: true,
             });
+            searchParams.delete("vnp_ResponseCode");
+            const newUrl = `${
+                window.location.pathname
+            }?${searchParams.toString()}`;
+            window.history.replaceState({}, "", newUrl);
         }
     }, [toast]);
 
