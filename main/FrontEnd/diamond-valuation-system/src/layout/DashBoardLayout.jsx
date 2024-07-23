@@ -21,14 +21,6 @@ export default function DashBoardLayout({ children }) {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <>
-      {/* <Flex width={"100vw"} minHeight={"100vh"} bg={bgColor}>
-        <Box w="256px">
-          <SideBar />
-        </Box>
-        <Box flex="1" bg={bgColor} px={5} pt={"120px"}>
-          {children}
-        </Box>
-      </Flex> */}
       <Flex width={"100vw"} minHeight={"100vh"} bg={bgColor}>
         {isMobile ? (
           <>
