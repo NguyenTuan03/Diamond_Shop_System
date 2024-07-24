@@ -229,7 +229,12 @@ export default function SealingLetterTable() {
                 </Text>
                 <Text>
                   <strong>Date</strong>:{" "}
-                  {selectedSealingLetter?.createdDate?.slice(0, 10) || "N/A"}
+                  {selectedSealingLetter?.createdDate
+                    ? format(
+                        parseISO(selectedSealingLetter?.createdDate),
+                        "dd/MM/yyyy - HH:mm:ss"
+                      )
+                    : "N/A"}
                 </Text>
                 <Text>
                   <strong>RE</strong>: Unclaimed Diamond
@@ -243,11 +248,21 @@ export default function SealingLetterTable() {
                 <Text>
                   Our records indicate that you left a diamond with us on{" "}
                   <strong>
-                    {selectedSealingLetter?.receivedDate?.slice(0, 10)}
+                    {selectedSealingLetter?.receivedDate
+                      ? format(
+                          parseISO(selectedSealingLetter?.receivedDate),
+                          "dd/MM/yyyy - HH:mm:ss"
+                        )
+                      : "N/A"}
                   </strong>
                   . We have attempted to contact you on{" "}
                   <strong>
-                    {selectedSealingLetter?.finishDate?.slice(0, 10)}
+                    {selectedSealingLetter?.finishDate
+                      ? format(
+                          parseISO(selectedSealingLetter?.finishDate),
+                          "dd/MM/yyyy - HH:mm:ss"
+                        )
+                      : "N/A"}
                   </strong>{" "}
                   to discuss the return of your diamond, but have been 30 days
                   from that time you didn't come to get your diamond and your
