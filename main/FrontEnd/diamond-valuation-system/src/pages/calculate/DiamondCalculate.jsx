@@ -336,6 +336,7 @@ export default function Calculate() {
                       content={"$" + valuationResult.min || "No result"}
                       header={"Min"}
                       body={"Average of lowest 10% asking price in USD / carat"}
+                      align={"center"}
                     />
                     <PopoverInfo
                       content={"$" + valuationResult.avg || "No result"}
@@ -343,6 +344,7 @@ export default function Calculate() {
                       body={
                         "Average asking price of the last 3 months in USD / carat"
                       }
+                      align={"center"}
                     />
                     <PopoverInfo
                       content={"$" + valuationResult.max || "No result"}
@@ -350,6 +352,7 @@ export default function Calculate() {
                       body={
                         "Average of 10% highest asking price in USD / carat"
                       }
+                      align={"center"}
                     />
                   </SimpleGrid>
                 </Flex>

@@ -99,7 +99,7 @@ export default function CommitmentTable() {
                     <Th>ID</Th>
                     <Th>Request ID</Th>
                     <Th>Customer Name</Th>
-                    <Th>Created Date</Th>
+                    <Th w={"150px"}>Created Date</Th>
                     <Th>Description</Th>
                     <Th>View</Th>
                   </Tr>

@@ -144,9 +144,8 @@ public class ProcessRequestImpl implements ProcessRequestService {
                 processRequestRepository.save(processRequest);
             }
         }
-
         responsePojo.setId(id);
-        responsePojo.setMessage("Update process request successfully!");
+        responsePojo.setMessage(updateProcessRequestDTO.getStatus() + " request successfully!");
         return responsePojo;
     }
 

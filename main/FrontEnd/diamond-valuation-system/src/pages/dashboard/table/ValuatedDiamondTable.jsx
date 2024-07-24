@@ -44,6 +44,7 @@ export default function ValuatedDiamondTable() {
         }/api/valuation-result/customer/get?id=${id}&page=${page}`
       )
       .then((res) => {
+        console.log(res.data);
         setValuationResults(res.data.content);
         setTotalPages(res.data.totalPages);
       });

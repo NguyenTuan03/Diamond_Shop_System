@@ -102,9 +102,9 @@ export default function SealingLetterTable() {
                     <Th>Created Date</Th>
                     <Th>Request ID</Th>
                     <Th>Customer Name</Th>
-                    <Th>Receive Date</Th>
-                    <Th>Finish Date</Th>
-                    <Th>Sealing Date</Th>
+                    <Th w={"150px"}>Receive Date</Th>
+                    <Th w={"150px"}>Finish Date</Th>
+                    <Th w={"150px"}>Sealing Date</Th>
                     <Th>View</Th>
                   </Tr>
                 </Thead>

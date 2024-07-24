@@ -10,6 +10,7 @@ import {
   CardBody,
   CardFooter,
   Center,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { redirect, useLocation, useNavigate } from "react-router-dom";
@@ -95,9 +96,9 @@ export default function ServiceCard({
       <CardBody align={"start"}>
         <Text fontSize={"lg"}>We will valuate:</Text>
         <UnorderedList fontSize={"sm"}>
-          {attributes.map((item, index) => (
-            <ListItem key={index}>{item}</ListItem>
-          ))}
+            {attributes.map((item, index) => (
+              <ListItem key={index}>{item}</ListItem>
+            ))}
         </UnorderedList>
       </CardBody>
       <Center>
