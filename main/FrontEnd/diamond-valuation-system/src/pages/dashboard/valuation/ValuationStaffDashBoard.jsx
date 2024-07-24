@@ -1,4 +1,4 @@
-import { ViewIcon } from "@chakra-ui/icons";
+import { CheckIcon, CloseIcon, ViewIcon } from "@chakra-ui/icons";
 import {
   Button,
   Center,
@@ -551,6 +551,7 @@ export default function ValuationStaffDashboard() {
                   <Th w={"150px"}>Update Date</Th>
                   <Th>Service</Th>
                   <Th>Status</Th>
+                  <Th>Certificate</Th>
                   <Th>View</Th>
                 </Tr>
               </Thead>
@@ -600,6 +601,13 @@ export default function ValuationStaffDashboard() {
                       >
                         <Center>{item?.status}</Center>
                       </Box>
+                    </Td>
+                    <Td>
+                      {item?.hasCertificate ? (
+                        <CheckIcon color={"green"} />
+                      ) : (
+                        <CloseIcon color={"red"} />
+                      )}
                     </Td>
                     <Td>
                       <IconButton
@@ -793,7 +801,7 @@ export default function ValuationStaffDashboard() {
                             onChange={handleChange}
                           >
                             <option value="Excellent">Excellent</option>
-                            <option value="VeryGood">Very Good</option>
+                            <option value="Very Good">Very Good</option>
                             <option value="Good">Good</option>
                             <option value="Fair">Fair</option>
                             <option value="Poor">Poor</option>
@@ -1180,23 +1188,25 @@ export default function ValuationStaffDashboard() {
                           </Select>
                         </FormControl>
                       </SimpleGrid>
-                      <Tooltip
-                        label="Cut Grade, Symmetry & Polish are generated base on Depth, Table, Girdle, Star, Lower Half, Crown, Pavilion & Culet of a diamond"
-                        hasArrow
-                      >
-                        <Button
-                          isDisabled={isGenerateCutGrade}
-                          isLoading={isGenerateCutGrade}
-                          onClick={() => {
-                            generateCutGrade(
-                              selectedProcessResult?.valuationResultId,
-                              values
-                            );
-                          }}
+                      {selectedProcessResult?.hasCertificate && (
+                        <Tooltip
+                          label="Cut Grade, Symmetry & Polish are generated base on Depth, Table, Girdle, Star, Lower Half, Crown, Pavilion & Culet of a diamond"
+                          hasArrow
                         >
-                          Generate Cut Grade, Symmetry & Polish
-                        </Button>
-                      </Tooltip>
+                          <Button
+                            isDisabled={isGenerateCutGrade}
+                            isLoading={isGenerateCutGrade}
+                            onClick={() => {
+                              generateCutGrade(
+                                selectedProcessResult?.valuationResultId,
+                                values
+                              );
+                            }}
+                          >
+                            Generate Cut Grade, Symmetry & Polish
+                          </Button>
+                        </Tooltip>
+                      )}
                     </Flex>
                     <Flex
                       direction={"column"}
@@ -1465,18 +1475,20 @@ export default function ValuationStaffDashboard() {
                           )}
                         </Field>
                       </SimpleGrid>
-                      <Button
-                        isDisabled={isGenerateClarity}
-                        isLoading={isGenerateClarity}
-                        onClick={() => {
-                          generateClarityGrade(
-                            selectedProcessResult?.valuationResultId,
-                            values
-                          );
-                        }}
-                      >
-                        Generate Clarity Grade
-                      </Button>
+                      {selectedProcessResult?.hasCertificate && (
+                        <Button
+                          isDisabled={isGenerateClarity}
+                          isLoading={isGenerateClarity}
+                          onClick={() => {
+                            generateClarityGrade(
+                              selectedProcessResult?.valuationResultId,
+                              values
+                            );
+                          }}
+                        >
+                          Generate Clarity Grade
+                        </Button>
+                      )}
                     </Flex>
                     <SimpleGrid columns={2} spacing={5}>
                       <FormControl>
@@ -1509,7 +1521,7 @@ export default function ValuationStaffDashboard() {
                           <option value="Faint">Faint</option>
                           <option value="Medium">Medium</option>
                           <option value="Strong">Strong</option>
-                          <option value="very Strong">Very Strong</option>
+                          <option value="Very Strong">Very Strong</option>
                         </Select>
                       </FormControl>
                     </SimpleGrid>
@@ -1595,18 +1607,31 @@ export default function ValuationStaffDashboard() {
                   return (
                     <>
                       <Flex direction={"column"} key={index}>
-                        <AdvancedImage
-                          key={index}
-                          cldImg={cld
-                            .image(image)
-                            .resize(thumbnail().width(200).height(200))}
-                          plugins={[
-                            lazyload(),
-                            placeholder({
-                              mode: "blur",
-                            }),
-                          ]}
-                        />
+                        <Tooltip label="Click to view image" placement="top">
+                          <Box
+                            transition={"transform 0.2s"}
+                            _hover={{
+                              transform: "scale(1.5)",
+                              boxShadow: "0 0 2px 1px rgba(0, 140, 186, 0.5)",
+                            }}
+                            onClick={() => {
+                              window.open(cld.image(image).toURL(), "_blank");
+                            }}
+                          >
+                            <AdvancedImage
+                              key={index}
+                              cldImg={cld
+                                .image(image)
+                                .resize(thumbnail().width(200).height(200))}
+                              plugins={[
+                                lazyload(),
+                                placeholder({
+                                  mode: "blur",
+                                }),
+                              ]}
+                            />
+                          </Box>
+                        </Tooltip>
                         <Button
                           isDisabled={isDeleted}
                           isLoading={isDeleted}

@@ -258,7 +258,12 @@ export default function CommitmentTable() {
               </Text>
               <Text>
                 <strong>Date</strong>{" "}
-                {selectedCommitment?.createdDate?.slice(0, 10) || "N/A"}
+                {selectedCommitment?.createdDate
+                  ? format(
+                      parseISO(selectedCommitment?.createdDate),
+                      "dd/MM/yyyy - HH:mm:ss"
+                    )
+                  : "N/A"}
               </Text>
               <Text>
                 <strong>RE</strong>: Lost Receipt
@@ -308,7 +313,7 @@ export default function CommitmentTable() {
               <Flex justify={"space-around"}>
                 <Flex direction={"column"}>
                   <Text>Sincerely,</Text>
-                  <Text marginTop={"200px"}>Manager</Text>
+                  <Text marginTop={"50px"}>Manager</Text>
                   <Text>DiamondVal</Text>
                 </Flex>
                 <Text>Your signature</Text>

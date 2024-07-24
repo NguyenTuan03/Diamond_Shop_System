@@ -133,7 +133,7 @@ export default function PendingRequestTable() {
                     <Th>Customer</Th>
                     <Th>Email</Th>
                     <Th>Phone</Th>
-                    <Th>Created Date</Th>
+                    <Th w={"150px"}>Created Date</Th>
                     <Th>Description</Th>
                     <Th>Certificate</Th>
                     <Th>View</Th>
@@ -156,17 +156,17 @@ export default function PendingRequestTable() {
                         {item?.createdDate
                           ? format(
                               parseISO(item?.createdDate),
-                              "dd/MM/yyyy HH:mm:ss"
+                              "dd/MM/yyyy - HH:mm:ss"
                             )
                           : "N/A"}
                       </Td>
                       <Td>{item?.description || "N/A"}</Td>
                       <Td>
-                          {item?.hasCertificate ? (
-                            <CheckIcon color={"green"} />
-                          ) : (
-                            <CloseIcon color={"red"} />
-                          )}
+                        {item?.hasCertificate ? (
+                          <CheckIcon color={"green"} />
+                        ) : (
+                          <CloseIcon color={"red"} />
+                        )}
                       </Td>
                       <Td>
                         <IconButton
@@ -236,7 +236,12 @@ export default function PendingRequestTable() {
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
                   <Text color={"gray.600"}>Created Date:</Text>
                   <Text>
-                    {selectedPendingRequest?.createdDate?.slice(0, 10) || "N/A"}
+                    {selectedPendingRequest?.createdDate
+                      ? format(
+                          parseISO(selectedPendingRequest?.createdDate),
+                          "dd/MM/yyyy - HH:mm:ss"
+                        )
+                      : "N/A"}
                   </Text>
                 </Box>
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
