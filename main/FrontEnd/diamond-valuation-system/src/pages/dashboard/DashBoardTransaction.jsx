@@ -41,7 +41,7 @@ export default function DashBoardTransaction({ hidePagination }) {
       <Box m={10}>
         <Center mb={5}>
           <Text fontSize={"4xl"} fontWeight={"bold"}>
-            Transacations
+            Transactions
           </Text>
         </Center>
         {totalPage === 0 ? (

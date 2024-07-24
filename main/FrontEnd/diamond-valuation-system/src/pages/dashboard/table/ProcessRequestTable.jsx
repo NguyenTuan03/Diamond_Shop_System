@@ -295,7 +295,7 @@ export default function ProcessRequestTable() {
                             (item?.status === "Finished" &&
                               "rgb(255, 205, 86)") ||
                             (item?.status === "Done" && "#68D391") ||
-                            (item?.status === "Sealed" && "#2D3748") ||
+                            (item?.status === "Sealed" && "gray.300") ||
                             (item?.status === "Lost Receipt" && "#718096")
                           }
                           borderRadius={"20px"}
@@ -629,14 +629,7 @@ export default function ProcessRequestTable() {
                   <Center>
                     <Flex direction={"column"} align={"center"} p={10} gap={5}>
                       <Text textTransform={"uppercase"} color={"tomato"}>
-                        Your request has been canceled because{" "}
-                        {(user.userAuth.authorities[0].authority ===
-                          "Consulting staff" &&
-                          "customer") ||
-                          (user.userAuth.authorities[0].authority ===
-                            "Customer" &&
-                            "you")}{" "}
-                        didn't send diamond on time.
+                        The request has been canceled
                       </Text>
                       <Text>
                         Please contact with{" "}
@@ -645,8 +638,7 @@ export default function ProcessRequestTable() {
                           "customer") ||
                           (user.userAuth.authorities[0].authority ===
                             "Customer" &&
-                            "staff")}{" "}
-                        for more information
+                            "staff")}
                       </Text>
                     </Flex>
                   </Center>

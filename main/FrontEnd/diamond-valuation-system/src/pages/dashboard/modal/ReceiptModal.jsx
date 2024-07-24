@@ -122,7 +122,10 @@ export default function ReceiptModal({
                 <Flex direction={"column"} align={"start"} gap={5}>
                   <Text>
                     <strong>Amount</strong>:{" "}
-                    {selectedValuationReceipt?.amount || "N/A"}
+                    {new Intl.NumberFormat("vi-VN").format(
+                      selectedValuationReceipt?.amount
+                    )}{" "}
+                    VND
                   </Text>
                   <Text>
                     <strong>Order Info</strong>:{" "}

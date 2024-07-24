@@ -199,25 +199,14 @@ public class ValuationResultImpl implements ValuationResultService {
         if (cutGradeDTO.getCulet().equals("None") || cutGradeDTO.getCulet().equals("Small"))
             cutGradeIdeal++;
 
-        String cutGrade = "";
-        switch (cutGradeIdeal) {
-            case 0, 1:
-                cutGrade = "Poor";
-                break;
-            case 2, 3, 4:
-                cutGrade = "Fair";
-                break;
-            case 5, 6:
-                cutGrade = "Good";
-                valuationResult.setCut("Good");
-                break;
-            case 7, 8:
-                cutGrade = "Very Good";
-                break;
-            case 9, 10:
-                cutGrade = "Excellent";
-                break;
-        }
+        String cutGrade = switch (cutGradeIdeal) {
+            case 0, 1 -> "Poor";
+            case 2, 3, 4 -> "Fair";
+            case 5, 6 -> "Good";
+            case 7, 8 -> "Very Good";
+            case 9, 10 -> "Excellent";
+            default -> "";
+        };
         valuationResult.setCut(cutGrade);
         return cutGrade;
     }

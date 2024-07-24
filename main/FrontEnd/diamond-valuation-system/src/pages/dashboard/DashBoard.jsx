@@ -176,22 +176,18 @@ export default function DashBoard() {
   return (
     <>
       {isUsers && user.userAuth.authorities[0].authority === "Customer" ? (
-        <Box >          
-          <Link to={routes.dashboardAppoint} >
+        <Flex direction={"column"} align={"center"} mt={10} gap={5}>
+          <Link to={routes.pendingRequest}>
             <DashBoardAppoint hidePagination={true} />
           </Link>
-          
-          <Box mt={10} mb={10}>
+
           <Link to={routes.dashboardTransaction}>
             <DashBoardTransaction hidePagination={true} />
           </Link>
-          </Box>
-          <Box mb={20}>
           <Link to={routes.valuatedDiamond}>
             <ValuatedDiamondTable hidePagination={true} />
           </Link>
-          </Box>          
-        </Box>
+        </Flex>
       ) : (
         <>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
