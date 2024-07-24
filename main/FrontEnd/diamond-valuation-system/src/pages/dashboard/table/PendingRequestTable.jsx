@@ -47,6 +47,7 @@ import { useNavigate } from "react-router-dom";
 import routes from "../../../config/Config";
 import ConfirmAlert from "../../../components/ConfirmAlert";
 import { motion } from "framer-motion";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 export default function PendingRequestTable() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -127,13 +128,14 @@ export default function PendingRequestTable() {
             >
               <Table variant={"unstyled"}>
                 <Thead>
-                  <Tr bg={"gray.400"}>
+                  <Tr>
                     <Th>No</Th>
                     <Th>Customer</Th>
                     <Th>Email</Th>
                     <Th>Phone</Th>
-                    <Th>Description</Th>
                     <Th>Created Date</Th>
+                    <Th>Description</Th>
+                    <Th>Certificate</Th>
                     <Th>View</Th>
                   </Tr>
                 </Thead>
@@ -150,7 +152,6 @@ export default function PendingRequestTable() {
                       <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.customerEmail || "N/A"}</Td>
                       <Td>{item?.customerPhone || "N/A"}</Td>
-                      <Td>{item?.description || "N/A"}</Td>
                       <Td>
                         {item?.createdDate
                           ? format(
@@ -158,6 +159,14 @@ export default function PendingRequestTable() {
                               "dd/MM/yyyy HH:mm:ss"
                             )
                           : "N/A"}
+                      </Td>
+                      <Td>{item?.description || "N/A"}</Td>
+                      <Td>
+                          {item?.hasCertificate ? (
+                            <CheckIcon color={"green"} />
+                          ) : (
+                            <CloseIcon color={"red"} />
+                          )}
                       </Td>
                       <Td>
                         <IconButton
@@ -221,10 +230,6 @@ export default function PendingRequestTable() {
                   <Text>{selectedPendingRequest?.customerPhone || "N/A"}</Text>
                 </Box>
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                  <Text color={"gray.600"}>Description:</Text>
-                  <Text>{selectedPendingRequest?.description || "N/A"}</Text>
-                </Box>
-                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
                   <Text color={"gray.600"}>Email:</Text>
                   <Text>{selectedPendingRequest?.customerEmail || "N/A"}</Text>
                 </Box>
@@ -233,6 +238,14 @@ export default function PendingRequestTable() {
                   <Text>
                     {selectedPendingRequest?.createdDate?.slice(0, 10) || "N/A"}
                   </Text>
+                </Box>
+                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                  <Text color={"gray.600"}>Description:</Text>
+                  <Text>{selectedPendingRequest?.description || "N/A"}</Text>
+                </Box>
+                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                  <Text color={"gray.600"}>Certificate:</Text>
+                  <Text>{selectedPendingRequest?.hasCertificate}</Text>
                 </Box>
               </Flex>
             </Skeleton>
@@ -291,14 +304,15 @@ export default function PendingRequestTable() {
                               )}
                               <Button
                                 colorScheme="red"
-                                size="sm" 
+                                size="sm"
                                 fontSize="sm"
                                 onClick={() => {
                                   setSelectedImages(image);
                                   viewConfirmDeleteImage.onOpen();
-                                }} 
+                                }}
                               >
-                                <TbPhotoCancel  style={{ marginRight: '5px' }}/>Delete
+                                <TbPhotoCancel style={{ marginRight: "5px" }} />
+                                Delete
                               </Button>
                             </Flex>
                           </>
@@ -448,6 +462,7 @@ export default function PendingRequestTable() {
           ).then(() => {
             setTimeout(() => {
               fetchPendingRequest(currentPage, user.userAuth.id);
+              viewConfirmCancelRequest.onClose();
               viewPendingRequest.onClose();
             }, 1000);
           });

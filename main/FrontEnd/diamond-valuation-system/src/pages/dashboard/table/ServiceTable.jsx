@@ -99,18 +99,6 @@ export default function ServiceTable() {
     if (values.fluorescence) {
       statistic += "Fluorescence, ";
     }
-    if (values.measurements) {
-      statistic += "Measurements, ";
-    }
-    if (values.diamondTable) {
-      statistic += "Diamond Table, ";
-    }
-    if (values.depth) {
-      statistic += "Depth, ";
-    }
-    if (values.lwRatio) {
-      statistic += "L/W Ratio, ";
-    }
     statistic = statistic.slice(0, -2);
     axios
       .post(
@@ -173,18 +161,6 @@ export default function ServiceTable() {
     }
     if (values.fluorescence) {
       statistic += "Fluorescence, ";
-    }
-    if (values.measurements) {
-      statistic += "Measurements, ";
-    }
-    if (values.diamondTable) {
-      statistic += "Diamond Table, ";
-    }
-    if (values.depth) {
-      statistic += "Depth, ";
-    }
-    if (values.lwRatio) {
-      statistic += "L/W Ratio, ";
     }
     statistic = statistic.slice(0, -2);
     axios
@@ -583,7 +559,7 @@ export default function ServiceTable() {
                               Symmetry
                             </Checkbox>
                           )}
-                        </Field>{" "}
+                        </Field>
                         <Field name="polish">
                           {({ field, form }) => (
                             <Checkbox

@@ -85,7 +85,7 @@ export default function ReceiptTable() {
             >
               <Table variant={"unstyled"}>
                 <Thead>
-                  <Tr bg={"gray.400"}>
+                  <Tr>
                     <Th>No</Th>
                     <Th>Request ID</Th>
                     <Th>Created Date</Th>

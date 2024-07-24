@@ -229,7 +229,7 @@ export default function ProcessRequestTable() {
             >
               <Table variant={"unstyled"}>
                 <Thead>
-                  <Tr bg={"gray.400"}>
+                  <Tr>
                     <Th>ID</Th>
                     <Th>Customer</Th>
                     <Th>Consulting Staff</Th>
@@ -668,7 +668,7 @@ export default function ProcessRequestTable() {
                   {(selectedProcessRequest?.status === "Sealed" && (
                     <Button
                       onClick={() => {
-                        viewConfirmDiamondReceived.onOpen();
+                        viewConfirmSealingLetter.onOpen();
                       }}
                     >
                       Create sealing letter
@@ -877,6 +877,7 @@ export default function ProcessRequestTable() {
               duration: 3000,
               isClosable: true,
             });
+            viewConfirmContacted.onClose();
           }
         }}
       />
@@ -913,8 +914,8 @@ export default function ProcessRequestTable() {
         cancelRef={cancelRef}
         header={"Confirm"}
         body={"Are you sure that cancel the customer is request ?"}
-        action={"Cancel"}
-        colorScheme={"teal"}
+        action={"Delete"}
+        colorScheme={"red"}
         isDelete={isUpdateProcess}
         onClickFunc={async () => {
           await updateProcessRequest(
@@ -926,7 +927,7 @@ export default function ProcessRequestTable() {
           ).then(() => {
             setTimeout(() => {
               fetchProcessRequest(currentPage, user.userAuth.id);
-              viewConfirmReOpen.onClose();
+              viewConfirmCancel.onClose();
               viewValuationRequest.onClose();
             }, 1000);
           });

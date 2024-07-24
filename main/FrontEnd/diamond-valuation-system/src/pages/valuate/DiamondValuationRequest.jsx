@@ -18,6 +18,7 @@ import {
   InputRightAddon,
   IconButton,
   Tooltip,
+  Checkbox,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import Title from "../../components/Title";
@@ -42,13 +43,19 @@ export default function DiamondValuationRequest() {
   const bgColor1 = useColorModeValue("blue.400", "yellow.500");
   const toast = useToast();
   const navigate = useNavigate();
-  const createPendingRequest = async (customerId, description, token) => {
+  const createPendingRequest = async (
+    customerId,
+    description,
+    token,
+    hasCertificate
+  ) => {
     await axios
       .post(
         `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/pending-request/create`,
         {
           customerId: customerId,
           description: description,
+          hasCertificate: hasCertificate,
         },
         {
           headers: {
@@ -62,7 +69,11 @@ export default function DiamondValuationRequest() {
         }
       });
   };
-  const checkCustomerPendingRequest = async (customerId, description) => {
+  const checkCustomerPendingRequest = async (
+    customerId,
+    description,
+    hasCertificate
+  ) => {
     await axios
       .get(
         `${
@@ -79,7 +90,12 @@ export default function DiamondValuationRequest() {
             isClosable: true,
           });
         } else {
-          createPendingRequest(customerId, description, user.userAuth.token);
+          createPendingRequest(
+            customerId,
+            description,
+            user.userAuth.token,
+            hasCertificate
+          );
         }
       });
   };
@@ -166,6 +182,7 @@ export default function DiamondValuationRequest() {
           />
           <Flex direction={"column"} align={"start"} gap={5}>
             <InputGroup>
+
               <InputLeftAddon color={bgColor} bgColor={bgColor1}>Name</InputLeftAddon>
               <Input
                 type="text"
@@ -203,7 +220,7 @@ export default function DiamondValuationRequest() {
               <InputLeftAddon color={bgColor} bgColor={bgColor1}>Phone</InputLeftAddon>
               <Input
                 type="number"
-                value={user.userAuth.phonenumber || 0}
+                value={user.userAuth.phonenumber}
                 isReadOnly
               />
               <InputRightAddon>
@@ -243,11 +260,12 @@ export default function DiamondValuationRequest() {
             </InputGroup>
           </Flex>
           <Formik
-            initialValues={{ description: "" }}
+            initialValues={{ description: "", hasCertificate: false }}
             onSubmit={async (values, { setSubmitting }) => {
+              console.log(values);
               setSubmitting(true);
               try {
-                if (localStorage.getItem("user") === null) {
+                if (!user.userAuth) {
                   toast({
                     title: "Please login first !",
                     status: "error",
@@ -266,10 +284,35 @@ export default function DiamondValuationRequest() {
                     position: "top-right",
                     isClosable: true,
                   });
+                } else if (
+                  isUsers &&
+                  (!user.userAuth.fullname ||
+                    !user.userAuth.email ||
+                    !user.userAuth.phonenumber)
+                ) {
+                  toast({
+                    title: "Please update your profile first !",
+                    status: "warning",
+                    duration: 3000,
+                    position: "top-right",
+                    isClosable: true,
+                  });
+                } else if (
+                  values.hasCertificate === true &&
+                  selectedImages.length === 0
+                ) {
+                  toast({
+                    title: "Please upload your certificate images !",
+                    status: "warning",
+                    duration: 3000,
+                    position: "top-right",
+                    isClosable: true,
+                  });
                 } else {
                   await checkCustomerPendingRequest(
                     user.userAuth.id,
-                    values.description
+                    values.description,
+                    values.hasCertificate
                   ).then(() => {
                     setSubmitting(false);
                   });
@@ -372,6 +415,21 @@ export default function DiamondValuationRequest() {
                       </SimpleGrid>
                     </Flex>
                   )}
+                  <FormControl>
+                    <Checkbox
+                      name="hasCertificate"
+                      value={values.hasCertificate}
+                      onChange={handleChange}
+                      onClick={() => {
+                        console.log(values.hasCertificate);
+                      }}
+                    >
+                      <Text color={"gray"}>
+                        Click if you has a diamond certificate and upload your
+                        certificate images (Ex: GIA certificate)
+                      </Text>
+                    </Checkbox>
+                  </FormControl>
                   <Button
                     type="submit"
                     color={bgColor}
