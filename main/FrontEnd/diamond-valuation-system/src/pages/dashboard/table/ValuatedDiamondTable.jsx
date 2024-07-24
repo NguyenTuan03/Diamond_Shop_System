@@ -54,7 +54,7 @@ export default function ValuatedDiamondTable() {
   }, [currentPage]);
   return (
     <>
-      <Flex direction={"column"} gap={10}>
+      <Flex direction={"column"} gap={10} m={10}>
         <Center>
           <Text fontSize={"4xl"} fontWeight={"bold"}>
             Valuation Result

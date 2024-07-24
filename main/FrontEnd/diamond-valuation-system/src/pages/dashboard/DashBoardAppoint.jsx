@@ -35,7 +35,7 @@ export default function DashBoardAppoint() {
     fetchApi(user.userAuth.id);
   }, []);
   return (
-    <Box   >
+    <Box m={10}  >
       <Center mb={5}>
       <Text fontSize={"4xl"} fontWeight={"bold"}>
             Appointments
@@ -43,7 +43,7 @@ export default function DashBoardAppoint() {
       </Center>
       
       {request?.length === 0 ? (
-        <Box variant="simple" bg="gray.200" color="black">
+        <Box variant="simple" display="flex" justifyContent="center"  color="black" m={5}>
           No appointment to show
         </Box>
       ) : (

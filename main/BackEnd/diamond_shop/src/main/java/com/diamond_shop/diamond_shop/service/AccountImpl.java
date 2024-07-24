@@ -114,6 +114,7 @@ public class AccountImpl implements AccountService {
         }
     }
 
+
     @Override
     public String createAccount(AccountDTO accountDTO) {
         String updatePhoneNumber = updatePhoneNumber(accountDTO.getPhonenumber());
@@ -324,6 +325,22 @@ public class AccountImpl implements AccountService {
         return ResponseEntity.ok("Reset password email sent");
     }
 
+    @Override
+    public String updateAccount(int id, UpdateAccountDTO updateAccountDTO) {
+        AccountEntity accountEntity = accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        AccountEntity existingAccount = accountRepository.findByPhoneNumber(updateAccountDTO.getPhone());
+        if (existingAccount == null || existingAccount.getId() == id) {
+            accountEntity.setFullname(updateAccountDTO.getFullname());
+            accountEntity.setPhone_number(updateAccountDTO.getPhone());
+            accountEntity.setAddress(updateAccountDTO.getAddress());
+            accountRepository.save(accountEntity);
+            return "Update successful";
+        } else {
+            return "Phone number already exists!";
+        }
+    }
 
     @Override
     public ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {

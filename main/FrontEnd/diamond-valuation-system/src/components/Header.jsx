@@ -39,7 +39,8 @@ export default function Header() {
     const modalSignIn = useDisclosure();
     const modalSignUp = useDisclosure();
     const auth = useContext(UserContext);
-    const { notifications, resetNotifications } = useContext(NotificationContext);
+    const { notifications, resetNotifications } =
+        useContext(NotificationContext);
     const nav = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem("user");
@@ -64,7 +65,7 @@ export default function Header() {
     };
     const handleNotificationsClick = () => {
         resetNotifications();
-        nav('/dashboard');
+        nav("/dashboard");
     };
     return (
         <>
@@ -240,11 +241,11 @@ export default function Header() {
                             onClick={changeColorMode}
                             color={fontColor}
                         />
-                        
+
                         <IconButton
                             size={{ base: "xs", md: "sm", lg: "md" }}
                             icon={<BellIcon />}
-                            onClick={handleNotificationsClick} 
+                            onClick={handleNotificationsClick}
                             color={fontColor}
                         >
                             {notifications > 0 && (

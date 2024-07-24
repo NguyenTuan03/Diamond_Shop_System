@@ -167,7 +167,8 @@ export default function DiamondValuationRequest() {
         <Flex
           direction={"column"}
           p={8}
-          border={"1px solid gray"}
+          border={"1px solid"}
+          borderColor={bgColor1}
           borderRadius={"24px"}
           m={"10px"}
           gap={10}
@@ -181,12 +182,17 @@ export default function DiamondValuationRequest() {
           />
           <Flex direction={"column"} align={"start"} gap={5}>
             <InputGroup>
-              <InputLeftAddon>Name</InputLeftAddon>
-              <Input type="text" value={user.userAuth.fullname} isReadOnly />
-              <InputRightAddon>
+
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Name</InputLeftAddon>
+              <Input
+                type="text"
+                value={user.userAuth.fullname || "N/A"}
+                isReadOnly
+              />
+              <InputRightAddon >
                 <Tooltip label="Update your name" hasArrow placement="top">
-                  <Link to={routes.dashboardSetting}>
-                    <Button>
+                  <Link to={routes.dashboardSetting} >
+                    <Button  >
                       <GrUpdate />
                     </Button>
                   </Link>
@@ -194,8 +200,12 @@ export default function DiamondValuationRequest() {
               </InputRightAddon>
             </InputGroup>
             <InputGroup>
-              <InputLeftAddon>Email</InputLeftAddon>
-              <Input type="text" value={user.userAuth.email} isReadOnly />
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Email</InputLeftAddon>
+              <Input
+                type="text"
+                value={user.userAuth.email || "N/A"}
+                isReadOnly
+              />
               <InputRightAddon>
                 <Tooltip label="Update your email" hasArrow placement="top">
                   <Link to={routes.dashboardSetting}>
@@ -207,7 +217,7 @@ export default function DiamondValuationRequest() {
               </InputRightAddon>
             </InputGroup>
             <InputGroup>
-              <InputLeftAddon>Phone</InputLeftAddon>
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Phone</InputLeftAddon>
               <Input
                 type="number"
                 value={user.userAuth.phonenumber}
@@ -216,6 +226,27 @@ export default function DiamondValuationRequest() {
               <InputRightAddon>
                 <Tooltip
                   label="Update your phone number"
+                  hasArrow
+                  placement="top"
+                >
+                  <Link to={routes.dashboardSetting}>
+                    <Button>
+                      <GrUpdate />
+                    </Button>
+                  </Link>
+                </Tooltip>
+              </InputRightAddon>
+            </InputGroup>
+            <InputGroup>
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Address</InputLeftAddon>
+              <Input
+                type="text"
+                value={user.userAuth.address || "N/A"}
+                isReadOnly
+              />
+              <InputRightAddon>
+                <Tooltip
+                  label="Update your address"
                   hasArrow
                   placement="top"
                 >
@@ -311,7 +342,8 @@ export default function DiamondValuationRequest() {
                       <FormLabel
                         display={"inline-block"}
                         cursor={"pointer"}
-                        bgColor={"gray.200"}
+                        color={bgColor}
+                        bgColor={bgColor1}
                         borderRadius={"20px"}
                         _hover={{ bgColor: "gray.300" }}
                         m={"10px"}
@@ -400,7 +432,8 @@ export default function DiamondValuationRequest() {
                   </FormControl>
                   <Button
                     type="submit"
-                    colorScheme="blue"
+                    color={bgColor}
+                        bgColor={bgColor1}
                     isLoading={isSubmitting}
                     isDisabled={isSubmitting}
                   >
