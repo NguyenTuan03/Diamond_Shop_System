@@ -255,16 +255,6 @@ export default function DiamondCheckDetails() {
                                     </Text>
                                 </Skeleton>
                             </GridItem>
-                            {/* <GridItem>
-                <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
-                  Cut
-                </Text>
-                <Skeleton isLoaded={diamond !== null}>
-                  <Text fontSize="xl" fontWeight={"bold"}>
-                    {diamond?.cut || "N/A"}
-                  </Text>
-                </Skeleton>
-              </GridItem> */}
                             <GridItem>
                                 <Text
                                     fontSize="md"
@@ -352,6 +342,7 @@ export default function DiamondCheckDetails() {
                         Diamond Details
                     </Tag>
                 </HStack>
+            <Skeleton isLoaded={diamond !== null}>
                 <Grid templateColumns="repeat(2, 1fr)" gap={8} height={"100%"}>
                     <GridItem colSpan={1} w="100%" h={"100%"}>
                         <VStack>
@@ -761,9 +752,9 @@ export default function DiamondCheckDetails() {
                         </VStack>
                     </GridItem>
                 </Grid>
+            </Skeleton>
             </Container>
             </Box>
-            
         </Box>
     );
 }
