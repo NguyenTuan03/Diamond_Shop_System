@@ -28,15 +28,16 @@ const images = [
 const InfiniteMovingFeaturedCards = () => {
   const [valuationResult, setValuationResult] = useState([]);
   const fetchValuatedValuationResult = async () => {
-    axios
-      .get(
+    try {
+      const response = await axios.get(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
         }/api/valuation-result/get/all/valuated?page=${1}`
-      )
-      .then((response) => {
-        setValuationResult(response.data.content);
-      });
+      );
+      setValuationResult(response.data.content);
+    } catch (error) {
+      console.error("Error fetching valuation results:", error);
+    }
   };
   useEffect(() => {
     try {
