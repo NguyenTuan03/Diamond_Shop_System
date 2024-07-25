@@ -39,8 +39,11 @@ const InfiniteMovingFeaturedCards = () => {
       });
   };
   useEffect(() => {
-    fetchValuatedValuationResult();
-    console.log(valuationResult);
+    try {
+      fetchValuatedValuationResult();
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
   return (
     <Box overflow="hidden" whiteSpace="nowrap" maxWidth="70vw" margin="0 auto">
@@ -56,7 +59,7 @@ const InfiniteMovingFeaturedCards = () => {
             key={index}
           >
             <FeaturedCard
-              imageSrc={image.src}
+              imageSrc={image?.src}
               title1={`${valuationResult[index]?.shape} · ${valuationResult[index]?.carat} Carat · ${valuationResult[index]?.color} Color`}
               title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
               title3={`ID ${valuationResult[index]?.id}`}
