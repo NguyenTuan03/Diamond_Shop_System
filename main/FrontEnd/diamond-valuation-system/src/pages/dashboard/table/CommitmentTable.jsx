@@ -296,17 +296,6 @@ export default function CommitmentTable() {
                 <Text>Amount:</Text>
               </UnorderedList>
               <Text fontWeight={"bold"}>Return Process:</Text>
-              <Text>
-                Once we have verified your ownership, you can schedule an
-                appointment to pick up your diamond. Please note that a valid
-                form of photo ID will be required at the time of pick-up.
-              </Text>
-              <Text fontWeight={"bold"}>Commitment:</Text>
-              <Text>
-                Once we have verified your ownership, you can schedule an
-                appointment to pick up your diamond. Please note that a valid
-                form of photo ID will be required at the time of pick-up.
-              </Text>
               <Text fontWeight={"bold"}>
                 Please sign and return this letter at your earliest convenience.
               </Text>
