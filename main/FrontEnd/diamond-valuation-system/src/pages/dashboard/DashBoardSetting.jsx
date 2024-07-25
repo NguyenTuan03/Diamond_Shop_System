@@ -49,7 +49,7 @@ export default function DashBoardSetting() {
     const [updateInfo, setUpdateInfo] = useState({
         fullname: auth.userAuth.fullname,
         email: auth.userAuth.email,
-        phone: auth.userAuth.phone,
+        phone: auth.userAuth.phonenumber,
         address: auth.userAuth.address,
     });
     const [changePassword, setChangePassword] = useState({
@@ -288,8 +288,8 @@ export default function DashBoardSetting() {
                                         <FormLabel>Email</FormLabel>
                                         <Input
                                             name="email"
-                                            value={updateInfo.email}
-                                            onChange={handleChange}
+                                            value={auth.userAuth.email}
+                                            readOnly
                                         />
                                     </FormControl>
                                     <FormControl mb={4}>

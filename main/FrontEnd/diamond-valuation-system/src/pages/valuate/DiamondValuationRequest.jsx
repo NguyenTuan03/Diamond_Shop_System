@@ -200,23 +200,6 @@ export default function DiamondValuationRequest() {
               </InputRightAddon>
             </InputGroup>
             <InputGroup>
-              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Email</InputLeftAddon>
-              <Input
-                type="text"
-                value={user.userAuth.email || "N/A"}
-                isReadOnly
-              />
-              <InputRightAddon>
-                <Tooltip label="Update your email" hasArrow placement="top">
-                  <Link to={routes.dashboardSetting}>
-                    <Button>
-                      <GrUpdate />
-                    </Button>
-                  </Link>
-                </Tooltip>
-              </InputRightAddon>
-            </InputGroup>
-            <InputGroup>
               <InputLeftAddon color={bgColor} bgColor={bgColor1}>Phone</InputLeftAddon>
               <Input
                 type="number"

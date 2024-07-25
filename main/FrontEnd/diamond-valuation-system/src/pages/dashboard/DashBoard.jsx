@@ -190,7 +190,7 @@ export default function DashBoard() {
         </Flex>
       ) : (
         <>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4} mx={14}>
             <Card border={"md"} shadow={"md"}>
               <CardHeader>
                 <Flex align={"center"} gap={15}>
@@ -210,7 +210,7 @@ export default function DashBoard() {
             <Card border={"md"} shadow={"md"}>
               <CardHeader>
                 <Flex align={"center"} gap={15}>
-                  <MdDone size={30} style={{ background: "green" }} />
+                  <MdDone size={30} style={{ background: "green", borderRadius:"8px" }} />
                   <Text fontSize={"2xl"}>DONE REQUEST</Text>
                 </Flex>
               </CardHeader>

@@ -130,7 +130,7 @@ export default function AdminPage() {
           justifyContent={"center"}
           // h={"100vh"}
           gap={10}
-          bg={bgColor}
+         
         >
           <Text
             fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
