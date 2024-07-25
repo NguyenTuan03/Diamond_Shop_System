@@ -129,14 +129,14 @@ export default function PendingRequestTable() {
               <Table variant={"unstyled"}>
                 <Thead>
                   <Tr>
-                    <Th>No</Th>
-                    <Th>Customer</Th>
-                    <Th>Email</Th>
-                    <Th>Phone</Th>
-                    <Th w={"150px"}>Created Date</Th>
-                    <Th>Description</Th>
-                    <Th>Certificate</Th>
-                    <Th>View</Th>
+                    <Th textAlign={"center"}>No</Th>
+                    <Th textAlign={"center"}>Customer</Th>
+                    <Th textAlign={"center"}>Email</Th>
+                    <Th textAlign={"center"}>Phone</Th>
+                    <Th textAlign={"center"} w={"150px"}>Created Date</Th>
+                    <Th textAlign={"center"}>Description</Th>
+                    <Th textAlign={"center"}>Certificate</Th>
+                    <Th textAlign={"center"}>View</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -161,7 +161,7 @@ export default function PendingRequestTable() {
                           : "N/A"}
                       </Td>
                       <Td>{item?.description || "N/A"}</Td>
-                      <Td>
+                      <Td textAlign={"center"}>
                         {item?.hasCertificate ? (
                           <CheckIcon color={"green"} />
                         ) : (

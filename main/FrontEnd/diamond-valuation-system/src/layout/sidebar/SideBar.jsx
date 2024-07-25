@@ -74,12 +74,6 @@ const SideBar = () => {
     auth.userAuth.authorities.length > 0;
   const menuItems = [
     {
-      role: ["Manager", "Consulting staff", "Valuation staff", "Customer"],
-      path: routes.dasboardNotification,
-      icon: IoIosNotificationsOutline,
-      label: "Notifications",
-    },
-    {
       role: ["Admin"],
       path: routes.manageAccount,
       icon: MdManageAccounts,

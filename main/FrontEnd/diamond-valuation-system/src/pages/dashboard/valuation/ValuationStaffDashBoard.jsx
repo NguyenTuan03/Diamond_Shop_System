@@ -549,9 +549,9 @@ export default function ValuationStaffDashboard() {
                   <Th isNumeric>ID</Th>
                   <Th w={"150px"}>Created Date</Th>
                   <Th w={"150px"}>Update Date</Th>
-                  <Th>Service</Th>
-                  <Th>Status</Th>
-                  <Th>Certificate</Th>
+                  <Th textAlign={"center"}>Service</Th>
+                  <Th textAlign={"center"}>Status</Th>
+                  <Th textAlign={"center"}>Certificate</Th>
                   <Th>View</Th>
                 </Tr>
               </Thead>
@@ -602,7 +602,7 @@ export default function ValuationStaffDashboard() {
                         <Center>{item?.status}</Center>
                       </Box>
                     </Td>
-                    <Td>
+                    <Td textAlign={"center"}>
                       {item?.hasCertificate ? (
                         <CheckIcon color={"green"} />
                       ) : (

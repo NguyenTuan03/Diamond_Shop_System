@@ -151,6 +151,11 @@ export default function DashBoardSetting() {
                     duration: 3000,
                     isClosable: true,
                 });
+                localStorage.removeItem("user");
+                setTimeout(() => {
+                    window.location.reload();
+                }, [200]);
+                nav('/')
             }
         }
         fetchApi();
@@ -170,7 +175,6 @@ export default function DashBoardSetting() {
             ...changePassword,
             [name]: value,
         });
-        console.log(changePassword);
     };
 
     return (
