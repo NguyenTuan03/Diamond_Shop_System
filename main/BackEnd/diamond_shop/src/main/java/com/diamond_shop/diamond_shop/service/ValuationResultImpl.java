@@ -277,7 +277,7 @@ public class ValuationResultImpl implements ValuationResultService {
             case "D" -> 10;
             case "E" -> 9;
             case "F" -> 8;
-            case "G" -> 8;
+            case "G" -> 7;
             case "H" -> 6;
             case "I" -> 5;
             case "J" -> 4;
