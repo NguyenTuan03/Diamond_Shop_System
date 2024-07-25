@@ -53,7 +53,7 @@ const InfiniteMovingFeaturedCards = () => {
         animation="marquee 20s linear infinite"
         display="inline-flex"
       >
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <Link
             to={routes.diamondCheck + "/" + valuationResult[index]?.id}
             reloadDocument
@@ -67,12 +67,12 @@ const InfiniteMovingFeaturedCards = () => {
             />
           </Link>
         ))}
-        {images.map((image, index) => (
-          // <Link
-          //   to={routes.diamondCheck + "/" + valuationResult[index]?.id}
-          //   reloadDocument
-          //   key={index}
-          // >
+        {images?.map((image, index) => (
+          <Link
+            to={routes.diamondCheck + "/" + valuationResult[index]?.id}
+            reloadDocument
+            key={index}
+          >
             <FeaturedCard
               key={index + images.length}
               imageSrc={image.src}
@@ -80,7 +80,7 @@ const InfiniteMovingFeaturedCards = () => {
               title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
               title3={`ID ${valuationResult[index]?.id}`}
             />
-          // </Link>
+          </Link>
         ))}
       </Flex>
 
