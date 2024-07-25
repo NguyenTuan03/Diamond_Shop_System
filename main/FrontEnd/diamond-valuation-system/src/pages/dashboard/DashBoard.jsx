@@ -43,7 +43,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import routes from "../../config/Config";
 import ValuatedDiamondTable from "./table/ValuatedDiamondTable";
 ChartJS.register(
@@ -57,6 +57,7 @@ ChartJS.register(
   Legend
 );
 export default function DashBoard() {
+  const navigate=useNavigate();
   const user = useContext(UserContext);
   const isUsers =
     user.userAuth &&
@@ -176,18 +177,19 @@ export default function DashBoard() {
   return (
     <>
       {isUsers && user.userAuth.authorities[0].authority === "Customer" ? (
-        <Flex direction={"column"} align={"center"} mt={10} gap={5}>
-          <Link to={routes.pendingRequest}>
-            <DashBoardAppoint hidePagination={true} />
-          </Link>
+        // <Flex direction={"column"} align={"center"} mt={10} gap={5}>
+        //   <Link to={routes.pendingRequest}>
+        //     <DashBoardAppoint hidePagination={true} />
+        //   </Link>
 
-          <Link to={routes.dashboardTransaction}>
-            <DashBoardTransaction hidePagination={true} />
-          </Link>
-          <Link to={routes.valuatedDiamond}>
-            <ValuatedDiamondTable hidePagination={true} />
-          </Link>
-        </Flex>
+        //   <Link to={routes.dashboardTransaction}>
+        //     <DashBoardTransaction hidePagination={true} />
+        //   </Link>
+        //   <Link to={routes.valuatedDiamond}>
+        //     <ValuatedDiamondTable hidePagination={true} />
+        //   </Link>
+        // </Flex>
+        navigate(routes.pendingRequest)
       ) : (
         <>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4} mx={14}>
