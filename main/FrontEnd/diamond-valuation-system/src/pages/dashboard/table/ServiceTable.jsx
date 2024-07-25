@@ -314,7 +314,7 @@ export default function ServiceTable() {
                     </Td>
                     <Td>
                       <IconButton
-                        icon={<GrUpdate />}
+                        icon={<GrUpdate color="black"/>}
                         bgColor={"transparent"}
                         onClick={() => {
                           setIsCreate(false);

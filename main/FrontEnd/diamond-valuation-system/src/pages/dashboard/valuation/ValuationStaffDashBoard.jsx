@@ -1188,7 +1188,9 @@ export default function ValuationStaffDashboard() {
                           </Select>
                         </FormControl>
                       </SimpleGrid>
-                      {selectedProcessResult?.hasCertificate && (
+                      {selectedProcessResult?.hasCertificate ? (
+                        <></>
+                      ) : (
                         <Tooltip
                           label="Cut Grade, Symmetry & Polish are generated base on Depth, Table, Girdle, Star, Lower Half, Crown, Pavilion & Culet of a diamond"
                           hasArrow
@@ -1475,7 +1477,9 @@ export default function ValuationStaffDashboard() {
                           )}
                         </Field>
                       </SimpleGrid>
-                      {selectedProcessResult?.hasCertificate && (
+                      {selectedProcessResult?.hasCertificate ? (
+                        <></>
+                      ) : (
                         <Button
                           isDisabled={isGenerateClarity}
                           isLoading={isGenerateClarity}

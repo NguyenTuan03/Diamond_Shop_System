@@ -19,7 +19,7 @@ import { fetchAccounts, deleteAccount } from "./AdminServices";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import PageIndicator from "../../components/PageIndicator";
 export default function AdminPage() {
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "white");
 
   const toast = useToast();
 
