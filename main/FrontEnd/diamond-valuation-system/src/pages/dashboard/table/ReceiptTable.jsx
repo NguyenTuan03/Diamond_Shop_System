@@ -59,7 +59,7 @@ export default function ReceiptTable() {
   };
   useEffect(() => {
     fetchReceipt(user.userAuth.id, currentPage);
-  }, []);
+  }, [currentPage]);
   return (
     <>
       <Flex direction={"column"} gap={10} m={10}>
@@ -146,7 +146,7 @@ export default function ReceiptTable() {
                       </Td>
                       <Td>{receipt.customerName}</Td>
                       <Td>{receipt.consultingStaffName}</Td>
-                      <Td>{receipt.description}</Td>
+                      <Td>{receipt.description || "N/A"}</Td>
                       <Td>
                         <IconButton
                           icon={<TbReceipt />}

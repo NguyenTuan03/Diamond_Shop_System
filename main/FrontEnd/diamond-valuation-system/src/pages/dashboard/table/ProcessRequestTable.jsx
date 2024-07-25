@@ -236,7 +236,7 @@ export default function ProcessRequestTable() {
                     <Th w={"150px"}>Created Date</Th>
                     <Th w={"150px"}>Receive Date</Th>
                     <Th>Description</Th>
-                    <Th>Status</Th>
+                    <Th w={"250px"}>Status</Th>
                     <Th>View</Th>
                   </Tr>
                 </Thead>

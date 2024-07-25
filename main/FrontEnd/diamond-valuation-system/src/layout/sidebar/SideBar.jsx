@@ -130,7 +130,7 @@ const SideBar = () => {
     {
       role: ["Customer"],
       path: routes.valuatedDiamond,
-      icon: TbDiamond ,
+      icon: TbDiamond,
       label: "Valuated Diamond",
     },
     {
