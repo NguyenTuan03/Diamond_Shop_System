@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import Logout from "../pages/logout/Logout";
 import { useNavigate } from "react-router-dom";
+import DarkModeButton from "../components/DarkModeButton";
 
 export default function DashBoardLayout({ children }) {
   const bgColor = useColorModeValue("white", "gray.900");
@@ -39,6 +40,9 @@ export default function DashBoardLayout({ children }) {
             </Box>
           </>
         )}
+        <Flex position={"fixed"} right={"10px"} top={"10px"}>
+          <DarkModeButton/>
+        </Flex>
       </Flex>
     </>
   );
