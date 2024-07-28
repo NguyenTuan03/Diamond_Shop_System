@@ -299,8 +299,14 @@ export default function ProcessRequestTable() {
                             (item?.status === "Finished" &&
                               "rgb(255, 205, 86)") ||
                             (item?.status === "Done" && "#68D391") ||
-                            (item?.status === "Sealed" && "gray.900") ||
+                            (item?.status === "Sealed" && "indigo") ||
                             (item?.status === "Lost Receipt" && "gray.700")
+                          }
+                          color={
+                            item?.status === "Sealed" ||
+                            item?.status === "Lost Receipt"
+                              ? "white"
+                              : "black"
                           }
                           borderRadius={"20px"}
                           p={3}

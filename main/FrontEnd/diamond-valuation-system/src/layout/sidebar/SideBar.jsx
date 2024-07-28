@@ -275,7 +275,7 @@ const SideBar = () => {
         </>
       ) : (
         <Box
-          bg={useColorModeValue("gray.400", "gray.800")}
+          bg={useColorModeValue("gray.300", "gray.800")}
           color={color}
           minH="100vh"
           w="250px"
