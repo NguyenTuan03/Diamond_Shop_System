@@ -28,7 +28,7 @@ import "aos/dist/aos.css";
 import EducationProTip from "../../components/education/EducationProTip";
 export default function EducationShape() {
   AOS.init();
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "gray.800");
   const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   return (
     <Box bg={bgColor}>

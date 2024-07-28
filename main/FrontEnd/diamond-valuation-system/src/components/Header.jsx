@@ -33,7 +33,7 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 export default function Header() {
     const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onToggle } = useDisclosure();
-    const bgColor = useColorModeValue("white", "black");
+    const bgColor = useColorModeValue("white", "gray.900");
     const fontColor = useColorModeValue("black", "#DBA843");
     const fontColor1 = useColorModeValue("bule.400", "#DBA843");
     const modalSignIn = useDisclosure();

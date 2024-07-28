@@ -17,7 +17,7 @@ import { useToast } from "@chakra-ui/react";
 import InfiniteMovingFeaturedCards from "../../components/CartDiamond/InfiniteMovingFeaturedCards";
 import { StarIcon } from "@chakra-ui/icons";
 
-const images = ["/images/banner/Banner1.jpg", "/images/banner/Banner2.png"];
+const images = ["/images/banner/Banner1.png", "/images/banner/Banner2.png"];
 const stats = [
   { value: "2M+", label: "Diamond Inventory" },
   { value: "1M+", label: "Happy Shoppers" },
@@ -46,7 +46,7 @@ export default function Home() {
   const bgColor = useColorModeValue("white", "gray.900");
   const bgColor1 = useColorModeValue("blue.400", "#CA901C");
   const fontColor = useColorModeValue("gray.600", "yellow.200");
-  const fontColor1 = useColorModeValue("blue.100", "yellow.100");
+  const fontColor1 = useColorModeValue("blue.200", "yellow.100");
   const toast = useToast();
   let searchParams = new URLSearchParams(window.location.search);
   useEffect(() => {
@@ -104,7 +104,7 @@ export default function Home() {
 
   return (
     <>
-      <Container maxW="100vw" p={0} bg={useColorModeValue("gray.200", "black")}>
+      <Container maxW="100vw" p={0} bg={useColorModeValue("gray.200", "gray.800")}>
         <Flex
           direction={{ base: "column", md: "row", lg: "row" }}
           alignItems="center"
@@ -113,7 +113,6 @@ export default function Home() {
           height={{ base: "50vh", md: "70vh" }}
           position="relative"
           transition="background-image 1s ease-in-out"
-          bgColor="black"
         >
           <Image
             src={images[currentImage]}
@@ -125,6 +124,7 @@ export default function Home() {
             top={0}
             left={0}
             zIndex={1}
+            bg={useColorModeValue("gray.200", "gray.800")}
           />
           <Center
             zIndex={2}
@@ -172,8 +172,7 @@ export default function Home() {
                       md: "md",
                       lg: "lg",
                     }}
-                    backgroundColor={bgColor1}
-                    colorScheme="DBA843"
+                    colorScheme={useColorModeValue("blue", "yellow")}
                     variant="solid"
                     height="60px"
                     fontSize={{
@@ -181,6 +180,7 @@ export default function Home() {
                       md: "md",
                       lg: "lg",
                     }}
+                    _hover={{ transform: "scale(1.1)" }}
                     borderRadius="15px"
                     leftIcon={<Search2Icon />}
                   >
@@ -194,8 +194,7 @@ export default function Home() {
                       md: "md",
                       lg: "lg",
                     }}
-                    color={bgColor1}
-                    colorScheme="DBA843"
+                    colorScheme={useColorModeValue("blue", "yellow")}
                     variant="outline"
                     height="60px"
                     fontSize={{
@@ -203,6 +202,7 @@ export default function Home() {
                       md: "md",
                       lg: "lg",
                     }}
+                    _hover={{ transform: "scale(1.1)" }}
                     borderRadius="15px"
                     leftIcon={<IoDiamond />}
                   >
